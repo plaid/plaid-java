@@ -51,7 +51,7 @@ Check the Junit test classes for examples of more use cases.
 
 There are two main dependencies (of course automatically managed by Maven):
 
-1. [Apache HTTPComponents Client](http://hc.apache.org/httpcomponents-client-ga/index.html). One reason for this, besides it being a nice library, is that the native JDK HttpUrlConnection doesn't have support for the HTTP Patch method, that is required by the Plaid API. The bindings are, however, designed so that you can replace HTTPComponents client with the client library of your choice, by creating a different implementation of the HttpDelegate interface.
+1. [Apache HTTPComponents Client](http://hc.apache.org/httpcomponents-client-ga/index.html). One reason for this, besides it being a nice library, is that the native JDK HttpUrlConnection doesn't have support for the HTTP Patch method, that is required by the Plaid API. The bindings are, however, designed so that you can replace HTTPComponents client with the HTTP library of your choice, by creating a different implementation of the HttpDelegate interface.
 
 2. The [Jackson JSON Parser](http://jackson.codehaus.org/).
 
