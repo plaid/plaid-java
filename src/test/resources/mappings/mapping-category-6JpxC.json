@@ -1,0 +1,17 @@
+{
+  "request" : {
+    "url" : "/category",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-category-6JpxC.json",
+    "headers" : {
+      "Content-type" : "application/json",
+      "Date" : "Sun, 23 Mar 2014 07:41:49 GMT",
+      "X-Powered-By" : "Express",
+      "transfer-encoding" : "chunked",
+      "Connection" : "keep-alive"
+    }
+  }
+}

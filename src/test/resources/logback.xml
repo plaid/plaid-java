@@ -1,0 +1,30 @@
+<configuration debug="true" scan="true">
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<!-- Application Loggers -->
+	<logger name="com.plaid">
+		<level value="debug" />
+	</logger>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="com.github.tomakehurst.wiremock">
+		<level value="trace" />
+	</logger>
+
+	<logger name="org.apache.http.wire">
+		<level value="debug" />
+	</logger>
+
+</configuration>
