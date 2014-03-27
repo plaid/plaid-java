@@ -1,0 +1,23 @@
+{
+  "request" : {
+    "url" : "/connect/step",
+    "method" : "POST",
+    "bodyPatterns" : [
+            { "contains" : "client_id" },
+	        { "contains" : "secret" },
+	        { "contains" : "mfa=1234" }, 
+	        { "contains" : "access_token=test" }
+     ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-connect-step-XBxNh.json",
+    "headers" : {
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Sun, 23 Mar 2014 07:31:55 GMT",
+      "X-Powered-By" : "Express",
+      "Content-Length" : "48187",
+      "Connection" : "keep-alive"
+    }
+  }
+}

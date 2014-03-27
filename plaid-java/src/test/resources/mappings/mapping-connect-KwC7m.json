@@ -1,0 +1,27 @@
+{
+  "request" : {
+    "url" : "/connect",
+    "method" : "POST",
+    "bodyPatterns" : [ 
+        { "contains" : "client_id" },
+	    { "contains" : "secret" },
+	    { "contains" : "type=chase" }, 
+	    { "contains" : "plaid_test" },
+	    { "contains" : "plaid_good" },
+	    { "contains" : "email" },
+	    { "contains" : "options" },
+	    { "contains" : "list" }
+     ]
+  },
+  "response" : {
+    "status" : 201,
+    "bodyFileName" : "body-connect-KwC7m.json",
+    "headers" : {
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Sun, 23 Mar 2014 07:27:05 GMT",
+      "X-Powered-By" : "Express",
+      "Content-Length" : "125",
+      "Connection" : "keep-alive"
+    }
+  }
+}

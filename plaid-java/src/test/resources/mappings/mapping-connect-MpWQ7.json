@@ -1,0 +1,27 @@
+{
+  "request" : {
+    "url" : "/connect",
+    "method" : "POST",
+    "bodyPatterns" : [
+        { "contains" : "client_id" },
+	    { "contains" : "secret" },
+	    { "contains" : "type=chase" }, 
+	    { "contains" : "plaid_test" },
+	    { "contains" : "plaid_good" },
+	    { "contains" : "email" },
+	    { "contains" : "options" },
+	    { "contains" : "login" }        
+      ]
+  },
+  "response" : {
+    "status" : 201,
+    "bodyFileName" : "body-connect-MpWQ7.json",
+    "headers" : {
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Sun, 23 Mar 2014 07:27:32 GMT",
+      "X-Powered-By" : "Express",
+      "Content-Length" : "87",
+      "Connection" : "keep-alive"
+    }
+  }
+}
