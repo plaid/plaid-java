@@ -15,12 +15,12 @@
 
 	<!-- Application Loggers -->
 	<logger name="com.plaid">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->
 	<logger name="org.apache.http.wire">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 </configuration>

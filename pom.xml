@@ -19,10 +19,6 @@
 		<url></url>
 	</scm>
 	<inceptionYear>2014</inceptionYear>
-	<organization>
-		<name>Qapital Insight AB</name>
-		<url>https://qapital.com</url>
-	</organization>
 	<licenses>
 		<license>
 			<name>The MIT License (MIT)</name>
@@ -33,6 +29,8 @@
 			<name>Erik Akterin</name>
 			<email>erik.akterin@qapital.se</email>
 			<id>erimag</id>
+			<organization>Qapital Insight AB</organization>
+			<organizationUrl>https://www.qapital.com</organizationUrl>
 		</developer>
 	</developers>
 	<name>plaid-java</name>
@@ -42,6 +40,8 @@
 	</properties>
 
 	<dependencies>
+	
+	    <!-- compile scope dependencies -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -82,6 +82,8 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.2</version>
 		</dependency>
+		
+		<!-- runtime scope dependencies -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -94,6 +96,8 @@
 			<version>1.7.6</version>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- test scope dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
