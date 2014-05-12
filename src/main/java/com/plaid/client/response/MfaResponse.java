@@ -1,5 +1,6 @@
 package com.plaid.client.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -9,6 +10,7 @@ import com.plaid.client.response.MfaResponse.DeviceListMfaResponse;
 import com.plaid.client.response.MfaResponse.QuestionsMfaResponse;
 import com.plaid.client.response.MfaResponse.SelectionsMfaResponse;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 @JsonTypeInfo(  
         use         = JsonTypeInfo.Id.NAME,  
         include     = JsonTypeInfo.As.PROPERTY,  
@@ -35,6 +37,7 @@ public class MfaResponse extends PlaidUserResponse {
         this.type = type;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class DeviceChoiceMfaResponse extends MfaResponse {
         
         private Message deviceChoiceSentMessage;
@@ -49,6 +52,7 @@ public class MfaResponse extends PlaidUserResponse {
         }
     }
     
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class QuestionsMfaResponse extends MfaResponse {
         
         private Question[] questions;
@@ -63,6 +67,7 @@ public class MfaResponse extends PlaidUserResponse {
         }
     }
     
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class SelectionsMfaResponse extends MfaResponse {
     	
     	private Selection[] selections;
@@ -77,6 +82,7 @@ public class MfaResponse extends PlaidUserResponse {
 		}
     }
     
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class DeviceListMfaResponse extends MfaResponse {
         
         private DeviceType[] deviceTypes;
@@ -92,6 +98,7 @@ public class MfaResponse extends PlaidUserResponse {
         
     }
     
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class Message {
         private String message;
         
@@ -104,6 +111,7 @@ public class MfaResponse extends PlaidUserResponse {
         }
     }
     
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class Question {
         private String question;
         
@@ -116,6 +124,7 @@ public class MfaResponse extends PlaidUserResponse {
         }
     }
     
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class Selection {
     	private String question;
     	private String[] answers;
@@ -137,6 +146,7 @@ public class MfaResponse extends PlaidUserResponse {
 		}
     }
     
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class DeviceType {
         private String mask;
         private String type;
