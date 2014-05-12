@@ -169,14 +169,14 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
                 HttpEntity responseEntity = response.getEntity();
                 MfaResponse mfaResponse = jsonMapper.readValue(responseEntity.getContent(), MfaResponse.class);
                 EntityUtils.consume(responseEntity);
-                throw new PlaidMfaException(mfaResponse);
+                throw new PlaidMfaException(mfaResponse, statusCode);
             
             } else if (statusCode >= HttpStatus.SC_BAD_REQUEST) {
 
                 HttpEntity responseEntity = response.getEntity();
                 ErrorResponse errorResponse = jsonMapper.readValue(responseEntity.getContent(), ErrorResponse.class);
                 EntityUtils.consume(responseEntity);
-                throw new PlaidServersideException(errorResponse);
+                throw new PlaidServersideException(errorResponse, statusCode);
             
             } else {
                 throw new PlaidCommunicationsException("Unable to interpret Plaid response");
