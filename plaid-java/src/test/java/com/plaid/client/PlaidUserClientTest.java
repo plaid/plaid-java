@@ -7,10 +7,8 @@ import static org.junit.Assert.assertTrue;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.plaid.client.exception.PlaidMfaException;
 import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.HttpDelegate;
@@ -28,8 +26,8 @@ public class PlaidUserClientTest {
     private HttpDelegate httpDelegate;
     private PlaidUserClient plaidUserClient;
     
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(8089);
+   // @Rule
+   // public WireMockRule wireMockRule = new WireMockRule(8089);
 
     @Before
     public  void setup() {
@@ -62,6 +60,7 @@ public class PlaidUserClientTest {
             
             MfaResponse mfaResponse = e.getMfaResponse();
             assertNotNull(mfaResponse);
+            assertEquals("list", mfaResponse.getType());
             assertEquals("test", mfaResponse.getAccessToken());
             assertTrue(mfaResponse instanceof DeviceListMfaResponse);
         }
@@ -81,6 +80,7 @@ public class PlaidUserClientTest {
             MfaResponse mfaResponse = e.getMfaResponse();
             assertNotNull(mfaResponse);
             assertEquals("test", mfaResponse.getAccessToken());
+            assertEquals("device", mfaResponse.getType());
             assertTrue(mfaResponse instanceof DeviceChoiceMfaResponse);
             
             TransactionsResponse response = plaidUserClient.mfaStep("1234", "chase");
