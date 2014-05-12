@@ -2,6 +2,9 @@ package com.plaid.client.response;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class AccountsResponse extends PlaidUserResponse {
 
     protected List<Account> accounts;

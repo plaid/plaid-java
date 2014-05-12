@@ -184,6 +184,7 @@ public class Transaction {
         }
     }
         
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class Coordinates {
         private Double longitude;
         private Double latitude;
