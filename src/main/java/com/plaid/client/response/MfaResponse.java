@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.plaid.client.response.MfaResponse.DeviceChoiceMfaResponse;
 import com.plaid.client.response.MfaResponse.DeviceListMfaResponse;
 import com.plaid.client.response.MfaResponse.QuestionsMfaResponse;
+import com.plaid.client.response.MfaResponse.SelectionsMfaResponse;
 
 @JsonTypeInfo(  
         use         = JsonTypeInfo.Id.NAME,  
@@ -15,12 +16,14 @@ import com.plaid.client.response.MfaResponse.QuestionsMfaResponse;
 @JsonSubTypes({  
         @Type(value = DeviceChoiceMfaResponse.class,    name = MfaResponse.DEVICE),  
         @Type(value = DeviceListMfaResponse.class,      name = MfaResponse.LIST),
-        @Type(value = QuestionsMfaResponse.class,       name = MfaResponse.QUESTIONS)}) 
+        @Type(value = QuestionsMfaResponse.class,       name = MfaResponse.QUESTIONS),
+        @Type(value = SelectionsMfaResponse.class,		name = MfaResponse.SELECTIONS)}) 
 public class MfaResponse extends PlaidUserResponse {
 
     public final static String DEVICE = "device";
     public final static String LIST = "list";
     public final static String QUESTIONS = "questions";
+    public final static String SELECTIONS = "selections";
     
     protected String type;
     
@@ -60,6 +63,20 @@ public class MfaResponse extends PlaidUserResponse {
         }
     }
     
+    public final static class SelectionsMfaResponse extends MfaResponse {
+    	
+    	private Selection[] selections;
+    	
+    	@JsonProperty("mfa")
+    	private Selection[] getSelections() {
+    		return selections;
+    	}
+    	
+    	public void setSelections(Selection[] selections) {
+			this.selections = selections;
+		}
+    }
+    
     public final static class DeviceListMfaResponse extends MfaResponse {
         
         private DeviceType[] deviceTypes;
@@ -97,6 +114,27 @@ public class MfaResponse extends PlaidUserResponse {
         public void setQuestion(String question) {
             this.question = question;
         }
+    }
+    
+    public final static class Selection {
+    	private String question;
+    	private String[] answers;
+    	
+    	public String[] getAnswers() {
+			return answers;
+		}
+    	
+    	public String getQuestion() {
+			return question;
+		}
+    	
+    	public void setAnswers(String[] answers) {
+			this.answers = answers;
+		}
+    	
+    	public void setQuestion(String question) {
+			this.question = question;
+		}
     }
     
     public final static class DeviceType {
