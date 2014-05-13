@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -38,6 +39,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     private String baseUri;
     private CloseableHttpClient httpClient;
     private ObjectMapper jsonMapper;
+    private WireLogger wireLogger;
 
     public ApacheHttpClientHttpDelegate(String baseUri, CloseableHttpClient httpClient) {
         this.baseUri = baseUri;
@@ -45,10 +47,14 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
         this.jsonMapper = new ObjectMapper();
     }
     
-    public static HttpDelegate createDefault(String baseUri) {
+    public static ApacheHttpClientHttpDelegate createDefault(String baseUri) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         return new ApacheHttpClientHttpDelegate(baseUri, httpClient);
     }
+    
+    public void setWireLogger(WireLogger wireLogger) {
+		this.wireLogger = wireLogger;
+	}
     
     public <T> HttpResponseWrapper<T> doPost(PlaidHttpRequest request, Class<T> clazz) {
 
@@ -63,6 +69,8 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
             CloseableHttpResponse response = httpClient.execute(post);
 
+            wireLog(post, response);
+            
             return handleResponse(response, clazz);
 
         } catch (UnsupportedEncodingException e) {
@@ -89,6 +97,8 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
             CloseableHttpResponse response = httpClient.execute(get);
 
+            wireLog(get, response);
+            
             return handleResponse(response, clazz);
 
         } catch (UnsupportedEncodingException e) {
@@ -110,12 +120,14 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
                 .addParameters(parameters)
                 .build();
             
-            HttpDelete get = new HttpDelete(uri);
+            HttpDelete delete = new HttpDelete(uri);
             
-            addUserAgent(get);
+            addUserAgent(delete);
 
-            CloseableHttpResponse response = httpClient.execute(get);
+            CloseableHttpResponse response = httpClient.execute(delete);
 
+            wireLog(delete, response);
+            
             return handleResponse(response, clazz);
 
         } catch (UnsupportedEncodingException e) {
@@ -140,7 +152,9 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
             addUserAgent(patch);
 
             CloseableHttpResponse response = httpClient.execute(patch);
-
+       
+            wireLog(patch, response);      
+            
             return handleResponse(response, clazz);
 
         } catch (UnsupportedEncodingException e) {
@@ -150,15 +164,21 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
         }
     }
 
-    private <T> HttpResponseWrapper<T> handleResponse(CloseableHttpResponse response,
+    private void wireLog(HttpRequestBase request, CloseableHttpResponse response) {
+		if (wireLogger != null) {
+			wireLogger.logRequestResponsePair(request, response);
+		}
+	}
+
+	private <T> HttpResponseWrapper<T> handleResponse(CloseableHttpResponse response,
             Class<T> clazz) {
 
         try {
             int statusCode = response.getStatusLine().getStatusCode();
+            HttpEntity responseEntity = response.getEntity();           
 
             if (HttpStatus.SC_OK == statusCode) {
-
-                HttpEntity responseEntity = response.getEntity();                
+                     
                 T responseBody;
                 responseBody = jsonMapper.readValue(responseEntity.getContent(), clazz);
                 EntityUtils.consume(responseEntity);                
@@ -166,14 +186,12 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
            
             } else if (HttpStatus.SC_CREATED == statusCode) {
 
-                HttpEntity responseEntity = response.getEntity();
                 MfaResponse mfaResponse = jsonMapper.readValue(responseEntity.getContent(), MfaResponse.class);
                 EntityUtils.consume(responseEntity);
                 throw new PlaidMfaException(mfaResponse, statusCode);
             
             } else if (statusCode >= HttpStatus.SC_BAD_REQUEST) {
 
-                HttpEntity responseEntity = response.getEntity();
                 ErrorResponse errorResponse = jsonMapper.readValue(responseEntity.getContent(), ErrorResponse.class);
                 EntityUtils.consume(responseEntity);
                 throw new PlaidServersideException(errorResponse, statusCode);
