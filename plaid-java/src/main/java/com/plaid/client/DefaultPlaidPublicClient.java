@@ -55,5 +55,10 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     public Object getCategoriesByMapping(String mapping, MappingOptions options) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
+    
+    @Override
+    public HttpDelegate getHttpDelegate() {
+    	return httpDelegate;
+    }
 
 }
