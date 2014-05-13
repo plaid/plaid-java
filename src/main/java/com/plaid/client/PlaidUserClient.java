@@ -3,6 +3,7 @@ package com.plaid.client;
 import org.joda.time.LocalDate;
 
 import com.plaid.client.exception.PlaidMfaException;
+import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
 import com.plaid.client.response.AccountsResponse;
@@ -29,4 +30,5 @@ public interface PlaidUserClient {
     
     AccountsResponse checkBalance();
 
+    HttpDelegate getHttpDelegate();
 }

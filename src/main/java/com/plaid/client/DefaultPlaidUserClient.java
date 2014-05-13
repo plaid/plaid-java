@@ -194,4 +194,8 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         return parameters;
     }
 
+    @Override
+    public HttpDelegate getHttpDelegate() {
+    	return httpDelegate;
+    }
 }
