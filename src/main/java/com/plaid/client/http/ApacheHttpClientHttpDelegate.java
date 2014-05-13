@@ -56,6 +56,10 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 		this.wireLogger = wireLogger;
 	}
     
+    public WireLogger getWireLogger() {
+		return wireLogger;
+	}
+    
     public <T> HttpResponseWrapper<T> doPost(PlaidHttpRequest request, Class<T> clazz) {
 
         List<NameValuePair> parameters = mapToNvps(request.getParameters());
