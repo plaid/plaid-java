@@ -26,6 +26,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plaid.client.exception.PlaidClientsideException;
 import com.plaid.client.exception.PlaidCommunicationsException;
@@ -73,9 +74,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
             CloseableHttpResponse response = httpClient.execute(post);
 
-            wireLog(post, response);
-            
-            return handleResponse(response, clazz);
+            return handleResponse(post, response, clazz);
 
         } catch (UnsupportedEncodingException e) {
             throw new PlaidClientsideException(e);
@@ -101,9 +100,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
             CloseableHttpResponse response = httpClient.execute(get);
 
-            wireLog(get, response);
-            
-            return handleResponse(response, clazz);
+            return handleResponse(get, response, clazz);
 
         } catch (UnsupportedEncodingException e) {
             throw new PlaidClientsideException(e);
@@ -130,9 +127,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
             CloseableHttpResponse response = httpClient.execute(delete);
 
-            wireLog(delete, response);
-            
-            return handleResponse(response, clazz);
+            return handleResponse(delete, response, clazz);
 
         } catch (UnsupportedEncodingException e) {
             throw new PlaidClientsideException(e);
@@ -156,10 +151,8 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
             addUserAgent(patch);
 
             CloseableHttpResponse response = httpClient.execute(patch);
-       
-            wireLog(patch, response);      
             
-            return handleResponse(response, clazz);
+            return handleResponse(patch, response, clazz);
 
         } catch (UnsupportedEncodingException e) {
             throw new PlaidClientsideException(e);
@@ -168,36 +161,38 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
         }
     }
 
-    private void wireLog(HttpRequestBase request, CloseableHttpResponse response) {
+    private void wireLog(HttpRequestBase request, CloseableHttpResponse response, JsonNode responseBody) {
 		if (wireLogger != null) {
-			wireLogger.logRequestResponsePair(request, response);
+			wireLogger.logRequestResponsePair(request, response, responseBody);
 		}
 	}
 
-	private <T> HttpResponseWrapper<T> handleResponse(CloseableHttpResponse response,
+	private <T> HttpResponseWrapper<T> handleResponse(HttpRequestBase request, CloseableHttpResponse response,
             Class<T> clazz) {
 
+    	HttpEntity responseEntity = response.getEntity();      
+		
         try {
-            int statusCode = response.getStatusLine().getStatusCode();
-            HttpEntity responseEntity = response.getEntity();           
 
+        	int statusCode = response.getStatusLine().getStatusCode();
+        	JsonNode jsonBody = jsonMapper.readTree(responseEntity.getContent());
+            EntityUtils.consume(responseEntity);                
+
+            wireLog(request, response, jsonBody);
+        	
             if (HttpStatus.SC_OK == statusCode) {
                      
-                T responseBody;
-                responseBody = jsonMapper.readValue(responseEntity.getContent(), clazz);
-                EntityUtils.consume(responseEntity);                
+                T responseBody = jsonMapper.convertValue(jsonBody, clazz);           
                 return HttpResponseWrapper.create(statusCode, responseBody);
            
             } else if (HttpStatus.SC_CREATED == statusCode) {
 
-                MfaResponse mfaResponse = jsonMapper.readValue(responseEntity.getContent(), MfaResponse.class);
-                EntityUtils.consume(responseEntity);
+                MfaResponse mfaResponse = jsonMapper.convertValue(jsonBody, MfaResponse.class);                
                 throw new PlaidMfaException(mfaResponse, statusCode);
             
             } else if (statusCode >= HttpStatus.SC_BAD_REQUEST) {
 
-                ErrorResponse errorResponse = jsonMapper.readValue(responseEntity.getContent(), ErrorResponse.class);
-                EntityUtils.consume(responseEntity);
+                ErrorResponse errorResponse = jsonMapper.convertValue(jsonBody, ErrorResponse.class);
                 throw new PlaidServersideException(errorResponse, statusCode);
             
             } else {
@@ -208,11 +203,13 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
             throw new PlaidCommunicationsException("Unable to interpret Plaid response");
         } finally {
+        	
             try {
                 response.close();
             } catch (IOException e) {
                 
             }
+        	
         }
 
     }
