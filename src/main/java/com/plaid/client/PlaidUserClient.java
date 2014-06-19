@@ -11,23 +11,27 @@ import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.TransactionsResponse;
 
 public interface PlaidUserClient {
-    
+
     void setAccessToken(String accesstoken);
-    
+
     String getAccessToken();
-    
+
     TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException;
-    
-    TransactionsResponse mfaStep(String mfa, String type) throws PlaidMfaException;
-    
+
+    TransactionsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
+
+    AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
+
+    AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException;
+
     TransactionsResponse updateTransactions();
-    
+
     TransactionsResponse updateTransactions(LocalDate from, LocalDate to, String accountId);
     
     TransactionsResponse updateCredentials(Credentials credentials, String type);
-    
+
     MessageResponse deleteUser();
-    
+
     AccountsResponse checkBalance();
 
     HttpDelegate getHttpDelegate();
