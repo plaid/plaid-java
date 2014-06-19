@@ -30,7 +30,7 @@ Steps to use:
         
 // Add Amex user, get 30 days of transactions
         
-PlaidUserClient plaidUserClient = PlaidClients.developmentUserClient("test_id", "test_secret");
+PlaidUserClient plaidUserClient = PlaidClients.testUserClient("test_id", "test_secret");
 Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
 TransactionsResponse response = plaidUserClient.addUser(testCredentials, "amex", "test@test.com", null);
 
