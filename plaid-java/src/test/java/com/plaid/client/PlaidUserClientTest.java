@@ -4,18 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.plaid.client.exception.PlaidMfaException;
 import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
+import com.plaid.client.response.Account;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.MfaResponse.DeviceChoiceMfaResponse;
@@ -28,14 +30,14 @@ public class PlaidUserClientTest {
     private HttpDelegate httpDelegate;
     private PlaidUserClient plaidUserClient;
     
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(8089);
+   // @Rule
+   // public WireMockRule wireMockRule = new WireMockRule(8089);
 
     @Before
     public  void setup() {
         httpClient = HttpClients.createDefault();
-        httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
-        //HttpDelegate httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
+        //httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
+        httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
         plaidUserClient = new DefaultPlaidUserClient(httpDelegate, "test_id", "test_secret");
     }
 
@@ -62,6 +64,7 @@ public class PlaidUserClientTest {
             
             MfaResponse mfaResponse = e.getMfaResponse();
             assertNotNull(mfaResponse);
+            assertEquals("list", mfaResponse.getType());
             assertEquals("test", mfaResponse.getAccessToken());
             assertTrue(mfaResponse instanceof DeviceListMfaResponse);
         }
@@ -81,9 +84,10 @@ public class PlaidUserClientTest {
             MfaResponse mfaResponse = e.getMfaResponse();
             assertNotNull(mfaResponse);
             assertEquals("test", mfaResponse.getAccessToken());
+            assertEquals("device", mfaResponse.getType());
             assertTrue(mfaResponse instanceof DeviceChoiceMfaResponse);
             
-            TransactionsResponse response = plaidUserClient.mfaStep("1234");
+            TransactionsResponse response = plaidUserClient.mfaStep("1234", "chase");
             assertEquals("test",response.getAccessToken());
             assertTrue(response.getAccounts().size() > 0);
             assertTrue(response.getTransactions().size() > 0);            
@@ -101,16 +105,16 @@ public class PlaidUserClientTest {
         assertTrue(response.getTransactions().size() > 0);
     }
     
-    // @Test
+    @Test
     // Not testable with WireMock since HTTP PATCH is unsupported
     public void testUpdateCredentials() {
         Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
         plaidUserClient.setAccessToken("test");
-        TransactionsResponse response = plaidUserClient.updateCredentials(testCredentials);
+        TransactionsResponse response = plaidUserClient.updateCredentials(testCredentials, "amex");
         
         assertEquals("test",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
-        assertTrue(response.getTransactions().size() > 0);
+//        assertTrue(response.getTransactions().size() > 0);
     }
     
     @Test
@@ -119,5 +123,26 @@ public class PlaidUserClientTest {
         MessageResponse response = plaidUserClient.deleteUser();
         
         assertEquals("Successfully removed from system", response.getMessage());
+    }
+    
+    @Test
+    public void testSubmitThenUpdate() {
+    	ConnectOptions options = new ConnectOptions();
+        options.setLogin(false);
+    	PlaidUserClient productionClient = PlaidClients.productionUserClient("52723c6e9a3a9cbd12000002", "f9BtDIWZWPUP_Ibx91eYOK");
+    	TransactionsResponse response = productionClient.addUser(new Credentials("jojjefriedman@gmail.com", "Pengu2005"), "citi", "erik+testing@qapital.com", options);
+    	
+    	List<String> accountIds = new ArrayList<>();
+    	
+    	for (Account account : response.getAccounts()) {
+    		accountIds.add(account.getId());
+    	}
+    	
+    	TransactionsResponse newResponse = productionClient.updateTransactions();
+    	
+    	for (Account account : newResponse.getAccounts()) {
+    		assertTrue(accountIds.contains(account.getId()));
+    	}
+    	
     }
 }

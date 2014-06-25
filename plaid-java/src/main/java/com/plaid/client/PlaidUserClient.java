@@ -3,6 +3,7 @@ package com.plaid.client;
 import org.joda.time.LocalDate;
 
 import com.plaid.client.exception.PlaidMfaException;
+import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
 import com.plaid.client.response.AccountsResponse;
@@ -17,16 +18,17 @@ public interface PlaidUserClient {
     
     TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException;
     
-    TransactionsResponse mfaStep(String mfa) throws PlaidMfaException;
+    TransactionsResponse mfaStep(String mfa, String type) throws PlaidMfaException;
     
     TransactionsResponse updateTransactions();
     
     TransactionsResponse updateTransactions(LocalDate from, LocalDate to, String accountId);
     
-    TransactionsResponse updateCredentials(Credentials credentials);
+    TransactionsResponse updateCredentials(Credentials credentials, String type);
     
     MessageResponse deleteUser();
     
     AccountsResponse checkBalance();
 
+    HttpDelegate getHttpDelegate();
 }

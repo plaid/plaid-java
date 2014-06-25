@@ -86,7 +86,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
-    public TransactionsResponse mfaStep(String mfa) throws PlaidMfaException {
+    public TransactionsResponse mfaStep(String mfa, String type) throws PlaidMfaException {
         
         if (StringUtils.isEmpty(accessToken)) {
             throw new PlaidClientsideException("No accessToken set");
@@ -95,6 +95,9 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         PlaidHttpRequest request = new PlaidHttpRequest("/connect/step", authenticationParams());        
 
         request.addParameter("mfa", mfa);
+        if (type != null) {
+        	request.addParameter("type", type);
+        }
 
         try {
             HttpResponseWrapper<TransactionsResponse> response =
@@ -135,7 +138,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
     
     @Override
-    public TransactionsResponse updateCredentials(Credentials credentials) {
+    public TransactionsResponse updateCredentials(Credentials credentials, String type) {
         if (StringUtils.isEmpty(accessToken)) {
             throw new PlaidClientsideException("No accessToken set");
         }
@@ -145,6 +148,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         try {
             String credentialsString = jsonMapper.writeValueAsString(credentials);
             request.addParameter("credentials", credentialsString);            
+            request.addParameter("type", type);
             
             HttpResponseWrapper<TransactionsResponse> response =
                     httpDelegate.doPatch(request, TransactionsResponse.class);
@@ -190,4 +194,8 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         return parameters;
     }
 
+    @Override
+    public HttpDelegate getHttpDelegate() {
+    	return httpDelegate;
+    }
 }
