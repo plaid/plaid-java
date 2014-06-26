@@ -148,7 +148,8 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             setAccessToken(body.getAccessToken());
 
             return body;
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e) {
             throw new PlaidClientsideException(e);
         }
 
@@ -214,7 +215,8 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
                 request.addParameter(param, stringValue);
             }
 
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e) {
             throw new PlaidClientsideException(e);
         }
 
@@ -225,7 +227,8 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             setAccessToken(body.getAccessToken());
             return body;
 
-        } catch (PlaidMfaException e) {
+        }
+        catch (PlaidMfaException e) {
             setAccessToken(e.getMfaResponse().getAccessToken());
             throw e;
         }
