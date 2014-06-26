@@ -87,7 +87,7 @@ public class PlaidUserClientTest {
             assertEquals("device", mfaResponse.getType());
             assertTrue(mfaResponse instanceof DeviceChoiceMfaResponse);
             
-            TransactionsResponse response = plaidUserClient.mfaStep("1234", "chase");
+            TransactionsResponse response = plaidUserClient.mfaConnectStep("1234", "chase");
             assertEquals("test",response.getAccessToken());
             assertTrue(response.getAccounts().size() > 0);
             assertTrue(response.getTransactions().size() > 0);            
