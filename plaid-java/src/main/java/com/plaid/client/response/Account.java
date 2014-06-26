@@ -12,6 +12,7 @@ public class Account {
     
     private Balance balance;
     private AccountMeta meta;
+    private AccountNumbers numbers;
     
     private String institutionType;
     private String type;
@@ -48,6 +49,12 @@ public class Account {
     }
     public void setMeta(AccountMeta meta) {
         this.meta = meta;
+    }
+    public AccountNumbers getNumbers() {
+        return numbers;
+    }
+    public void setNumbers(AccountNumbers numbers) {
+        this.numbers = numbers;
     }
     @JsonProperty("institution_type")
     public String getInstitutionType() {
@@ -105,6 +112,28 @@ public class Account {
         }
         public void setNumber(String number) {
             this.number = number;
+        }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown=true)
+    public final static class AccountNumbers {
+        private String routing;
+        private String account;
+
+        public String getRouting() {
+            return routing;
+        }
+
+        public void setRouting(String routing) {
+            this.routing = routing;
+        }
+
+        public String getAccount() {
+            return account;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
         }
     }
     

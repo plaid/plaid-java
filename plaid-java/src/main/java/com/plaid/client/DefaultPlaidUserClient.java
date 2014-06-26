@@ -65,21 +65,6 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         return handlePost("/connect", requestParams, TransactionsResponse.class);
     }
 
-    @Override
-    public TransactionsResponse mfaStep(String mfa, String type) throws PlaidMfaException {
-        
-        if (StringUtils.isEmpty(accessToken)) {
-            throw new PlaidClientsideException("No accessToken set");
-        }
-        
-        PlaidHttpRequest request = new PlaidHttpRequest("/connect/step", authenticationParams());        
-
-        request.addParameter("mfa", mfa);
-        if (type != null) {
-        	request.addParameter("type", type);
-        }
-    }
-
     public AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException {
 
         Map<String, Object> requestParams = new HashMap<String, Object>();
