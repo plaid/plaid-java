@@ -12,7 +12,7 @@ public class PlaidClients {
     	return new DefaultPlaidUserClient(createHttpDelegate(BASE_URI_PRODUCTION, wireLogger), clientId, secret);
     }
     
-    public static PlaidUserClient developmentUserClient(String clientId, String secret, WireLogger wireLogger) {    	
+    public static PlaidUserClient testUserClient(String clientId, String secret, WireLogger wireLogger) {    	
         return new DefaultPlaidUserClient(createHttpDelegate(BASE_URI_TEST, wireLogger), clientId, secret);    
     }
     
@@ -28,8 +28,8 @@ public class PlaidClients {
     	return productionUserClient(clientId, secret, null);
     }
     
-    public static PlaidUserClient developmentUserClient(String clientId, String secret) {        
-         return developmentUserClient(clientId, secret, null);
+    public static PlaidUserClient testUserClient(String clientId, String secret) {        
+         return testUserClient(clientId, secret, null);
     }
     
     public static PlaidPublicClient productionPublicClient() {
