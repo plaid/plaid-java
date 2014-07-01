@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
@@ -17,7 +14,6 @@ import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
-import com.plaid.client.response.Account;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.MfaResponse.DeviceChoiceMfaResponse;
@@ -125,24 +121,5 @@ public class PlaidUserClientTest {
         assertEquals("Successfully removed from system", response.getMessage());
     }
     
-    @Test
-    public void testSubmitThenUpdate() {
-    	ConnectOptions options = new ConnectOptions();
-        options.setLogin(false);
-    	PlaidUserClient productionClient = PlaidClients.productionUserClient("52723c6e9a3a9cbd12000002", "f9BtDIWZWPUP_Ibx91eYOK");
-    	TransactionsResponse response = productionClient.addUser(new Credentials("jojjefriedman@gmail.com", "Pengu2005"), "citi", "erik+testing@qapital.com", options);
-    	
-    	List<String> accountIds = new ArrayList<>();
-    	
-    	for (Account account : response.getAccounts()) {
-    		accountIds.add(account.getId());
-    	}
-    	
-    	TransactionsResponse newResponse = productionClient.updateTransactions();
-    	
-    	for (Account account : newResponse.getAccounts()) {
-    		assertTrue(accountIds.contains(account.getId()));
-    	}
-    	
-    }
+   
 }
