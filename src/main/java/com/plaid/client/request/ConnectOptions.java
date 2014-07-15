@@ -8,6 +8,8 @@ public class ConnectOptions {
     private Boolean pretty;
     private Boolean login;
     private Boolean list;
+    private Boolean pending;
+    
     private String webhook;
     private String startDate;
     private String endDate;
@@ -50,5 +52,11 @@ public class ConnectOptions {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+    public void setPending(Boolean pending) {
+		this.pending = pending;
+	}
+    public Boolean isPending() {
+		return pending;
+	}
 
 }
