@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.plaid</groupId>
 	<artifactId>plaid-java</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<parent>
@@ -11,37 +11,50 @@
 		<artifactId>oss-parent</artifactId>
 		<version>9</version>
 	</parent>
-	<url></url>
-	<description>Java bindings for the Plaid (plaid.com) API. Original code contributed by Qapital Insight AB (qapital.com)</description>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Bindings for the Plaid (plaid.com) API. Original code contributed by Qapital Insight AB (qapital.com)</description>
+	<url>http://github.com/plaid/plaid-java</url>
 	<scm>
-		<connection></connection>
-		<developerConnection></developerConnection>
-		<url></url>
+		<connection>scm:git:git://github.com/plaid/plaid-java.git</connection>
+		<developerConnection>scm:git:git@github.com:plaid/plaid-java.git</developerConnection>
+		<url>http://github.com/plaid/plaid-java</url>
 	</scm>
+	<organization>
+		<name>Plaid Technologies, Inc.</name>
+		<url>http://plaid.com</url>
+	</organization>
 	<inceptionYear>2014</inceptionYear>
 	<licenses>
 		<license>
 			<name>The MIT License (MIT)</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
 		</license>
 	</licenses>
 	<developers>
 		<developer>
+			<name>Rahul Ramakrishnan</name>
+			<email>rahul@plaid.com</email>
+			<id>raha936</id>
+			<organization>Plaid Technologies, Inc</organization>
+			<organizationUrl>http://plaid.com</organizationUrl>
+		</developer>
+		<developer>
 			<name>Erik Akterin</name>
-			<email>erik.akterin@qapital.se</email>
+			<email>erik.akterin@qapital.com</email>
 			<id>erimag</id>
 			<organization>Qapital Insight AB</organization>
 			<organizationUrl>https://www.qapital.com</organizationUrl>
 		</developer>
 	</developers>
-	<name>plaid-java</name>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
 	</properties>
 
 	<dependencies>
-	
-	    <!-- compile scope dependencies -->
+
+		<!-- compile scope dependencies -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -82,7 +95,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.2</version>
 		</dependency>
-		
+
 		<!-- runtime scope dependencies -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -96,7 +109,7 @@
 			<version>1.7.6</version>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- test scope dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -124,6 +137,90 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<name>Sonatype Nexus snapshot repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<name>Sonatype Nexus release repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<configuration>
+							<passphrase>${gpg.passphrase}</passphrase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
