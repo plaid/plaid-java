@@ -5,21 +5,14 @@ Java Bindings for the Plaid API (https://www.plaid.com/docs)
 
 ### Installation
 
-Currently you need to check out the source and run mvn install to use the bindings. The goal is to publish to Maven Central once it is stable.
-
-Steps to use:
-
-1. Clone the repo or download the zip.
-2. cd plaid-java
-3. mvn install
-4. Add the snapshot dependency to your project's pom.xml:
+Plaid-java is available at Maven Central with the following coordinates (latest release 0.1):
 
 ```xml
 
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1</version>
 </dependency>
 
 ```
