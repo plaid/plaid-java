@@ -5,14 +5,14 @@ Java Bindings for the Plaid API (https://www.plaid.com/docs)
 
 ### Installation
 
-Plaid-java is available at Maven Central with the following coordinates (latest release 0.1):
+Plaid-java is available at Maven Central with the following coordinates (latest release 0.2):
 
 ```xml
 
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
 </dependency>
 
 ```
