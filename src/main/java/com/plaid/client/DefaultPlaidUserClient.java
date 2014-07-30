@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,6 +15,7 @@ import com.plaid.client.http.HttpResponseWrapper;
 import com.plaid.client.http.PlaidHttpRequest;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
+import com.plaid.client.request.GetOptions;
 import com.plaid.client.response.AccountsResponse;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.PlaidUserResponse;
@@ -104,11 +104,17 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         return body;
 
     }
-
+    
     @Override
-    public TransactionsResponse updateTransactions(LocalDate from, LocalDate to, String accountId) {
+    public TransactionsResponse updateTransactions(GetOptions options) {
+    	if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+        
+        Map<String, Object> requestParams = new HashMap<String, Object>();
+        requestParams.put("options", options);
 
-        throw new UnsupportedOperationException("Not implemented yet");
+        return handlePost("/connect/get", requestParams, TransactionsResponse.class);
     }
 
     @Override

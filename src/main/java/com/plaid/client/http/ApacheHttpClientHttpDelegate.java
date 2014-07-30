@@ -223,7 +223,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     }
 
     private static void addUserAgent(HttpMessage httpMessage) {
-        httpMessage.addHeader("User-Agent", "plaid-java 0.0.1-SNAPSHOT");
+        httpMessage.addHeader("User-Agent", "plaid-java 0.2");
     }
 
 }
