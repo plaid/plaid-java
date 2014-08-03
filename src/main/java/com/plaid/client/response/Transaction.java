@@ -26,6 +26,8 @@ public class Transaction {
     
     private Score score;
     private TransactionMeta meta;
+    
+    private Boolean pending;
 
     @JsonProperty("_id")
     public String getId() {
@@ -98,6 +100,12 @@ public class Transaction {
     public void setMeta(TransactionMeta meta) {
         this.meta = meta;
     }
+    public Boolean isPending() {
+		return pending;
+	}
+    public void setPending(Boolean pending) {
+		this.pending = pending;
+	}
 
     @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class Score {
