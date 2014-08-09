@@ -7,9 +7,8 @@ public class Credentials {
     private String pin;
 
     public Credentials(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.pin = null; // the json serializer will not include this when it is null
+        // the json serializer will not include the pin when it is null
+        this(username, password, null);
     }
     
     public Credentials(String username, String password, String pin) {
