@@ -42,9 +42,16 @@
 			<name>Erik Akterin</name>
 			<email>erik.akterin@qapital.com</email>
 			<id>erimag</id>
-			<organization>Qapital Insight AB</organization>
+			<organization>Qapital</organization>
 			<organizationUrl>https://www.qapital.com</organizationUrl>
 		</developer>
+		<developer>
+            <name>Adam Langsner</name>
+            <email>adamlangsner@gmail.com</email>
+            <id>adamlangsner</id>
+            <organization>Betterment</organization>
+            <organizationUrl>https://www.betterment.com</organizationUrl>
+        </developer>
 	</developers>
 
 	<properties>
