@@ -201,7 +201,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
          requestParams.put("type", type);
          requestParams.put("options", options);
 
-         return handlePost("/connect", requestParams, InfoResponse.class);
+         return handlePost("/info", requestParams, InfoResponse.class);
     }
     
     private <T extends PlaidUserResponse> T handleMfa(String path, String mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {

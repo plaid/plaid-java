@@ -15,6 +15,7 @@ import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
 import com.plaid.client.response.AccountsResponse;
+import com.plaid.client.response.InfoResponse;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.MfaResponse.DeviceChoiceMfaResponse;
@@ -92,15 +93,16 @@ public class PlaidUserClientTest {
         }
     }
     
-    /*
-    @Test
+    
+    //@Test
+    // Doesn't work with test credentials
     public void testInfoWellsFargo() {
     	Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
         InfoResponse response = plaidUserClient.info(testCredentials, "wells", null);
         
         assertEquals("test",response.getAccessToken());
         assertNotNull(response.getInfo());
-    }*/
+    }
     
     @Test
     public void testUpdateTransactions() {
