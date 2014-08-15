@@ -191,7 +191,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     		requestParams.put("options", options);
     	}
     	
-    	return handlePost("/balance", requestParams, TransactionsResponse.class);
+    	return handlePost("/upgrade", requestParams, TransactionsResponse.class);
     }
     
     @Override
