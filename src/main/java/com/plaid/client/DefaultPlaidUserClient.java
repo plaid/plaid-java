@@ -16,7 +16,9 @@ import com.plaid.client.http.PlaidHttpRequest;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
 import com.plaid.client.request.GetOptions;
+import com.plaid.client.request.InfoOptions;
 import com.plaid.client.response.AccountsResponse;
+import com.plaid.client.response.InfoResponse;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.PlaidUserResponse;
 import com.plaid.client.response.TransactionsResponse;
@@ -86,7 +88,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
         return handleMfa("/auth/step", mfa, type, AccountsResponse.class);
     }
-
+    
     @Override
     public TransactionsResponse updateTransactions() {
 
@@ -112,7 +114,9 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         }
         
         Map<String, Object> requestParams = new HashMap<String, Object>();
-        requestParams.put("options", options);
+        if (options != null) {
+        	requestParams.put("options", options);
+        }
 
         return handlePost("/connect/get", requestParams, TransactionsResponse.class);
     }
@@ -164,9 +168,42 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     @Override
     public AccountsResponse checkBalance() {
 
-        throw new UnsupportedOperationException("Not implemented yet");
+    	if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+    	Map<String, Object> requestParams = new HashMap<String, Object>();
+    	
+    	return handlePost("/balance", requestParams, AccountsResponse.class);
     }
 
+    @Override
+    public TransactionsResponse addProduct(String product, ConnectOptions options) {
+    	
+    	if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+    	Map<String, Object> requestParams = new HashMap<String, Object>();
+    	requestParams.put("upgrade_to", product);
+    	
+    	if (options != null) {
+    		requestParams.put("options", options);
+    	}
+    	
+    	return handlePost("/upgrade", requestParams, TransactionsResponse.class);
+    }
+    
+    @Override
+    public InfoResponse info(Credentials credentials, String type, InfoOptions options) {
+    	 Map<String, Object> requestParams = new HashMap<String, Object>();
+         requestParams.put("credentials", credentials);
+         requestParams.put("type", type);
+         requestParams.put("options", options);
+
+         return handlePost("/info", requestParams, InfoResponse.class);
+    }
+    
     private <T extends PlaidUserResponse> T handleMfa(String path, String mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
 
         if (StringUtils.isEmpty(accessToken)) {
