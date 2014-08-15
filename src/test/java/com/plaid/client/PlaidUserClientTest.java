@@ -113,6 +113,15 @@ public class PlaidUserClientTest {
     }
     
     @Test
+    public void testAddProduct() {
+    	
+    	plaidUserClient.setAccessToken("test");
+    	AccountsResponse response = plaidUserClient.addProduct("auth", null);
+    	assertEquals("test",response.getAccessToken());
+        assertTrue(response.getAccounts().size() > 0);	
+    }
+    
+    @Test
     // Not testable with WireMock since HTTP PATCH is unsupported
     public void testUpdateCredentials() {
         Credentials testCredentials = new Credentials("plaid_test", "plaid_good");

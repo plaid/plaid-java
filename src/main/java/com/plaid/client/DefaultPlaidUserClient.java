@@ -112,7 +112,9 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         }
         
         Map<String, Object> requestParams = new HashMap<String, Object>();
-        requestParams.put("options", options);
+        if (options != null) {
+        	requestParams.put("options", options);
+        }
 
         return handlePost("/connect/get", requestParams, TransactionsResponse.class);
     }
@@ -173,6 +175,23 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     	return handlePost("/balance", requestParams, AccountsResponse.class);
     }
 
+    @Override
+    public TransactionsResponse addProduct(String product, ConnectOptions options) {
+    	
+    	if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+    	Map<String, Object> requestParams = new HashMap<String, Object>();
+    	requestParams.put("upgrade_to", product);
+    	
+    	if (options != null) {
+    		requestParams.put("options", options);
+    	}
+    	
+    	return handlePost("/balance", requestParams, TransactionsResponse.class);
+    }
+    
     private <T extends PlaidUserResponse> T handleMfa(String path, String mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
 
         if (StringUtils.isEmpty(accessToken)) {

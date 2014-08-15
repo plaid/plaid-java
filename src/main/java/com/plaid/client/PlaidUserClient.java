@@ -32,6 +32,8 @@ public interface PlaidUserClient {
     MessageResponse deleteUser();
 
     AccountsResponse checkBalance();
+    
+    TransactionsResponse addProduct(String product, ConnectOptions options);
 
     HttpDelegate getHttpDelegate();
 }
