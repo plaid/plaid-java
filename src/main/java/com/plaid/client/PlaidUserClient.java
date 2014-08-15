@@ -5,7 +5,9 @@ import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
 import com.plaid.client.request.GetOptions;
+import com.plaid.client.request.InfoOptions;
 import com.plaid.client.response.AccountsResponse;
+import com.plaid.client.response.InfoResponse;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.TransactionsResponse;
 
@@ -32,6 +34,8 @@ public interface PlaidUserClient {
     MessageResponse deleteUser();
 
     AccountsResponse checkBalance();
+    
+    InfoResponse info(Credentials credentials, String type, InfoOptions options);
     
     TransactionsResponse addProduct(String product, ConnectOptions options);
 

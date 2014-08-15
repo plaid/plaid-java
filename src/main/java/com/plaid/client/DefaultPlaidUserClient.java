@@ -16,7 +16,9 @@ import com.plaid.client.http.PlaidHttpRequest;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
 import com.plaid.client.request.GetOptions;
+import com.plaid.client.request.InfoOptions;
 import com.plaid.client.response.AccountsResponse;
+import com.plaid.client.response.InfoResponse;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.PlaidUserResponse;
 import com.plaid.client.response.TransactionsResponse;
@@ -190,6 +192,16 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     	}
     	
     	return handlePost("/balance", requestParams, TransactionsResponse.class);
+    }
+    
+    @Override
+    public InfoResponse info(Credentials credentials, String type, InfoOptions options) {
+    	 Map<String, Object> requestParams = new HashMap<String, Object>();
+         requestParams.put("credentials", credentials);
+         requestParams.put("type", type);
+         requestParams.put("options", options);
+
+         return handlePost("/connect", requestParams, InfoResponse.class);
     }
     
     private <T extends PlaidUserResponse> T handleMfa(String path, String mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
