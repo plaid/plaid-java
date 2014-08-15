@@ -14,6 +14,7 @@ import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
+import com.plaid.client.response.AccountsResponse;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.MfaResponse.DeviceChoiceMfaResponse;
@@ -46,7 +47,7 @@ public class PlaidUserClientTest {
         assertEquals("test",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
         assertTrue(response.getTransactions().size() > 0);
-    }
+    }    
 
     @Test
     public void testAddChaseUserListMfa() {
@@ -100,6 +101,15 @@ public class PlaidUserClientTest {
         assertEquals("test",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
         assertTrue(response.getTransactions().size() > 0);
+    }
+    
+    @Test
+    public void testCheckBalance() {
+    	
+    	plaidUserClient.setAccessToken("test");
+    	AccountsResponse response = plaidUserClient.checkBalance();
+    	assertEquals("test",response.getAccessToken());
+        assertTrue(response.getAccounts().size() > 0);
     }
     
     @Test

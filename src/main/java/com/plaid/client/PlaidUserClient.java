@@ -22,7 +22,7 @@ public interface PlaidUserClient {
     AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
 
     AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException;
-
+    
     TransactionsResponse updateTransactions();
 
     TransactionsResponse updateTransactions(GetOptions options);

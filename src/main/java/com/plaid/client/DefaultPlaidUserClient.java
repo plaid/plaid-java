@@ -86,7 +86,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
         return handleMfa("/auth/step", mfa, type, AccountsResponse.class);
     }
-
+    
     @Override
     public TransactionsResponse updateTransactions() {
 
@@ -164,7 +164,13 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     @Override
     public AccountsResponse checkBalance() {
 
-        throw new UnsupportedOperationException("Not implemented yet");
+    	if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+    	Map<String, Object> requestParams = new HashMap<String, Object>();
+    	
+    	return handlePost("/balance", requestParams, AccountsResponse.class);
     }
 
     private <T extends PlaidUserResponse> T handleMfa(String path, String mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
