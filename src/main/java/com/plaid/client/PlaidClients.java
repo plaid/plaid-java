@@ -41,7 +41,7 @@ public class PlaidClients {
     }
     
     private static ApacheHttpClientHttpDelegate createHttpDelegate(String uri, WireLogger wireLogger) {
-    	ApacheHttpClientHttpDelegate httpDelegate = ApacheHttpClientHttpDelegate.createDefault(BASE_URI_PRODUCTION);
+        ApacheHttpClientHttpDelegate httpDelegate = ApacheHttpClientHttpDelegate.createDefault(uri);
     	if (wireLogger != null) {
     		httpDelegate.setWireLogger(wireLogger);
     	}
