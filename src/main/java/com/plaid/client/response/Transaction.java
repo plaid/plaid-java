@@ -17,6 +17,7 @@ public class Transaction {
     private String accountId;
     private String entityId;
     private String categoryId;
+    private String pendingTransactionId;
     
     private String name;
     private List<String> category;
@@ -57,6 +58,13 @@ public class Transaction {
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
+    @JsonProperty("_pendingTransaction")
+    public String getPendingTransactionId() {
+		return pendingTransactionId;
+	}
+    public void setPendingTransactionId(String pendingTransactionId) {
+		this.pendingTransactionId = pendingTransactionId;
+	}
     public String getName() {
         return name;
     }

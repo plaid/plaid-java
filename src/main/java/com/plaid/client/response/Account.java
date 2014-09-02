@@ -16,6 +16,7 @@ public class Account {
     
     private String institutionType;
     private String type;
+    private String subtype;
 
     @JsonProperty("_id")
     public String getId() {
@@ -69,6 +70,12 @@ public class Account {
     public void setType(String type) {
         this.type = type;
     }
+    public String getSubtype() {
+		return subtype;
+	}   
+    public void setSubtype(String subtype) {
+		this.subtype = subtype;
+	}
 
     @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class Balance {
