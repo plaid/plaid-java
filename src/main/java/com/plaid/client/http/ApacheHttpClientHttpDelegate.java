@@ -41,11 +41,15 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     private CloseableHttpClient httpClient;
     private ObjectMapper jsonMapper;
     private WireLogger wireLogger;
+    private static String LIBRARY_VERSION = ApacheHttpClientHttpDelegate.class.getPackage().getImplementationVersion();
 
     public ApacheHttpClientHttpDelegate(String baseUri, CloseableHttpClient httpClient) {
         this.baseUri = baseUri;
         this.httpClient = httpClient;
         this.jsonMapper = new ObjectMapper();
+        if (LIBRARY_VERSION == null) {
+        	LIBRARY_VERSION = "development version";
+        }
     }
     
     public static ApacheHttpClientHttpDelegate createDefault(String baseUri) {
@@ -223,7 +227,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     }
 
     private static void addUserAgent(HttpMessage httpMessage) {
-        httpMessage.addHeader("User-Agent", "plaid-java 0.2.5");
+        httpMessage.addHeader("User-Agent", "plaid-java " + LIBRARY_VERSION);
     }
 
 }

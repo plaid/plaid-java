@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.plaid</groupId>
 	<artifactId>plaid-java</artifactId>
@@ -17,8 +18,8 @@
 		<connection>scm:git:git://github.com/plaid/plaid-java.git</connection>
 		<developerConnection>scm:git:git@github.com:plaid/plaid-java.git</developerConnection>
 		<url>http://github.com/plaid/plaid-java</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 	<organization>
 		<name>Plaid Technologies, Inc.</name>
 		<url>http://plaid.com</url>
@@ -46,12 +47,12 @@
 			<organizationUrl>https://www.qapital.com</organizationUrl>
 		</developer>
 		<developer>
-            <name>Adam Langsner</name>
-            <email>adamlangsner@gmail.com</email>
-            <id>adamlangsner</id>
-            <organization>Betterment</organization>
-            <organizationUrl>https://www.betterment.com</organizationUrl>
-        </developer>
+			<name>Adam Langsner</name>
+			<email>adamlangsner@gmail.com</email>
+			<id>adamlangsner</id>
+			<organization>Betterment</organization>
+			<organizationUrl>https://www.betterment.com</organizationUrl>
+		</developer>
 	</developers>
 
 	<properties>
@@ -158,6 +159,18 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.2.1</version>
 				<executions>
@@ -200,7 +213,7 @@
 
 	<profiles>
 		<profile>
-			<id>release</id>			
+			<id>release</id>
 			<build>
 				<plugins>
 					<plugin>
