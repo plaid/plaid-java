@@ -126,6 +126,7 @@ public class Account {
     public final static class AccountNumbers {
         private String routing;
         private String account;
+        private String wireRouting;
 
         public String getRouting() {
             return routing;
@@ -142,6 +143,14 @@ public class Account {
         public void setAccount(String account) {
             this.account = account;
         }
+        
+        public String getWireRouting() {
+			return wireRouting;
+		}
+        
+        public void setWireRouting(String wireRouting) {
+			this.wireRouting = wireRouting;
+		}
     }
     
 }
