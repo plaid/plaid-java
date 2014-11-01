@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.plaid</groupId>
 	<artifactId>plaid-java</artifactId>
-	<version>0.2.6-SNAPSHOT</version>
+	<version>0.2.6</version>
 	<packaging>jar</packaging>
 
 	<parent>
@@ -17,7 +17,7 @@
 		<connection>scm:git:git://github.com/plaid/plaid-java.git</connection>
 		<developerConnection>scm:git:git@github.com:plaid/plaid-java.git</developerConnection>
 		<url>http://github.com/plaid/plaid-java</url>
-		<tag>HEAD</tag>
+		<tag>plaid-java-0.2.6</tag>
 	</scm>
 	<organization>
 		<name>Plaid Technologies, Inc.</name>
