@@ -1,5 +1,7 @@
 package com.plaid.client;
 
+import org.apache.http.impl.client.HttpClientBuilder;
+
 import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.WireLogger;
 
@@ -13,7 +15,7 @@ public class PlaidClients {
     }
     
     public static PlaidUserClient testUserClient(String clientId, String secret, WireLogger wireLogger) {    	
-        return new DefaultPlaidUserClient(createHttpDelegate(BASE_URI_TEST, wireLogger), clientId, secret);    
+        return new DefaultPlaidUserClient(createHttpDelegate(BASE_URI_TEST, wireLogger, true), clientId, secret);    
     }
     
     public static PlaidPublicClient productionPublicClient(WireLogger wireLogger) {
@@ -21,7 +23,7 @@ public class PlaidClients {
     }
     
     public static PlaidPublicClient testPublicClient(WireLogger wireLogger) {
-        return new DefaultPlaidPublicClient(createHttpDelegate(BASE_URI_TEST, wireLogger));
+        return new DefaultPlaidPublicClient(createHttpDelegate(BASE_URI_TEST, wireLogger, true));
     }
     
     public static PlaidUserClient productionUserClient(String clientId, String secret) {        
@@ -41,7 +43,17 @@ public class PlaidClients {
     }
     
     private static ApacheHttpClientHttpDelegate createHttpDelegate(String uri, WireLogger wireLogger) {
-        ApacheHttpClientHttpDelegate httpDelegate = ApacheHttpClientHttpDelegate.createDefault(uri);
+    	return createHttpDelegate(uri, wireLogger, false);
+    }
+    
+    private static ApacheHttpClientHttpDelegate createHttpDelegate(String uri, WireLogger wireLogger, boolean test) {
+    	ApacheHttpClientHttpDelegate httpDelegate;
+    	if (test) {
+    		httpDelegate = new ApacheHttpClientHttpDelegate(uri, HttpClientBuilder.create().disableContentCompression().build());
+    	}
+    	else {
+    		httpDelegate = ApacheHttpClientHttpDelegate.createDefault(uri);
+    	}
     	if (wireLogger != null) {
     		httpDelegate.setWireLogger(wireLogger);
     	}
