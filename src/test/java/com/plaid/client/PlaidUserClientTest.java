@@ -37,7 +37,11 @@ public class PlaidUserClientTest {
         httpClient = HttpClients.custom().disableContentCompression().build();
         //httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
         httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
-        plaidUserClient = new DefaultPlaidUserClient(httpDelegate, "test_id", "test_secret");
+        plaidUserClient = new DefaultPlaidUserClient.Builder()
+                .withHttpDelegate(httpDelegate)
+                .withClientId("test_id")
+                .withSecret("test_secret")
+                .build();
     }
 
     @Test

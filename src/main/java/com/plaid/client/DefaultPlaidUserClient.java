@@ -32,21 +32,18 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
     private ObjectMapper jsonMapper;
     private HttpDelegate httpDelegate;
+    private Integer timeout;
 
-    public DefaultPlaidUserClient(HttpDelegate httpDelegate, String clientId, String secret) {
-
-        this.httpDelegate = httpDelegate;
-        this.clientId = clientId;
-        this.secret = secret;
+    private DefaultPlaidUserClient() {
         ObjectMapper jsonMapper = new ObjectMapper();
         jsonMapper.setSerializationInclusion(Include.NON_NULL);
         this.jsonMapper = jsonMapper;
     }
 
     @Override
-    public void setAccessToken(String accesstoken) {
+    public void setAccessToken(String accessToken) {
 
-        this.accessToken = accesstoken;
+        this.accessToken = accessToken;
     }
 
     @Override
@@ -96,7 +93,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             throw new PlaidClientsideException("No accessToken set");
         }
 
-        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams());
+        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
 
         HttpResponseWrapper<TransactionsResponse> response =
                 httpDelegate.doGet(request, TransactionsResponse.class);
@@ -128,7 +125,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             throw new PlaidClientsideException("No accessToken set");
         }
 
-        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams());
+        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
 
         try {
             String credentialsString = jsonMapper.writeValueAsString(credentials);
@@ -157,7 +154,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             throw new PlaidClientsideException("No accessToken set");
         }
 
-        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams());
+        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
 
         HttpResponseWrapper<MessageResponse> response =
                 httpDelegate.doDelete(request, MessageResponse.class);
@@ -222,7 +219,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
     private <T extends PlaidUserResponse> T handlePost(String path, Map<String, Object> requestParams, Class<T> returnTypeClass) throws PlaidMfaException {
 
-        PlaidHttpRequest request = new PlaidHttpRequest(path, authenticationParams());
+        PlaidHttpRequest request = new PlaidHttpRequest(path, authenticationParams(), timeout);
 
         try {
             for (String param : requestParams.keySet()) {
@@ -276,5 +273,43 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     @Override
     public HttpDelegate getHttpDelegate() {
     	return httpDelegate;
+    }
+
+    public static class Builder {
+        private String clientId;
+        private String secret;
+        private Integer timeout;
+        private HttpDelegate httpDelegate;
+
+        public Builder withClientId(String clientId) {
+            this.clientId = clientId;
+            return this;
+        }
+
+        public Builder withSecret(String secret) {
+            this.secret = secret;
+            return this;
+        }
+
+        public Builder withTimeout(Integer timeout) {
+            this.timeout = timeout;
+            return this;
+        }
+
+        public Builder withHttpDelegate(HttpDelegate httpDelegate) {
+            this.httpDelegate = httpDelegate;
+            return this;
+        }
+
+        public DefaultPlaidUserClient build() {
+            DefaultPlaidUserClient client = new DefaultPlaidUserClient();
+            client.clientId = this.clientId;
+            client.secret = this.secret;
+            client.timeout = this.timeout;
+            client.httpDelegate = this.httpDelegate;
+
+            return client;
+        }
+
     }
 }
