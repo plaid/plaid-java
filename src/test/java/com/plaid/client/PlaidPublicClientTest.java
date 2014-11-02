@@ -27,7 +27,9 @@ public class PlaidPublicClientTest {
         httpClient = HttpClients.createDefault();
         httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
         //HttpDelegate httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
-        plaidPublicClient = new DefaultPlaidPublicClient(httpDelegate);
+        plaidPublicClient = new DefaultPlaidPublicClient.Builder()
+                .withHttpDelegate(httpDelegate)
+                .build();
     }
     
     @Test

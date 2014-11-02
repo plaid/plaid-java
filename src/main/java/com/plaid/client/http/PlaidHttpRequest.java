@@ -7,15 +7,17 @@ public class PlaidHttpRequest {
 
     private String path;
     private Map<String, String> parameters;
+    private Integer timeout;
     
     public PlaidHttpRequest(String path) {
         this.path = path;
         this.parameters = new HashMap<String, String>();
     }
-    
-    public PlaidHttpRequest(String path, Map<String, String> parameters) {
+
+    public PlaidHttpRequest(String path, Map<String, String> parameters, Integer timeout) {
         this.path = path;
         this.parameters = parameters;
+        this.timeout = timeout;
     }
     
     public PlaidHttpRequest addParameter(String key, String value) {
@@ -30,5 +32,12 @@ public class PlaidHttpRequest {
     public Map<String, String> getParameters() {
         return parameters;
     }
-    
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public boolean hasTimeout() {
+        return timeout != null;
+    }
 }

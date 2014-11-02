@@ -13,6 +13,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
@@ -70,10 +71,22 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
         List<NameValuePair> parameters = mapToNvps(request.getParameters());
 
         try {
-            HttpEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
             HttpPost post = new HttpPost(baseUri + request.getPath());
+
+            HttpEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
             post.setEntity(entity);
-            
+
+            if (request.hasTimeout()) {
+                int timeout = request.getTimeout();
+
+                RequestConfig config = RequestConfig.custom()
+                        .setConnectTimeout(timeout)
+                        .setSocketTimeout(timeout)
+                        .setConnectionRequestTimeout(timeout)
+                        .build();
+                post.setConfig(config);
+            }
+
             addUserAgent(post);
 
             CloseableHttpResponse response = httpClient.execute(post);
