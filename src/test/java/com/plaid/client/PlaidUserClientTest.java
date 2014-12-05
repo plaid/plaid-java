@@ -120,6 +120,17 @@ public class PlaidUserClientTest {
     }
     
     @Test
+    public void testUpdateAuth() {
+
+        plaidUserClient.setAccessToken("test");
+        AccountsResponse response = plaidUserClient.updateAuth();
+        
+        assertEquals("test",response.getAccessToken());
+        assertTrue(response.getAccounts().size() > 0);
+        assertNotNull(response.getAccounts().get(0).getNumbers());
+    }
+    
+    @Test
     public void testCheckBalance() {
     	
     	plaidUserClient.setAccessToken("test");

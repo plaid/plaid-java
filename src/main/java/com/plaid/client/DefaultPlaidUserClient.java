@@ -117,6 +117,17 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
         return handlePost("/connect/get", requestParams, TransactionsResponse.class);
     }
+    
+    @Override
+    public AccountsResponse updateAuth() {
+    	if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+        
+        Map<String, Object> requestParams = new HashMap<String, Object>();
+
+        return handlePost("/auth/get", requestParams, AccountsResponse.class);
+    }
 
     @Override
     public TransactionsResponse updateCredentials(Credentials credentials, String type) {
@@ -183,6 +194,8 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
     	Map<String, Object> requestParams = new HashMap<String, Object>();
     	requestParams.put("upgrade_to", product);
+    	
+    	requestParams.put("login",true);
     	
     	if (options != null) {
     		requestParams.put("options", options);
