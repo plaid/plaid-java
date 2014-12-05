@@ -30,6 +30,8 @@ public interface PlaidUserClient {
     TransactionsResponse updateTransactions(GetOptions options);
     
     TransactionsResponse updateCredentials(Credentials credentials, String type);
+    
+    AccountsResponse updateAuth();
 
     MessageResponse deleteUser();
 
