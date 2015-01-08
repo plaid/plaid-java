@@ -77,7 +77,7 @@ public abstract class MfaResponse extends PlaidUserResponse {
     	private Selection[] selections;
     	
     	@JsonProperty("mfa")
-    	private Selection[] getSelections() {
+    	public Selection[] getSelections() {
     		return selections;
     	}
     	
