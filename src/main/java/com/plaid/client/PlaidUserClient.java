@@ -19,8 +19,6 @@ public interface PlaidUserClient {
 
     TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException;
 
-    AccountsResponse getData();
-
     TransactionsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
 
     AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
