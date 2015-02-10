@@ -64,6 +64,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         return handlePost("/connect", requestParams, TransactionsResponse.class);
     }
 
+    @Override
     public AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException {
 
         Map<String, Object> requestParams = new HashMap<String, Object>();
