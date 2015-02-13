@@ -9,6 +9,7 @@ import com.plaid.client.request.InfoOptions;
 import com.plaid.client.response.AccountsResponse;
 import com.plaid.client.response.InfoResponse;
 import com.plaid.client.response.MessageResponse;
+import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.TransactionsResponse;
 
 public interface PlaidUserClient {
@@ -26,7 +27,9 @@ public interface PlaidUserClient {
     AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
 
     AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException;
-    
+
+    AccountsResponse mfaAuthDeviceSelection(MfaResponse.DeviceType device, String type) throws PlaidMfaException;
+
     TransactionsResponse updateTransactions();
 
     TransactionsResponse updateTransactions(GetOptions options);
