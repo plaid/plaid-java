@@ -28,7 +28,9 @@ public interface PlaidUserClient {
 
     AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException;
 
-    AccountsResponse mfaAuthDeviceSelection(MfaResponse.DeviceType device, String type) throws PlaidMfaException;
+    AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException;
+
+    AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask, String type) throws PlaidMfaException;
 
     TransactionsResponse updateTransactions();
 
