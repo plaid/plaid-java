@@ -139,24 +139,41 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
         PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
 
-        try {
-            String credentialsString = jsonMapper.writeValueAsString(credentials);
-            request.addParameter("credentials", credentialsString);            
-            request.addParameter("type", type);
+        request.addParameter("credentials", serialize(credentials));
+        request.addParameter("type", type);
 
-            HttpResponseWrapper<TransactionsResponse> response =
-                    httpDelegate.doPatch(request, TransactionsResponse.class);
+        HttpResponseWrapper<TransactionsResponse> response =
+                httpDelegate.doPatch(request, TransactionsResponse.class);
 
-            TransactionsResponse body = response.getResponseBody();
+        TransactionsResponse body = response.getResponseBody();
 
-            setAccessToken(body.getAccessToken());
+        setAccessToken(body.getAccessToken());
 
-            return body;
+        return body;
+    }
+
+    @Override
+    public TransactionsResponse updateWebhook(String webhook) {
+
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
         }
-        catch (JsonProcessingException e) {
-            throw new PlaidClientsideException(e);
-        }
 
+        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
+
+        ConnectOptions connectOptions = new ConnectOptions();
+        connectOptions.setWebhook(webhook);
+
+        request.addParameter("options", serialize(connectOptions));
+
+        HttpResponseWrapper<TransactionsResponse> response =
+                httpDelegate.doPatch(request, TransactionsResponse.class);
+
+        TransactionsResponse body = response.getResponseBody();
+
+        setAccessToken(body.getAccessToken());
+
+        return body;
     }
 
     @Override
@@ -235,28 +252,14 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
         PlaidHttpRequest request = new PlaidHttpRequest(path, authenticationParams(), timeout);
 
-        try {
-            for (String param : requestParams.keySet()) {
-                Object value = requestParams.get(param);
+        for (String param : requestParams.keySet()) {
+            Object value = requestParams.get(param);
 
-                if (value == null) {
-                    continue;
-                }
-
-                String stringValue;
-                if (value instanceof String) {
-                    stringValue = (String) value; // strings can be used as is
-
-                } else {
-                    stringValue = jsonMapper.writeValueAsString(value); // other objects need to be serialized
-                }
-
-                request.addParameter(param, stringValue);
+            if (value == null) {
+                continue;
             }
 
-        }
-        catch (JsonProcessingException e) {
-            throw new PlaidClientsideException(e);
+            request.addParameter(param, serialize(value));
         }
 
         try {
@@ -270,6 +273,18 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         catch (PlaidMfaException e) {
             setAccessToken(e.getMfaResponse().getAccessToken());
             throw e;
+        }
+    }
+
+    private String serialize(Object value) {
+        if (value instanceof String) {
+            return (String) value;
+        } else {
+            try {
+                return jsonMapper.writeValueAsString(value);
+            } catch (JsonProcessingException e) {
+                throw new PlaidClientsideException(e);
+            }
         }
     }
 
