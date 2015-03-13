@@ -3,6 +3,7 @@ package com.plaid.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.plaid.client.response.MfaResponse;
 import org.apache.commons.lang.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -85,6 +86,52 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     public AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException {
 
         return handleMfa("/auth/step", mfa, type, AccountsResponse.class);
+    }
+
+    @Override
+    public AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException {
+
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+        if (StringUtils.isEmpty(deviceType)){
+            throw new PlaidClientsideException("No device selected");
+        }
+
+        Map<String, Object> requestParams = new HashMap<String, Object>();
+        requestParams.put("type", type);
+
+        HashMap<String, String> mask = new HashMap<String, String>();
+        mask.put("type", deviceType);
+        HashMap<String, Object> sendMethod = new HashMap<String, Object>();
+        sendMethod.put("send_method", mask);
+        requestParams.put("options", sendMethod);
+
+        return handlePost("/auth/step", requestParams, AccountsResponse.class);
+    }
+
+    @Override
+    public AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask, String type) throws PlaidMfaException {
+
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+        if (StringUtils.isEmpty(deviceMask)) {
+            throw new PlaidClientsideException("No device selected");
+        }
+
+        Map<String, Object> requestParams = new HashMap<String, Object>();
+        requestParams.put("type", type);
+
+        HashMap<String, String> mask = new HashMap<String, String>();
+        mask.put("mask", deviceMask);
+        HashMap<String, Object> sendMethod = new HashMap<String, Object>();
+        sendMethod.put("send_method", mask);
+        requestParams.put("options", sendMethod);
+
+        return handlePost("/auth/step", requestParams, AccountsResponse.class);
     }
     
     @Override
@@ -222,6 +269,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         }
 
         Map<String, Object> requestParams = new HashMap<String, Object>();
+
         requestParams.put("mfa", mfa);
 
         if (type != null) {
