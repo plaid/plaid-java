@@ -38,7 +38,7 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     @Override
     public CategoriesResponse getAllCategories() {
         
-        PlaidHttpRequest request = new PlaidHttpRequest("/category");
+        PlaidHttpRequest request = new PlaidHttpRequest("/categories");
         
         HttpResponseWrapper<Category[]> response = httpDelegate.doGet(request, Category[].class);
 
