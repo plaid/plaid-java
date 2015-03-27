@@ -3,6 +3,7 @@ package com.plaid.client;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.MappingOptions;
 import com.plaid.client.response.CategoriesResponse;
+import com.plaid.client.response.InstitutionsResponse;
 
 public interface PlaidPublicClient {
 
@@ -10,7 +11,7 @@ public interface PlaidPublicClient {
     
     Object getInstitution(String institutionId);
     
-    Object getAllInstitutions();
+    InstitutionsResponse getAllInstitutions();
     
     CategoriesResponse getAllCategories();
     

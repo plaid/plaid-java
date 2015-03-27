@@ -4,3 +4,6 @@
 /target
 .idea
 plaid-java.iml
+*.ipr
+*.iws
+
