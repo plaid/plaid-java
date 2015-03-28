@@ -23,6 +23,7 @@ public class Institution {
     private List<String> products;
     private String type;
 
+    @JsonProperty("credentials")
     public CredentialNames getCredentialNames() {
         return credentialNames;
     }
