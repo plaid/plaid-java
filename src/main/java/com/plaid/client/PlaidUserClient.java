@@ -35,7 +35,9 @@ public interface PlaidUserClient {
     TransactionsResponse updateTransactions(GetOptions options);
     
     TransactionsResponse updateCredentials(Credentials credentials, String type);
-    
+
+    TransactionsResponse updateWebhook(String webhook);
+
     AccountsResponse updateAuth();
 
     MessageResponse deleteUser();
