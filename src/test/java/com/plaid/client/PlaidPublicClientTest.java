@@ -19,14 +19,14 @@ public class PlaidPublicClientTest {
     private HttpDelegate httpDelegate;
     private PlaidPublicClient plaidPublicClient;
     
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(8089);
+    //@Rule
+    //public WireMockRule wireMockRule = new WireMockRule(8089);
 
     @Before
     public  void setup() {
         httpClient = HttpClients.createDefault();
-        httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
-        //HttpDelegate httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
+        //httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
+        HttpDelegate httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
         plaidPublicClient = new DefaultPlaidPublicClient.Builder()
                 .withHttpDelegate(httpDelegate)
                 .build();
