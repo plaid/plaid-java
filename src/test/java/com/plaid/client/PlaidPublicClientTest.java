@@ -3,21 +3,19 @@ package com.plaid.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.plaid.client.response.Institution;
-import com.plaid.client.response.InstitutionsResponse;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.response.CategoriesResponse;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.plaid.client.response.Institution;
+import com.plaid.client.response.InstitutionsResponse;
 
 public class PlaidPublicClientTest {
     
@@ -30,7 +28,7 @@ public class PlaidPublicClientTest {
 
     @Before
     public  void setup() {
-        httpClient = HttpClients.createDefault();
+        httpClient = HttpClients.custom().disableContentCompression().build();
         //httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
         HttpDelegate httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
         plaidPublicClient = new DefaultPlaidPublicClient.Builder()

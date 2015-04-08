@@ -49,7 +49,7 @@ public class PlaidUserClientTest {
         Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
         TransactionsResponse response = plaidUserClient.addUser(testCredentials, "amex", "test@test.com", null);
         
-        assertEquals("test",response.getAccessToken());
+        assertEquals("test_amex",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
         assertTrue(response.getTransactions().size() > 0);
     }    
@@ -68,7 +68,7 @@ public class PlaidUserClientTest {
             MfaResponse mfaResponse = e.getMfaResponse();
             assertNotNull(mfaResponse);
             assertEquals("list", mfaResponse.getType());
-            assertEquals("test", mfaResponse.getAccessToken());
+            assertEquals("test_chase", mfaResponse.getAccessToken());
             assertTrue(mfaResponse instanceof DeviceListMfaResponse);
         }
     }
@@ -86,35 +86,34 @@ public class PlaidUserClientTest {
             
             MfaResponse mfaResponse = e.getMfaResponse();
             assertNotNull(mfaResponse);
-            assertEquals("test", mfaResponse.getAccessToken());
+            assertEquals("test_chase", mfaResponse.getAccessToken());
             assertEquals("device", mfaResponse.getType());
             assertTrue(mfaResponse instanceof DeviceChoiceMfaResponse);
             
             TransactionsResponse response = plaidUserClient.mfaConnectStep("1234", "chase");
-            assertEquals("test",response.getAccessToken());
+            assertEquals("test_chase",response.getAccessToken());
             assertTrue(response.getAccounts().size() > 0);
             assertTrue(response.getTransactions().size() > 0);            
         }
     }
     
     
-    //@Test
-    // Doesn't work with test credentials
+    @Test
     public void testInfoWellsFargo() {
     	Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
         InfoResponse response = plaidUserClient.info(testCredentials, "wells", null);
         
-        assertEquals("test",response.getAccessToken());
+        assertEquals("test_wells",response.getAccessToken());
         assertNotNull(response.getInfo());
     }
     
     @Test
     public void testUpdateTransactions() {
 
-        plaidUserClient.setAccessToken("test");
+        plaidUserClient.setAccessToken("test_wells");
         TransactionsResponse response = plaidUserClient.updateTransactions();
         
-        assertEquals("test",response.getAccessToken());
+        assertEquals("test_wells",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
         assertTrue(response.getTransactions().size() > 0);
     }
@@ -122,10 +121,10 @@ public class PlaidUserClientTest {
     @Test
     public void testUpdateAuth() {
 
-        plaidUserClient.setAccessToken("test");
+        plaidUserClient.setAccessToken("test_wells");
         AccountsResponse response = plaidUserClient.updateAuth();
         
-        assertEquals("test",response.getAccessToken());
+        assertEquals("test_wells",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
         assertNotNull(response.getAccounts().get(0).getNumbers());
     }
@@ -133,18 +132,18 @@ public class PlaidUserClientTest {
     @Test
     public void testCheckBalance() {
     	
-    	plaidUserClient.setAccessToken("test");
+    	plaidUserClient.setAccessToken("test_wells");
     	AccountsResponse response = plaidUserClient.checkBalance();
-    	assertEquals("test",response.getAccessToken());
+    	assertEquals("test_wells",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
     }
     
     @Test
     public void testAddProduct() {
     	
-    	plaidUserClient.setAccessToken("test");
+    	plaidUserClient.setAccessToken("test_wells");
     	AccountsResponse response = plaidUserClient.addProduct("auth", null);
-    	assertEquals("test",response.getAccessToken());
+    	assertEquals("test_wells",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);	
     }
     
@@ -152,17 +151,17 @@ public class PlaidUserClientTest {
     // Not testable with WireMock since HTTP PATCH is unsupported
     public void testUpdateCredentials() {
         Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
-        plaidUserClient.setAccessToken("test");
+        plaidUserClient.setAccessToken("test_amex");
         TransactionsResponse response = plaidUserClient.updateCredentials(testCredentials, "amex");
         
-        assertEquals("test",response.getAccessToken());
+        assertEquals("test_amex",response.getAccessToken());
         assertTrue(response.getAccounts().size() > 0);
 //        assertTrue(response.getTransactions().size() > 0);
     }
     
     @Test
     public void testDeleteUser() {
-        plaidUserClient.setAccessToken("test");
+        plaidUserClient.setAccessToken("test_citi");
         MessageResponse response = plaidUserClient.deleteUser();
         
         assertEquals("Successfully removed from system", response.getMessage());
