@@ -11,12 +11,15 @@ import com.plaid.client.response.InfoResponse;
 import com.plaid.client.response.MessageResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.TransactionsResponse;
+import com.plaid.client.response.PlaidUserResponse;
 
 public interface PlaidUserClient {
 
     void setAccessToken(String accesstoken);
 
     String getAccessToken();
+
+    PlaidUserResponse exchangeToken(String publicToken);
 
     TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException;
 
@@ -33,7 +36,7 @@ public interface PlaidUserClient {
     TransactionsResponse updateTransactions();
 
     TransactionsResponse updateTransactions(GetOptions options);
-    
+
     TransactionsResponse updateCredentials(Credentials credentials, String type);
 
     TransactionsResponse updateWebhook(String webhook);
@@ -43,9 +46,9 @@ public interface PlaidUserClient {
     MessageResponse deleteUser();
 
     AccountsResponse checkBalance();
-    
+
     InfoResponse info(Credentials credentials, String type, InfoOptions options);
-    
+
     TransactionsResponse addProduct(String product, ConnectOptions options);
 
     HttpDelegate getHttpDelegate();
