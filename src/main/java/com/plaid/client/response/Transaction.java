@@ -205,7 +205,7 @@ public class Transaction {
         private Double longitude;
         private Double latitude;
 
-        @JsonProperty("lng")
+        @JsonProperty("lon")
         public Double getLongitude() {
             return longitude;
         }
