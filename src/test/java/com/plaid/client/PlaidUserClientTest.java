@@ -103,8 +103,8 @@ public class PlaidUserClientTest {
 
     @Test
     public void testInfoWellsFargo() {
-    	Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
-        InfoResponse response = plaidUserClient.info(testCredentials, "wells", null);
+    	plaidUserClient.setAccessToken("test_wells");
+        InfoResponse response = plaidUserClient.info();
 
         assertEquals("test_wells",response.getAccessToken());
         assertNotNull(response.getInfo());
@@ -167,7 +167,7 @@ public class PlaidUserClientTest {
         plaidUserClient.setAccessToken("test_citi");
         MessageResponse response = plaidUserClient.deleteUser();
 
-        assertEquals("Successfully removed from system", response.getMessage());
+        assertEquals("Successfully removed from your account", response.getMessage());
     }
 
     @Test
@@ -183,8 +183,8 @@ public class PlaidUserClientTest {
             PlaidUserResponse response = plaidUserClient.exchangeToken("invalid_public_token");
         } catch (PlaidServersideException e) {
             assertEquals(e.getHttpStatusCode(), 401);
-            assertEquals(e.getErrorResponse().getCode(), Integer.valueOf(1106));
-            assertEquals(e.getErrorResponse().getMessage(), "bad public_token");
+            assertEquals(e.getErrorResponse().getCode(), Integer.valueOf(1109));
+            assertEquals(e.getErrorResponse().getMessage(), "unauthorized product");
         }
     }
 

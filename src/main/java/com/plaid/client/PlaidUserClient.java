@@ -47,7 +47,7 @@ public interface PlaidUserClient {
 
     AccountsResponse checkBalance();
 
-    InfoResponse info(Credentials credentials, String type, InfoOptions options);
+    InfoResponse info();
 
     TransactionsResponse addProduct(String product, ConnectOptions options);
 
