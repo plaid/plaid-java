@@ -18,7 +18,6 @@ public class LongTailInstitution {
 
     private Map<String, String> credentialNames;
     private Boolean hasMfa;
-    private String id;
     private List<String> mfaTypes;
     private String name;
     private List<String> products;
@@ -59,14 +58,6 @@ public class LongTailInstitution {
 
     public void setProducts(List<String> products) {
         this.products = products;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
