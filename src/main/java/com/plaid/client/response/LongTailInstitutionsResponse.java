@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class LongTailInstitutionsResponse {
 
     private Integer totalCount;
-    private Institution[] results;
+    private LongTailInstitution[] results;
 
     @JsonProperty("total_count")
     public Integer getTotalCount() {
         return totalCount;
     }
 
-    public Institution[] getResults() {
+    public LongTailInstitution[] getResults() {
         return results;
     }
 }
