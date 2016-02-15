@@ -3,16 +3,18 @@ plaid-java
 
 Java Bindings for the Plaid API (https://www.plaid.com/docs)
 
+These bindings are under active development and currently support the main usecases of the Plaid API. There are some parts that are as yet unimplemented so pull requests are welcome!
+
 ### Installation
 
-Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java) with the following coordinates (latest release 0.2.7):
+Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java) with the following coordinates (latest release 0.2.12):
 
 ```xml
 
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>0.2.7</version>
+  <version>0.2.12</version>
 </dependency>
 
 ```
@@ -20,25 +22,42 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 ### Basic Usage
 
 ```java
-        
+
 // Add Amex user, get 30 days of transactions
-        
+
 PlaidUserClient plaidUserClient = PlaidClients.testUserClient("test_id", "test_secret");
 Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
 TransactionsResponse response = plaidUserClient.addUser(testCredentials, "amex", "test@test.com", null);
 
 List<Transaction> transactions = response.getTransactions();
-        
-        
+
+
 // Get all Categories
-        
+
 PlaidPublicClient plaidPublicClient = PlaidClients.testPublicClient();
 CategoriesResponse categoriesResponse = plaidPublicClient.getAllCategories();
-        
+
 List<Category> categories = categoriesResponse.getCategories();
 ```
 
 Check the Junit test classes for examples of more use cases.
+
+### Exchange a Plaid Link public_token for an API access_token
+
+```java
+// Initialize a Plaid client with your client_id and secret
+PlaidUserClient plaidUserClient = PlaidClients.testUserClient("test_id", "test_secret");
+
+// Exchange the Link public_token ("test,bofa,connected") for an API access_token
+PlaidUserResponse response = plaidUserClient.exchangeToken("test,bofa,connected");
+
+// Initialize the user with the access_token returned by the exchangeToken call
+plaidUserClient.setAccessToken(response.getAccessToken());
+
+// Pull accounts for the user
+// Note: This assumes you are using Link with the "auth" product
+AccountsResponse response = plaidUserClient.updateAuth();
+```
 
 ### Dependencies
 
