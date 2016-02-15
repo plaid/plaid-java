@@ -1,11 +1,14 @@
 package com.plaid.client;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.plaid.client.exception.PlaidClientsideException;
+import com.plaid.client.response.LongTailInstitutionsResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
@@ -21,7 +24,8 @@ public class PlaidPublicClientTest {
     
     private CloseableHttpClient httpClient;
     private HttpDelegate httpDelegate;
-    private PlaidPublicClient plaidPublicClient;
+    private PlaidPublicClient plaidPublicClientWithoutCredentials;
+    private PlaidPublicClient plaidPublicClientWithCredentials;
     
     //@Rule
     //public WireMockRule wireMockRule = new WireMockRule(8089);
@@ -31,20 +35,26 @@ public class PlaidPublicClientTest {
         httpClient = HttpClients.custom().disableContentCompression().build();
         //httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
         HttpDelegate httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);
-        plaidPublicClient = new DefaultPlaidPublicClient.Builder()
+        plaidPublicClientWithoutCredentials = new DefaultPlaidPublicClient.Builder()
                 .withHttpDelegate(httpDelegate)
+                .build();
+
+        plaidPublicClientWithCredentials = new DefaultPlaidPublicClient.Builder()
+                .withHttpDelegate(httpDelegate)
+                .withClientId("test_id")
+                .withSecret("test_secret")
                 .build();
     }
     
     @Test
     public void testGetAllCategories() {
-        CategoriesResponse categoriesResponse = plaidPublicClient.getAllCategories();
+        CategoriesResponse categoriesResponse = plaidPublicClientWithoutCredentials.getAllCategories();
         assertTrue(categoriesResponse.getCategories().size() > 0);
     }
 
     @Test
     public void testGetAllInstitutions() {
-        InstitutionsResponse instResponse = plaidPublicClient.getAllInstitutions();
+        InstitutionsResponse instResponse = plaidPublicClientWithoutCredentials.getAllInstitutions();
         assertNotNull(instResponse);
         Institution[] institutions = instResponse.getInstitutions();
         Map<String, Institution> map = new HashMap<>();
@@ -55,4 +65,14 @@ public class PlaidPublicClientTest {
         assertNotNull(map.get("Bank of America"));
     }
 
+    @Test(expected = PlaidClientsideException.class)
+    public void testGetAllLongTailInstitutionsRequireCredentials() throws Exception {
+        plaidPublicClientWithoutCredentials.getAllLongTailInstitutions(0, 10);
+    }
+
+    @Test
+    public void testGetAllLongTailInstitutions() throws Exception {
+        LongTailInstitutionsResponse response = plaidPublicClientWithCredentials.getAllLongTailInstitutions(0, 10);
+        assertEquals(10, response.getResults().length);
+    }
 }

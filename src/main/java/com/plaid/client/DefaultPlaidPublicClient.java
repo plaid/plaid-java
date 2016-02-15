@@ -1,7 +1,6 @@
 package com.plaid.client;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plaid.client.exception.PlaidClientsideException;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.http.HttpResponseWrapper;
 import com.plaid.client.http.PlaidHttpRequest;
@@ -10,18 +9,16 @@ import com.plaid.client.response.CategoriesResponse;
 import com.plaid.client.response.Category;
 import com.plaid.client.response.Institution;
 import com.plaid.client.response.InstitutionsResponse;
+import com.plaid.client.response.LongTailInstitutionsResponse;
+import org.apache.commons.lang.StringUtils;
 
 public class DefaultPlaidPublicClient implements PlaidPublicClient {
 
-    private ObjectMapper jsonMapper;
     private HttpDelegate httpDelegate;
-    
-    private DefaultPlaidPublicClient() {
-        ObjectMapper jsonMapper = new ObjectMapper();
-        jsonMapper.setSerializationInclusion(Include.NON_NULL);
-        this.jsonMapper = jsonMapper;
-    }
-    
+
+    private String clientId;
+    private String secret;
+
     @Override
     public Object getEntity(String entityId) {
         throw new UnsupportedOperationException("Not implemented yet");
@@ -37,6 +34,29 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
         PlaidHttpRequest request = new PlaidHttpRequest("/institutions");
         HttpResponseWrapper<Institution[]> response = httpDelegate.doGet(request, Institution[].class);
         return new InstitutionsResponse(response.getResponseBody());
+    }
+
+    @Override
+    public LongTailInstitutionsResponse getAllLongTailInstitutions(Integer offset, Integer count) {
+        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/longtail");
+
+        if(StringUtils.isEmpty(clientId) || StringUtils.isEmpty(secret)) {
+            throw new PlaidClientsideException("ClientId and Secret is required");
+        }
+
+        request.addParameter("client_id", clientId);
+        request.addParameter("secret", secret);
+
+        if(count != null) {
+            request.addParameter("count", count.toString());
+        }
+
+        if(offset != null) {
+            request.addParameter("offset", offset.toString());
+        }
+
+        HttpResponseWrapper<LongTailInstitutionsResponse> response = httpDelegate.doPost(request, LongTailInstitutionsResponse.class);
+        return response.getResponseBody();
     }
 
     @Override
@@ -62,7 +82,20 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     }
 
     public static class Builder {
+
+        private String clientId;
+        private String secret;
         private HttpDelegate httpDelegate;
+
+        public Builder withClientId(String clientId) {
+            this.clientId = clientId;
+            return this;
+        }
+
+        public Builder withSecret(String secret) {
+            this.secret = secret;
+            return this;
+        }
 
         public Builder withHttpDelegate(HttpDelegate httpDelegate) {
             this.httpDelegate = httpDelegate;
@@ -70,11 +103,15 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
         }
 
         public DefaultPlaidPublicClient build() {
+
             DefaultPlaidPublicClient client = new DefaultPlaidPublicClient();
+            client.clientId = this.clientId;
+            client.secret = this.secret;
             client.httpDelegate = this.httpDelegate;
 
             return client;
         }
+
     }
 
 }

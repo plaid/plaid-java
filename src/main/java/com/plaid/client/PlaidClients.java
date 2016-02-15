@@ -28,6 +28,14 @@ public class PlaidClients {
                 .build();
     }
 
+    public static PlaidPublicClient productionPublicClient(String clientId, String secret, WireLogger wireLogger) {
+        return new DefaultPlaidPublicClient.Builder()
+                .withHttpDelegate(createHttpDelegate(BASE_URI_PRODUCTION, wireLogger))
+                .withClientId(clientId)
+                .withSecret(secret)
+                .build();
+    }
+
     public static PlaidPublicClient productionPublicClient(WireLogger wireLogger) {
         return new DefaultPlaidPublicClient.Builder()
                 .withHttpDelegate(createHttpDelegate(BASE_URI_PRODUCTION, wireLogger))
@@ -37,6 +45,14 @@ public class PlaidClients {
     public static PlaidPublicClient testPublicClient(WireLogger wireLogger) {
         return new DefaultPlaidPublicClient.Builder()
                 .withHttpDelegate(createHttpDelegate(BASE_URI_TEST, wireLogger, true))
+                .build();
+    }
+
+    public static PlaidPublicClient testPublicClient(String clientId, String secret, WireLogger wireLogger) {
+        return new DefaultPlaidPublicClient.Builder()
+                .withHttpDelegate(createHttpDelegate(BASE_URI_TEST, wireLogger, true))
+                .withClientId(clientId)
+                .withSecret(secret)
                 .build();
     }
 
