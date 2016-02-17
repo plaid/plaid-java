@@ -1,10 +1,3 @@
-//
-//
-//
-//
-//
-
-
 package com.plaid.client.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
