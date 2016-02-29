@@ -1,10 +1,3 @@
-//
-//
-//
-//
-//
-
-
 package com.plaid.client.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -84,8 +77,10 @@ public class Institution {
 
     @JsonIgnoreProperties(ignoreUnknown=true)
     public static final class CredentialNames {
+
         private String username;
         private String password;
+        private String pin;
 
         public String getPassword() {
             return password;
@@ -101,6 +96,14 @@ public class Institution {
 
         public void setUsername(String username) {
             this.username = username;
+        }
+
+        public String getPin() {
+            return pin;
+        }
+
+        public void setPin(String pin) {
+            this.pin = pin;
         }
     }
 

@@ -33,8 +33,10 @@ import com.plaid.client.exception.PlaidClientsideException;
 import com.plaid.client.exception.PlaidCommunicationsException;
 import com.plaid.client.exception.PlaidMfaException;
 import com.plaid.client.exception.PlaidServersideException;
+import com.plaid.client.exception.PlaidServersideUnknownResponseException;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.MfaResponse;
+import com.plaid.client.response.UnknownResponse;
 
 public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
@@ -52,20 +54,21 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
         	LIBRARY_VERSION = "development version";
         }
     }
-    
+
     public static ApacheHttpClientHttpDelegate createDefault(String baseUri) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         return new ApacheHttpClientHttpDelegate(baseUri, httpClient);
     }
-    
+
     public void setWireLogger(WireLogger wireLogger) {
 		this.wireLogger = wireLogger;
 	}
-    
+
     public WireLogger getWireLogger() {
 		return wireLogger;
 	}
-    
+
+    @Override
     public <T> HttpResponseWrapper<T> doPost(PlaidHttpRequest request, Class<T> clazz) {
 
         List<NameValuePair> parameters = mapToNvps(request.getParameters());
@@ -103,16 +106,16 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     @Override
     public <T> HttpResponseWrapper<T> doGet(PlaidHttpRequest request, Class<T> clazz) {
         try {
-            
+
             List<NameValuePair> parameters = mapToNvps(request.getParameters());
-            
+
             URI uri = new URIBuilder(baseUri)
                 .setPath(request.getPath())
                 .addParameters(parameters)
                 .build();
-            
+
             HttpGet get = new HttpGet(uri);
-            
+
             addUserAgent(get);
 
             CloseableHttpResponse response = httpClient.execute(get);
@@ -127,19 +130,20 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
             throw new PlaidClientsideException(e);
         }
     }
-    
+
+    @Override
     public <T> HttpResponseWrapper<T> doDelete(PlaidHttpRequest request, Class<T> clazz) {
         try {
-            
+
             List<NameValuePair> parameters = mapToNvps(request.getParameters());
-            
+
             URI uri = new URIBuilder(baseUri)
                 .setPath(request.getPath())
                 .addParameters(parameters)
                 .build();
-            
+
             HttpDelete delete = new HttpDelete(uri);
-            
+
             addUserAgent(delete);
 
             CloseableHttpResponse response = httpClient.execute(delete);
@@ -154,7 +158,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
             throw new PlaidClientsideException(e);
         }
     }
-    
+
     @Override
     public <T> HttpResponseWrapper<T> doPatch(PlaidHttpRequest request, Class<T> clazz) {
 
@@ -164,11 +168,11 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
             HttpEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
             HttpPatch patch = new HttpPatch(baseUri + request.getPath());
             patch.setEntity(entity);
-            
+
             addUserAgent(patch);
 
             CloseableHttpResponse response = httpClient.execute(patch);
-            
+
             return handleResponse(patch, response, clazz);
 
         } catch (UnsupportedEncodingException e) {
@@ -187,46 +191,47 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 	private <T> HttpResponseWrapper<T> handleResponse(HttpRequestBase request, CloseableHttpResponse response,
             Class<T> clazz) {
 
-    	HttpEntity responseEntity = response.getEntity();      
-		
+    	HttpEntity responseEntity = response.getEntity();
+
         try {
 
         	int statusCode = response.getStatusLine().getStatusCode();
         	JsonNode jsonBody = jsonMapper.readTree(responseEntity.getContent());
-            EntityUtils.consume(responseEntity);                
+            EntityUtils.consume(responseEntity);
 
             wireLog(request, response, jsonBody);
-        	
+
             if (HttpStatus.SC_OK == statusCode) {
-                     
-                T responseBody = jsonMapper.convertValue(jsonBody, clazz);           
+
+                T responseBody = jsonMapper.convertValue(jsonBody, clazz);
                 return HttpResponseWrapper.create(statusCode, responseBody);
-           
+
             } else if (HttpStatus.SC_CREATED == statusCode) {
 
-                MfaResponse mfaResponse = jsonMapper.convertValue(jsonBody, MfaResponse.class);                
+                MfaResponse mfaResponse = jsonMapper.convertValue(jsonBody, MfaResponse.class);
                 throw new PlaidMfaException(mfaResponse, statusCode);
-            
+
             } else if (statusCode >= HttpStatus.SC_BAD_REQUEST) {
 
                 ErrorResponse errorResponse = jsonMapper.convertValue(jsonBody, ErrorResponse.class);
                 throw new PlaidServersideException(errorResponse, statusCode);
-            
+
             } else {
-                throw new PlaidCommunicationsException("Unable to interpret Plaid response");
+                UnknownResponse unknownResponse = jsonMapper.convertValue(jsonBody, UnknownResponse.class);
+                throw new PlaidServersideUnknownResponseException(unknownResponse, statusCode);
             }
 
         } catch (IllegalStateException | IOException e) {
 
-            throw new PlaidCommunicationsException("Unable to interpret Plaid response");
+            throw new PlaidCommunicationsException("Unable to interpret Plaid response", e);
         } finally {
-        	
+
             try {
                 response.close();
             } catch (IOException e) {
-                
+
             }
-        	
+
         }
 
     }
