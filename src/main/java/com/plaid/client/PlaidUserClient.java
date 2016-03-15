@@ -25,9 +25,13 @@ public interface PlaidUserClient {
 
     TransactionsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
 
+    TransactionsResponse mfaConnectStep(String[] mfa, String type) throws PlaidMfaException;
+
     AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
 
     AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException;
+
+    AccountsResponse mfaAuthStep(String[] mfa, String type) throws PlaidMfaException;
 
     AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException;
 
