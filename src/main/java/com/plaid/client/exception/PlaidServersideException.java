@@ -8,6 +8,7 @@ public class PlaidServersideException extends RuntimeException {
     private int httpStatusCode;
     
     public PlaidServersideException(ErrorResponse errorResponse, int httpStatusCode) {
+        super(String.format("%s: %s", httpStatusCode, errorResponse != null ? errorResponse.getMessage() : null));
         this.errorResponse = errorResponse;
         this.httpStatusCode = httpStatusCode;
     }
