@@ -1,8 +1,11 @@
 package com.plaid.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.plaid.client.exception.PlaidClientsideException;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.http.HttpResponseWrapper;
+import com.plaid.client.http.InstitutionDeserializer;
 import com.plaid.client.http.PlaidHttpRequest;
 import com.plaid.client.request.MappingOptions;
 import com.plaid.client.response.CategoriesResponse;
@@ -24,9 +27,19 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    //note that the institution id is the institution_type on account objects
     @Override
-    public Object getInstitution(String institutionId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public Institution getInstitution(String institutionId) {
+        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/search");
+        request.addParameter("id", institutionId);
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Institution.class, new InstitutionDeserializer());
+        mapper.registerModule(module);
+        this.httpDelegate.setObjectMapper(mapper);
+        HttpResponseWrapper<Institution> response = httpDelegate.doGet(request, Institution.class);
+        this.httpDelegate.setObjectMapper(new ObjectMapper());
+        return response.getResponseBody();
     }
 
     @Override
