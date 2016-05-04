@@ -1,14 +1,15 @@
 package com.plaid.client.http;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plaid.client.exception.PlaidClientsideException;
+import com.plaid.client.exception.PlaidCommunicationsException;
+import com.plaid.client.exception.PlaidMfaException;
+import com.plaid.client.exception.PlaidServersideException;
+import com.plaid.client.exception.PlaidServersideUnknownResponseException;
+import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.response.MfaResponse;
+import com.plaid.client.response.UnknownResponse;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.HttpStatus;
@@ -27,24 +28,22 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.plaid.client.exception.PlaidClientsideException;
-import com.plaid.client.exception.PlaidCommunicationsException;
-import com.plaid.client.exception.PlaidMfaException;
-import com.plaid.client.exception.PlaidServersideException;
-import com.plaid.client.exception.PlaidServersideUnknownResponseException;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.MfaResponse;
-import com.plaid.client.response.UnknownResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
+    private static String LIBRARY_VERSION = ApacheHttpClientHttpDelegate.class.getPackage().getImplementationVersion();
     private String baseUri;
     private CloseableHttpClient httpClient;
     private ObjectMapper jsonMapper;
     private WireLogger wireLogger;
-    private static String LIBRARY_VERSION = ApacheHttpClientHttpDelegate.class.getPackage().getImplementationVersion();
 
     public ApacheHttpClientHttpDelegate(String baseUri, CloseableHttpClient httpClient) {
         this.baseUri = baseUri;
@@ -60,13 +59,25 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
         return new ApacheHttpClientHttpDelegate(baseUri, httpClient);
     }
 
-    public void setWireLogger(WireLogger wireLogger) {
-		this.wireLogger = wireLogger;
-	}
+    private static List<NameValuePair> mapToNvps(Map<String, String> params) {
+        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+        for (Entry<String, String> entry : params.entrySet()) {
+            nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        }
+        return nvps;
+    }
+
+    private static void addUserAgent(HttpMessage httpMessage) {
+        httpMessage.addHeader("User-Agent", "plaid-java " + LIBRARY_VERSION);
+    }
 
     public WireLogger getWireLogger() {
 		return wireLogger;
 	}
+
+    public void setWireLogger(WireLogger wireLogger) {
+        this.wireLogger = wireLogger;
+    }
 
     @Override
     public <T> HttpResponseWrapper<T> doPost(PlaidHttpRequest request, Class<T> clazz) {
@@ -132,6 +143,29 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     }
 
     @Override
+    public <T> HttpResponseWrapper<T> doPatch(PlaidHttpRequest request, Class<T> clazz) {
+
+        List<NameValuePair> parameters = mapToNvps(request.getParameters());
+
+        try {
+            HttpEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
+            HttpPatch patch = new HttpPatch(baseUri + request.getPath());
+            patch.setEntity(entity);
+
+            addUserAgent(patch);
+
+            CloseableHttpResponse response = httpClient.execute(patch);
+
+            return handleResponse(patch, response, clazz);
+
+        } catch (UnsupportedEncodingException e) {
+            throw new PlaidClientsideException(e);
+        } catch (IOException e) {
+            throw new PlaidCommunicationsException(e);
+        }
+    }
+
+    @Override
     public <T> HttpResponseWrapper<T> doDelete(PlaidHttpRequest request, Class<T> clazz) {
         try {
 
@@ -160,26 +194,8 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     }
 
     @Override
-    public <T> HttpResponseWrapper<T> doPatch(PlaidHttpRequest request, Class<T> clazz) {
-
-        List<NameValuePair> parameters = mapToNvps(request.getParameters());
-
-        try {
-            HttpEntity entity = new UrlEncodedFormEntity(parameters, "UTF-8");
-            HttpPatch patch = new HttpPatch(baseUri + request.getPath());
-            patch.setEntity(entity);
-
-            addUserAgent(patch);
-
-            CloseableHttpResponse response = httpClient.execute(patch);
-
-            return handleResponse(patch, response, clazz);
-
-        } catch (UnsupportedEncodingException e) {
-            throw new PlaidClientsideException(e);
-        } catch (IOException e) {
-            throw new PlaidCommunicationsException(e);
-        }
+    public void setObjectMapper(ObjectMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
     }
 
     private void wireLog(HttpRequestBase request, CloseableHttpResponse response, JsonNode responseBody) {
@@ -234,18 +250,6 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
         }
 
-    }
-
-    private static List<NameValuePair> mapToNvps(Map<String, String> params) {
-        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-        for (Entry<String, String> entry : params.entrySet()) {
-            nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-        }
-        return nvps;
-    }
-
-    private static void addUserAgent(HttpMessage httpMessage) {
-        httpMessage.addHeader("User-Agent", "plaid-java " + LIBRARY_VERSION);
     }
 
 }
