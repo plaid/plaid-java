@@ -159,10 +159,10 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             throw new PlaidClientsideException("No device selected");
         }
 
-        Map<String, Object> requestParams = new HashMap<String, Object>();
-        HashMap<String, String> mask = new HashMap<String, String>();
+        Map<String, Object> requestParams = new HashMap<>();
+        HashMap<String, String> mask = new HashMap<>();
         mask.put("mask", deviceMask);
-        HashMap<String, Object> sendMethod = new HashMap<String, Object>();
+        HashMap<String, Object> sendMethod = new HashMap<>();
         sendMethod.put("send_method", mask);
         requestParams.put("options", sendMethod);
 
