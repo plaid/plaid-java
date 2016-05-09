@@ -25,8 +25,10 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     }
 
     @Override
-    public Object getInstitution(String institutionId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public Institution getInstitution(String institutionId) {
+        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/" + institutionId);
+        HttpResponseWrapper<Institution> response = httpDelegate.doGet(request, Institution.class);
+        return response.getResponseBody();
     }
 
     @Override
