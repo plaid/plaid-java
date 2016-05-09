@@ -27,7 +27,11 @@ public interface PlaidUserClient {
 
     TransactionsResponse mfaConnectStep(String[] mfa, String type) throws PlaidMfaException;
 
+    MfaResponse mfaDeviceConnectStep(String method) throws PlaidMfaException;
+
     AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
+
+    MfaResponse achAuthDevice(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
 
     AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException;
 
@@ -42,6 +46,8 @@ public interface PlaidUserClient {
     TransactionsResponse updateTransactions(GetOptions options);
 
     TransactionsResponse updateCredentials(Credentials credentials, String type);
+
+    MfaResponse getMfaDevices(Credentials credentials);
 
     TransactionsResponse updateWebhook(String webhook);
 

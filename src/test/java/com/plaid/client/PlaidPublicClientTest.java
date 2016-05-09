@@ -31,7 +31,7 @@ public class PlaidPublicClientTest {
     //public WireMockRule wireMockRule = new WireMockRule(8089);
 
     @Before
-    public  void setup() {
+    public void setup() {
         httpClient = HttpClients.custom().disableContentCompression().build();
         //httpDelegate = new ApacheHttpClientHttpDelegate("http://localhost:8089", httpClient);
         HttpDelegate httpDelegate = new ApacheHttpClientHttpDelegate("https://tartan.plaid.com", httpClient);

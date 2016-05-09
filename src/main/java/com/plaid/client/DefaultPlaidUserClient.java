@@ -74,6 +74,17 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
+    public MfaResponse achAuthDevice(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException {
+
+        Map<String, Object> requestParams = new HashMap<String, Object>();
+        requestParams.put("credentials", credentials);
+        requestParams.put("type", type);
+        requestParams.put("options", connectOptions);
+
+        return handlePost("/auth", requestParams, MfaResponse.class);
+    }
+
+    @Override
     public AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException {
 
         Map<String, Object> requestParams = new HashMap<String, Object>();
@@ -94,6 +105,12 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     public TransactionsResponse mfaConnectStep(String[] mfa, String type) throws PlaidMfaException {
 
         return handleMfa("/connect/step", mfa, type, TransactionsResponse.class);
+    }
+
+    @Override
+    public MfaResponse mfaDeviceConnectStep(String method) throws PlaidMfaException {
+
+        return handleMfaMethod("/connect/step", method, MfaResponse.class);
     }
 
     @Override
@@ -169,7 +186,6 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         TransactionsResponse body = response.getResponseBody();
         setAccessToken(body.getAccessToken());
         return body;
-
     }
 
     @Override
@@ -215,6 +231,25 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         TransactionsResponse body = response.getResponseBody();
 
         setAccessToken(body.getAccessToken());
+
+        return body;
+    }
+
+    @Override
+    public MfaResponse getMfaDevices(Credentials credentials) {
+
+        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
+
+        request.addParameter("credentials", serialize(credentials));
+        ConnectOptions connectOptions = new ConnectOptions();
+        connectOptions.setList(true);
+
+        request.addParameter("options", serialize(connectOptions));
+
+        HttpResponseWrapper<MfaResponse> response =
+                httpDelegate.doPost(request, MfaResponse.class);
+
+        MfaResponse body = response.getResponseBody();
 
         return body;
     }
@@ -316,6 +351,18 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         return handlePost(path, requestParams, returnTypeClass);
     }
 
+    private <T extends PlaidUserResponse> T handleMfaMethod(String path, String method, Class<T> returnTypeClass) throws PlaidMfaException {
+
+        Map<String, Object> requestParams = new HashMap<String, Object>();
+        Map<String,String> methodString = new HashMap<>();
+
+        methodString.put("mask", method);
+
+        requestParams.put("send_method", methodString);
+
+        return handlePost(path, requestParams, returnTypeClass);
+    }
+
     private <T extends PlaidUserResponse> T handlePost(String path, Map<String, Object> requestParams, Class<T> returnTypeClass) throws PlaidMfaException {
 
         PlaidHttpRequest request = new PlaidHttpRequest(path, authenticationParams(), timeout);
@@ -357,7 +404,6 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     private Map<String, String> authenticationParams() {
-
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("client_id", clientId);
         parameters.put("secret", secret);
@@ -375,6 +421,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     public static class Builder {
         private String clientId;
         private String secret;
+        private boolean options = false;
         private Integer timeout;
         private HttpDelegate httpDelegate;
 
@@ -385,6 +432,11 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
         public Builder withSecret(String secret) {
             this.secret = secret;
+            return this;
+        }
+
+        public Builder withDeliveryOptions(boolean options) {
+            this.options = options;
             return this;
         }
 

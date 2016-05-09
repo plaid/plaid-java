@@ -26,6 +26,9 @@ import com.plaid.client.response.MfaResponse.DeviceListMfaResponse;
 import com.plaid.client.response.TransactionsResponse;
 import com.plaid.client.response.PlaidUserResponse;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PlaidUserClientTest {
 
     private CloseableHttpClient httpClient;
@@ -74,6 +77,28 @@ public class PlaidUserClientTest {
             assertEquals("list", mfaResponse.getType());
             assertEquals("test_chase", mfaResponse.getAccessToken());
             assertTrue(mfaResponse instanceof DeviceListMfaResponse);
+
+            DeviceListMfaResponse deviceList = (DeviceListMfaResponse) mfaResponse;
+
+
+
+            System.out.println("");
+
+            String mask = deviceList.getDeviceTypes()[0].getMask();
+
+
+            System.out.println("Mask: " + mask);
+
+            MfaResponse response = plaidUserClient.mfaDeviceConnectStep("xxx-xxx-5309");
+
+            System.out.println("Response: " + response.toString());
+
+            // connect with method mask
+
+//            TransactionsResponse response = plaidUserClient.mfaDeviceConnectStep("phone")
+//            assertEquals("test_chase",response.getAccessToken());
+//            assertTrue(response.getAccounts().size() > 0);
+//            assertTrue(response.getTransactions().size() > 0);
         }
     }
 
