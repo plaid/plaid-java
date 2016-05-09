@@ -149,7 +149,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
-    public AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask, String type) throws PlaidMfaException {
+    public AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask) throws PlaidMfaException {
 
         if (StringUtils.isEmpty(accessToken)) {
             throw new PlaidClientsideException("No accessToken set");
@@ -160,8 +160,6 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         }
 
         Map<String, Object> requestParams = new HashMap<String, Object>();
-        requestParams.put("type", type);
-
         HashMap<String, String> mask = new HashMap<String, String>();
         mask.put("mask", deviceMask);
         HashMap<String, Object> sendMethod = new HashMap<String, Object>();

@@ -39,7 +39,7 @@ public interface PlaidUserClient {
 
     AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException;
 
-    AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask, String type) throws PlaidMfaException;
+    AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask) throws PlaidMfaException;
 
     TransactionsResponse updateTransactions();
 
