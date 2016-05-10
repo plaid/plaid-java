@@ -71,34 +71,11 @@ public class PlaidUserClientTest {
             TransactionsResponse response = plaidUserClient.addUser(testCredentials, "chase", "test@test.com", options);
         }
         catch (PlaidMfaException e) {
-
             MfaResponse mfaResponse = e.getMfaResponse();
             assertNotNull(mfaResponse);
             assertEquals("list", mfaResponse.getType());
             assertEquals("test_chase", mfaResponse.getAccessToken());
             assertTrue(mfaResponse instanceof DeviceListMfaResponse);
-
-            DeviceListMfaResponse deviceList = (DeviceListMfaResponse) mfaResponse;
-
-
-
-            System.out.println("");
-
-            String mask = deviceList.getDeviceTypes()[0].getMask();
-
-
-            System.out.println("Mask: " + mask);
-
-            MfaResponse response = plaidUserClient.mfaDeviceConnectStep("xxx-xxx-5309");
-
-            System.out.println("Response: " + response.toString());
-
-            // connect with method mask
-
-//            TransactionsResponse response = plaidUserClient.mfaDeviceConnectStep("phone")
-//            assertEquals("test_chase",response.getAccessToken());
-//            assertTrue(response.getAccounts().size() > 0);
-//            assertTrue(response.getTransactions().size() > 0);
         }
     }
 
