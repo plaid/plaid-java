@@ -188,6 +188,33 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 		}
 	}
 
+    private MfaResponse handleMfaResponse(HttpRequestBase request, CloseableHttpResponse response) {
+
+        HttpEntity responseEntity = response.getEntity();
+
+        try {
+            JsonNode jsonBody = jsonMapper.readTree(responseEntity.getContent());
+            EntityUtils.consume(responseEntity);
+            MfaResponse mfaResponse = jsonMapper.convertValue(jsonBody, MfaResponse.class);
+
+            return mfaResponse;
+
+
+        } catch (IllegalStateException | IOException e) {
+
+            throw new PlaidCommunicationsException("Unable to interpret Plaid response", e);
+        } finally {
+
+            try {
+                response.close();
+            } catch (IOException e) {
+
+            }
+
+        }
+
+    }
+
 	private <T> HttpResponseWrapper<T> handleResponse(HttpRequestBase request, CloseableHttpResponse response,
             Class<T> clazz) {
 

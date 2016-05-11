@@ -23,7 +23,7 @@ public interface PlaidUserClient {
 
     TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException;
 
-    TransactionsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
+    AccountsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
 
     TransactionsResponse mfaConnectStep(String[] mfa, String type) throws PlaidMfaException;
 
@@ -33,9 +33,9 @@ public interface PlaidUserClient {
 
     AccountsResponse mfaAuthStep(String[] mfa, String type) throws PlaidMfaException;
 
-    AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException;
+    AccountsResponse mfaAuthByDeviceMask(String deviceMask) throws PlaidMfaException;
 
-    AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask, String type) throws PlaidMfaException;
+    AccountsResponse mfaConnectByDeviceMask(String deviceMask) throws PlaidMfaException;
 
     TransactionsResponse updateTransactions();
 
