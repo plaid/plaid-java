@@ -74,17 +74,6 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
-    public MfaResponse achAuthDevice(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException {
-
-        Map<String, Object> requestParams = new HashMap<String, Object>();
-        requestParams.put("credentials", credentials);
-        requestParams.put("type", type);
-        requestParams.put("options", connectOptions);
-
-        return handlePost("/auth", requestParams, MfaResponse.class);
-    }
-
-    @Override
     public AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException {
 
         Map<String, Object> requestParams = new HashMap<String, Object>();
@@ -96,21 +85,15 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
-    public TransactionsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException {
+    public AccountsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException {
 
-        return handleMfa("/connect/step", mfa, type, TransactionsResponse.class);
+        return handleMfa("/connect/step", mfa, type, AccountsResponse.class);
     }
 
     @Override
     public TransactionsResponse mfaConnectStep(String[] mfa, String type) throws PlaidMfaException {
 
         return handleMfa("/connect/step", mfa, type, TransactionsResponse.class);
-    }
-
-    @Override
-    public MfaResponse mfaDeviceConnectStep(String method) throws PlaidMfaException {
-
-        return handleMfaMethod("/connect/step", method, MfaResponse.class);
     }
 
     @Override
@@ -126,30 +109,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
-    public AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException {
-
-        if (StringUtils.isEmpty(accessToken)) {
-            throw new PlaidClientsideException("No accessToken set");
-        }
-
-        if (StringUtils.isEmpty(deviceType)){
-            throw new PlaidClientsideException("No device selected");
-        }
-
-        Map<String, Object> requestParams = new HashMap<String, Object>();
-        requestParams.put("type", type);
-
-        HashMap<String, String> mask = new HashMap<String, String>();
-        mask.put("type", deviceType);
-        HashMap<String, Object> sendMethod = new HashMap<String, Object>();
-        sendMethod.put("send_method", mask);
-        requestParams.put("options", sendMethod);
-
-        return handlePost("/auth/step", requestParams, AccountsResponse.class);
-    }
-
-    @Override
-    public AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask) throws PlaidMfaException {
+    public AccountsResponse mfaAuthByDeviceMask(String deviceMask) throws PlaidMfaException {
 
         if (StringUtils.isEmpty(accessToken)) {
             throw new PlaidClientsideException("No accessToken set");
@@ -159,14 +119,25 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             throw new PlaidClientsideException("No device selected");
         }
 
-        Map<String, Object> requestParams = new HashMap<>();
-        HashMap<String, String> mask = new HashMap<>();
-        mask.put("mask", deviceMask);
-        HashMap<String, Object> sendMethod = new HashMap<>();
-        sendMethod.put("send_method", mask);
-        requestParams.put("options", sendMethod);
+        Map<String, Object> requestParams = sendMethodParams(deviceMask);
 
         return handlePost("/auth/step", requestParams, AccountsResponse.class);
+    }
+
+    @Override
+    public AccountsResponse mfaConnectByDeviceMask(String deviceMask) throws PlaidMfaException {
+
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+        if (StringUtils.isEmpty(deviceMask)) {
+            throw new PlaidClientsideException("No device selected");
+        }
+
+        Map<String, Object> requestParams = sendMethodParams(deviceMask);
+
+        return handlePost("/connect/step", requestParams, AccountsResponse.class);
     }
 
     @Override
@@ -185,6 +156,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         setAccessToken(body.getAccessToken());
         return body;
     }
+
 
     @Override
     public TransactionsResponse updateTransactions(GetOptions options) {
@@ -221,7 +193,13 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
 
         request.addParameter("credentials", serialize(credentials));
+
         request.addParameter("type", type);
+
+        ConnectOptions connectOptions = new ConnectOptions();
+        connectOptions.setList(true);
+
+        request.addParameter("options", serialize(connectOptions));
 
         HttpResponseWrapper<TransactionsResponse> response =
                 httpDelegate.doPatch(request, TransactionsResponse.class);
@@ -229,25 +207,6 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         TransactionsResponse body = response.getResponseBody();
 
         setAccessToken(body.getAccessToken());
-
-        return body;
-    }
-
-    @Override
-    public MfaResponse getMfaDevices(Credentials credentials) {
-
-        PlaidHttpRequest request = new PlaidHttpRequest("/connect", authenticationParams(), timeout);
-
-        request.addParameter("credentials", serialize(credentials));
-        ConnectOptions connectOptions = new ConnectOptions();
-        connectOptions.setList(true);
-
-        request.addParameter("options", serialize(connectOptions));
-
-        HttpResponseWrapper<MfaResponse> response =
-                httpDelegate.doPost(request, MfaResponse.class);
-
-        MfaResponse body = response.getResponseBody();
 
         return body;
     }
@@ -332,6 +291,16 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
          return handlePost("/info", requestParams, InfoResponse.class);
     }
 
+    private Map<String, Object> sendMethodParams(String deviceMask) {
+        Map<String, Object> requestParams = new HashMap<>();
+        HashMap<String, String> mask = new HashMap<>();
+        mask.put("mask", deviceMask);
+        HashMap<String, Object> sendMethod = new HashMap<>();
+        sendMethod.put("send_method", mask);
+        requestParams.put("options", sendMethod);
+        return requestParams;
+    }
+
     private <T extends PlaidUserResponse> T handleMfa(String path, Object mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
 
         if (StringUtils.isEmpty(accessToken)) {
@@ -345,18 +314,6 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         if (type != null) {
             requestParams.put("type", type);
         }
-
-        return handlePost(path, requestParams, returnTypeClass);
-    }
-
-    private <T extends PlaidUserResponse> T handleMfaMethod(String path, String method, Class<T> returnTypeClass) throws PlaidMfaException {
-
-        Map<String, Object> requestParams = new HashMap<String, Object>();
-        Map<String,String> methodString = new HashMap<>();
-
-        methodString.put("mask", method);
-
-        requestParams.put("send_method", methodString);
 
         return handlePost(path, requestParams, returnTypeClass);
     }

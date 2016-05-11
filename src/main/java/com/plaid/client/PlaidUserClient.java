@@ -23,31 +23,25 @@ public interface PlaidUserClient {
 
     TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException;
 
-    TransactionsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
+    AccountsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
 
     TransactionsResponse mfaConnectStep(String[] mfa, String type) throws PlaidMfaException;
 
-    MfaResponse mfaDeviceConnectStep(String method) throws PlaidMfaException;
-
     AccountsResponse achAuth(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
-
-    MfaResponse achAuthDevice(Credentials credentials, String type, ConnectOptions connectOptions) throws PlaidMfaException;
 
     AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException;
 
     AccountsResponse mfaAuthStep(String[] mfa, String type) throws PlaidMfaException;
 
-    AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException;
+    AccountsResponse mfaAuthByDeviceMask(String deviceMask) throws PlaidMfaException;
 
-    AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask) throws PlaidMfaException;
+    AccountsResponse mfaConnectByDeviceMask(String deviceMask) throws PlaidMfaException;
 
     TransactionsResponse updateTransactions();
 
     TransactionsResponse updateTransactions(GetOptions options);
 
     TransactionsResponse updateCredentials(Credentials credentials, String type);
-
-    MfaResponse getMfaDevices(Credentials credentials);
 
     TransactionsResponse updateWebhook(String webhook);
 
