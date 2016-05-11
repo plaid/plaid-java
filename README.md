@@ -19,14 +19,6 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 
 ```
 
-### Deploying new version to Qapital Nexus
-
-```bash
-
-mvn deploy:deploy-file -DgroupId=com.plaid -DartifactId=plaid-java -Dversion=0.2.13-SNAPSHOT -DgeneratePom=true -Dpackaging=jar -DrepositoryId=qapital-snapshots -Durl=http://nexus.qptlops.net:8081/content/repositories/snapshots -Dfile=target/plaid-java-0.2.13-SNAPSHOT.jar
-
-```
-
 ### Basic Usage
 
 ```java

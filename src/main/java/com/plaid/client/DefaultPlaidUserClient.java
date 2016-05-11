@@ -1,11 +1,5 @@
 package com.plaid.client;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.plaid.client.response.MfaResponse;
-import org.apache.commons.lang.StringUtils;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,11 +12,11 @@ import com.plaid.client.request.ConnectOptions;
 import com.plaid.client.request.Credentials;
 import com.plaid.client.request.GetOptions;
 import com.plaid.client.request.InfoOptions;
-import com.plaid.client.response.AccountsResponse;
-import com.plaid.client.response.InfoResponse;
-import com.plaid.client.response.MessageResponse;
-import com.plaid.client.response.PlaidUserResponse;
-import com.plaid.client.response.TransactionsResponse;
+import com.plaid.client.response.*;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DefaultPlaidUserClient implements PlaidUserClient {
 
@@ -106,6 +100,38 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     public AccountsResponse mfaAuthStep(String[] mfa, String type) throws PlaidMfaException {
 
         return handleMfa("/auth/step", mfa, type, AccountsResponse.class);
+    }
+
+    @Override
+    public AccountsResponse mfaAuthByDeviceMask(String deviceMask) throws PlaidMfaException {
+
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+        if (StringUtils.isEmpty(deviceMask)) {
+            throw new PlaidClientsideException("No device selected");
+        }
+
+        Map<String, Object> requestParams = sendMethodParams(deviceMask);
+
+        return handlePost("/auth/step", requestParams, AccountsResponse.class);
+    }
+
+    @Override
+    public AccountsResponse mfaConnectByDeviceMask(String deviceMask) throws PlaidMfaException {
+
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+        if (StringUtils.isEmpty(deviceMask)) {
+            throw new PlaidClientsideException("No device selected");
+        }
+
+        Map<String, Object> requestParams = sendMethodParams(deviceMask);
+
+        return handlePost("/connect/step", requestParams, AccountsResponse.class);
     }
 
     @Override
@@ -354,6 +380,16 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
                 throw new PlaidClientsideException(e);
             }
         }
+    }
+
+    private Map<String, Object> sendMethodParams(String deviceMask) {
+        Map<String, Object> requestParams = new HashMap<>();
+        HashMap<String, String> mask = new HashMap<>();
+        mask.put("mask", deviceMask);
+        HashMap<String, Object> sendMethod = new HashMap<>();
+        sendMethod.put("send_method", mask);
+        requestParams.put("options", sendMethod);
+        return requestParams;
     }
 
     private Map<String, String> authenticationParams() {
