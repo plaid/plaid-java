@@ -110,7 +110,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         }
 
         if (StringUtils.isEmpty(deviceMask)) {
-            throw new PlaidClientsideException("No device selected");
+            throw new PlaidClientsideException("No deviceMask provided");
         }
 
         Map<String, Object> requestParams = sendMethodParams(deviceMask);
@@ -126,7 +126,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
         }
 
         if (StringUtils.isEmpty(deviceMask)) {
-            throw new PlaidClientsideException("No device selected");
+            throw new PlaidClientsideException("No deviceMask provided");
         }
 
         Map<String, Object> requestParams = sendMethodParams(deviceMask);
