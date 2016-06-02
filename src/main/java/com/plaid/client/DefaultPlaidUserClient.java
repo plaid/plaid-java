@@ -214,12 +214,14 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
     @Override
     public AccountsResponse updateAuth() {
-    	if (StringUtils.isEmpty(accessToken)) {
+    	return updateAuth(new HashMap<String, Object>());
+    }
+
+    @Override
+    public AccountsResponse updateAuth(Map<String, Object> requestParams) {
+        if (StringUtils.isEmpty(accessToken)) {
             throw new PlaidClientsideException("No accessToken set");
         }
-
-        Map<String, Object> requestParams = new HashMap<String, Object>();
-
         return handlePost("/auth/get", requestParams, AccountsResponse.class);
     }
 

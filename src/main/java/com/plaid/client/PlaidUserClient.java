@@ -13,6 +13,8 @@ import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.TransactionsResponse;
 import com.plaid.client.response.PlaidUserResponse;
 
+import java.util.Map;
+
 public interface PlaidUserClient {
 
     void setAccessToken(String accesstoken);
@@ -50,6 +52,8 @@ public interface PlaidUserClient {
     TransactionsResponse updateWebhook(String webhook);
 
     AccountsResponse updateAuth();
+
+    AccountsResponse updateAuth(Map<String, Object>  requestParams);
 
     MessageResponse deleteUser();
 
