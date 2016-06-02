@@ -14,6 +14,7 @@ import com.plaid.client.request.GetOptions;
 import com.plaid.client.request.InfoOptions;
 import com.plaid.client.response.*;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -223,6 +224,28 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
             throw new PlaidClientsideException("No accessToken set");
         }
         return handlePost("/auth/get", requestParams, AccountsResponse.class);
+    }
+
+    @Override
+    public AccountsResponse getAuth(String account) {
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+        PlaidHttpRequest request = new PlaidHttpRequest("/auth", authenticationParams(), timeout);
+
+        if(null != account) {
+            Map<String, String> options = new HashMap<>();
+            options.put("account", account);
+            request.addParameter("options",  new JSONObject(options).toString());
+        }
+
+        HttpResponseWrapper<AccountsResponse> response =
+                httpDelegate.doGet(request, AccountsResponse.class);
+
+        AccountsResponse body = response.getResponseBody();
+        setAccessToken(body.getAccessToken());
+        return body;
     }
 
     @Override

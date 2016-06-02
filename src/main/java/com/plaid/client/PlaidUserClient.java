@@ -55,6 +55,8 @@ public interface PlaidUserClient {
 
     AccountsResponse updateAuth(Map<String, Object>  requestParams);
 
+    AccountsResponse getAuth(String account);
+
     MessageResponse deleteUser();
 
     AccountsResponse checkBalance();
