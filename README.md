@@ -69,3 +69,6 @@ There are two main dependencies (of course automatically managed by Maven):
 
 The project also has a test scope dependency on [Wiremock](http://wiremock.org), which is really useful in order to avoid hitting the sandbox API all the time.
 
+### Contributors
+
+- [@erimag](https://github.com/erimag) (Qapital Insight AB)

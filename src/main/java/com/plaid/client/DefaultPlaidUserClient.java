@@ -91,7 +91,19 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
+    public TransactionsResponse mfaConnectStep(String[] mfa, String type) throws PlaidMfaException {
+
+        return handleMfa("/connect/step", mfa, type, TransactionsResponse.class);
+    }
+
+    @Override
     public AccountsResponse mfaAuthStep(String mfa, String type) throws PlaidMfaException {
+
+        return handleMfa("/auth/step", mfa, type, AccountsResponse.class);
+    }
+
+    @Override
+    public AccountsResponse mfaAuthStep(String[] mfa, String type) throws PlaidMfaException {
 
         return handleMfa("/auth/step", mfa, type, AccountsResponse.class);
     }
@@ -287,7 +299,7 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
          return handlePost("/info", requestParams, InfoResponse.class);
     }
 
-    private <T extends PlaidUserResponse> T handleMfa(String path, String mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
+    private <T extends PlaidUserResponse> T handleMfa(String path, Object mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
 
         if (StringUtils.isEmpty(accessToken)) {
             throw new PlaidClientsideException("No accessToken set");
