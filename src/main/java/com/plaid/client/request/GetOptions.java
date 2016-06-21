@@ -56,7 +56,7 @@ public class GetOptions {
 	}
 
 	@JsonProperty("include_original_description")
-	public Boolean getIncludeOriginalDescription() {
+	public Boolean isIncludeOriginalDescription() {
 		return includeOriginalDescription;
 	}
 
