@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +24,12 @@ import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -37,6 +42,8 @@ import com.plaid.client.exception.PlaidServersideUnknownResponseException;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.UnknownResponse;
+
+import javax.net.ssl.SSLContext;
 
 public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
@@ -118,7 +125,13 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
             addUserAgent(get);
 
-            CloseableHttpResponse response = httpClient.execute(get);
+            SSLConnectionSocketFactory f = SSLConnectionSocketFactory.getSystemSocketFactory();
+
+            CloseableHttpClient _httpClient = HttpClients.custom()
+                    .setSSLSocketFactory(f)
+                    .build();
+
+            CloseableHttpResponse response = _httpClient.execute(get);
 
             return handleResponse(get, response, clazz);
 
