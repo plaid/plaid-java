@@ -38,6 +38,7 @@ import com.plaid.client.exception.PlaidServersideUnknownResponseException;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.UnknownResponse;
+import sun.net.www.http.HttpClient;
 
 import javax.net.ssl.SSLContext;
 
@@ -66,7 +67,8 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     }
 
     public static ApacheHttpClientHttpDelegate createDefault(String baseUri) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = System.getProperty("https.protocols") == null ?
+                HttpClients.createDefault() : HttpClients.createSystem();
         return new ApacheHttpClientHttpDelegate(baseUri, httpClient);
     }
 
