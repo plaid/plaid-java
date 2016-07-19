@@ -134,7 +134,6 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     @Override
     public <T> HttpResponseWrapper<T> doDelete(PlaidHttpRequest request, Class<T> clazz) {
         try {
-
             List<NameValuePair> parameters = mapToNvps(request.getParameters());
 
             URI uri = new URIBuilder(baseUri)
