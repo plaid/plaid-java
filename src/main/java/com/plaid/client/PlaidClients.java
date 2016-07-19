@@ -95,7 +95,7 @@ public class PlaidClients {
 
         ApacheHttpClientHttpDelegate httpDelegate;
         if (test) {
-            httpDelegate = new ApacheHttpClientHttpDelegate(uri, HttpClientBuilder.create().disableContentCompression().build());
+            httpDelegate = new ApacheHttpClientHttpDelegate(uri, HttpClientBuilder.create().disableContentCompression().useSystemProperties().build());
         }
         else {
             httpDelegate = ApacheHttpClientHttpDelegate.createDefault(uri);

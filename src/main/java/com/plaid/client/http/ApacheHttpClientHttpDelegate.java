@@ -22,7 +22,6 @@ import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,9 +37,6 @@ import com.plaid.client.exception.PlaidServersideUnknownResponseException;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.UnknownResponse;
-import sun.net.www.http.HttpClient;
-
-import javax.net.ssl.SSLContext;
 
 public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
@@ -52,14 +48,7 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
 
     public ApacheHttpClientHttpDelegate(String baseUri, CloseableHttpClient httpClient) {
         this.baseUri = baseUri;
-
-        if(System.getProperty("https.protocols") != null) {
-            SSLConnectionSocketFactory f = SSLConnectionSocketFactory.getSystemSocketFactory();
-            this.httpClient = HttpClients.custom().setSSLSocketFactory(f).build();
-        } else {
-            this.httpClient = httpClient;
-        }
-
+        this.httpClient = httpClient;
         this.jsonMapper = new ObjectMapper();
         if (LIBRARY_VERSION == null) {
         	LIBRARY_VERSION = "development version";
