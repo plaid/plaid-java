@@ -65,6 +65,13 @@ public class PlaidPublicClientTest {
         assertNotNull(map.get("Bank of America"));
     }
 
+    @Test
+    public void testGetInstitution() {
+        Institution instResponse = plaidPublicClientWithoutCredentials.getInstitution("10");
+        assertNotNull(instResponse);
+        assertTrue(instResponse.getName().contains("Discover"));
+    }
+
     @Test(expected = PlaidClientsideException.class)
     public void testGetAllLongTailInstitutionsRequireCredentials() throws Exception {
         plaidPublicClientWithoutCredentials.getAllLongTailInstitutions(0, 10);
