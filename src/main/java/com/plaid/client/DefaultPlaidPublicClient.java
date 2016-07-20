@@ -5,11 +5,7 @@ import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.http.HttpResponseWrapper;
 import com.plaid.client.http.PlaidHttpRequest;
 import com.plaid.client.request.MappingOptions;
-import com.plaid.client.response.CategoriesResponse;
-import com.plaid.client.response.Category;
-import com.plaid.client.response.Institution;
-import com.plaid.client.response.InstitutionsResponse;
-import com.plaid.client.response.LongTailInstitutionsResponse;
+import com.plaid.client.response.*;
 import org.apache.commons.lang.StringUtils;
 
 public class DefaultPlaidPublicClient implements PlaidPublicClient {
@@ -25,8 +21,10 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     }
 
     @Override
-    public Object getInstitution(String institutionId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public InstitutionResponse getInstitution(String institutionId) {
+        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/" + institutionId);
+        HttpResponseWrapper<Institution> response = httpDelegate.doGet(request, Institution.class);
+        return new InstitutionResponse(response.getResponseBody());
     }
 
     @Override
