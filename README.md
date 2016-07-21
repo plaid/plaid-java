@@ -7,14 +7,14 @@ These bindings are under active development and currently support the main useca
 
 ### Installation
 
-Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java) with the following coordinates (latest release 0.2.12):
+Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java) with the following coordinates (latest release 0.3.0):
 
 ```xml
 
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>0.2.12</version>
+  <version>0.3.0</version>
 </dependency>
 
 ```
