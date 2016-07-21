@@ -56,7 +56,8 @@ public class ApacheHttpClientHttpDelegate implements HttpDelegate {
     }
 
     public static ApacheHttpClientHttpDelegate createDefault(String baseUri) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = System.getProperty("https.protocols") == null ?
+                HttpClients.createDefault() : HttpClients.createSystem();
         return new ApacheHttpClientHttpDelegate(baseUri, httpClient);
     }
 
