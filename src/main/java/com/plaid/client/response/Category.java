@@ -1,13 +1,14 @@
 package com.plaid.client.response;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Category {
+public class Category implements Serializable {
 
     private String id;
     private List<String> hierarchy;
@@ -34,7 +35,7 @@ public class Category {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Mapping {
+    public final static class Mapping implements Serializable {
         private String mapType;
         private List<String> hierarchy;
         

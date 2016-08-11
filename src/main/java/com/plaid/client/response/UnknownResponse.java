@@ -2,8 +2,10 @@ package com.plaid.client.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UnknownResponse {
+public class UnknownResponse implements Serializable {
     private Integer code;
     private String message;
     private String resolve;

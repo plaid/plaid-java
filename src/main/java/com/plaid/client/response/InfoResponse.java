@@ -1,5 +1,6 @@
 package com.plaid.client.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,7 +29,7 @@ public class InfoResponse extends PlaidUserResponse {
 	}
 
 	@JsonIgnoreProperties(ignoreUnknown=true)
-	public static final class Info {
+	public static final class Info  implements Serializable{
 		private List<String> names;
 		private List<Email> emails;
 		private List<PhoneNumber> phoneNumbers;
@@ -62,7 +63,7 @@ public class InfoResponse extends PlaidUserResponse {
 	} 
 	
 	@JsonIgnoreProperties(ignoreUnknown=true)
-	public static final class Email {
+	public static final class Email implements Serializable {
 		private String data;
 		private String type;
 		
@@ -81,7 +82,7 @@ public class InfoResponse extends PlaidUserResponse {
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown=true)
-	public static final class PhoneNumber {
+	public static final class PhoneNumber implements Serializable {
 		private String data;
 		private String type;
 		private Boolean primary;
@@ -107,7 +108,7 @@ public class InfoResponse extends PlaidUserResponse {
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown=true)
-	public static final class Address {
+	public static final class Address implements Serializable {
 		private Boolean primary;
 		private AddressDetails addressDetails;
 		
@@ -127,7 +128,7 @@ public class InfoResponse extends PlaidUserResponse {
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown=true)
-	public static final class AddressDetails {
+	public static final class AddressDetails implements Serializable {
 		private String street;
 		private String city;
 		private String state;

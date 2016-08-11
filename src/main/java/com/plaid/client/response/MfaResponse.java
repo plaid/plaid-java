@@ -10,6 +10,8 @@ import com.plaid.client.response.MfaResponse.DeviceListMfaResponse;
 import com.plaid.client.response.MfaResponse.QuestionsMfaResponse;
 import com.plaid.client.response.MfaResponse.SelectionsMfaResponse;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonTypeInfo(  
         use         = JsonTypeInfo.Id.NAME,  
@@ -112,7 +114,7 @@ public abstract class MfaResponse extends PlaidUserResponse {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Message {
+    public final static class Message implements Serializable{
         private String message;
         
         public String getMessage() {
@@ -125,7 +127,7 @@ public abstract class MfaResponse extends PlaidUserResponse {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Question {
+    public final static class Question implements Serializable {
         private String question;
         
         public String getQuestion() {
@@ -138,7 +140,7 @@ public abstract class MfaResponse extends PlaidUserResponse {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Selection {
+    public final static class Selection implements Serializable {
     	private String question;
     	private String[] answers;
     	
@@ -160,7 +162,7 @@ public abstract class MfaResponse extends PlaidUserResponse {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class DeviceType {
+    public final static class DeviceType implements Serializable {
         private String mask;
         private String type;
         

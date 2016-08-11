@@ -3,8 +3,10 @@ package com.plaid.client.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class PlaidUserResponse {
+public class PlaidUserResponse implements Serializable {
 
     protected String accessToken;
     protected String newAccessToken;

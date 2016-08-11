@@ -3,8 +3,10 @@ package com.plaid.client.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Account {
+public class Account implements Serializable {
 
     private String id;
     private String item;
@@ -78,7 +80,7 @@ public class Account {
 	}
 
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Balance {
+    public final static class Balance implements Serializable {
         private Double available;
         private Double current;
 
@@ -97,7 +99,7 @@ public class Account {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class AccountMeta {
+    public final static class AccountMeta implements Serializable {
         private Double limit;
         private String name;
         private String number;
@@ -123,7 +125,7 @@ public class Account {
     }
 
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class AccountNumbers {
+    public final static class AccountNumbers implements Serializable {
         private String routing;
         private String account;
         private String wireRouting;

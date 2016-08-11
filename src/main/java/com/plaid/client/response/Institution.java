@@ -3,10 +3,11 @@ package com.plaid.client.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Institution {
+public class Institution implements Serializable {
 
     private CredentialNames credentialNames;
     private Boolean hasMfa;
@@ -76,7 +77,7 @@ public class Institution {
     }
 
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public static final class CredentialNames {
+    public static final class CredentialNames implements Serializable{
 
         private String username;
         private String password;

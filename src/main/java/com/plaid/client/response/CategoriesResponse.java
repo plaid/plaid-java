@@ -1,12 +1,13 @@
 package com.plaid.client.response;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class CategoriesResponse {
+public class CategoriesResponse implements Serializable {
 
     private List<Category> categories;
 
