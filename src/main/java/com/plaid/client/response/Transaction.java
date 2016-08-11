@@ -1,5 +1,6 @@
 package com.plaid.client.response;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Transaction {
+public class Transaction implements Serializable {
     
     private String id;
     private String accountId;
@@ -116,7 +117,7 @@ public class Transaction {
 	}
 
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Score {
+    public final static class Score implements Serializable {
         private Double master;
         private Map<String, Double> detail;
  
@@ -135,7 +136,7 @@ public class Transaction {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class TransactionMeta {
+    public final static class TransactionMeta implements Serializable {
         private Location location;
         private Map<String, String> contact;
         private Map<String, String> ids;
@@ -161,7 +162,7 @@ public class Transaction {
     }
     
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Location {
+    public final static class Location implements Serializable {
         private Coordinates coordinates;
         private String zip;
         private String state;
@@ -201,7 +202,7 @@ public class Transaction {
     }
         
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public final static class Coordinates {
+    public final static class Coordinates implements Serializable {
         private Double longitude;
         private Double latitude;
 

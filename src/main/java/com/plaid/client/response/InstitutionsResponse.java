@@ -2,8 +2,10 @@ package com.plaid.client.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class InstitutionsResponse {
+public class InstitutionsResponse implements Serializable {
 
     private Institution[] institutions;
 
