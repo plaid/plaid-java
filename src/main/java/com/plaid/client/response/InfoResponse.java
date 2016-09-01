@@ -110,6 +110,8 @@ public class InfoResponse extends PlaidUserResponse {
 	public static final class Address {
 		private Boolean primary;
 		private AddressDetails addressDetails;
+		private List<String> accounts;
+		private String type;
 		
 		public Boolean getPrimary() {
 			return primary;
@@ -117,13 +119,29 @@ public class InfoResponse extends PlaidUserResponse {
 		public void setPrimary(Boolean primary) {
 			this.primary = primary;
 		}
-		@JsonProperty("address")
+		@JsonProperty("data")
 		public AddressDetails getAddressDetails() {
 			return addressDetails;
 		}
 		public void setAddressDetails(AddressDetails addressDetails) {
 			this.addressDetails = addressDetails;
-		}	
+		}
+
+		public List<String> getAccounts() {
+			return accounts;
+		}
+
+		public void setAccounts(List<String> accounts) {
+			this.accounts = accounts;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown=true)
