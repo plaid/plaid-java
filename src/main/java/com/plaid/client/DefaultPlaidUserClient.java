@@ -299,6 +299,24 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
          return handlePost("/info", requestParams, InfoResponse.class);
     }
 
+    @Override
+    public InfoResponse updateInfo() {
+
+        if (StringUtils.isEmpty(accessToken)) {
+            throw new PlaidClientsideException("No accessToken set");
+        }
+
+        PlaidHttpRequest request = new PlaidHttpRequest("/info", authenticationParams(), timeout);
+
+        HttpResponseWrapper<InfoResponse> response =
+                httpDelegate.doGet(request, InfoResponse.class);
+
+        InfoResponse body = response.getResponseBody();
+        setAccessToken(body.getAccessToken());
+        return body;
+
+    }
+
     private <T extends PlaidUserResponse> T handleMfa(String path, Object mfa, String type, Class<T> returnTypeClass) throws PlaidMfaException {
 
         if (StringUtils.isEmpty(accessToken)) {
