@@ -13,6 +13,8 @@ import com.plaid.client.response.MfaResponse;
 import com.plaid.client.response.TransactionsResponse;
 import com.plaid.client.response.PlaidUserResponse;
 
+import java.util.Map;
+
 public interface PlaidUserClient {
 
     void setAccessToken(String accesstoken);
@@ -33,6 +35,10 @@ public interface PlaidUserClient {
 
     AccountsResponse mfaAuthStep(String[] mfa, String type) throws PlaidMfaException;
 
+    AccountsResponse mfaAuthByDeviceMask(String deviceMask) throws PlaidMfaException;
+
+    AccountsResponse mfaConnectByDeviceMask(String deviceMask) throws PlaidMfaException;
+
     AccountsResponse mfaAuthDeviceSelectionByDeviceType(String deviceType, String type) throws PlaidMfaException;
 
     AccountsResponse mfaAuthDeviceSelectionByDeviceMask(String deviceMask, String type) throws PlaidMfaException;
@@ -46,6 +52,10 @@ public interface PlaidUserClient {
     TransactionsResponse updateWebhook(String webhook);
 
     AccountsResponse updateAuth();
+
+    AccountsResponse updateAuth(Map<String, Object>  requestParams);
+
+    AccountsResponse getAuth(String account);
 
     MessageResponse deleteUser();
 
