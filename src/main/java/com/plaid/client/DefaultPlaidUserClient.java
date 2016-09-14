@@ -3,6 +3,7 @@ package com.plaid.client;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plaid.client.exception.PlaidClientsideException;
 import com.plaid.client.exception.PlaidMfaException;
 import com.plaid.client.http.HttpDelegate;
@@ -14,10 +15,10 @@ import com.plaid.client.request.GetOptions;
 import com.plaid.client.request.InfoOptions;
 import com.plaid.client.response.*;
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class DefaultPlaidUserClient implements PlaidUserClient {
 
@@ -234,10 +235,10 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
 
         PlaidHttpRequest request = new PlaidHttpRequest("/auth", authenticationParams(), timeout);
 
-        if(null != account) {
-            Map<String, String> options = new HashMap<>();
-            options.put("account", account);
-            request.addParameter("options",  new JSONObject(options).toString());
+        if (null != account) {
+            ObjectNode optionsNode = jsonMapper.createObjectNode();
+            optionsNode.put("account", account);
+            request.addParameter("options",  optionsNode.toString());
         }
 
         HttpResponseWrapper<AccountsResponse> response =
