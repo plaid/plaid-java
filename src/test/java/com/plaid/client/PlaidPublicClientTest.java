@@ -53,6 +53,12 @@ public class PlaidPublicClientTest {
     }
 
     @Test
+    public void testGetInstitution() {
+        Institution institution = plaidPublicClientWithoutCredentials.getInstitution("bofa");
+        assertEquals("Bank of America", institution.getName());
+    }
+
+    @Test
     public void testGetAllInstitutions() {
         InstitutionsResponse instResponse = plaidPublicClientWithoutCredentials.getAllInstitutions();
         assertNotNull(instResponse);
