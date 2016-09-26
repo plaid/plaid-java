@@ -14,7 +14,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
 </dependency>
 
 ```
