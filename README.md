@@ -7,7 +7,7 @@ These bindings are under active development and currently support the main useca
 
 ### Installation
 
-Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java) with the following coordinates (latest release 0.3.0):
+Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java) with the following coordinates (latest release 0.3.1):
 
 ```xml
 
