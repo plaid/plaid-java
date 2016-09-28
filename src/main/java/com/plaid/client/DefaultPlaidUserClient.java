@@ -58,6 +58,15 @@ public class DefaultPlaidUserClient implements PlaidUserClient {
     }
 
     @Override
+    public PlaidUserResponse exchangeToken(String publicToken, String accountId) {
+        Map<String, Object> requestParams = new HashMap<String, Object>();
+        requestParams.put("public_token", publicToken);
+        requestParams.put("account_id", accountId);
+
+        return handlePost("/exchange_token", requestParams, PlaidUserResponse.class);
+    }
+
+    @Override
     public TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException {
 
         Map<String, Object> requestParams = new HashMap<String, Object>();
