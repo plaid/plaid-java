@@ -59,6 +59,19 @@ plaidUserClient.setAccessToken(response.getAccessToken());
 AccountsResponse response = plaidUserClient.updateAuth();
 ```
 
+To use [Stripe ACH + Plaid Integration](https://plaid.com/docs/link/stripe/) exchange a `public_token` and `account_id` to retrive a Stripe bank account token
+
+```java
+// Initialize a Plaid client with your client_id and secret
+PlaidUserClient plaidUserClient = PlaidClients.testUserClient("test_id", "test_secret");
+
+// Exchange the Link public_token ("test,bofa,connected") and account_id ("test_account_id")
+PlaidUserResponse response = plaidUserClient.exchangeToken("test,bofa,connected", "test_account_id");
+
+// Get the Stripe bank account token from response
+String stripeToken = response.getStripeBankAccountToken();
+```
+
 ### Dependencies
 
 There are two main dependencies (of course automatically managed by Maven):

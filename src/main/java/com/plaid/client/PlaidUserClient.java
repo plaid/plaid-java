@@ -23,6 +23,8 @@ public interface PlaidUserClient {
 
     PlaidUserResponse exchangeToken(String publicToken);
 
+    PlaidUserResponse exchangeToken(String publicToken, String accountId);
+
     TransactionsResponse addUser(Credentials credentials, String type, String email, ConnectOptions connectOptions) throws PlaidMfaException;
 
     TransactionsResponse mfaConnectStep(String mfa, String type) throws PlaidMfaException;
