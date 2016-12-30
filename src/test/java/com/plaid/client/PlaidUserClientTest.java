@@ -191,5 +191,25 @@ public class PlaidUserClientTest {
         }
     }
 
+    @Test
+    public void testExchangeTokenWithAccountIdSuccess() {
+        PlaidUserResponse response = plaidUserClient.exchangeToken("test,chase,connected", "QPO8Jo8vdDHMepg41PBwckXm4KdK1yUdmXOwK");
+
+        assertEquals("test_chase", response.getAccessToken());
+    }
+
+    //Result is "1109 unauthorized product" in Sandbox
+    @Ignore
+    @Test
+    public void testExchangeTokenWithAccountIdFailure() {
+        try {
+            plaidUserClient.exchangeToken("invalid_public_token", "QPO8Jo8vdDHMepg41PBwckXm4KdK1yUdmXOwK");
+        } catch (PlaidServersideException e) {
+            assertEquals(HttpStatus.SC_UNAUTHORIZED, e.getHttpStatusCode());
+            assertEquals(1106, e.getErrorResponse().getCode().intValue());
+            assertEquals("bad public_token", e.getErrorResponse().getMessage());
+        }
+    }
+
 
 }
