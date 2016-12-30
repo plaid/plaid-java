@@ -95,30 +95,45 @@ public class Account {
             this.current = current;
         }
     }
-    
-    @JsonIgnoreProperties(ignoreUnknown=true)
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public final static class AccountMeta {
         private Double limit;
         private String name;
         private String number;
+        private String officialName;
 
         public Double getLimit() {
             return limit;
         }
+
         public void setLimit(Double limit) {
             this.limit = limit;
         }
+
         public String getName() {
             return name;
         }
+
         public void setName(String name) {
             this.name = name;
         }
+
         public String getNumber() {
             return number;
         }
+
         public void setNumber(String number) {
             this.number = number;
+        }
+
+        public String getOfficialName() {
+            return officialName;
+        }
+
+        @JsonProperty("official_name")
+        public void setOfficialName(String officialName) {
+            this.officialName = officialName;
         }
     }
 
