@@ -47,6 +47,8 @@ public interface PlaidUserClient {
 
     TransactionsResponse updateTransactions();
 
+    InfoResponse updateInfo();
+
     TransactionsResponse updateTransactions(GetOptions options);
 
     TransactionsResponse updateCredentials(Credentials credentials, String type);
