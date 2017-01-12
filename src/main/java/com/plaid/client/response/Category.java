@@ -12,8 +12,8 @@ public class Category {
     private String id;
     private List<String> hierarchy;
     private List<Mapping> mappings;
-    
-    @JsonProperty("_id")
+    private String type;
+
     public String getId() {
         return id;
     }
@@ -32,12 +32,18 @@ public class Category {
     public void setMappings(List<Mapping> mappings) {
         this.mappings = mappings;
     }
-    
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown=true)
     public final static class Mapping {
         private String mapType;
         private List<String> hierarchy;
-        
+
         @JsonProperty("map_type")
         public String getMapType() {
             return mapType;
@@ -52,5 +58,4 @@ public class Category {
             this.hierarchy = hierarchy;
         }
     }
-    
 }
