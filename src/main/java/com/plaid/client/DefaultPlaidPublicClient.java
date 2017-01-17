@@ -9,7 +9,6 @@ import com.plaid.client.response.CategoriesResponse;
 import com.plaid.client.response.Category;
 import com.plaid.client.response.Institution;
 import com.plaid.client.response.InstitutionsResponse;
-import com.plaid.client.response.LongTailInstitutionsResponse;
 import org.apache.commons.lang.StringUtils;
 
 public class DefaultPlaidPublicClient implements PlaidPublicClient {
@@ -26,21 +25,14 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
 
     @Override
     public Institution getInstitution(String institutionId) {
-        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/" + institutionId);
+        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/all/" + institutionId);
         HttpResponseWrapper<Institution> response = httpDelegate.doGet(request, Institution.class);
         return response.getResponseBody();
     }
 
     @Override
-    public InstitutionsResponse getAllInstitutions() {
-        PlaidHttpRequest request = new PlaidHttpRequest("/institutions");
-        HttpResponseWrapper<Institution[]> response = httpDelegate.doGet(request, Institution[].class);
-        return new InstitutionsResponse(response.getResponseBody());
-    }
-
-    @Override
-    public LongTailInstitutionsResponse getAllLongTailInstitutions(Integer offset, Integer count) {
-        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/longtail");
+    public InstitutionsResponse getAllInstitutions(Integer offset, Integer count, ArrayList<String> products) {
+        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/all");
 
         if(StringUtils.isEmpty(clientId) || StringUtils.isEmpty(secret)) {
             throw new PlaidClientsideException("ClientId and Secret is required");
@@ -57,7 +49,11 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
             request.addParameter("offset", offset.toString());
         }
 
-        HttpResponseWrapper<LongTailInstitutionsResponse> response = httpDelegate.doPost(request, LongTailInstitutionsResponse.class);
+        if(products != null) {
+            request.addParameter("products", offset.toString());
+        }
+
+        HttpResponseWrapper<InstitutionsResponse> response = httpDelegate.doPost(request, InstitutionsResponse.class);
         return response.getResponseBody();
     }
 
@@ -77,7 +73,7 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     public Object getCategoriesByMapping(String mapping, MappingOptions options) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
-    
+
     @Override
     public HttpDelegate getHttpDelegate() {
     	return httpDelegate;
