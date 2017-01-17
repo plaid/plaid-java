@@ -21,12 +21,12 @@ import com.plaid.client.response.Institution;
 import com.plaid.client.response.InstitutionsResponse;
 
 public class PlaidPublicClientTest {
-    
+
     private CloseableHttpClient httpClient;
     private HttpDelegate httpDelegate;
     private PlaidPublicClient plaidPublicClientWithoutCredentials;
     private PlaidPublicClient plaidPublicClientWithCredentials;
-    
+
     //@Rule
     //public WireMockRule wireMockRule = new WireMockRule(8089);
 
@@ -45,7 +45,7 @@ public class PlaidPublicClientTest {
                 .withSecret("test_secret")
                 .build();
     }
-    
+
     @Test
     public void testGetAllCategories() {
         CategoriesResponse categoriesResponse = plaidPublicClientWithoutCredentials.getAllCategories();
@@ -72,13 +72,13 @@ public class PlaidPublicClientTest {
     }
 
     @Test(expected = PlaidClientsideException.class)
-    public void testGetAllLongTailInstitutionsRequireCredentials() throws Exception {
-        plaidPublicClientWithoutCredentials.getAllLongTailInstitutions(0, 10);
+    public void testGetAllnstitutionsRequireCredentials() throws Exception {
+        plaidPublicClientWithoutCredentials.getAllInstitutions(0, 10);
     }
 
     @Test
-    public void testGetAllLongTailInstitutions() throws Exception {
-        LongTailInstitutionsResponse response = plaidPublicClientWithCredentials.getAllLongTailInstitutions(0, 10);
+    public void testGetAllInstitutions() throws Exception {
+        InstitutionsResponse response = plaidPublicClientWithCredentials.getAllLongTailInstitutions(0, 10);
         assertEquals(10, response.getResults().length);
     }
 }
