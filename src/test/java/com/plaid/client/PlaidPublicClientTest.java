@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.plaid.client.exception.PlaidClientsideException;
-import com.plaid.client.response.LongTailInstitutionsResponse;
+import com.plaid.client.response.AllInstitutionsResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
@@ -21,12 +21,12 @@ import com.plaid.client.response.Institution;
 import com.plaid.client.response.InstitutionsResponse;
 
 public class PlaidPublicClientTest {
-    
+
     private CloseableHttpClient httpClient;
     private HttpDelegate httpDelegate;
     private PlaidPublicClient plaidPublicClientWithoutCredentials;
     private PlaidPublicClient plaidPublicClientWithCredentials;
-    
+
     //@Rule
     //public WireMockRule wireMockRule = new WireMockRule(8089);
 
@@ -45,7 +45,7 @@ public class PlaidPublicClientTest {
                 .withSecret("test_secret")
                 .build();
     }
-    
+
     @Test
     public void testGetAllCategories() {
         CategoriesResponse categoriesResponse = plaidPublicClientWithoutCredentials.getAllCategories();
@@ -73,12 +73,12 @@ public class PlaidPublicClientTest {
 
     @Test(expected = PlaidClientsideException.class)
     public void testGetAllLongTailInstitutionsRequireCredentials() throws Exception {
-        plaidPublicClientWithoutCredentials.getAllLongTailInstitutions(0, 10);
+        plaidPublicClientWithoutCredentials.getAllInstitutions(0, 10);
     }
 
     @Test
     public void testGetAllLongTailInstitutions() throws Exception {
-        LongTailInstitutionsResponse response = plaidPublicClientWithCredentials.getAllLongTailInstitutions(0, 10);
+        AllInstitutionsResponse response = plaidPublicClientWithCredentials.getAllInstitutions(0, 10);
         assertEquals(10, response.getResults().length);
     }
 }
