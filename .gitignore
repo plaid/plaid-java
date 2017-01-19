@@ -6,4 +6,5 @@
 plaid-java.iml
 *.ipr
 *.iws
+.DS_Store
 
