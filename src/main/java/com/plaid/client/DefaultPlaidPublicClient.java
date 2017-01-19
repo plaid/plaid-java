@@ -8,9 +8,12 @@ import com.plaid.client.request.MappingOptions;
 import com.plaid.client.response.CategoriesResponse;
 import com.plaid.client.response.Category;
 import com.plaid.client.response.Institution;
+import com.plaid.client.response.PopularInstitutionsResponse;
 import com.plaid.client.response.InstitutionsResponse;
-import com.plaid.client.response.AllInstitutionsResponse;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultPlaidPublicClient implements PlaidPublicClient {
 
@@ -32,14 +35,14 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     }
 
     @Override
-    public InstitutionsResponse getAllInstitutions() {
+    public PopularInstitutionsResponse getPopularInstitutions() {
         PlaidHttpRequest request = new PlaidHttpRequest("/institutions");
         HttpResponseWrapper<Institution[]> response = httpDelegate.doGet(request, Institution[].class);
-        return new InstitutionsResponse(response.getResponseBody());
+        return new PopularInstitutionsResponse(response.getResponseBody());
     }
 
     @Override
-    public AllInstitutionsResponse getAllInstitutions(Integer offset, Integer count) {
+    public InstitutionsResponse getAllInstitutions(Integer offset, Integer count, String[] products) {
         PlaidHttpRequest request = new PlaidHttpRequest("/institutions/all");
 
         if(StringUtils.isEmpty(clientId) || StringUtils.isEmpty(secret)) {
@@ -57,7 +60,15 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
             request.addParameter("offset", offset.toString());
         }
 
-        HttpResponseWrapper<AllInstitutionsResponse> response = httpDelegate.doPost(request, AllInstitutionsResponse.class);
+        if(products != null && products.length > 0) {
+            List<String> productList = new ArrayList<>(products.length);
+            for(String product : productList) {
+                productList.add("\""+product+"\"");
+            }
+            request.addParameter("products", "["+StringUtils.join(productList, ",")+"]");
+        }
+
+        HttpResponseWrapper<InstitutionsResponse> response = httpDelegate.doPost(request, InstitutionsResponse.class);
         return response.getResponseBody();
     }
 

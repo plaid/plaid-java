@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.plaid.client.exception.PlaidClientsideException;
-import com.plaid.client.response.AllInstitutionsResponse;
+import com.plaid.client.response.InstitutionsResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.response.CategoriesResponse;
 import com.plaid.client.response.Institution;
-import com.plaid.client.response.InstitutionsResponse;
+import com.plaid.client.response.PopularInstitutionsResponse;
 
 public class PlaidPublicClientTest {
 
@@ -60,7 +60,7 @@ public class PlaidPublicClientTest {
 
     @Test
     public void testGetAllInstitutions() {
-        InstitutionsResponse instResponse = plaidPublicClientWithoutCredentials.getAllInstitutions();
+        PopularInstitutionsResponse instResponse = plaidPublicClientWithoutCredentials.getPopularInstitutions();
         assertNotNull(instResponse);
         Institution[] institutions = instResponse.getInstitutions();
         Map<String, Institution> map = new HashMap<>();
@@ -73,12 +73,12 @@ public class PlaidPublicClientTest {
 
     @Test(expected = PlaidClientsideException.class)
     public void testGetAllLongTailInstitutionsRequireCredentials() throws Exception {
-        plaidPublicClientWithoutCredentials.getAllInstitutions(0, 10);
+        plaidPublicClientWithoutCredentials.getAllInstitutions(0, 10, null);
     }
 
     @Test
     public void testGetAllLongTailInstitutions() throws Exception {
-        AllInstitutionsResponse response = plaidPublicClientWithCredentials.getAllInstitutions(0, 10);
+        InstitutionsResponse response = plaidPublicClientWithCredentials.getAllInstitutions(0, 10, null);
         assertEquals(10, response.getResults().length);
     }
 }

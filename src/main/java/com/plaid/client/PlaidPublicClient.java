@@ -4,8 +4,8 @@ import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.MappingOptions;
 import com.plaid.client.response.CategoriesResponse;
 import com.plaid.client.response.Institution;
+import com.plaid.client.response.PopularInstitutionsResponse;
 import com.plaid.client.response.InstitutionsResponse;
-import com.plaid.client.response.AllInstitutionsResponse;
 
 public interface PlaidPublicClient {
 
@@ -13,9 +13,9 @@ public interface PlaidPublicClient {
 
     Institution getInstitution(String institutionId);
 
-    InstitutionsResponse getAllInstitutions();
+    PopularInstitutionsResponse getPopularInstitutions();
 
-    AllInstitutionsResponse getAllInstitutions(Integer offset, Integer count);
+    InstitutionsResponse getAllInstitutions(Integer offset, Integer count, String[] products);
 
     CategoriesResponse getAllCategories();
 

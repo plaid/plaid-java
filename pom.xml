@@ -129,7 +129,7 @@
 			<artifactId>wiremock</artifactId>
 			<version>1.44</version>
 			<scope>test</scope>
-			<!-- Include this if you have dependency conflicts for Guava, Jetty, Jackson 
+			<!-- Include this if you have dependency conflicts for Guava, Jetty, Jackson
 				or Apache HTTP Client -->
 			<classifier>standalone</classifier>
 		</dependency>
