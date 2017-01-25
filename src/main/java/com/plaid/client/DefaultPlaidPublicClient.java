@@ -5,11 +5,7 @@ import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.http.HttpResponseWrapper;
 import com.plaid.client.http.PlaidHttpRequest;
 import com.plaid.client.request.MappingOptions;
-import com.plaid.client.response.CategoriesResponse;
-import com.plaid.client.response.Category;
-import com.plaid.client.response.Institution;
-import com.plaid.client.response.PopularInstitutionsResponse;
-import com.plaid.client.response.InstitutionsResponse;
+import com.plaid.client.response.*;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -92,6 +88,16 @@ public class DefaultPlaidPublicClient implements PlaidPublicClient {
     @Override
     public HttpDelegate getHttpDelegate() {
     	return httpDelegate;
+    }
+
+    @Override
+    public InstitutionSearch searchForInstitution(String institutionId) {
+        PlaidHttpRequest request = new PlaidHttpRequest("/institutions/all/search");
+        if(institutionId != null) {
+            request.addParameter("id", institutionId);
+        }
+        HttpResponseWrapper<InstitutionSearch> response = httpDelegate.doGet(request, InstitutionSearch.class);
+        return response.getResponseBody();
     }
 
     public static class Builder {

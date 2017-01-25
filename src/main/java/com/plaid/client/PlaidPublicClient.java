@@ -2,10 +2,7 @@ package com.plaid.client;
 
 import com.plaid.client.http.HttpDelegate;
 import com.plaid.client.request.MappingOptions;
-import com.plaid.client.response.CategoriesResponse;
-import com.plaid.client.response.Institution;
-import com.plaid.client.response.PopularInstitutionsResponse;
-import com.plaid.client.response.InstitutionsResponse;
+import com.plaid.client.response.*;
 
 public interface PlaidPublicClient {
 
@@ -24,4 +21,6 @@ public interface PlaidPublicClient {
     Object getCategoriesByMapping(String mapping, MappingOptions options);
 
     HttpDelegate getHttpDelegate();
+
+    InstitutionSearch searchForInstitution(String institutionId);
 }

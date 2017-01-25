@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.plaid.client.exception.PlaidClientsideException;
-import com.plaid.client.response.InstitutionsResponse;
+import com.plaid.client.response.*;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
@@ -16,9 +16,6 @@ import org.junit.Test;
 
 import com.plaid.client.http.ApacheHttpClientHttpDelegate;
 import com.plaid.client.http.HttpDelegate;
-import com.plaid.client.response.CategoriesResponse;
-import com.plaid.client.response.Institution;
-import com.plaid.client.response.PopularInstitutionsResponse;
 
 public class PlaidPublicClientTest {
 
@@ -80,5 +77,11 @@ public class PlaidPublicClientTest {
     public void testGetAllLongTailInstitutions() throws Exception {
         InstitutionsResponse response = plaidPublicClientWithCredentials.getAllInstitutions(0, 10, null);
         assertEquals(10, response.getResults().length);
+    }
+
+    @Test
+    public void testSearchForInstitution() throws Exception {
+        InstitutionSearch institution = plaidPublicClientWithoutCredentials.searchForInstitution("bofa");
+        assertNotNull(institution);
     }
 }
