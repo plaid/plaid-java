@@ -1,20 +1,26 @@
 plaid-java
 ==========
 
-Java Bindings for the Plaid API (https://www.plaid.com/docs)
+Java Bindings for the Plaid API (https://www.plaid.com/docs).
 
-These bindings are under active development and currently support the main usecases of the Plaid API. There are some parts that are as yet unimplemented so pull requests are welcome!
+The whole available Plaid API is defined in the `PlaidApiService` interface.
+
+Check the Junit test classes for examples of more use cases. Every API endpoint has at
+least one integration test against the sandbox environment.
+
+Uses [Retrofit](https://github.com/square/retrofit) and [OkHttp](https://github.com/square/okhttp) under
+the hood. You may want to take a look at those libraries if you need to do anything out of the ordinary.
 
 ### Installation
 
-Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java) with the following coordinates (latest release 0.3.2):
+Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java)
 
 ```xml
 
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>0.3.2</version>
+  <version>2.0</version>
 </dependency>
 
 ```
@@ -23,65 +29,50 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 
 ```java
 
-// Add Amex user, get 30 days of transactions
+// Use builder to create a client 
+PlaidClient plaidClient = PlaidClient.newBuilder()
+  .clientIdAndSecret("your_client_id", "your_secret")
+  .publicKey("your_public_key") // optional. only needed to call endpoints that require a public key
+  .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+  .build();
 
-PlaidUserClient plaidUserClient = PlaidClients.testUserClient("test_id", "test_secret");
-Credentials testCredentials = new Credentials("plaid_test", "plaid_good");
-TransactionsResponse response = plaidUserClient.addUser(testCredentials, "amex", "test@test.com", null);
 
-List<Transaction> transactions = response.getTransactions();
+// Synchronously exchange a Link public_token for an API access_token
+// Required request parameters are always Request object constructor arguments
+Response<ItemPublicTokenExchangeResponse> response = plaidClient.service()
+    .itemPublicTokenExchange(new ItemPublicTokenExchangeRequest("the_link_public_token")).execute();
+
+if (response.isSuccessful()) {
+  accessToken = response.body().getAccessToken();
+}
 
 
-// Get all Categories
+// Asynchronously do the same thing. Useful for potentially long-lived calls.
+plaidClient.service()
+    .itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(publicToken))
+    .enqueue(new Callback<ItemPublicTokenExchangeResponse>() {
+        @Override
+        public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {
+          if (response.isSuccessful()) {
+            accessToken = response.body.getAccessToken();
+          }
+        }
+        
+        @Override
+        public void onFailure(Call<ItemPublicTokenExchangeResponse> call, Throwable t) {
+          // handle the failure as needed
+        }
+    });
 
-PlaidPublicClient plaidPublicClient = PlaidClients.testPublicClient();
-CategoriesResponse categoriesResponse = plaidPublicClient.getAllCategories();
 
-List<Category> categories = categoriesResponse.getCategories();
+// Decoding an unsuccessful response
+try {
+  ErrorResponse errorResponse = plaidClient.parseError(response);
+} catch (Exception e) {
+  // deal with it. you didn't even receive a well-formed JSON error response.
+}
 ```
 
-Check the Junit test classes for examples of more use cases.
-
-### Exchange a Plaid Link public_token for an API access_token
-
-```java
-// Initialize a Plaid client with your client_id and secret
-PlaidUserClient plaidUserClient = PlaidClients.testUserClient("test_id", "test_secret");
-
-// Exchange the Link public_token ("test,bofa,connected") for an API access_token
-PlaidUserResponse response = plaidUserClient.exchangeToken("test,bofa,connected");
-
-// Initialize the user with the access_token returned by the exchangeToken call
-plaidUserClient.setAccessToken(response.getAccessToken());
-
-// Pull accounts for the user
-// Note: This assumes you are using Link with the "auth" product
-AccountsResponse response = plaidUserClient.updateAuth();
-```
-
-To use [Stripe ACH + Plaid Integration](https://plaid.com/docs/link/stripe/) exchange a `public_token` and `account_id` to retrive a Stripe bank account token
-
-```java
-// Initialize a Plaid client with your client_id and secret
-PlaidUserClient plaidUserClient = PlaidClients.testUserClient("test_id", "test_secret");
-
-// Exchange the Link public_token ("test,bofa,connected") and account_id ("test_account_id")
-PlaidUserResponse response = plaidUserClient.exchangeToken("test,bofa,connected", "test_account_id");
-
-// Get the Stripe bank account token from response
-String stripeToken = response.getStripeBankAccountToken();
-```
-
-### Dependencies
-
-There are two main dependencies (of course automatically managed by Maven):
-
-1. [Apache HTTPComponents Client](http://hc.apache.org/httpcomponents-client-ga/index.html). One reason for this, besides it being a nice library, is that the native JDK HttpUrlConnection doesn't have support for the HTTP Patch method, that is required by the Plaid API. The bindings are, however, designed so that you can replace HTTPComponents client with the HTTP library of your choice, by creating a different implementation of the HttpDelegate interface.
-
-2. The [Jackson JSON Parser](http://jackson.codehaus.org/).
-
-The project also has a test scope dependency on [Wiremock](http://wiremock.org), which is really useful in order to avoid hitting the sandbox API all the time.
-
-### Contributors
-
-- [@erimag](https://github.com/erimag) (Qapital Insight AB)
+### Legacy API
+If you're looking for a Java client that works with the legacy Plaid API, use
+versions of `plaid-java` before `2.0.0`. The API and client are not backwards-compatible.
