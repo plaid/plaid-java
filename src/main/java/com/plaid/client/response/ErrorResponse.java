@@ -1,30 +1,47 @@
 package com.plaid.client.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+/**
+ * Common response returned when an error occurs as a result of any API call.
+ *
+ * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
+ */
+public final class ErrorResponse extends BaseResponse {
+  /**
+   * The error type.
+   */
+  public enum ErrorType {
+    INVALID_REQUEST, INVALID_INPUT, RATE_LIMIT_EXCEEDED, API_ERROR, ITEM_ERROR
+  }
 
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class ErrorResponse {
+  private String displayMessage;
+  private String errorCode;
+  private String errorMessage;
+  private ErrorType errorType;
 
-    private Integer code;
-    private String message;
-    private String resolve;
-    
-    public Integer getCode() {
-        return code;
-    }
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-    public String getMessage() {
-        return message;
-    }
-    public void setMessage(String message) {
-        this.message = message;
-    }
-    public String getResolve() {
-        return resolve;
-    }
-    public void setResolve(String resolve) {
-        this.resolve = resolve;
-    }
+  public String getDisplayMessage() {
+    return displayMessage;
+  }
+
+  public String getErrorCode() {
+    return errorCode;
+  }
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
+
+  public ErrorType getErrorType() {
+    return errorType;
+  }
+
+  @Override
+  public String toString() {
+    return "ErrorResponse{" +
+      "displayMessage='" + displayMessage + '\'' +
+      ", errorCode='" + errorCode + '\'' +
+      ", errorMessage='" + errorMessage + '\'' +
+      ", errorType='" + errorType + '\'' +
+      ", requestId='" + getRequestId() + '\'' +
+      '}';
+  }
 }

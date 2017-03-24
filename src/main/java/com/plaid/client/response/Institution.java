@@ -1,110 +1,56 @@
 package com.plaid.client.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.plaid.client.request.common.Product;
 
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class Institution {
-
-    private CredentialNames credentialNames;
-    private Boolean hasMfa;
-    private String id;
-    private List<String> mfaTypes;
+public final class Institution {
+  public class Credential {
+    private String label;
     private String name;
-    private List<String> products;
     private String type;
 
-    @JsonProperty("credentials")
-    public CredentialNames getCredentialNames() {
-        return credentialNames;
-    }
-
-    public void setCredentialNames(CredentialNames credentialNames) {
-        this.credentialNames = credentialNames;
-    }
-
-    @JsonProperty("has_mfa")
-    public void setHasMfa(boolean hasMfa) {
-        this.hasMfa = hasMfa;
-    }
-
-    public boolean isHasMfa() {
-        return hasMfa;
-    }
-
-    @JsonProperty("mfa")
-    public List<String> getMfaTypes() {
-        return mfaTypes;
-    }
-
-    public void setMfaTypes(List<String> mfaTypes) {
-        this.mfaTypes = mfaTypes;
-    }
-
-    public List<String> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<String> products) {
-        this.products = products;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getLabel() {
+      return label;
     }
 
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+      return name;
     }
 
     public String getType() {
-        return type;
+      return type;
     }
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  private List<Credential> credentials;
+  private boolean hasMfa;
+  private String institutionId;
+  private List<String> mfa;
+  private String name;
+  private List<Product> products;
 
-    @JsonIgnoreProperties(ignoreUnknown=true)
-    public static final class CredentialNames {
+  public List<Credential> getCredentials() {
+    return credentials;
+  }
 
-        private String username;
-        private String password;
-        private String pin;
+  public boolean hasMfa() {
+    return hasMfa;
+  }
 
-        public String getPassword() {
-            return password;
-        }
+  public String getInstitutionId() {
+    return institutionId;
+  }
 
-        public void setPassword(String password) {
-            this.password = password;
-        }
+  public List<String> getMfa() {
+    return mfa;
+  }
 
-        public String getUsername() {
-            return username;
-        }
+  public String getName() {
+    return name;
+  }
 
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPin() {
-            return pin;
-        }
-
-        public void setPin(String pin) {
-            this.pin = pin;
-        }
-    }
-
+  public List<Product> getProducts() {
+    return products;
+  }
 }
