@@ -31,7 +31,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
     assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("Tartan Bank", institution.getName());
-    assertEquals(Arrays.asList(Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY, Product.TRANSACTIONS),
+    assertEquals(Arrays.asList(Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY, Product.INCOME, Product.TRANSACTIONS),
       institution.getProducts());
   }
 

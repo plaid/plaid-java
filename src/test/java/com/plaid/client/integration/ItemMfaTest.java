@@ -170,7 +170,7 @@ public class ItemMfaTest extends AbstractIntegrationTest {
     assertSuccessResponse(response);
     assertTrue(response.body().isItemResponse());
     assertFalse(response.body().isMfaResponse());
-    assertEquals(Arrays.asList(Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY),
+    assertEquals(Arrays.asList(Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY, Product.INCOME),
       response.body().getItem().getAvailableProducts());
     assertEquals(1, response.body().getItem().getBilledProducts().size());
     assertThat(response.body().getItem().getBilledProducts(), hasItems(Product.TRANSACTIONS));
