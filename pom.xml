@@ -4,8 +4,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.plaid</groupId>
-  <artifactId>plaid-java-apiv2</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>plaid-java</artifactId>
+  <version>2.0</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -15,12 +15,12 @@
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Bindings for the Plaid (plaid.com) API.</description>
-  <url>https://github.com/plaid/plaid-java-apiv2</url>
+  <url>https://github.com/plaid/plaid-java</url>
 
   <scm>
-    <connection>scm:git:git://github.com/plaid/plaid-java-apiv2.git</connection>
-    <developerConnection>scm:git:git@github.com:plaid/plaid-java-apiv2.git</developerConnection>
-    <url>http://github.com/plaid/plaid-java-apiv2</url>
+    <connection>scm:git:git://github.com/plaid/plaid-java.git</connection>
+    <developerConnection>scm:git:git@github.com:plaid/plaid-java.git</developerConnection>
+    <url>http://github.com/plaid/plaid-java</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -182,6 +182,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <name>Sonatype Nexus snapshot repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <name>Sonatype Nexus release repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
   <profiles>
     <profile>
