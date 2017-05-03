@@ -55,6 +55,12 @@ public class IdentityGetTest extends AbstractItemIntegrationTest {
       assertNotNull(address.getData().getState());
       assertNotNull(address.getData().getZip());
     }
+
+    for (IdentityGetResponse.PhoneNumber phoneNumber : identity.getPhoneNumbers()) {
+      assertNotNull(phoneNumber.getData());
+      assertNotNull(phoneNumber.getType());
+      assertNotNull(phoneNumber.isPrimary());
+    }
   }
 
   @Test

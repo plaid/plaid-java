@@ -23,6 +23,7 @@ public final class IdentityGetResponse extends BaseResponse {
     private List<String> names;
     private List<Email> emails;
     private List<Address> addresses;
+    private List<PhoneNumber> phoneNumbers;
 
     public List<String> getNames() {
       return names;
@@ -35,6 +36,10 @@ public final class IdentityGetResponse extends BaseResponse {
 
     public List<Address> getAddresses() {
       return addresses;
+    }
+
+    public List<PhoneNumber> getPhoneNumbers() {
+      return phoneNumbers;
     }
   }
 
@@ -94,6 +99,24 @@ public final class IdentityGetResponse extends BaseResponse {
 
     public String getZip() {
       return zip;
+    }
+  }
+
+  public final static class PhoneNumber {
+    private Boolean primary;
+    private String data;
+    private String type;
+
+    public Boolean isPrimary() {
+      return primary;
+    }
+
+    public String getData() {
+      return data;
+    }
+
+    public String getType() {
+      return type;
     }
   }
 }
