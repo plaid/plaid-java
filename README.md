@@ -1,4 +1,4 @@
-plaid-java
+plaid-java [![Circle CI](https://circleci.com/gh/plaid/plaid-java.svg?style=svg&circle-token=4ed876775bc0ac7fba18124bc835a9e82dab0c53)](https://circleci.com/gh/plaid/plaid-java) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
 ==========
 
 Java Bindings for the Plaid API (https://www.plaid.com/docs).
@@ -20,7 +20,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>2.1</version>
+  <version>2.1.1</version>
 </dependency>
 
 ```
