@@ -41,6 +41,7 @@ public final class TransactionsGetResponse extends BaseResponse {
     private String pendingTransactionId;
     private String transactionId;
     private String transactionType;
+    private String accountOwner;
 
     public String getTransactionId() {
       return transactionId;
@@ -92,6 +93,10 @@ public final class TransactionsGetResponse extends BaseResponse {
 
     public String getOriginalDescription() {
       return originalDescription;
+    }
+
+    public String getAccountOwner() {
+     return accountOwner;
     }
 
     public final class PaymentMeta {
