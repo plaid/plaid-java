@@ -42,6 +42,7 @@ public class ItemPublicTokenExchangeTest extends AbstractIntegrationTest {
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getAccessToken());
+    assertNotNull(response.body().getItemId());
   }
 
   @Test
