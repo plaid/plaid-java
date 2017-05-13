@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class PlaidClient {
   // a more restrictive connection spec based on the MODERN_TLS spec already present in OkHttp
-  public static final ConnectionSpec CONNECTION_SPEC = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+  static final ConnectionSpec CONNECTION_SPEC = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
     .tlsVersions(TlsVersion.TLS_1_2)
     .build();
   private final PlaidApiService plaidApiService;
@@ -240,7 +240,7 @@ public final class PlaidClient {
      * Direct access to the underlying OkHTTP client builder for advanced settings
      * like SSL, proxy, logging, and timeout options if needed.
      *
-     * @return this. To satisfy the builder pattern.
+     * @return the underlying builder.
      */
     public OkHttpClient.Builder okHttpClientBuilder() {
       return okHttpClientBuilder;

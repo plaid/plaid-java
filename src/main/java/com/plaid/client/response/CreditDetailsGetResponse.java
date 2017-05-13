@@ -23,7 +23,7 @@ public final class CreditDetailsGetResponse extends BaseResponse {
     return creditDetails;
   }
 
-  public final class CreditDetail {
+  public static final class CreditDetail {
     private String accountId;
     private Aprs aprs;
     private Double lastPaymentAmount;
