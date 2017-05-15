@@ -27,7 +27,7 @@ public final class TransactionsGetResponse extends BaseResponse {
     return totalTransactions;
   }
 
-  public final class Transaction {
+  public static final class Transaction {
     private String accountId;
     private Double amount;
     private List<String> category;
@@ -142,7 +142,7 @@ public final class TransactionsGetResponse extends BaseResponse {
       }
     }
 
-    public final class Location {
+    public static final class Location {
       private String address;
       private String city;
       private String state;

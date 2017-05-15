@@ -19,7 +19,7 @@ public final class AuthGetResponse extends BaseResponse {
     return numbers;
   }
 
-  public final class Numbers {
+  public static final class Numbers {
     private String accountId;
     private String account;
     private String routing;

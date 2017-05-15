@@ -1,6 +1,5 @@
 package com.plaid.client.response;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ public final class CategoriesGetResponse extends BaseResponse {
     return categories;
   }
 
-  public class Category {
+  public static class Category {
     private String group;
     private List<String> hierarchy;
     private String categoryId;
