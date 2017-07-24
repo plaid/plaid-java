@@ -22,6 +22,8 @@ import com.plaid.client.request.ItemMfaRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
+import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
+import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
 import com.plaid.client.request.TransactionsDeactivateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
@@ -47,6 +49,8 @@ import com.plaid.client.response.ItemMfaResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
+import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
+import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
 import com.plaid.client.response.TransactionsDeactivateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
@@ -85,6 +89,12 @@ public interface PlaidApiService {
 
   @POST("/processor/stripe/bank_account_token/create")
   Call<ItemStripeTokenCreateResponse> itemStripeTokenCreate(@Body ItemStripeTokenCreateRequest request);
+
+  @POST("/processor/apex/processor_token/create")
+  Call<ItemApexProcessorTokenCreateResponse> itemApexProcessorTokenCreate(@Body ItemApexProcessorTokenCreateRequest request);
+
+  @POST("/processor/dwolla/processor_token/create")
+  Call<ItemDwollaProcessorTokenCreateResponse> itemDwollaProcessorTokenCreate(@Body ItemDwollaProcessorTokenCreateRequest request);
 
   @POST("/item/access_token/invalidate")
   Call<ItemAccessTokenInvalidateResponse> itemAccessTokenInvalidate(@Body ItemAccessTokenInvalidateRequest request);
