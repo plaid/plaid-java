@@ -9,7 +9,7 @@ public final class ItemDwollaProcessorTokenCreateRequest extends BaseAccessToken
   private String accountId;
 
   public ItemDwollaProcessorTokenCreateRequest(String accessToken, String accountId) {
-  super(accessToken);
+    super(accessToken);
     this.accountId = accountId;
   }
 }

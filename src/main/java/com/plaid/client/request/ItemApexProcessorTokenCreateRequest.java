@@ -9,7 +9,7 @@ public final class ItemApexProcessorTokenCreateRequest extends BaseAccessTokenRe
   private String accountId;
 
   public ItemApexProcessorTokenCreateRequest(String accessToken, String accountId) {
-  super(accessToken);
+    super(accessToken);
     this.accountId = accountId;
   }
 }
