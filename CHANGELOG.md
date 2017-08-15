@@ -1,3 +1,7 @@
+# 2.1.3
+
+- Add support for Apex and Dwolla processor tokens ([#87](https://github.com/plaid/plaid-java/pull/87))
+
 # 2.1.2
 
 - Add `getItemId()` method to `ItemPublicTokenExchangeResponse` ([#82](https://github.com/plaid/plaid-java/pull/82))
