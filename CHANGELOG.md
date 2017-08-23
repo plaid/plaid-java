@@ -1,3 +1,7 @@
+# 2.1.4
+
+- Fix Apex and Dwolla `processor_token` return values ([#91](https://github.com/plaid/plaid-java/pull/91))
+
 # 2.1.3
 
 - Add support for Apex and Dwolla processor tokens ([#87](https://github.com/plaid/plaid-java/pull/87))
