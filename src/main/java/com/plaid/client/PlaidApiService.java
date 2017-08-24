@@ -25,7 +25,6 @@ import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
-import com.plaid.client.request.TransactionsDeactivateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.response.AccountsBalanceGetResponse;
 import com.plaid.client.response.AccountsGetResponse;
@@ -52,7 +51,6 @@ import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
-import com.plaid.client.response.TransactionsDeactivateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -128,9 +126,6 @@ public interface PlaidApiService {
 
   @POST("/transactions/get")
   Call<TransactionsGetResponse> transactionsGet(@Body TransactionsGetRequest request);
-
-  @POST("/transactions/deactivate")
-  Call<TransactionsDeactivateResponse> transactionsDeactivate(@Body TransactionsDeactivateRequest request);
 
   @POST("/credit_details/get")
   Call<CreditDetailsGetResponse> creditDetailsGet(@Body CreditDetailsGetRequest request);
