@@ -1,3 +1,8 @@
+# 2.1.5
+
+- Add `getItemId` method to `ItemAccessTokenUpdateVersionResponse` ([#95](https://github.com/plaid/plaid-java/pull/95))
+- Fix failing Sandbox unit tests
+
 # 2.1.4
 
 - Fix Apex and Dwolla `processor_token` return values ([#91](https://github.com/plaid/plaid-java/pull/91))
