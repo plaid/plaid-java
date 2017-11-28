@@ -21,6 +21,7 @@ import com.plaid.client.request.ItemMfaEncryptRequest;
 import com.plaid.client.request.ItemMfaRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
+import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
@@ -47,6 +48,7 @@ import com.plaid.client.response.ItemMfaEncryptResponse;
 import com.plaid.client.response.ItemMfaResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
+import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
@@ -102,6 +104,9 @@ public interface PlaidApiService {
 
   @POST("/item/delete")
   Call<ItemDeleteResponse> itemDelete(@Body ItemDeleteRequest request);
+
+  @POST("/item/remove")
+  Call<ItemRemoveResponse> itemRemove(@Body ItemRemoveRequest request);
 
   @POST("/item/webhook/update")
   Call<ItemWebhookUpdateResponse> itemWebhookUpdate(@Body ItemWebhookUpdateRequest request);
