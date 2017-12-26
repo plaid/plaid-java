@@ -1,4 +1,5 @@
 plaid-java [![Circle CI](https://circleci.com/gh/plaid/plaid-java.svg?style=svg&circle-token=4ed876775bc0ac7fba18124bc835a9e82dab0c53)](https://circleci.com/gh/plaid/plaid-java) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fplaid%2Fplaid-java.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fplaid%2Fplaid-java?ref=badge_shield)
 ==========
 
 Java Bindings for the Plaid API (https://www.plaid.com/docs).
@@ -76,3 +77,7 @@ try {
 ### Legacy API
 If you're looking for a Java client that works with the legacy Plaid API, use
 versions of `plaid-java` before `2.1.0`. The API and client are not backwards-compatible.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fplaid%2Fplaid-java.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fplaid%2Fplaid-java?ref=badge_large)
