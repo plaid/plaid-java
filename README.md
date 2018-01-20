@@ -28,7 +28,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 ### Basic Usage
 
 ```java
-
+String accessToken;
 // Use builder to create a client 
 PlaidClient plaidClient = PlaidClient.newBuilder()
   .clientIdAndSecret("your_client_id", "your_secret")
