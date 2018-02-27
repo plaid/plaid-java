@@ -37,7 +37,7 @@ public final class Account {
     return officialName;
   }
 
-  public class Balances {
+  public static final class Balances {
     private Double available;
     private Double current;
     private Double limit;

@@ -2,7 +2,6 @@ package com.plaid.client.response;
 
 import com.plaid.client.request.common.MfaType;
 
-import java.util.Collections;
 import java.util.List;
 
 public final class ItemMfaResponse extends BaseResponse {
@@ -16,13 +15,13 @@ public final class ItemMfaResponse extends BaseResponse {
   private ItemStatus item;
 
   public final static class Device {
-	    private String displayMessage;
+    private String displayMessage;
 
-	    public String getDisplayMessage() {
+    public String getDisplayMessage() {
 	      return displayMessage;
 	    }
-  } 
-  
+  }
+
   public Device getDevice() {
     return device;
   }

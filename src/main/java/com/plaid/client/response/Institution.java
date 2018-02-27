@@ -5,7 +5,7 @@ import com.plaid.client.request.common.Product;
 import java.util.List;
 
 public final class Institution {
-  public class Credential {
+  public static final class Credential {
     private String label;
     private String name;
     private String type;
