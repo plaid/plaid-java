@@ -99,7 +99,7 @@ public final class TransactionsGetResponse extends BaseResponse {
      return accountOwner;
     }
 
-    public final class PaymentMeta {
+    public static final class PaymentMeta {
       private String byOrderOf;
       private String payee;
       private String payer;

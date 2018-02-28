@@ -66,7 +66,7 @@ public final class CreditDetailsGetResponse extends BaseResponse {
     }
   }
 
-  public final class Aprs {
+  public static final class Aprs {
     private Apr balanceTransfers;
     private Apr cashAdvances;
     private Apr purchases;
@@ -85,7 +85,7 @@ public final class CreditDetailsGetResponse extends BaseResponse {
     }
   }
 
-  public final class Apr {
+  public static final class Apr {
     private Double apr;
     private Double balanceSubjectToApr;
     private Double interestChargeAmount;
