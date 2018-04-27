@@ -43,7 +43,7 @@ public class ItemCreateTest extends AbstractIntegrationTest {
     assertTrue(response.body().isItemResponse());
     assertFalse(response.body().isMfaResponse());
 
-    assertEquals(Arrays.asList(Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY, Product.INCOME),
+    assertEquals(Arrays.asList(Product.ASSETS, Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY, Product.INCOME),
       response.body().getItem().getAvailableProducts());
     assertEquals(1, response.body().getItem().getBilledProducts().size());
     assertEquals(Arrays.asList(Product.TRANSACTIONS), response.body().getItem().getBilledProducts());
@@ -158,7 +158,7 @@ public class ItemCreateTest extends AbstractIntegrationTest {
     assertFalse(response.body().isMfaResponse());
 
     assertEquals(5, response.body().getItem().getAvailableProducts().size());
-    assertEquals(Arrays.asList(Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY, Product.INCOME),
+    assertEquals(Arrays.asList(Product.ASSETS, Product.AUTH, Product.BALANCE, Product.CREDIT_DETAILS, Product.IDENTITY, Product.INCOME),
       response.body().getItem().getAvailableProducts());
     assertEquals(1, response.body().getItem().getBilledProducts().size());
     assertEquals(Arrays.asList(Product.TRANSACTIONS), response.body().getItem().getBilledProducts());
