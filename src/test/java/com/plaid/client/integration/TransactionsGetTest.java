@@ -8,16 +8,18 @@ import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.ItemCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class TransactionsGetTest extends AbstractIntegrationTest {
   private String accessToken;
@@ -29,7 +31,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
     Response<ItemCreateResponse> response = client().service().itemCreate(
       new ItemCreateRequest(
         TARTAN_BANK_INSTITUTION_ID,
-        Arrays.asList(Product.TRANSACTIONS)
+        Collections.singletonList(Product.TRANSACTIONS)
       )
         .withOptionAwaitResults(true)
         .withCredentials("username", "user_good")
@@ -87,7 +89,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
         accessToken,
         startDate,
         endDate)
-        .withAccountIds(Arrays.asList(someAccountId))
+        .withAccountIds(Collections.singletonList(someAccountId))
         .withCount(numTxns)
         .withOffset(1)).execute();
 
