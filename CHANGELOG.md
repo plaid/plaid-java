@@ -1,3 +1,11 @@
+# 2.2.2
+
+- Allow `TransactionGetRequest.Options` to be subclassed ([#110](https://github.com/plaid/plaid-java/pull/110))
+
+# 2.2.1
+
+- Add Assets as a product ([#109](https://github.com/plaid/plaid-java/pull/109))
+
 # 2.2.0
 
 - Add `/item/remove` endpoint and `itemRemove()`, an alias for `/item/delete` and `itemDelete()` respectively ([#99](https://github.com/plaid/plaid-java/pull/99))
