@@ -21,7 +21,7 @@ Using the editor of your choice, paste this into your `~/.m2/settings.xml` file,
   <servers>
     <server>
       <id>ossrh</id>
-      <username>davidzhanghp</username>
+      <username>sonatypeusername</username>
       <password>>>iLoveHotPot123!@HenrysHunan</password>
     </server>
   </servers>
@@ -63,8 +63,8 @@ You may see something like this.
 
 ```
 pub   rsa2048 2018-05-01 [SC] [expires: 2020-04-30]
-      464ADCDE06A6F2D4BCCBCD610B8EB73128C3987A
-uid           [ultimate] David Zhang <dzhang@plaid.com>
+      464ADCDE06A6F2D4BCCBCD601B8EB73128C3987A
+uid           [ultimate] First Last <flast@plaid.com>
 sub   rsa2048 2018-05-01 [E] [expires: 2020-04-30]
 ```
 
@@ -88,8 +88,6 @@ PLAID_SECRET=insertsecrethere \
 PLAID_CLIENT_ID=insertclientidhere \ 
 mvn release:perform
 ```  
-
-We need to specify the env variables because we run tests against sandbox as part of the release process. You need the PK/secret/client-id for a client that's enabled for direct integration against sandbox. Ask `mkelly@` or `dzhang@` to give this to you if you don't have access to one.
 
 This will release a new artifact with a bumped patch version to the Sonatype staging maven repository. After it's pushed to staging, you need to do some mucking around in the UI to push it to production.
 
