@@ -26,6 +26,8 @@ import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
+import com.plaid.client.request.SandboxItemResetLoginRequest;
+import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.response.AccountsBalanceGetResponse;
 import com.plaid.client.response.AccountsGetResponse;
@@ -53,6 +55,8 @@ import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
+import com.plaid.client.response.SandboxItemResetLoginResponse;
+import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -110,6 +114,15 @@ public interface PlaidApiService {
 
   @POST("/item/webhook/update")
   Call<ItemWebhookUpdateResponse> itemWebhookUpdate(@Body ItemWebhookUpdateRequest request);
+
+  // sandbox-only endpoints
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////  
+  @POST("/sandbox/item/reset_login")
+  Call<SandboxItemResetLoginResponse> sandboxItemResetLogin(@Body SandboxItemResetLoginRequest request);  
+
+  @POST("/sandbox/public_token/create")
+  Call<SandboxPublicTokenCreateResponse> sandboxPublicTokenCreate(@Body SandboxPublicTokenCreateRequest request);  
 
   // products
   ////////////////////////////////////////////////////////
