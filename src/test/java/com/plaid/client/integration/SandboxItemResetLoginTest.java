@@ -30,4 +30,5 @@ public class SandboxItemResetLoginTest extends AbstractItemIntegrationTest {
 
     assertSuccessResponse(response);
     assertTrue(response.body().getResetLogin());
-  }}
+  }
+}
