@@ -41,6 +41,8 @@ public final class Account {
     private Double available;
     private Double current;
     private Double limit;
+    private String isoCurrencyCode;
+    private String unofficialCurrencyCode;
 
     public Double getAvailable() {
       return available;
@@ -52,6 +54,14 @@ public final class Account {
 
     public Double getLimit() {
       return limit;
+    }
+
+    public String getIsoCurrencyCode() {
+      return isoCurrencyCode;
+    }
+
+    public String getUnofficialCurrencyCode() {
+      return unofficialCurrencyCode;
     }
   }
 }

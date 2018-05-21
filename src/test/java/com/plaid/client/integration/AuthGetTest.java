@@ -6,13 +6,11 @@ import com.plaid.client.request.common.Product;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.AuthGetResponse;
 import com.plaid.client.response.ErrorResponse;
+import java.util.Collections;
+import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Response;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -31,17 +29,26 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testAllAccountsSuccess() throws Exception {
     Response<AuthGetResponse> response =
-      client().service().authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken())).execute();
+      client().service()
+        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken()))
+        .execute();
 
     assertSuccessResponse(response);
     assertEquals(4, response.body().getAccounts().size());
     assertNotNull(response.body().getItem());
 
-    for (AuthGetResponse.Numbers n : response.body().getNumbers()) {
-      assertNotNull(n.getAccount());
-      assertNotNull(n.getRouting());
-      assertNotNull(n.getAccountId());
-      assertNotNull(n.getWireRouting());
+    for (AuthGetResponse.NumberACH numberACH : response.body().getNumbers().getACH()) {
+      assertNotNull(numberACH.getAccount());
+      assertNotNull(numberACH.getRouting());
+      assertNotNull(numberACH.getAccountId());
+      assertNotNull(numberACH.getWireRouting());
+    }
+
+    for (AuthGetResponse.NumberEFT numberEFT : response.body().getNumbers().getEFT()) {
+      assertNotNull(numberEFT.getAccount());
+      assertNotNull(numberEFT.getBranch());
+      assertNotNull(numberEFT.getInstitution());
+      assertNotNull(numberEFT.getAccountId());
     }
   }
 
@@ -56,16 +63,19 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
 
     // call under test
     Response<AuthGetResponse> response =
-      client().service().authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId))).execute();
+      client().service()
+        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken())
+          .withAccountIds(Collections.singletonList(accountId)))
+        .execute();
 
     assertSuccessResponse(response);
-    List<AuthGetResponse.Numbers> numbersList = response.body().getNumbers();
-    assertNotNull(numbersList);
-    assertEquals(1, numbersList.size());
-    assertEquals(accountId, numbersList.get(0).getAccountId());
-    assertEquals("1111222233331111", numbersList.get(0).getAccount());
-    assertEquals("011401533", numbersList.get(0).getRouting());
-    assertEquals("021000021", numbersList.get(0).getWireRouting());
+    List<AuthGetResponse.NumberACH> achList = response.body().getNumbers().getACH();
+    assertNotNull(achList);
+    assertEquals(1, achList.size());
+    assertEquals(accountId, achList.get(0).getAccountId());
+    assertEquals("1111222233331111", achList.get(0).getAccount());
+    assertEquals("011401533", achList.get(0).getRouting());
+    assertEquals("021000021", achList.get(0).getWireRouting());
   }
 
   @Test
@@ -79,7 +89,10 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   @Ignore("triggers a sandbox 500 error at this time")
   public void testNoSuchAccountError() throws Exception {
     Response<AuthGetResponse> response =
-      client().service().authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken()).withAccountIds(Arrays.asList("fake-not-real"))).execute();
+      client().service()
+        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken())
+          .withAccountIds(Collections.singletonList("fake-not-real")))
+        .execute();
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCOUNT_ID");
   }
 }

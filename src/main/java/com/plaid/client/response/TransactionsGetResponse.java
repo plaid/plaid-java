@@ -30,6 +30,8 @@ public final class TransactionsGetResponse extends BaseResponse {
   public static final class Transaction {
     private String accountId;
     private Double amount;
+    private String isoCurrencyCode;
+    private String unofficialCurrencyCode;
     private List<String> category;
     private String categoryId;
     private String date;
@@ -78,6 +80,14 @@ public final class TransactionsGetResponse extends BaseResponse {
     public Double getAmount() {
       return amount;
     }
+
+    public String getIsoCurrencyCode() {
+      return isoCurrencyCode;
+    }
+
+    public String getUnofficialCurrencyCode() {
+      return unofficialCurrencyCode;
+    }    
 
     public List<String> getCategory() {
       return category;
