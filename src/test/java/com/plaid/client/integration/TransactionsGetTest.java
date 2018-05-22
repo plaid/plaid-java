@@ -40,10 +40,9 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
 
     assertSuccessResponse(response);
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     this.accessToken = response.body().getAccessToken();
-    startDate = simpleDateFormat.parse("2017-01-01");
-    endDate = simpleDateFormat.parse("2017-02-01");
+    startDate = new Date();
+    endDate = new Date(System.currentTimeMillis() - 86400 * 10);
   }
 
   @Test
@@ -60,6 +59,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
     assertNotNull(response.body().getItem());
     assertNotNull(response.body().getAccounts());
     assertFalse(response.body().getAccounts().isEmpty());
+    assertTrue(response.body().getTransactions().size() > 0);
     for (TransactionsGetResponse.Transaction txn : response.body().getTransactions()) {
       assertNotNull(txn.getTransactionId());
       assertNotNull(txn.getAccountId());
@@ -70,6 +70,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
       assertNotNull(txn.getName());
       assertNotNull(txn.getAmount());
       assertNotNull(txn.getLocation());
+      assertNotNull(txn.getIsoCurrencyCode());
     }
   }
 

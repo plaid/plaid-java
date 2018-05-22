@@ -11,8 +11,22 @@ import com.plaid.client.internal.gson.OptionalTypeAdapterFactory;
 import com.plaid.client.internal.gson.RequiredFieldTypeAdapterFactory;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.response.ErrorResponse;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.security.KeyStore;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.ConnectionSpec;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -21,21 +35,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.security.KeyStore;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
 public final class PlaidClient {
   // a more restrictive connection spec based on the MODERN_TLS spec already present in OkHttp
-  static final ConnectionSpec CONNECTION_SPEC = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+  private static final ConnectionSpec CONNECTION_SPEC = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
     .tlsVersions(TlsVersion.TLS_1_2)
     .build();
   private final PlaidApiService plaidApiService;
@@ -105,6 +107,17 @@ public final class PlaidClient {
     return new Builder();
   }
 
+  public static class PlaidApiVersionHeaderInterceptor implements Interceptor {
+    @Override public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
+      Request originalRequest = chain.request();
+      Request transformedRequest = originalRequest.newBuilder()
+        .addHeader(PlaidApiVersion.PLAID_API_VERSION_OVERRIDE_HEADER,
+          PlaidApiVersion.PLAID_API_VERSION)
+        .build();
+      return chain.proceed(transformedRequest);
+    }
+  }
+
   public static class Builder {
     public static String DEFAULT_PRODUCTION_BASE_URL = "https://production.plaid.com";
     public static String DEFAULT_DEVELOPMENT_BASE_URL = "https://development.plaid.com";
@@ -167,7 +180,8 @@ public final class PlaidClient {
         .readTimeout(readTimeoutSeconds, TimeUnit.SECONDS)
         .connectTimeout(connectTimeoutSeconds, TimeUnit.SECONDS)
         .followSslRedirects(false)
-        .connectionSpecs(Arrays.asList(CONNECTION_SPEC));
+        .addInterceptor(new PlaidApiVersionHeaderInterceptor())
+        .connectionSpecs(Collections.singletonList(CONNECTION_SPEC));
 
       if (httpLogLevel != null) {
         okHttpClientBuilder.addInterceptor(new HttpLoggingInterceptor().setLevel(httpLogLevel));
@@ -185,7 +199,7 @@ public final class PlaidClient {
      * This attempts to detect whether TLSv1.2 is already enabled by default,
      * and if not, enable it, or failing that throw an error early.
      *
-     * @param okHttpClientBuilder
+     * @param okHttpClientBuilder the OkHttpClient builder
      */
     private void checkRuntimeSupportsTls12(OkHttpClient.Builder okHttpClientBuilder) {
       SSLSocket testSslSocket = null;
