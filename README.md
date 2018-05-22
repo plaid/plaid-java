@@ -88,4 +88,4 @@ If you're looking for a Java client that works with the legacy Plaid API, use
 versions of `plaid-java` before `2.1.0`. The API and client are not backwards-compatible.
 
 [version-changelog]: https://plaid.com/docs/version-changelog
-[api-version-2018-05-22]: https://plaid.com/docs/version-changelog#2018-05-22-latest-
+[api-version-2018-05-22]: https://plaid.com/docs/api-upgrades#2018-05-22
