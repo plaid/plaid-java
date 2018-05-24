@@ -47,12 +47,11 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    Response<TransactionsGetResponse> response = client().service().transactionsGet(
-      new TransactionsGetRequest(
-        accessToken,
-        startDate,
-        endDate))
-      .execute();
+    TransactionsGetRequest request =
+      new TransactionsGetRequest(accessToken, startDate, endDate)
+        .withCount(100);
+    Response<TransactionsGetResponse> response = client().service()
+      .transactionsGet(request).execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getTotalTransactions());
