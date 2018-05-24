@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.plaid.client.internal.Util;
 import com.plaid.client.internal.gson.CredentialInjectingTypeAdapterFactory;
 import com.plaid.client.internal.gson.ImmutableListTypeAdapterFactory;
-import com.plaid.client.internal.gson.ObjectSerializer;
+import com.plaid.client.internal.gson.BaseOptionsSerializer;
 import com.plaid.client.internal.gson.OptionalTypeAdapterFactory;
 import com.plaid.client.internal.gson.RequiredFieldTypeAdapterFactory;
 import com.plaid.client.request.TransactionsGetRequest;
@@ -171,7 +171,7 @@ public final class PlaidClient {
         .registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ImmutableListTypeAdapterFactory())
-        .registerTypeAdapter(TransactionsGetRequest.Options.class, new ObjectSerializer())
+        .registerTypeAdapter(TransactionsGetRequest.Options.class, new BaseOptionsSerializer())
         .create();
     }
 

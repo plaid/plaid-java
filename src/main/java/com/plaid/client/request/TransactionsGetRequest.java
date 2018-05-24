@@ -17,7 +17,7 @@ public final class TransactionsGetRequest extends BaseAccessTokenRequest {
   private Date startDate;
   @JsonAdapter(DateOnlyTypeAdapterFactory.class)
   private Date endDate;
-  private Optional<Options> options = Optional.empty();
+  private Optional<BaseOptions> options = Optional.empty();
 
   public TransactionsGetRequest(String accessToken, Date startDate, Date endDate) {
     super(accessToken);
@@ -48,7 +48,7 @@ public final class TransactionsGetRequest extends BaseAccessTokenRequest {
     return this;
   }
 
-  private void validateOptions(Options options) {
+  private void validateOptions(BaseOptions options) {
     if (options.count != null) {
       Util.isBetween(options.count, 0, 500, "count");
     }
@@ -66,9 +66,15 @@ public final class TransactionsGetRequest extends BaseAccessTokenRequest {
     return this;
   }
 
-  public static class Options {
-    private List<String> accountIds;
-    private Integer count;
-    private Integer offset;
+  public static class BaseOptions {
+    public List<String> accountIds;
+    public Integer count;
+    public Integer offset;
+
+    private BaseOptions() {
+    }
+  }
+
+  public static class Options extends BaseOptions {
   }
 }
