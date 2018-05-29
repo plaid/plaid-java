@@ -37,9 +37,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class PlaidClient {
   // a more restrictive connection spec based on the MODERN_TLS spec already present in OkHttp
-  private static final ConnectionSpec CONNECTION_SPEC = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-    .tlsVersions(TlsVersion.TLS_1_2)
-    .build();
+  private static final ConnectionSpec CONNECTION_SPEC =
+    new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+      .tlsVersions(TlsVersion.TLS_1_2)
+      .build();
+  private static String headerVersion;
+
   private final PlaidApiService plaidApiService;
   private final Retrofit retrofit;
 
@@ -79,7 +82,8 @@ public final class PlaidClient {
       throw new IllegalArgumentException("Response must be unsuccessful.");
     }
 
-    Converter<ResponseBody, ErrorResponse> responseBodyObjectConverter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[0]);
+    Converter<ResponseBody, ErrorResponse> responseBodyObjectConverter =
+      retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[0]);
 
     try {
       return responseBodyObjectConverter.convert(response.errorBody());
@@ -100,22 +104,26 @@ public final class PlaidClient {
   /**
    * Start here! Creates a new {@link Builder} so you can make a {@link PlaidClient}
    *
-   *
    * @return A brand new {@link Builder}
    */
   public static Builder newBuilder() {
     return new Builder();
   }
 
-  public static class PlaidApiVersionHeaderInterceptor implements Interceptor {
+  public static class PlaidApiHeadersInterceptor implements Interceptor {
     @Override public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
       Request originalRequest = chain.request();
       Request transformedRequest = originalRequest.newBuilder()
-        .addHeader(PlaidApiVersion.PLAID_API_VERSION_OVERRIDE_HEADER,
-          PlaidApiVersion.PLAID_API_VERSION)
+        .addHeader(PlaidHeaders.PLAID_API_VERSION_OVERRIDE_HEADER,
+          PlaidHeaders.PLAID_API_VERSION)
+        .addHeader(PlaidHeaders.PLAID_API_USER_AGENT_HEADER, getUserAgentHeader())
         .build();
       return chain.proceed(transformedRequest);
     }
+  }
+
+  private static String getUserAgentHeader() {
+    return String.format("Plaid Java v%s", PlaidVersion.PLAID_VERSION);
   }
 
   public static class Builder {
@@ -147,7 +155,8 @@ public final class PlaidClient {
      */
     public PlaidClient build() {
       if (baseUrl == null) {
-        throw new IllegalArgumentException("must set baseUrl. You probably want to call productionBaseUrl(), developmentBaseUrl(), or sandboxBaseUrl().");
+        throw new IllegalArgumentException(
+          "must set baseUrl. You probably want to call productionBaseUrl(), developmentBaseUrl(), or sandboxBaseUrl().");
       }
 
       if (publicKey == null && (clientId == null || secret == null)) {
@@ -167,7 +176,8 @@ public final class PlaidClient {
     private Gson buildGson() {
       return new GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        .registerTypeAdapterFactory(new CredentialInjectingTypeAdapterFactory(publicKey, clientId, secret))
+        .registerTypeAdapterFactory(
+          new CredentialInjectingTypeAdapterFactory(publicKey, clientId, secret))
         .registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ImmutableListTypeAdapterFactory())
@@ -180,7 +190,7 @@ public final class PlaidClient {
         .readTimeout(readTimeoutSeconds, TimeUnit.SECONDS)
         .connectTimeout(connectTimeoutSeconds, TimeUnit.SECONDS)
         .followSslRedirects(false)
-        .addInterceptor(new PlaidApiVersionHeaderInterceptor())
+        .addInterceptor(new PlaidApiHeadersInterceptor())
         .connectionSpecs(Collections.singletonList(CONNECTION_SPEC));
 
       if (httpLogLevel != null) {
@@ -207,7 +217,7 @@ public final class PlaidClient {
       try {
         // create a temporary client and test socket to check for desired cipher and protocol support
         OkHttpClient testOkHttpClient = okHttpClientBuilder.build();
-        testSslSocket = (SSLSocket)testOkHttpClient.sslSocketFactory().createSocket();
+        testSslSocket = (SSLSocket) testOkHttpClient.sslSocketFactory().createSocket();
 
         // does the test socket work with our connection spec's cipher suite and tls version as-is?
         if (CONNECTION_SPEC.isCompatible(testSslSocket)) {
@@ -215,8 +225,10 @@ public final class PlaidClient {
         }
 
         // perhaps TLSv1.2 is supported, just not enabled by default (some versions of Java 7)
-        if (!Arrays.asList(testSslSocket.getSupportedProtocols()).contains(TlsVersion.TLS_1_2.javaName())) {
-          throw new RuntimeException("This JRE's SSL implementation does not support TLSv1.2. Bailing out.");
+        if (!Arrays.asList(testSslSocket.getSupportedProtocols())
+          .contains(TlsVersion.TLS_1_2.javaName())) {
+          throw new RuntimeException(
+            "This JRE's SSL implementation does not support TLSv1.2. Bailing out.");
         }
 
         // supported but not enabled by default. In this case, we'll have our OkHTTP
@@ -235,7 +247,7 @@ public final class PlaidClient {
         X509TrustManager trustManager = (X509TrustManager) trustManagers[0];
 
         SSLContext sslContext = SSLContext.getInstance(TlsVersion.TLS_1_2.javaName());
-        sslContext.init(null, new TrustManager[]{trustManager}, null);
+        sslContext.init(null, new TrustManager[] {trustManager}, null);
         SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
         okHttpClientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
       } catch (Exception e) {
@@ -321,7 +333,6 @@ public final class PlaidClient {
      * Can be found in your Account Dashboard. See documentation for details.
      *
      * @param publicKey Your Plaid API Public key.
-     *
      * @return This {@link Builder} to satisfy the builder pattern.
      */
     public Builder publicKey(String publicKey) {
@@ -340,7 +351,6 @@ public final class PlaidClient {
      *
      * @param clientId Your Plaid API Client ID
      * @param secret Your Plaid API Secret
-     *
      * @return This {@link Builder} to satisfy the builder pattern.
      */
     public Builder clientIdAndSecret(String clientId, String secret) {
