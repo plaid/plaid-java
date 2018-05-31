@@ -41,8 +41,8 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
     assertSuccessResponse(response);
 
     this.accessToken = response.body().getAccessToken();
-    startDate = new Date();
-    endDate = new Date(System.currentTimeMillis() - 86400 * 10);
+    startDate = new Date(System.currentTimeMillis() - 86400000L * 100);
+    endDate = new Date();
   }
 
   @Test
