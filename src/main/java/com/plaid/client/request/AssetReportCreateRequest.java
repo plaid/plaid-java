@@ -44,7 +44,7 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     notNull(firstName, "firstName");
     options = options.orElse(new Options());
     options.get().user = options.get().user.orElse(new Options.UserOptions());
-    options.get().user.get().clientUserId = firstName;
+    options.get().user.get().firstName = firstName;
     return this;
   }
 
@@ -52,7 +52,7 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     notNull(middleName, "middleName");
     options = options.orElse(new Options());
     options.get().user = options.get().user.orElse(new Options.UserOptions());
-    options.get().user.get().clientUserId = middleName;
+    options.get().user.get().middleName = middleName;
     return this;
   }
 
@@ -60,7 +60,7 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     notNull(lastName, "lastName");
     options = options.orElse(new Options());
     options.get().user = options.get().user.orElse(new Options.UserOptions());
-    options.get().user.get().clientUserId = lastName;
+    options.get().user.get().lastName = lastName;
     return this;
   }
 
@@ -68,7 +68,7 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     notNull(ssn, "ssn");
     options = options.orElse(new Options());
     options.get().user = options.get().user.orElse(new Options.UserOptions());
-    options.get().user.get().clientUserId = ssn;
+    options.get().user.get().ssn = ssn;
     return this;
   }
 
@@ -76,7 +76,7 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     notNull(phoneNumber, "phoneNumber");
     options = options.orElse(new Options());
     options.get().user = options.get().user.orElse(new Options.UserOptions());
-    options.get().user.get().clientUserId = phoneNumber;
+    options.get().user.get().phoneNumber = phoneNumber;
     return this;
   }
 
@@ -84,7 +84,7 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     notNull(email, "email");
     options = options.orElse(new Options());
     options.get().user = options.get().user.orElse(new Options.UserOptions());
-    options.get().user.get().clientUserId = email;
+    options.get().user.get().email = email;
     return this;
   }
 
