@@ -13,7 +13,7 @@ import retrofit2.Response;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class AssetReportAuditCopyRemoveTest extends AbstractItemIntegrationTest {
 
@@ -43,6 +43,6 @@ public class AssetReportAuditCopyRemoveTest extends AbstractItemIntegrationTest 
     String auditCopyToken = auditCopyCreateResponse.body().getAuditCopyToken();
     AssetReportAuditCopyRemoveRequest request = new AssetReportAuditCopyRemoveRequest(auditCopyToken);
     Response<AssetReportAuditCopyRemoveResponse> response = client.service().assetReportAuditCopyRemove(request).execute();
-    assertNotNull(response.body().getRemoved());
+    assertTrue(response.body().getRemoved());
   }
 }

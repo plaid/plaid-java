@@ -44,29 +44,37 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertFalse(respBody.getReport().getItems().isEmpty());
 
     assertNotNull(respBody.getReport().getAssetReportId());
-    assertEquals(respBody.getReport().getDaysRequested(), 365);
+    assertEquals(365, respBody.getReport().getDaysRequested());
 
-    assertEquals(respBody.getReport().getUser().getClientUserId(), "Charleson");
-    assertEquals(respBody.getReport().getItems().size(), 1);
+    assertEquals("Alberta", respBody.getReport().getUser().getFirstName());
+    assertEquals("Charleson", respBody.getReport().getUser().getLastName());
+    assertEquals(1, respBody.getReport().getItems().size());
 
     AssetReportGetResponse.Item assetItem = respBody.getReport().getItems().get(0);
-    assertEquals(assetItem.getAccounts().size(), 4);
-    assertEquals(assetItem.getInstitutionId(), "ins_109511");
-    assertEquals(assetItem.getInstitutionName(), "Tartan Bank");
+    assertEquals(4, assetItem.getAccounts().size());
+    assertEquals("ins_109511", assetItem.getInstitutionId());
+    assertEquals("Tartan Bank", assetItem.getInstitutionName());
   }
 
   /**
    * Utility function that polls Plaid till we see the Asset Report is ready
    */
-  public static Response<AssetReportGetResponse> waitTillReady(PlaidClient client, String assetReportToken) throws Exception {
+  public static Response<AssetReportGetResponse> waitTillReady(
+          PlaidClient client, String assetReportToken) throws Exception {
+    int NUM_RETRIES = 20;
+    int INTER_REQUEST_SLEEP = 5000; // millis
+    int attempt = 1;
     Response<AssetReportGetResponse> response;
     do {
       AssetReportGetRequest assetReportGet = new AssetReportGetRequest(assetReportToken);
       response = client.service().assetReportGet(assetReportGet).execute();
+      attempt++;
+      Thread.sleep(INTER_REQUEST_SLEEP);
     } while (
         !response.isSuccessful() &&
          response.errorBody() != null &&
-         client.parseError(response).getErrorCode().equals("PRODUCT_NOT_READY")
+         client.parseError(response).getErrorCode().equals("PRODUCT_NOT_READY") &&
+         attempt < NUM_RETRIES
       );
     return response;
   }

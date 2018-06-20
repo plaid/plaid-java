@@ -1,9 +1,9 @@
 package com.plaid.client.response;
 
 public class AssetReportAuditCopyRemoveResponse extends BaseResponse {
-  private String removed;
+  private boolean removed;
 
-  public String getRemoved() {
+  public boolean getRemoved() {
     return removed;
   }
 }
