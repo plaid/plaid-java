@@ -14,25 +14,6 @@ import static org.junit.Assert.assertNotNull;
 
 public class AssetReportCreateTest extends AbstractItemIntegrationTest {
 
-  @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.ASSETS);
-  }
-
-  @Override
-  protected String setupItemInstitutionId() {
-    return TARTAN_BANK_INSTITUTION_ID;
-  }
-
-  @Test
-  public void testAssetReportCreateRequestSuccess() throws Exception {
-    List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
-    Response<AssetReportCreateResponse> response = createAssetReport(client(), accessTokens);
-    assertSuccessResponse(response);
-    assertNotNull(response.body().getAssetReportId());
-    assertNotNull(response.body().getAssetReportToken());
-  }
-
   /**
    * Utility method that creates an asset report given a client and a list of access tokens.
    * Used by other integration tests (ex. {@link AssetReportGetTest}) to set up.
@@ -56,4 +37,22 @@ public class AssetReportCreateTest extends AbstractItemIntegrationTest {
     return response;
   }
 
+  @Override
+  protected List<Product> setupItemProducts() {
+    return Arrays.asList(Product.ASSETS);
+  }
+
+  @Override
+  protected String setupItemInstitutionId() {
+    return TARTAN_BANK_INSTITUTION_ID;
+  }
+
+  @Test
+  public void testAssetReportCreateRequestSuccess() throws Exception {
+    List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
+    Response<AssetReportCreateResponse> response = createAssetReport(client(), accessTokens);
+    assertSuccessResponse(response);
+    assertNotNull(response.body().getAssetReportId());
+    assertNotNull(response.body().getAssetReportToken());
+  }
 }

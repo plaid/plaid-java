@@ -7,6 +7,7 @@ import com.plaid.client.response.AssetReportCreateResponse;
 import okhttp3.ResponseBody;
 import org.junit.Test;
 import retrofit2.Response;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,5 +39,4 @@ public class AssetReportPdfGetTest extends AbstractItemIntegrationTest {
     Response<ResponseBody> response = client.service().assetReportPdfGet(assetReportPdfGet).execute();
     assertTrue(response.body().bytes().length > 0);
   }
-
 }

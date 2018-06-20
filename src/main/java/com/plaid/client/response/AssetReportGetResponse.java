@@ -178,5 +178,4 @@ public class AssetReportGetResponse extends BaseResponse {
     public String getPending() { return pending; }
     public Double getAmount() { return amount; }
   }
-
 }

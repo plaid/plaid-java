@@ -9,4 +9,3 @@ public final class AssetReportPdfGetRequest extends BaseClientRequest {
     this.assetReportToken = assetReportToken;
   }
 }
-

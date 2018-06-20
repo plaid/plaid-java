@@ -8,6 +8,4 @@ public final class AssetReportGetRequest extends BaseClientRequest {
   public AssetReportGetRequest(String assetReportToken)  {
     this.assetReportToken = assetReportToken;
   }
-
 }
-

@@ -70,6 +70,4 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
       );
     return response;
   }
-
-
 }

@@ -45,6 +45,4 @@ public class AssetReportAuditCopyRemoveTest extends AbstractItemIntegrationTest 
     Response<AssetReportAuditCopyRemoveResponse> response = client.service().assetReportAuditCopyRemove(request).execute();
     assertNotNull(response.body().getRemoved());
   }
-
 }
-

@@ -102,6 +102,5 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
       private String phoneNumber;
       private String email;
     }
-
   }
 }

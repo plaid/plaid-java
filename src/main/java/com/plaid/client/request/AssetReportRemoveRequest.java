@@ -9,5 +9,3 @@ public final class AssetReportRemoveRequest extends BaseClientRequest {
     this.assetReportToken = assetReportToken;
   }
 }
-
-

@@ -39,5 +39,4 @@ public class AssetReportAuditCopyCreateTest extends AbstractItemIntegrationTest 
     Response<AssetReportAuditCopyCreateResponse> response = client.service().assetReportAuditCopyCreate(request).execute();
     assertNotNull(response.body().getAuditCopyToken());
   }
-
 }
