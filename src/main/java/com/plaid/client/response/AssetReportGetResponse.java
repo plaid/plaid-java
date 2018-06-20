@@ -17,14 +17,14 @@ public class AssetReportGetResponse extends BaseResponse {
     private String assetReportId;
     private String clientReportId;
     private Date dateGenerated;
-    private int daysRequested;
+    private Integer daysRequested;
     private User user;
     private List<Item> items;
 
     public String getAssetReportId() { return assetReportId; }
     public String getClientReportId() { return clientReportId; }
     public Date getDateGenerated() { return dateGenerated; }
-    public int getDaysRequested() { return daysRequested; }
+    public Integer getDaysRequested() { return daysRequested; }
     public User getUser() { return user; }
     public List<Item> getItems() { return items; }
   }
@@ -80,7 +80,7 @@ public class AssetReportGetResponse extends BaseResponse {
     private Balance balances;
     private List<HistoricalBalance> historicalBalances;
     private List<Transaction> transactions;
-    private int daysAvailable;
+    private Integer daysAvailable;
 
     public String getAccountId() { return accountId; }
     public String getMask() { return mask; }
@@ -92,7 +92,7 @@ public class AssetReportGetResponse extends BaseResponse {
     public Balance getBalances() { return balances; }
     public List<HistoricalBalance> getHistoricalBalances() { return historicalBalances; }
     public List<Transaction> getTransactions() { return transactions; }
-    public int getDaysAvailable() { return daysAvailable; }
+    public Integer getDaysAvailable() { return daysAvailable; }
   }
 
   public final static class Owner {

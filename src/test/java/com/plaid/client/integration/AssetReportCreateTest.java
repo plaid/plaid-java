@@ -48,7 +48,7 @@ public class AssetReportCreateTest extends AbstractItemIntegrationTest {
   }
 
   @Test
-  public void testAssetReportCreateRequestSuccess() throws Exception {
+  public void testAssetReportCreateSuccess() throws Exception {
     List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
     Response<AssetReportCreateResponse> response = createAssetReport(client(), accessTokens);
     assertSuccessResponse(response);

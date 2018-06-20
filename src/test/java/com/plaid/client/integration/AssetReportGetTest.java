@@ -26,7 +26,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
   }
 
   @Test
-  public void testAssetReportCreateRequestSuccess() throws Exception {
+  public void testAssetReportGetSuccess() throws Exception {
     // Create asset report to get a asset report token
     List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
     Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client(), accessTokens);
@@ -44,7 +44,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertFalse(respBody.getReport().getItems().isEmpty());
 
     assertNotNull(respBody.getReport().getAssetReportId());
-    assertEquals(365, respBody.getReport().getDaysRequested());
+    assertEquals(new Integer(365), respBody.getReport().getDaysRequested());
 
     assertEquals("Alberta", respBody.getReport().getUser().getFirstName());
     assertEquals("Charleson", respBody.getReport().getUser().getLastName());
@@ -62,7 +62,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
   public static Response<AssetReportGetResponse> waitTillReady(
           PlaidClient client, String assetReportToken) throws Exception {
     int NUM_RETRIES = 20;
-    int INTER_REQUEST_SLEEP = 5000; // millis
+    int INTER_REQUEST_SLEEP = 1000; // millis
     int attempt = 1;
     Response<AssetReportGetResponse> response;
     do {
