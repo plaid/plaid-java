@@ -29,13 +29,6 @@ public class AssetReportGetResponse extends BaseResponse {
     public List<Item> getItems() { return items; }
   }
 
-  public final static class Warning {
-    private String itemId;
-    private String occurenceId;
-    private String dataType;
-    private String error;
-  }
-
   public final static class User {
     private String clientUserId;
     private String firstName;
@@ -177,5 +170,39 @@ public class AssetReportGetResponse extends BaseResponse {
     public String getOriginalDescription() { return originalDescription; }
     public String getPending() { return pending; }
     public Double getAmount() { return amount; }
+  }
+
+  public final static class Warning {
+    private String warningType;
+    private String warningCode;
+    private Cause cause;
+
+    public String getWarningType() { return warningType; }
+    public String getWarningCode() { return warningCode; }
+    public Cause getCause() { return cause; }
+  }
+
+  public final static class Cause {
+    private Error error;
+    private String itemId;
+
+    public Error getError() { return error; }
+    public String getItemId() { return itemId; }
+  }
+
+  public final static class Error {
+    private String errorType;
+    private String errorCode;
+    private String errorMessage;
+    private String displayMessage;
+    private Integer status;
+    private List<Cause> causes;
+
+    public String getErrorType() { return errorType; }
+    public String getErrorCode() { return errorCode; }
+    public String getErrorMessage() { return errorMessage; }
+    public String getDisplayMessage() { return displayMessage; }
+    public Integer getStatus() { return status; }
+    public List<Cause> getCauses() { return causes; }
   }
 }
