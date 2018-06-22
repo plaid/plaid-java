@@ -10,7 +10,7 @@ public final class ErrorResponse extends BaseResponse {
    * The error type.
    */
   public enum ErrorType {
-    INVALID_REQUEST, INVALID_INPUT, RATE_LIMIT_EXCEEDED, API_ERROR, ITEM_ERROR, INSTITUTION_ERROR
+    INVALID_REQUEST, INVALID_INPUT, RATE_LIMIT_EXCEEDED, API_ERROR, ITEM_ERROR, INSTITUTION_ERROR, ASSET_REPORT_ERROR
   }
 
   private String displayMessage;
