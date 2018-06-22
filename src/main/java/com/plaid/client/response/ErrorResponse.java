@@ -18,6 +18,9 @@ public final class ErrorResponse extends BaseResponse {
   private String errorMessage;
   private ErrorType errorType;
 
+  // Error code constants
+  public static String PRODUCT_NOT_READY = "PRODUCT_NOT_READY";
+
   public String getDisplayMessage() {
     return displayMessage;
   }
