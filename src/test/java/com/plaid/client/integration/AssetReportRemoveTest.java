@@ -27,7 +27,7 @@ public class AssetReportRemoveTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testAssetReportRemoveSuccess() throws Exception {
-    // Create asset report to get a asset report token
+    // Create asset report to get an asset report token
     PlaidClient client = client();
     List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
     Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client, accessTokens);

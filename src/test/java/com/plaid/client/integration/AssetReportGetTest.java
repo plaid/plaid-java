@@ -27,7 +27,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testAssetReportGetSuccess() throws Exception {
-    // Create asset report to get a asset report token
+    // Create asset report to get an asset report token
     List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
     Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client(), accessTokens);
     String assetReportToken = createResponse.body().getAssetReportToken();
@@ -44,16 +44,6 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertFalse(respBody.getReport().getItems().isEmpty());
 
     assertNotNull(respBody.getReport().getAssetReportId());
-    assertEquals(new Integer(365), respBody.getReport().getDaysRequested());
-
-    assertEquals("Alberta", respBody.getReport().getUser().getFirstName());
-    assertEquals("Charleson", respBody.getReport().getUser().getLastName());
-    assertEquals(1, respBody.getReport().getItems().size());
-
-    AssetReportGetResponse.Item assetItem = respBody.getReport().getItems().get(0);
-    assertEquals(4, assetItem.getAccounts().size());
-    assertEquals("ins_109511", assetItem.getInstitutionId());
-    assertEquals("Tartan Bank", assetItem.getInstitutionName());
   }
 
   /**
@@ -63,7 +53,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
           PlaidClient client, String assetReportToken) throws Exception {
     int NUM_RETRIES = 20;
     int INTER_REQUEST_SLEEP = 1000; // millis
-    int attempt = 1;
+    int attempt = 0;
     Response<AssetReportGetResponse> response;
     do {
       AssetReportGetRequest assetReportGet = new AssetReportGetRequest(assetReportToken);

@@ -26,7 +26,7 @@ public class AssetReportCreateTest extends AbstractItemIntegrationTest {
         .withFirstName("Alberta")
         .withMiddleName("Bobbeth")
         .withLastName("Charleson")
-        .withOptionWebhook(webhookUrl);
+        .withWebhook(webhookUrl);
 
     Response<AssetReportCreateResponse> response =
       client

@@ -18,7 +18,7 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     this.daysRequested = daysRequested;
   }
 
-  public AssetReportCreateRequest withOptionWebhook(String webhook) {
+  public AssetReportCreateRequest withWebhook(String webhook) {
     notNull(webhook, "webhook");
     options = options.orElse(new Options());
     options.get().webhook = webhook;

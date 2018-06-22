@@ -143,17 +143,25 @@ public class AssetReportGetResponse extends BaseResponse {
   public final static class Balance {
     private Double avaliable;
     private Double current;
+    private String unofficialCurrencyCode;
+    private String isoCurrencyCode;
 
     public Double getAvaliable() { return avaliable; }
     public Double getCurrent() { return current; }
+    public String getUnofficialCurrencyCode() { return unofficialCurrencyCode; }
+    public String getIsoCurrencyCode() { return isoCurrencyCode; }
   }
 
   public final static class HistoricalBalance {
     private Date date;
     private Double current;
+    private String unofficialCurrencyCode;
+    private String isoCurrencyCode;
 
     public Date getDate() { return date; }
     public Double getCurrent() { return current; }
+    public String getUnofficialCurrencyCode() { return unofficialCurrencyCode; }
+    public String getIsoCurrencyCode() { return isoCurrencyCode; }
   }
 
   public final static class Transaction {
@@ -163,6 +171,8 @@ public class AssetReportGetResponse extends BaseResponse {
     private String originalDescription;
     private String pending;
     private Double amount;
+    private String unofficialCurrencyCode;
+    private String isoCurrencyCode;
 
     public String getAccountId() { return accountId; }
     public String getTransactionId() { return transactionId; }
@@ -170,6 +180,8 @@ public class AssetReportGetResponse extends BaseResponse {
     public String getOriginalDescription() { return originalDescription; }
     public String getPending() { return pending; }
     public Double getAmount() { return amount; }
+    public String getUnofficialCurrencyCode() { return unofficialCurrencyCode; }
+    public String getIsoCurrencyCode() { return isoCurrencyCode; }
   }
 
   public final static class Warning {
