@@ -5,7 +5,6 @@ import com.plaid.client.request.AssetReportGetRequest;
 import com.plaid.client.request.common.Product;
 import com.plaid.client.response.AssetReportCreateResponse;
 import com.plaid.client.response.AssetReportGetResponse;
-import com.plaid.client.response.ErrorResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -52,6 +51,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
    */
   public static Response<AssetReportGetResponse> waitTillReady(
           PlaidClient client, String assetReportToken) throws Exception {
+    String PRODUCT_NOT_READY = "PRODUCT_NOT_READY";
     int NUM_RETRIES = 20;
     int INTER_REQUEST_SLEEP = 1000; // millis
     int attempt = 0;
@@ -64,7 +64,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     } while (
         !response.isSuccessful() &&
          response.errorBody() != null &&
-         client.parseError(response).getErrorCode().equals(ErrorResponse.PRODUCT_NOT_READY) &&
+         client.parseError(response).getErrorCode().equals(PRODUCT_NOT_READY) &&
          attempt < NUM_RETRIES
       );
     if (!response.isSuccessful()) {

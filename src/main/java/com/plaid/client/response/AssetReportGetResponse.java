@@ -7,13 +7,13 @@ import java.util.List;
  * See https://plaid.com/docs/api/#assets for more detail into the returned schema
  **/
 public class AssetReportGetResponse extends BaseResponse {
-  private Report report;
+  private AssetReport report;
   private List<Warning> warnings;
 
-  public Report getReport() { return this.report; }
+  public AssetReport getReport() { return this.report; }
   public List<Warning> getWarnings() { return this.warnings; }
 
-  public final static class Report {
+  public final static class AssetReport {
     private String assetReportId;
     private String clientReportId;
     private Date dateGenerated;
