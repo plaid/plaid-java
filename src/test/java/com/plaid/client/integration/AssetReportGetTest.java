@@ -15,6 +15,8 @@ import static org.junit.Assert.*;
 
 public class AssetReportGetTest extends AbstractItemIntegrationTest {
 
+  private final static String PRODUCT_NOT_READY = "PRODUCT_NOT_READY";
+
   @Override
   protected List<Product> setupItemProducts() {
     return Arrays.asList(Product.ASSETS);
@@ -51,7 +53,6 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
    */
   public static Response<AssetReportGetResponse> waitTillReady(
           PlaidClient client, String assetReportToken) throws Exception {
-    String PRODUCT_NOT_READY = "PRODUCT_NOT_READY";
     int NUM_RETRIES = 20;
     int INTER_REQUEST_SLEEP = 1000; // millis
     int attempt = 0;
