@@ -11,11 +11,11 @@ public final class Util {
   /**
    * Throws {@link IllegalArgumentException} if provided object is <code>null</code>.
    *
-   * @param o    The object to null check.
+   * @param obj    The object to null check.
    * @param name The name of the field, used to generate an appropriate error message.
    */
-  public static void notNull(Object o, String name) {
-    if (o == null) {
+  public static void notNull(Object obj, String name) {
+    if (obj == null) {
       throw new IllegalArgumentException(name + " == null");
     }
   }
@@ -23,14 +23,14 @@ public final class Util {
   /**
    * Checks that a given collection is not null and not empty.
    *
-   * @param c    The collection to check
+   * @param collection    The collection to check
    * @param name The name of the collection to use when raising an error.
    * @throws IllegalArgumentException If the collection was null or empty.
    */
-  public static void notEmpty(Collection c, String name) {
-    notNull(c, name);
+  public static void notEmpty(Collection collection, String name) {
+    notNull(collection, name);
 
-    if (c.isEmpty()) {
+    if (collection.isEmpty()) {
       throw new IllegalArgumentException(name + " must not be empty");
     }
   }
@@ -53,14 +53,14 @@ public final class Util {
   /**
    * Checks that a given map is not null and not empty.
    *
-   * @param m    The map to check
+   * @param map    The map to check
    * @param name The name of the collection to use when raising an error.
    * @throws IllegalArgumentException If the collection was null or empty.
    */
-  public static void notEmpty(Map m, String name) {
-    notNull(m, name);
+  public static void notEmpty(Map map, String name) {
+    notNull(map, name);
 
-    if (m.isEmpty()) {
+    if (map.isEmpty()) {
       throw new IllegalArgumentException(name + " must not be empty");
     }
   }
@@ -68,31 +68,31 @@ public final class Util {
   /**
    * Checks that i is not null and is in the range min &lt;= i &lt;= max.
    *
-   * @param i    The integer value to check.
+   * @param value    The integer value to check.
    * @param min  The minimum bound, inclusive.
    * @param max  The maximum bound, inclusive.
    * @param name The name of the variable being checked, included when an error is raised.
    * @throws IllegalArgumentException If i is null or outside the range.
    */
-  public static void isBetween(Integer i, int min, int max, String name) {
-    notNull(i, name);
+  public static void isBetween(Integer value, int min, int max, String name) {
+    notNull(value, name);
 
-    if (i < min || i > max) {
-      throw new IllegalArgumentException(name + "(" + i + ") out of range: " + min + " <= " + name + " <= " + max);
+    if (value < min || value > max) {
+      throw new IllegalArgumentException(name + "(" + value + ") out of range: " + min + " <= " + name + " <= " + max);
     }
   }
 
   /**
    * Checks that i is not null and is a positive number
    *
-   * @param i    The integer value to check.
+   * @param value    The integer value to check.
    * @param name The name of the variable being checked, included when an error is raised.
    * @throws IllegalArgumentException If i is null or less than 0
    */
-  public static void isPositive(Integer i, String name) {
-    notNull(i, name);
+  public static void isPositive(Integer value, String name) {
+    notNull(value, name);
 
-    if (i < 0) {
+    if (value < 0) {
       throw new IllegalArgumentException(name + "must be a positive number.");
     }
   }
