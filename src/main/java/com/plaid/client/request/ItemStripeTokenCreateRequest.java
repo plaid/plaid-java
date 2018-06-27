@@ -9,7 +9,7 @@ public final class ItemStripeTokenCreateRequest extends BaseAccessTokenRequest {
   private String accountId;
 
   public ItemStripeTokenCreateRequest(String accessToken, String accountId) {
-	super(accessToken);
+    super(accessToken);
     this.accountId = accountId;
   }
 }

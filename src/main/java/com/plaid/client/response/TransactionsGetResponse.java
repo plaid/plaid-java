@@ -106,7 +106,7 @@ public final class TransactionsGetResponse extends BaseResponse {
     }
 
     public String getAccountOwner() {
-     return accountOwner;
+      return accountOwner;
     }
 
     public static final class PaymentMeta {

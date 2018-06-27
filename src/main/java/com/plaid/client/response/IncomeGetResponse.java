@@ -14,7 +14,7 @@ public final class IncomeGetResponse extends BaseResponse {
     return income;
   }
 
-  public final static class Income {
+  public static final class Income {
     private Float lastYearIncome;
     private Float lastYearIncomeBeforeTax;
     private Float projectedYearlyIncome;
@@ -52,7 +52,7 @@ public final class IncomeGetResponse extends BaseResponse {
     }
   }
 
-  public final static class IncomeStream {
+  public static final class IncomeStream {
     private Float confidence;
     private Float days;
     private Float monthlyIncome;

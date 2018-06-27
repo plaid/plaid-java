@@ -19,7 +19,7 @@ public final class IdentityGetResponse extends BaseResponse {
     return accounts;
   }
 
-  public final static class Identity {
+  public static final class Identity {
     private List<String> names;
     private List<Email> emails;
     private List<Address> addresses;
@@ -43,7 +43,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public final static class Email {
+  public static final class Email {
     private Boolean primary;
     private String data;
     private String type;
@@ -61,7 +61,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public final static class Address {
+  public static final class Address {
     private List<String> accounts;
     private Boolean primary;
     private AddressData data;
@@ -79,7 +79,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public final static class AddressData {
+  public static final class AddressData {
     private String street;
     private String city;
     private String state;
@@ -102,7 +102,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public final static class PhoneNumber {
+  public static final class PhoneNumber {
     private Boolean primary;
     private String data;
     private String type;

@@ -14,12 +14,12 @@ public final class ItemMfaResponse extends BaseResponse {
   // normal response fields
   private ItemStatus item;
 
-  public final static class Device {
+  public static final class Device {
     private String displayMessage;
 
     public String getDisplayMessage() {
-	      return displayMessage;
-	    }
+      return displayMessage;
+    }
   }
 
   public Device getDevice() {

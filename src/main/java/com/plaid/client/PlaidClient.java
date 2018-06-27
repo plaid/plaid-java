@@ -87,8 +87,8 @@ public final class PlaidClient {
 
     try {
       return responseBodyObjectConverter.convert(response.errorBody());
-    } catch (IOException e) {
-      throw new RuntimeException("Could not parse error response", e);
+    } catch (IOException ex) {
+      throw new RuntimeException("Could not parse error response", ex);
     }
   }
 
@@ -102,7 +102,7 @@ public final class PlaidClient {
   }
 
   /**
-   * Start here! Creates a new {@link Builder} so you can make a {@link PlaidClient}
+   * Start here! Creates a new {@link Builder} so you can make a {@link PlaidClient}.
    *
    * @return A brand new {@link Builder}
    */
@@ -149,7 +149,7 @@ public final class PlaidClient {
     }
 
     /**
-     * Validate builder parameters, create, and return a new {@link PlaidClient}
+     * Validate builder parameters, create, and return a new {@link PlaidClient}.
      *
      * @return A brand new {@link PlaidClient}
      */
@@ -250,13 +250,13 @@ public final class PlaidClient {
         sslContext.init(null, new TrustManager[] {trustManager}, null);
         SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
         okHttpClientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
-      } catch (Exception e) {
-        throw new RuntimeException(e);
+      } catch (Exception ex) {
+        throw new RuntimeException(ex);
       } finally {
         if (testSslSocket != null) {
           try {
             testSslSocket.close();
-          } catch (IOException e) {
+          } catch (IOException ex) {
             // oh well
           }
         }
