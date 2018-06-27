@@ -1,3 +1,7 @@
+# 3.0.3
+
+- Add Plaid Assets API bindings ([#119](https://github.com/plaid/plaid-java/pull/119))
+
 # 2.2.2
 
 - Allow `TransactionGetRequest.Options` to be subclassed ([#110](https://github.com/plaid/plaid-java/pull/110))
