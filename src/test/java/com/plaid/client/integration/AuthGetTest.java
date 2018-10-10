@@ -34,7 +34,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
         .execute();
 
     assertSuccessResponse(response);
-    assertEquals(4, response.body().getAccounts().size());
+    assertEquals(5, response.body().getAccounts().size());
     assertNotNull(response.body().getItem());
 
     for (AuthGetResponse.NumberACH numberACH : response.body().getNumbers().getACH()) {
