@@ -9,6 +9,7 @@ import com.plaid.client.request.AssetReportCreateRequest;
 import com.plaid.client.request.AssetReportFilterRequest;
 import com.plaid.client.request.AssetReportGetRequest;
 import com.plaid.client.request.AssetReportPdfGetRequest;
+import com.plaid.client.request.AssetReportRefreshRequest;
 import com.plaid.client.request.AssetReportRemoveRequest;
 import com.plaid.client.request.AuthGetRequest;
 import com.plaid.client.request.CategoriesGetRequest;
@@ -131,7 +132,7 @@ public interface PlaidApiService {
 
   // sandbox-only endpoints
   ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////  
+  ////////////////////////////////////////////////////////
   @POST("/sandbox/item/reset_login")
   Call<SandboxItemResetLoginResponse> sandboxItemResetLogin(@Body SandboxItemResetLoginRequest request);
 
@@ -168,6 +169,9 @@ public interface PlaidApiService {
 
   @POST("/asset_report/audit_copy/get")
   Call<AssetReportGetResponse> assetReportAuditCopyGet(@Body AssetReportAuditCopyGetRequest request);
+
+  @POST("/asset_report/refresh")
+  Call<AssetReportCreateResponse> assetReportRefresh(@Body AssetReportRefreshRequest assetReportRefreshRequest);
 
   @POST("/asset_report/filter")
   Call<AssetReportCreateResponse> assetReportFilter(@Body AssetReportFilterRequest assetReportFilterRequest);

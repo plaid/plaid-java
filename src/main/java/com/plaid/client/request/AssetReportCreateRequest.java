@@ -3,7 +3,6 @@ package com.plaid.client.request;
 import com.plaid.client.internal.gson.Optional;
 import com.plaid.client.request.common.BaseClientRequest;
 
-
 import java.util.List;
 
 import static com.plaid.client.internal.Util.notNull;
@@ -88,12 +87,37 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
     return this;
   }
 
-  private static class Options {
+  public static class Options {
     private String webhook;
-    private String clientReportId;
     private Optional<UserOptions> user = Optional.empty();
+    private String clientReportId;
 
-    private static class UserOptions {
+    public String getClientReportId() {
+      return clientReportId;
+    }
+
+    public void setClientReportId(String clientReportId) {
+      this.clientReportId = clientReportId;
+    }
+
+    public Optional<UserOptions> getUser() {
+      return user;
+    }
+
+    public void setUser(
+        Optional<UserOptions> user) {
+      this.user = user;
+    }
+
+    public String getWebhook() {
+      return webhook;
+    }
+
+    public void setWebhook(String webhook) {
+      this.webhook = webhook;
+    }
+
+    public static class UserOptions {
       private String clientUserId;
       private String firstName;
       private String middleName;
@@ -101,6 +125,62 @@ public final class AssetReportCreateRequest extends BaseClientRequest {
       private String ssn;
       private String phoneNumber;
       private String email;
+
+      public String getClientUserId() {
+        return clientUserId;
+      }
+
+      public void setClientUserId(String clientUserId) {
+        this.clientUserId = clientUserId;
+      }
+
+      public String getFirstName() {
+        return firstName;
+      }
+
+      public void setFirstName(String firstName) {
+        this.firstName = firstName;
+      }
+
+      public String getMiddleName() {
+        return middleName;
+      }
+
+      public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+      }
+
+      public String getLastName() {
+        return lastName;
+      }
+
+      public void setLastName(String lastName) {
+        this.lastName = lastName;
+      }
+
+      public String getSsn() {
+        return ssn;
+      }
+
+      public void setSsn(String ssn) {
+        this.ssn = ssn;
+      }
+
+      public String getPhoneNumber() {
+        return phoneNumber;
+      }
+
+      public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+      }
+
+      public String getEmail() {
+        return email;
+      }
+
+      public void setEmail(String email) {
+        this.email = email;
+      }
     }
   }
 }
