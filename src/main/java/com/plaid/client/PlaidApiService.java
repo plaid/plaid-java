@@ -5,6 +5,7 @@ import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.AssetReportAuditCopyCreateRequest;
 import com.plaid.client.request.AssetReportAuditCopyRemoveRequest;
 import com.plaid.client.request.AssetReportCreateRequest;
+import com.plaid.client.request.AssetReportFilterRequest;
 import com.plaid.client.request.AssetReportGetRequest;
 import com.plaid.client.request.AssetReportPdfGetRequest;
 import com.plaid.client.request.AssetReportRemoveRequest;
@@ -71,7 +72,6 @@ import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -164,6 +164,9 @@ public interface PlaidApiService {
 
   @POST("/asset_report/audit_copy/remove")
   Call<AssetReportAuditCopyRemoveResponse> assetReportAuditCopyRemove(@Body AssetReportAuditCopyRemoveRequest request);
+
+  @POST("/asset_report/filter")
+  Call<AssetReportCreateResponse> assetReportFilter(@Body AssetReportFilterRequest assetReportFilterRequest);
 
   @POST("/auth/get")
   Call<AuthGetResponse> authGet(@Body AuthGetRequest request);
