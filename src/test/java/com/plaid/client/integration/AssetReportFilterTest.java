@@ -6,6 +6,8 @@ import com.plaid.client.request.AssetReportFilterRequest;
 import com.plaid.client.request.common.Product;
 import com.plaid.client.response.AssetReportCreateResponse;
 import com.plaid.client.response.AssetReportGetResponse;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -63,6 +65,7 @@ public class AssetReportFilterTest extends AbstractItemIntegrationTest {
 
     assertNotNull(respBody.getReport().getAssetReportId());
 
+    // To test filtering, we exclude an account id
     List<String> accountIdsToExclude = new ArrayList<>();
     accountIdsToExclude.add(respBody.getReport().getItems().get(0).getAccounts().get(0).getAccountId());
 
@@ -76,12 +79,18 @@ public class AssetReportFilterTest extends AbstractItemIntegrationTest {
     // wait till the filtered asset reponse is ready
     Response<AssetReportGetResponse> filteredReportResponse = waitTillReady(client(), assetReportFilterToken);
 
-    assertEquals(getAssetReportAccountIds(respBody.getReport()).size() - 1,
-        getAssetReportAccountIds(filteredReportResponse.body().getReport()).size());
+    Set<String> filteredAssetReportIds = getAssetReportAccountIds(filteredReportResponse.body().getReport());
+    Set<String> unfilteredAssetReportIds = getAssetReportAccountIds(respBody.getReport());
+
+    assertEquals(unfilteredAssetReportIds.size() - 1, filteredAssetReportIds.size());
+
+    // add back the account id we excluded and ensure the sets are equal
+    filteredAssetReportIds.add(accountIdsToExclude.get(0));
+    assertEquals(unfilteredAssetReportIds, filteredAssetReportIds);
   }
 
-  private List<String> getAssetReportAccountIds(AssetReportGetResponse.AssetReport assetReport) {
-    List<String> assetReportAccounts = new ArrayList<>();
+  private Set<String> getAssetReportAccountIds(AssetReportGetResponse.AssetReport assetReport) {
+    Set<String> assetReportAccounts = new HashSet<>();
 
     for (AssetReportGetResponse.Item item : assetReport.getItems()) {
       for (AssetReportGetResponse.Account account : item.getAccounts()) {
