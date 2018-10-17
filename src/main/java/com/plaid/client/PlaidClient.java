@@ -139,6 +139,7 @@ public final class PlaidClient {
     private long readTimeoutSeconds;
     private long connectTimeoutSeconds;
     private String publicKey;
+
     private String clientId;
     private String secret;
 
