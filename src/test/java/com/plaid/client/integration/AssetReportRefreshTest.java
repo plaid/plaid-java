@@ -106,7 +106,10 @@ public class AssetReportRefreshTest extends AbstractItemIntegrationTest {
     AssetReportCreateRequest.Options options = new AssetReportCreateRequest.Options();
     Optional<AssetReportCreateRequest.Options.UserOptions> user = Optional.empty();
     user = user.orElse(new AssetReportCreateRequest.Options.UserOptions());
-    user.get().setLastName("newLastName");
+
+    String newLastName = "newLastName";
+
+    user.get().setLastName(newLastName);
     options.setUser(user);
 
     AssetReportRefreshRequest assetReportRefreshRequest = new AssetReportRefreshRequest(assetReportToken, options);
@@ -131,7 +134,7 @@ public class AssetReportRefreshTest extends AbstractItemIntegrationTest {
     assertEquals(originalUser.getMiddleName(), refreshedUser.getMiddleName());
     assertEquals(originalUser.getPhoneNumber(), refreshedUser.getPhoneNumber());
     assertEquals(originalUser.getSsn(), refreshedUser.getSsn());
-    assertEquals("newLastName", refreshedUser.getLastName());
+    assertEquals(newLastName, refreshedUser.getLastName());
   }
 }
 
