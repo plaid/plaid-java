@@ -3,6 +3,7 @@ package com.plaid.client;
 import com.plaid.client.request.AccountsBalanceGetRequest;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.AssetReportAuditCopyCreateRequest;
+import com.plaid.client.request.AssetReportAuditCopyGetRequest;
 import com.plaid.client.request.AssetReportAuditCopyRemoveRequest;
 import com.plaid.client.request.AssetReportCreateRequest;
 import com.plaid.client.request.AssetReportFilterRequest;
@@ -164,6 +165,9 @@ public interface PlaidApiService {
 
   @POST("/asset_report/audit_copy/remove")
   Call<AssetReportAuditCopyRemoveResponse> assetReportAuditCopyRemove(@Body AssetReportAuditCopyRemoveRequest request);
+
+  @POST("/asset_report/audit_copy/get")
+  Call<AssetReportGetResponse> assetReportAuditCopyGet(@Body AssetReportAuditCopyGetRequest request);
 
   @POST("/asset_report/filter")
   Call<AssetReportCreateResponse> assetReportFilter(@Body AssetReportFilterRequest assetReportFilterRequest);
