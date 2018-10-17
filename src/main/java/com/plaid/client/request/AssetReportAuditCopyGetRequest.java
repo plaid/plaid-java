@@ -1,6 +1,8 @@
 package com.plaid.client.request;
 
-public class AssetReportAuditCopyGetRequest {
+import com.plaid.client.request.common.BaseClientRequest;
+
+public class AssetReportAuditCopyGetRequest extends BaseClientRequest {
   private String auditCopyToken;
 
   public AssetReportAuditCopyGetRequest(String auditCopyToken) {
