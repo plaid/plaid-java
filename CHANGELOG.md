@@ -1,3 +1,9 @@
+# 2.3.0
+
+- Add support for filtering asset reports ([#125](https://github.com/plaid/plaid-java/pull/125))
+- Add support for asset report refresh ([#126](https://github.com/plaid/plaid-java/pull/126))
+- Add support for /asset_report/audit_copy/get ([#127](https://github.com/plaid/plaid-java/pull/127))
+
 # 2.2.2
 
 - Allow `TransactionGetRequest.Options` to be subclassed ([#110](https://github.com/plaid/plaid-java/pull/110))
