@@ -1,4 +1,4 @@
-# 2.3.0
+# 3.0.5
 
 - Add support for filtering asset reports ([#125](https://github.com/plaid/plaid-java/pull/125))
 - Add support for asset report refresh ([#126](https://github.com/plaid/plaid-java/pull/126))
