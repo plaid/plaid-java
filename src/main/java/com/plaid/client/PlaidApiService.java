@@ -3,10 +3,13 @@ package com.plaid.client;
 import com.plaid.client.request.AccountsBalanceGetRequest;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.AssetReportAuditCopyCreateRequest;
+import com.plaid.client.request.AssetReportAuditCopyGetRequest;
 import com.plaid.client.request.AssetReportAuditCopyRemoveRequest;
 import com.plaid.client.request.AssetReportCreateRequest;
+import com.plaid.client.request.AssetReportFilterRequest;
 import com.plaid.client.request.AssetReportGetRequest;
 import com.plaid.client.request.AssetReportPdfGetRequest;
+import com.plaid.client.request.AssetReportRefreshRequest;
 import com.plaid.client.request.AssetReportRemoveRequest;
 import com.plaid.client.request.AuthGetRequest;
 import com.plaid.client.request.CategoriesGetRequest;
@@ -71,7 +74,6 @@ import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -130,7 +132,7 @@ public interface PlaidApiService {
 
   // sandbox-only endpoints
   ////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////  
+  ////////////////////////////////////////////////////////
   @POST("/sandbox/item/reset_login")
   Call<SandboxItemResetLoginResponse> sandboxItemResetLogin(@Body SandboxItemResetLoginRequest request);
 
@@ -164,6 +166,15 @@ public interface PlaidApiService {
 
   @POST("/asset_report/audit_copy/remove")
   Call<AssetReportAuditCopyRemoveResponse> assetReportAuditCopyRemove(@Body AssetReportAuditCopyRemoveRequest request);
+
+  @POST("/asset_report/audit_copy/get")
+  Call<AssetReportGetResponse> assetReportAuditCopyGet(@Body AssetReportAuditCopyGetRequest request);
+
+  @POST("/asset_report/refresh")
+  Call<AssetReportCreateResponse> assetReportRefresh(@Body AssetReportRefreshRequest assetReportRefreshRequest);
+
+  @POST("/asset_report/filter")
+  Call<AssetReportCreateResponse> assetReportFilter(@Body AssetReportFilterRequest assetReportFilterRequest);
 
   @POST("/auth/get")
   Call<AuthGetResponse> authGet(@Body AuthGetRequest request);

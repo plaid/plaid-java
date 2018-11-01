@@ -2,6 +2,7 @@ package com.plaid.client.response;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * See https://plaid.com/docs/#assets for more detail into the returned schema.
@@ -87,6 +88,29 @@ public class AssetReportGetResponse extends BaseResponse {
     public String getEmail() {
       return email;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      User user = (User) obj;
+      return Objects.equals(clientUserId, user.clientUserId) &&
+          Objects.equals(firstName, user.firstName) &&
+          Objects.equals(middleName, user.middleName) &&
+          Objects.equals(lastName, user.lastName) &&
+          Objects.equals(ssn, user.ssn) &&
+          Objects.equals(phoneNumber, user.phoneNumber) &&
+          Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(clientUserId, firstName, middleName, lastName, ssn, phoneNumber, email);
+    }
   }
 
   // The item object returned in an asset report
@@ -115,6 +139,26 @@ public class AssetReportGetResponse extends BaseResponse {
 
     public List<Account> getAccounts() {
       return accounts;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Item item = (Item) obj;
+      return Objects.equals(itemId, item.itemId) &&
+          Objects.equals(institutionName, item.institutionName) &&
+          Objects.equals(institutionId, item.institutionId) &&
+          Objects.equals(accounts, item.accounts);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(itemId, institutionName, institutionId, accounts);
     }
   }
 
@@ -174,6 +218,34 @@ public class AssetReportGetResponse extends BaseResponse {
     public Integer getDaysAvailable() {
       return daysAvailable;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Account account = (Account) obj;
+      return Objects.equals(accountId, account.accountId) &&
+          Objects.equals(mask, account.mask) &&
+          Objects.equals(name, account.name) &&
+          Objects.equals(officialName, account.officialName) &&
+          Objects.equals(type, account.type) &&
+          Objects.equals(subtype, account.subtype) &&
+          Objects.equals(owners, account.owners) &&
+          Objects.equals(balances, account.balances) &&
+          Objects.equals(historicalBalances, account.historicalBalances) &&
+          Objects.equals(transactions, account.transactions) &&
+          Objects.equals(daysAvailable, account.daysAvailable);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(accountId, mask, name, officialName, type, subtype, owners, balances,
+          historicalBalances, transactions, daysAvailable);
+    }
   }
 
   public static final class Owner {
@@ -197,6 +269,26 @@ public class AssetReportGetResponse extends BaseResponse {
     public List<Address> getAddresses() {
       return addresses;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Owner owner = (Owner) obj;
+      return Objects.equals(names, owner.names) &&
+          Objects.equals(phoneNumbers, owner.phoneNumbers) &&
+          Objects.equals(emails, owner.emails) &&
+          Objects.equals(addresses, owner.addresses);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(names, phoneNumbers, emails, addresses);
+    }
   }
 
   public static final class PhoneNumber {
@@ -214,6 +306,25 @@ public class AssetReportGetResponse extends BaseResponse {
 
     public String getType() {
       return type;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      PhoneNumber that = (PhoneNumber) obj;
+      return primary == that.primary &&
+          Objects.equals(data, that.data) &&
+          Objects.equals(type, that.type);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(data, primary, type);
     }
   }
 
@@ -233,6 +344,25 @@ public class AssetReportGetResponse extends BaseResponse {
     public String getType() {
       return type;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Email email = (Email) obj;
+      return primary == email.primary &&
+          Objects.equals(data, email.data) &&
+          Objects.equals(type, email.type);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(data, primary, type);
+    }
   }
 
   public static final class Address {
@@ -245,6 +375,24 @@ public class AssetReportGetResponse extends BaseResponse {
 
     public boolean isPrimary() {
       return primary;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Address address = (Address) obj;
+      return primary == address.primary &&
+          Objects.equals(data, address.data);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(data, primary);
     }
   }
 
@@ -269,6 +417,26 @@ public class AssetReportGetResponse extends BaseResponse {
     public String getZip() {
       return zip;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      AddressData that = (AddressData) obj;
+      return Objects.equals(city, that.city) &&
+          Objects.equals(state, that.state) &&
+          Objects.equals(street, that.street) &&
+          Objects.equals(zip, that.zip);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(city, state, street, zip);
+    }
   }
 
   public static final class Balance {
@@ -292,6 +460,26 @@ public class AssetReportGetResponse extends BaseResponse {
     public String getIsoCurrencyCode() {
       return isoCurrencyCode;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Balance balance = (Balance) obj;
+      return Objects.equals(avaliable, balance.avaliable) &&
+          Objects.equals(current, balance.current) &&
+          Objects.equals(unofficialCurrencyCode, balance.unofficialCurrencyCode) &&
+          Objects.equals(isoCurrencyCode, balance.isoCurrencyCode);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(avaliable, current, unofficialCurrencyCode, isoCurrencyCode);
+    }
   }
 
   public static final class HistoricalBalance {
@@ -314,6 +502,26 @@ public class AssetReportGetResponse extends BaseResponse {
 
     public String getIsoCurrencyCode() {
       return isoCurrencyCode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      HistoricalBalance that = (HistoricalBalance) obj;
+      return Objects.equals(date, that.date) &&
+          Objects.equals(current, that.current) &&
+          Objects.equals(unofficialCurrencyCode, that.unofficialCurrencyCode) &&
+          Objects.equals(isoCurrencyCode, that.isoCurrencyCode);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(date, current, unofficialCurrencyCode, isoCurrencyCode);
     }
   }
 
@@ -357,6 +565,31 @@ public class AssetReportGetResponse extends BaseResponse {
 
     public String getIsoCurrencyCode() {
       return isoCurrencyCode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Transaction that = (Transaction) obj;
+      return Objects.equals(accountId, that.accountId) &&
+          Objects.equals(transactionId, that.transactionId) &&
+          Objects.equals(date, that.date) &&
+          Objects.equals(originalDescription, that.originalDescription) &&
+          Objects.equals(pending, that.pending) &&
+          Objects.equals(amount, that.amount) &&
+          Objects.equals(unofficialCurrencyCode, that.unofficialCurrencyCode) &&
+          Objects.equals(isoCurrencyCode, that.isoCurrencyCode);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(accountId, transactionId, date, originalDescription, pending, amount,
+          unofficialCurrencyCode, isoCurrencyCode);
     }
   }
 
