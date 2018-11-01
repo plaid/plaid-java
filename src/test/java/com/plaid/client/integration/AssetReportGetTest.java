@@ -58,7 +58,10 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     int attempt = 0;
     Response<AssetReportGetResponse> response;
     do {
-      AssetReportGetRequest assetReportGet = new AssetReportGetRequest(assetReportToken);
+      boolean includeInsights = false;
+      AssetReportGetRequest assetReportGet =
+        new AssetReportGetRequest(assetReportToken)
+          .withIncludeInsights(includeInsights);
       response = client.service().assetReportGet(assetReportGet).execute();
       attempt++;
       Thread.sleep(INTER_REQUEST_SLEEP);

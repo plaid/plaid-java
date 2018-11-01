@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * See https://plaid.com/docs/api/#assets for more detail into the returned schema
+ * See https://plaid.com/docs/#assets for more detail into the returned schema.
  **/
 public class AssetReportGetResponse extends BaseResponse {
   private AssetReport report;
