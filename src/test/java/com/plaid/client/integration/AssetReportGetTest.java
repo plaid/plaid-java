@@ -59,8 +59,8 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertNotNull(respBody.getReport());
 
     // An Asset Report with Insights should include transaction categories (when available).
-    assertNotNull(
-      respBody.getReport().getItems().get(0).getAccounts().get(0).getTransactions().get(0).getCategory());
+    assertFalse(respBody.getReport().getItems().get(0).getAccounts().get(0).getTransactions()
+      .get(0).getCategory().isEmpty());
   }
 
   /**

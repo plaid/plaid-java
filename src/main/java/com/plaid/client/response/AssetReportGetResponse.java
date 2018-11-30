@@ -542,7 +542,7 @@ public class AssetReportGetResponse extends BaseResponse {
     // For more information, see
     // https://plaid.com/docs/#retrieve-json-report-request.
     private String accountOwner;
-    private String[] category;
+    private List<String> category;
     private String categoryId;
     private String dateTransacted;
     private Location location;
@@ -587,7 +587,7 @@ public class AssetReportGetResponse extends BaseResponse {
       return accountOwner;
     }
 
-    public String[] getCategory() {
+    public List<String> getCategory() {
       return category;
     }
 
