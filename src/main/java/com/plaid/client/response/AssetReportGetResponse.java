@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import com.plaid.client.response.TransactionsGetResponse.Transaction.Location;
+import com.plaid.client.response.TransactionsGetResponse.Transaction.PaymentMeta;
+
 /**
  * See https://plaid.com/docs/#assets for more detail into the returned schema.
  **/
@@ -535,6 +538,19 @@ public class AssetReportGetResponse extends BaseResponse {
     private String unofficialCurrencyCode;
     private String isoCurrencyCode;
 
+    // The following fields are only included in an Asset Report with Insights.
+    // For more information, see
+    // https://plaid.com/docs/#retrieve-json-report-request.
+    private String accountOwner;
+    private String[] category;
+    private String categoryId;
+    private String dateTransacted;
+    private Location location;
+    private String name;
+    private PaymentMeta paymentMeta;
+    private String pendingTransactionId;
+    private String transactionType;
+
     public String getAccountId() {
       return accountId;
     }
@@ -567,6 +583,42 @@ public class AssetReportGetResponse extends BaseResponse {
       return isoCurrencyCode;
     }
 
+    public String getAccountOwner() {
+      return accountOwner;
+    }
+
+    public String[] getCategory() {
+      return category;
+    }
+
+    public String getCategoryId() {
+      return categoryId;
+    }
+
+    public String getDateTransacted() {
+      return dateTransacted;
+    }
+
+    public Location getLocation() {
+      return location;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public PaymentMeta getPaymentMeta() {
+      return paymentMeta;
+    }
+
+    public String getPendingTransactionId() {
+      return pendingTransactionId;
+    }
+
+    public String getTransactionType() {
+      return transactionType;
+    }
+
     @Override
     public boolean equals(Object obj) {
       if (this == obj) {
@@ -583,13 +635,23 @@ public class AssetReportGetResponse extends BaseResponse {
           Objects.equals(pending, that.pending) &&
           Objects.equals(amount, that.amount) &&
           Objects.equals(unofficialCurrencyCode, that.unofficialCurrencyCode) &&
-          Objects.equals(isoCurrencyCode, that.isoCurrencyCode);
+          Objects.equals(isoCurrencyCode, that.isoCurrencyCode) &&
+          Objects.equals(accountOwner, that.accountOwner) &&
+          Objects.equals(category, that.category) &&
+          Objects.equals(categoryId, that.categoryId) &&
+          Objects.equals(dateTransacted, that.dateTransacted) &&
+          Objects.equals(location, that.location) &&
+          Objects.equals(name, that.name) &&
+          Objects.equals(paymentMeta, that.paymentMeta) &&
+          Objects.equals(pendingTransactionId, that.pendingTransactionId) &&
+          Objects.equals(transactionType, that.transactionType);
     }
 
     @Override
     public int hashCode() {
       return Objects.hash(accountId, transactionId, date, originalDescription, pending, amount,
-          unofficialCurrencyCode, isoCurrencyCode);
+          unofficialCurrencyCode, isoCurrencyCode, accountOwner, category, categoryId,
+          dateTransacted, location, name, paymentMeta, pendingTransactionId, transactionType);
     }
   }
 

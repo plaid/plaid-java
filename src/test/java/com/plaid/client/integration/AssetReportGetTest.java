@@ -46,6 +46,21 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertFalse(respBody.getReport().getItems().isEmpty());
 
     assertNotNull(respBody.getReport().getAssetReportId());
+
+    // Retrieve the report as an Asset Report with Insights.
+    AssetReportGetRequest assetReportGet =
+      new AssetReportGetRequest(assetReportToken)
+        .withIncludeInsights(true);
+    response = client().service().assetReportGet(assetReportGet).execute();
+
+    respBody = response.body();
+    assertSuccessResponse(response);
+
+    assertNotNull(respBody.getReport());
+
+    // An Asset Report with Insights should include transaction categories (when available).
+    assertNotNull(
+      respBody.getReport().getItems().get(0).getAccounts().get(0).getTransactions().get(0).getCategory());
   }
 
   /**
@@ -58,10 +73,8 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     int attempt = 0;
     Response<AssetReportGetResponse> response;
     do {
-      boolean includeInsights = false;
       AssetReportGetRequest assetReportGet =
-        new AssetReportGetRequest(assetReportToken)
-          .withIncludeInsights(includeInsights);
+        new AssetReportGetRequest(assetReportToken);
       response = client.service().assetReportGet(assetReportGet).execute();
       attempt++;
       Thread.sleep(INTER_REQUEST_SLEEP);
