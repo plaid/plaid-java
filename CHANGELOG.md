@@ -1,3 +1,7 @@
+# 3.0.6
+
+- Add support for Asset Reports with Insights ([#130](https://github.com/plaid/plaid-java/pull/130))
+
 # 3.0.5
 
 - Add support for filtering asset reports ([#125](https://github.com/plaid/plaid-java/pull/125))
