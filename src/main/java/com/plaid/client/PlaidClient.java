@@ -182,7 +182,7 @@ public final class PlaidClient {
         .registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ImmutableListTypeAdapterFactory())
-        .registerTypeAdapter(TransactionsGetRequest.Options.class, new BaseOptionsSerializer())
+        .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new BaseOptionsSerializer())
         .create();
     }
 

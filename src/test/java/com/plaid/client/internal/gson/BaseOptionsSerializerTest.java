@@ -21,6 +21,11 @@ public class BaseOptionsSerializerTest {
     private TransactionsGetRequest.Options options = new TransactionsGetRequest.Options();
   }
 
+  public static class OptionalContainer {
+    private Optional<TransactionsGetRequest.BaseOptions> options = Optional.of(new ChildOptions());
+  }
+
+
   @Test public void testSerializesChildren() {
     Gson gson = new GsonBuilder()
       .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new BaseOptionsSerializer())
@@ -31,6 +36,19 @@ public class BaseOptionsSerializerTest {
     String result = gson.toJson(child);
     assertEquals("{\"options\":{\"anotherIntValue\":2}}", result);
   }
+
+  @Test public void testSerializesChildrenWithOptional() {
+    Gson gson = new GsonBuilder()
+            .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new BaseOptionsSerializer())
+            .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
+            .create();
+
+    OptionalContainer optional = new OptionalContainer();
+
+    String result = gson.toJson(optional);
+    assertEquals("{\"options\":{\"anotherIntValue\":2}}", result);
+  }
+
 
   @Test public void testSerializesBase() {
     Gson gson = new GsonBuilder()
