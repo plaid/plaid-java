@@ -1,3 +1,7 @@
+# 3.0.7
+
+- Fix transaction get request handling. ([#132](https://github.com/plaid/plaid-java/pull/132))
+
 # 3.0.6
 
 - Add support for Asset Reports with Insights ([#130](https://github.com/plaid/plaid-java/pull/130))
