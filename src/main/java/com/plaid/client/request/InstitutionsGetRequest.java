@@ -4,6 +4,7 @@ import com.plaid.client.request.common.BaseClientRequest;
 import java.util.List;
 
 import static com.plaid.client.internal.Util.isBetween;
+import static com.plaid.client.internal.Util.notNull;
 
 /**
  * Request for the /institutions/get endpoint.
@@ -23,13 +24,9 @@ public final class InstitutionsGetRequest extends BaseClientRequest {
     this.offset = offset;
   }
 
-  public InstitutionsGetRequest(Integer count, Integer offset, boolean includeInstitutionData) {
-    isBetween(count, 1, 500, "count");
-    isBetween(offset, 0, Integer.MAX_VALUE, "offset");
-
+  public InstitutionsGetRequest withIncludeInstitutionData(boolean includeInstitutionData) {
     this.options = new Options(includeInstitutionData);
-    this.count = count;
-    this.offset = offset;
+    return this;
   }
 
   private static class Options {

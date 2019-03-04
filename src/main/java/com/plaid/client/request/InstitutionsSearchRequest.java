@@ -26,12 +26,10 @@ public final class InstitutionsSearchRequest extends BasePublicRequest {
     this.query = query;
   }
 
-  public InstitutionsSearchRequest(String query, boolean includeInstitutionData) {
-    notNull(query, "query");
-    this.query = query;
+  public InstitutionsSearchRequest withIncludeInstitutionData(boolean includeInstitutionData) {
     this.options = new Options(includeInstitutionData);
+    return this;
   }
-
 
   public InstitutionsSearchRequest withProducts(Product... products) {
     notEmpty(products, "product");

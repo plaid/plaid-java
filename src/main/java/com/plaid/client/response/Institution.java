@@ -38,24 +38,12 @@ public final class Institution {
     return url;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
   public String getLogo() {
     return logo;
   }
 
-  public void setLogo(String logo) {
-    this.logo = logo;
-  }
-
   public String getPrimaryColor() {
     return primaryColor;
-  }
-
-  public void setPrimaryColor(String primaryColor) {
-    this.primaryColor = primaryColor;
   }
 
   public List<Credential> getCredentials() {

@@ -20,7 +20,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeInstitutionDataTrue() throws Exception {
     Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("t", true).withProducts(Product.IDENTITY)).execute();
+        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withIncludeInstitutionData(true)).execute();
 
     assertSuccessResponse(response);
   }
@@ -28,7 +28,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeInstitutionDataFalse() throws Exception {
     Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("t", false).withProducts(Product.IDENTITY)).execute();
+        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withIncludeInstitutionData(false)).execute();
 
     assertSuccessResponse(response);
   }
