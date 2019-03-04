@@ -30,6 +30,34 @@ public final class Institution {
   private String name;
   private List<Product> products;
 
+  private String url;
+  private String logo;
+  private String primaryColor;
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getLogo() {
+    return logo;
+  }
+
+  public void setLogo(String logo) {
+    this.logo = logo;
+  }
+
+  public String getPrimaryColor() {
+    return primaryColor;
+  }
+
+  public void setPrimaryColor(String primaryColor) {
+    this.primaryColor = primaryColor;
+  }
+
   public List<Credential> getCredentials() {
     return credentials;
   }

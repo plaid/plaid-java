@@ -24,6 +24,29 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
   }
 
   @Test
+  public void testSuccessWithIncludesInstitutionDataTrue() throws Exception {
+    Response<InstitutionsGetResponse> response =
+        client().service().institutionsGet(new InstitutionsGetRequest(3, 0, true)).execute();
+
+    assertSuccessResponse(response);
+
+    // check number returned
+    assertEquals(3, response.body().getInstitutions().size());
+  }
+
+  @Test
+  public void testSuccessWithIncludesInstitutionDataFalse() throws Exception {
+    Response<InstitutionsGetResponse> response =
+        client().service().institutionsGet(new InstitutionsGetRequest(3, 0, false)).execute();
+
+    assertSuccessResponse(response);
+
+    // check number returned
+    assertEquals(3, response.body().getInstitutions().size());
+  }
+
+
+  @Test
   public void testRequestValidation() throws Exception {
     try {
       new InstitutionsGetRequest(0, 0);
