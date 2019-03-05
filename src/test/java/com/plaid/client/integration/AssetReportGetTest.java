@@ -63,6 +63,16 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
       .get(0).getName());
   }
 
+  private boolean containsTransactionWithName(AssetReportGetResponse.AssetReport assetReport) {
+    List<AssetReportGetResponse.Account> accounts = assetReport.getItems().get(0).getAccounts();
+    for (AssetReportGetResponse.Account account : accounts) {
+      if (account.getTransactions().size() > 0) {
+        return account.getTransactions().get(0).getName() != null;
+      }
+    }
+    return false;
+  }
+
   /**
    * Utility function that polls Plaid till we see the Asset Report is ready
    */

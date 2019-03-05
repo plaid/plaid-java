@@ -15,7 +15,8 @@ import static org.junit.Assert.*;
 public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
-    Response<InstitutionsGetByIdResponse> response = client().service().institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID))
+    Response<InstitutionsGetByIdResponse> response = client().service().
+        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID))
       .execute();
 
     assertSuccessResponse(response);
@@ -32,7 +33,9 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithIncludeInstitutionDataTrue() throws Exception {
-    Response<InstitutionsGetByIdResponse> response = client().service().institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeInstitutionData(true))
+    Response<InstitutionsGetByIdResponse> response =
+        client().service().institutionsGetById(
+            new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeInstitutionData(true))
         .execute();
 
     assertSuccessResponse(response);
@@ -54,7 +57,9 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithIncludeInstitutionDataFalse() throws Exception {
-    Response<InstitutionsGetByIdResponse> response = client().service().institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeInstitutionData(false))
+    Response<InstitutionsGetByIdResponse> response = client().service().
+        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+            withIncludeInstitutionData(false))
         .execute();
 
     assertSuccessResponse(response);
@@ -79,7 +84,8 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
     assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("Tartan Bank", institution.getName());
-    assertEquals(Arrays.asList(Product.ASSETS, Product.AUTH, Product.BALANCE, Product.TRANSACTIONS, Product.CREDIT_DETAILS, Product.INCOME, Product.IDENTITY),
+    assertEquals(Arrays.asList(Product.ASSETS, Product.AUTH, Product.BALANCE,
+        Product.TRANSACTIONS, Product.CREDIT_DETAILS, Product.INCOME, Product.IDENTITY),
         institution.getProducts());
   }
 
