@@ -1,3 +1,7 @@
+# 3.1.0
+
+- Add support for include_institution_data for /institutions/search, /institutions/get, /institutions/get_by_id ([#134](https://github.com/plaid/plaid-java/pull/134))
+
 # 3.0.7
 
 - Fix transaction get request handling. ([#132](https://github.com/plaid/plaid-java/pull/132))
