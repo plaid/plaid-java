@@ -19,11 +19,16 @@ import static com.plaid.client.internal.Util.notNull;
 public final class InstitutionsSearchRequest extends BasePublicRequest {
   private String query;
   private RequiredField<List<Product>> products = RequiredField.empty();
-
+  private Options options;
 
   public InstitutionsSearchRequest(String query) {
     notNull(query, "query");
     this.query = query;
+  }
+
+  public InstitutionsSearchRequest withIncludeInstitutionData(boolean includeInstitutionData) {
+    this.options = new Options(includeInstitutionData);
+    return this;
   }
 
   public InstitutionsSearchRequest withProducts(Product... products) {
@@ -33,6 +38,14 @@ public final class InstitutionsSearchRequest extends BasePublicRequest {
     }
     this.products.get().addAll(Arrays.asList(products));
     return this;
+  }
+
+  private static class Options {
+    private boolean includeInstitutionData;
+
+    private Options(boolean includeInstitutionData) {
+      this.includeInstitutionData = includeInstitutionData;
+    }
   }
 
 }

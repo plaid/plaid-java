@@ -30,6 +30,22 @@ public final class Institution {
   private String name;
   private List<Product> products;
 
+  private String url;
+  private String logo;
+  private String primaryColor;
+
+  public String getUrl() {
+    return url;
+  }
+
+  public String getLogo() {
+    return logo;
+  }
+
+  public String getPrimaryColor() {
+    return primaryColor;
+  }
+
   public List<Credential> getCredentials() {
     return credentials;
   }

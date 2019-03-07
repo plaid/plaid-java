@@ -6,7 +6,9 @@ import com.plaid.client.response.InstitutionsSearchResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
@@ -18,11 +20,37 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   }
 
   @Test
+  public void testSuccessWithIncludeInstitutionDataTrue() throws Exception {
+    Response<InstitutionsSearchResponse> response =
+        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withIncludeInstitutionData(true)).execute();
+
+    assertSuccessResponse(response);
+
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
+    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
+  }
+
+  @Test
+  public void testSuccessWithIncludeInstitutionDataFalse() throws Exception {
+    Response<InstitutionsSearchResponse> response =
+        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withIncludeInstitutionData(false)).execute();
+
+    assertSuccessResponse(response);
+
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+
+    assertNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
+    assertNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
+  }
+
+  @Test
   public void testNoResults() throws Exception {
     Response<InstitutionsSearchResponse> response =
       client().service().institutionsSearch(new InstitutionsSearchRequest("zebra")).execute();
 
     assertSuccessResponse(response);
     assertEquals(0, response.body().getInstitutions().size());
+
   }
 }
