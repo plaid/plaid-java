@@ -25,10 +25,10 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
         client().service().institutionsSearch(new InstitutionsSearchRequest("t").withIncludeInstitutionData(true)).execute();
 
     assertSuccessResponse(response);
-    InstitutionsSearchResponse institutionsSearchResponse = response.body();
 
-    assertNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
-    assertNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
+    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
   }
 
   @Test
@@ -39,8 +39,9 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
     assertSuccessResponse(response);
 
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
-    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
-    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
+
+    assertNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
+    assertNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
   }
 
   @Test
