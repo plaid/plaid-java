@@ -27,7 +27,7 @@ public class ItemStripeTokenCreateTest extends AbstractItemIntegrationTest {
   @Test
   public void testError() throws Exception {
     Response<ItemStripeTokenCreateResponse> response =
-      client().service().itemStripeTokenCreate(new ItemStripeTokenCreateRequest(getItemCreateResponse().getAccessToken(), "FooBarAccountId")).execute();
+      client().service().itemStripeTokenCreate(new ItemStripeTokenCreateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "FooBarAccountId")).execute();
     // Just assert that some error was returned - due to the nature of the
     // integration and required configuration at the API key level, we don't
     // know the exact error code to expect.

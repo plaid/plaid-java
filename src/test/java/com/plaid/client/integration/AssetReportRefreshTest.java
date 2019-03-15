@@ -47,7 +47,7 @@ public class AssetReportRefreshTest extends AbstractItemIntegrationTest {
   @Test
   public void testAssetReportRefreshSuccessNoOverrideOptions() throws Exception {
     // Create asset report to get an asset report token
-    List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
+    List<String> accessTokens = Arrays.asList(getItemPublicTokenExchangeResponse().getAccessToken());
     Response<AssetReportCreateResponse> createResponse =
         AssetReportCreateTest.createAssetReport(client(), accessTokens);
     String assetReportToken = createResponse.body().getAssetReportToken();
@@ -85,7 +85,7 @@ public class AssetReportRefreshTest extends AbstractItemIntegrationTest {
   @Test
   public void testAssetReportRefreshSuccessWithOverride() throws Exception {
     // Create asset report to get an asset report token
-    List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
+    List<String> accessTokens = Arrays.asList(getItemPublicTokenExchangeResponse().getAccessToken());
     Response<AssetReportCreateResponse> createResponse =
         AssetReportCreateTest.createAssetReport(client(), accessTokens);
     String assetReportToken = createResponse.body().getAssetReportToken();

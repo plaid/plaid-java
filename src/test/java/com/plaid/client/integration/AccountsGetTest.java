@@ -29,13 +29,13 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testAccountsGetSuccess() throws Exception {
     Response<AccountsGetResponse> response = client().service().accountsGet(
-      new AccountsGetRequest(getItemCreateResponse().getAccessToken()))
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
 
     assertSuccessResponse(response);
 
     // item should be the same one we created
-    assertItemEquals(getItemCreateResponse().getItem(), response.body().getItem());
+    assertItemEquals(getItem(), response.body().getItem());
 
     // sandbox should return expected accounts
     List<Account> accounts = response.body().getAccounts();
@@ -57,19 +57,19 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
   public void testAccountGetWithAccountId() throws Exception {
     // first call to get an account ID
     Response<AccountsGetResponse> response = client().service().accountsGet(
-      new AccountsGetRequest(getItemCreateResponse().getAccessToken()))
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
     assertSuccessResponse(response);
     String accountId = response.body().getAccounts().get(1).getAccountId();
 
     // call under test
     response = client().service().accountsGet(
-      new AccountsGetRequest(getItemCreateResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
       .execute();
     assertSuccessResponse(response);
 
     // item should be the same one we created
-    assertItemEquals(getItemCreateResponse().getItem(), response.body().getItem());
+    assertItemEquals(getItem(), response.body().getItem());
 
     // sandbox should return expected accounts
     List<Account> accounts = response.body().getAccounts();
@@ -83,7 +83,7 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
   @Ignore("This test fails because the request triggers a sandbox server 500.")
   public void testAccountGetInvalidAccountId() throws Exception {
     Response<AccountsGetResponse> response = client().service().accountsGet(
-      new AccountsGetRequest(getItemCreateResponse().getAccessToken()).withAccountIds(Arrays.asList("not-real")))
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList("not-real")))
       .execute();
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCOUNT_ID");
   }

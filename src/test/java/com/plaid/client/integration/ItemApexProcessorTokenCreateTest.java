@@ -27,7 +27,7 @@ public class ItemApexProcessorTokenCreateTest extends AbstractItemIntegrationTes
   @Test
   public void testError() throws Exception {
     Response<ItemApexProcessorTokenCreateResponse> response =
-      client().service().itemApexProcessorTokenCreate(new ItemApexProcessorTokenCreateRequest(getItemCreateResponse().getAccessToken(), "FooBarAccountId")).execute();
+      client().service().itemApexProcessorTokenCreate(new ItemApexProcessorTokenCreateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "FooBarAccountId")).execute();
     // Just assert that some error was returned - due to the nature of the
     // integration and required configuration at the API key level, we don't
     // know the exact error code to expect.

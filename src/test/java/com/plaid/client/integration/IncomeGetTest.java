@@ -28,7 +28,7 @@ public class IncomeGetTest extends AbstractItemIntegrationTest {
   public void testFailure() throws Exception {
 
     Response<IncomeGetResponse> response = client().service().incomeGet(
-      new IncomeGetRequest(getItemCreateResponse().getAccessToken())
+      new IncomeGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
     ).execute();
 
     assertErrorResponse(response, ErrorResponse.ErrorType.ITEM_ERROR, "PRODUCT_NOT_READY");

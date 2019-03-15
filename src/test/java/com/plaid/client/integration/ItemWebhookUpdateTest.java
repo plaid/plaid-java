@@ -28,19 +28,19 @@ public class ItemWebhookUpdateTest extends AbstractItemIntegrationTest {
   public void testSuccess() throws Exception {
     // Update the webhook
     Response<ItemWebhookUpdateResponse> webhookResponse = client().service().itemWebhookUpdate(
-    	new ItemWebhookUpdateRequest(getItemCreateResponse().getAccessToken(), "https://baz.xyz/foo-test-hook")).execute();
+    	new ItemWebhookUpdateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "https://baz.xyz/foo-test-hook")).execute();
 
     assertSuccessResponse(webhookResponse);
     ItemStatus itemStatus = webhookResponse.body().getItem();
     assertEquals(itemStatus.getWebhook(), "https://baz.xyz/foo-test-hook");
   }
-  
+
   @Test
   public void testFailure() throws Exception {
 	  // Invalid webhook URL provided
 	  Response<ItemWebhookUpdateResponse> webhookResponse = client().service().itemWebhookUpdate(
-    	  new ItemWebhookUpdateRequest(getItemCreateResponse().getAccessToken(), "INVALID_HOOK")).execute();
+    	  new ItemWebhookUpdateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "INVALID_HOOK")).execute();
 
     assertErrorResponse(webhookResponse, ErrorResponse.ErrorType.INVALID_REQUEST, "INVALID_FIELD");
-  }  
+  }
 }

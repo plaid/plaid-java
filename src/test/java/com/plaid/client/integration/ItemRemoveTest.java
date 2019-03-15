@@ -25,7 +25,7 @@ public class ItemRemoveTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<ItemRemoveResponse> response = client().service().itemRemove(
-      new ItemRemoveRequest(getItemCreateResponse().getAccessToken())
+      new ItemRemoveRequest(getItemPublicTokenExchangeResponse().getAccessToken())
     ).execute();
 
     assertSuccessResponse(response);

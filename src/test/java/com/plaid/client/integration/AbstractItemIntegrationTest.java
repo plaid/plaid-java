@@ -1,9 +1,14 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.ItemCreateRequest;
+import com.plaid.client.request.SandboxPublicTokenCreateRequest;
+import com.plaid.client.request.ItemGetRequest;
+import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.common.Product;
+import com.plaid.client.response.ItemStatus;
 import com.plaid.client.response.Account;
-import com.plaid.client.response.ItemCreateResponse;
+import com.plaid.client.response.ItemGetResponse;
+import com.plaid.client.response.ItemPublicTokenExchangeResponse;
+import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import org.junit.Before;
 import retrofit2.Response;
 
@@ -19,7 +24,8 @@ import static org.junit.Assert.assertNotNull;
  * {@link #setupItemProducts()} and {@link #setupItemInstitutionId()}
  */
 public abstract class AbstractItemIntegrationTest extends AbstractIntegrationTest {
-  private ItemCreateResponse itemCreateResponse;
+  private ItemPublicTokenExchangeResponse exchangeTokenResponse;
+  private ItemStatus item;
 
   protected static void assertAccount(Account actualAccount,
                                       String expectedType,
@@ -43,22 +49,31 @@ public abstract class AbstractItemIntegrationTest extends AbstractIntegrationTes
 
   @Before
   public void setUpItem() throws Exception {
-    Response<ItemCreateResponse> response =
-      client().service()
-        .itemCreate(new ItemCreateRequest(
-          setupItemInstitutionId(),
-          setupItemProducts())
-          .withCredentials("username", "user_good")
-          .withCredentials("password", "pass_good")).execute();
+    Response<SandboxPublicTokenCreateResponse> createResponse =
+      client().service().sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(setupItemInstitutionId(), setupItemProducts())).execute();
+    assertSuccessResponse(createResponse);
+    Response<ItemPublicTokenExchangeResponse> response =
+      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken())).execute();
     assertSuccessResponse(response);
-    itemCreateResponse = response.body();
+
+    this.exchangeTokenResponse = response.body();
+
+    Response<ItemGetResponse> itemGetResponse =
+      client().service().itemGet(new ItemGetRequest(exchangeTokenResponse.getAccessToken())).execute();
+    assertSuccessResponse(itemGetResponse);
+    item = itemGetResponse.body().getItem();
+
   }
 
   protected abstract List<Product> setupItemProducts();
 
   protected abstract String setupItemInstitutionId();
 
-  public ItemCreateResponse getItemCreateResponse() {
-    return itemCreateResponse;
+  public ItemPublicTokenExchangeResponse getItemPublicTokenExchangeResponse() {
+    return exchangeTokenResponse;
+  }
+
+  public ItemStatus getItem() {
+    return item;
   }
 }

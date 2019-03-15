@@ -24,10 +24,10 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<ItemGetResponse> response =
-      client().service().itemGet(new ItemGetRequest(getItemCreateResponse().getAccessToken())).execute();
+      client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
 
     assertSuccessResponse(response);
-    assertItemEquals(getItemCreateResponse().getItem(), response.body().getItem());
+    assertItemEquals(getItem(), response.body().getItem());
   }
 
   @Test
@@ -43,7 +43,7 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
     // quick smoke tests to make sure that ImmutableListTypeAdapterFactory is installed and working
     // this test could really be anywhere
     Response<ItemGetResponse> response =
-      client().service().itemGet(new ItemGetRequest(getItemCreateResponse().getAccessToken())).execute();
+      client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
 
     assertSuccessResponse(response);
     response.body().getItem().getAvailableProducts().add(Product.IDENTITY);
