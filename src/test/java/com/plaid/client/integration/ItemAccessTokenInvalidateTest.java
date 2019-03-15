@@ -27,12 +27,12 @@ public class ItemAccessTokenInvalidateTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<ItemAccessTokenInvalidateResponse> response = client().service().itemAccessTokenInvalidate(
-      new ItemAccessTokenInvalidateRequest(getItemCreateResponse().getAccessToken()))
+      new ItemAccessTokenInvalidateRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getNewAccessToken());
-    assertNotEquals(getItemCreateResponse().getAccessToken(), response.body().getNewAccessToken());
+    assertNotEquals(getItemPublicTokenExchangeResponse().getAccessToken(), response.body().getNewAccessToken());
   }
 
   @Test

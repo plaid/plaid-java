@@ -30,7 +30,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   public void testAllAccountsSuccess() throws Exception {
     Response<AuthGetResponse> response =
       client().service()
-        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken()))
+        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
         .execute();
 
     assertSuccessResponse(response);
@@ -56,7 +56,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   public void testSelectiveAccountSuccess() throws Exception {
     // first call to get an account ID
     Response<AccountsGetResponse> accountsGetResponse = client().service().accountsGet(
-      new AccountsGetRequest(getItemCreateResponse().getAccessToken()))
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
     assertSuccessResponse(accountsGetResponse);
     String accountId = accountsGetResponse.body().getAccounts().get(1).getAccountId();
@@ -64,7 +64,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
     // call under test
     Response<AuthGetResponse> response =
       client().service()
-        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken())
+        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
           .withAccountIds(Collections.singletonList(accountId)))
         .execute();
 
@@ -90,7 +90,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   public void testNoSuchAccountError() throws Exception {
     Response<AuthGetResponse> response =
       client().service()
-        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken())
+        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
           .withAccountIds(Collections.singletonList("fake-not-real")))
         .execute();
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCOUNT_ID");

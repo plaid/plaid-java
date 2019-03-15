@@ -27,7 +27,7 @@ public class IdentityGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<IdentityGetResponse> response = client().service().identityGet(
-      new IdentityGetRequest(getItemCreateResponse().getAccessToken())
+      new IdentityGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
     ).execute();
 
     assertSuccessResponse(response);

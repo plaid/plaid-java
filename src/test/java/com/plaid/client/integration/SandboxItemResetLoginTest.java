@@ -26,7 +26,7 @@ public class SandboxItemResetLoginTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<SandboxItemResetLoginResponse> response =
-      client().service().sandboxItemResetLogin(new SandboxItemResetLoginRequest(getItemCreateResponse().getAccessToken())).execute();
+      client().service().sandboxItemResetLogin(new SandboxItemResetLoginRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
 
     assertSuccessResponse(response);
     assertTrue(response.body().getResetLogin());

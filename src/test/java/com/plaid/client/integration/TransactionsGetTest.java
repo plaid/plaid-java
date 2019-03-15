@@ -1,16 +1,19 @@
 package com.plaid.client.integration;
 
 import com.plaid.client.request.AccountsGetRequest;
-import com.plaid.client.request.ItemCreateRequest;
+import com.plaid.client.request.SandboxPublicTokenCreateRequest;
+import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.request.common.Product;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemCreateResponse;
+import com.plaid.client.response.ItemPublicTokenExchangeResponse;
+import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -28,15 +31,13 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
 
   @Before
   public void setUp() throws Exception {
-    Response<ItemCreateResponse> response = client().service().itemCreate(
-      new ItemCreateRequest(
-        TARTAN_BANK_INSTITUTION_ID,
-        Collections.singletonList(Product.TRANSACTIONS)
-      )
-        .withOptionAwaitResults(true)
-        .withCredentials("username", "user_good")
-        .withCredentials("password", "pass_good")
-    ).execute();
+    Response<SandboxPublicTokenCreateResponse> createResponse =
+      client().service().sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList(Product.TRANSACTIONS))).execute();
+
+    assertSuccessResponse(createResponse);
+
+    Response<ItemPublicTokenExchangeResponse> response =
+      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken())).execute();
 
     assertSuccessResponse(response);
 
@@ -50,9 +51,18 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
     TransactionsGetRequest request =
       new TransactionsGetRequest(accessToken, startDate, endDate)
         .withCount(100);
-    Response<TransactionsGetResponse> response = client().service()
-      .transactionsGet(request).execute();
 
+    Response<TransactionsGetResponse> response = null;
+    for (int i = 0; i < 5; i++) {
+      response = client().service().transactionsGet(request).execute();
+      if (response.isSuccessful()) {
+        break;
+      } else {
+        ErrorResponse errorResponse = client().parseError(response);
+        assertEquals(errorResponse.getErrorCode(), "PRODUCT_NOT_READY");
+        Thread.sleep(5000);
+      }
+    }
     assertSuccessResponse(response);
     assertNotNull(response.body().getTotalTransactions());
     assertNotNull(response.body().getItem());
