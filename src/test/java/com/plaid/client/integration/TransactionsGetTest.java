@@ -60,7 +60,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
       } else {
         ErrorResponse errorResponse = client().parseError(response);
         assertEquals(errorResponse.getErrorCode(), "PRODUCT_NOT_READY");
-        Thread.sleep(5000);
+        Thread.sleep(3000);
       }
     }
     assertSuccessResponse(response);

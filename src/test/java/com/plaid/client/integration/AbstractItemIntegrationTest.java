@@ -56,7 +56,7 @@ public abstract class AbstractItemIntegrationTest extends AbstractIntegrationTes
       client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken())).execute();
     assertSuccessResponse(response);
 
-    exchangeTokenResponse = response.body();
+    this.exchangeTokenResponse = response.body();
 
     Response<ItemGetResponse> itemGetResponse =
       client().service().itemGet(new ItemGetRequest(exchangeTokenResponse.getAccessToken())).execute();
