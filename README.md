@@ -20,7 +20,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>3.0.7</version>
+  <version>4.0.0</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 
 | API version | plaid-java release |
 | ----------- | ------------------ |
-| [`2018-05-22`][api-version-2018-05-22] (**latest**) | `3.x.x` |
+| [`2018-05-22`][api-version-2018-05-22] (**latest**) | `4.x.x` (and `3.x.x`) |
 | `2017-03-08` | `2.x.x` |
 
 For information about what has changed between versions and how to update your integration, head to the [version changelog][version-changelog].
@@ -39,7 +39,7 @@ For information about what has changed between versions and how to update your i
 
 ```java
 
-// Use builder to create a client 
+// Use builder to create a client
 PlaidClient plaidClient = PlaidClient.newBuilder()
   .clientIdAndSecret("your_client_id", "your_secret")
   .publicKey("your_public_key") // optional. only needed to call endpoints that require a public key
@@ -67,7 +67,7 @@ plaidClient.service()
             accessToken = response.body.getAccessToken();
           }
         }
-        
+
         @Override
         public void onFailure(Call<ItemPublicTokenExchangeResponse> call, Throwable t) {
           // handle the failure as needed
