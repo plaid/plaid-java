@@ -32,10 +32,10 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   }
 
   @Test
-  public void testSuccessWithIncludeInstitutionDataTrue() throws Exception {
+  public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
     Response<InstitutionsGetByIdResponse> response =
         client().service().institutionsGetById(
-            new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeInstitutionData(true))
+            new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeOptionalMetadata(true))
         .execute();
 
     assertSuccessResponse(response);
@@ -56,10 +56,10 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   }
 
   @Test
-  public void testSuccessWithIncludeInstitutionDataFalse() throws Exception {
+  public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
         institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
-            withIncludeInstitutionData(false))
+            withIncludeOptionalMetadata(false))
         .execute();
 
     assertSuccessResponse(response);

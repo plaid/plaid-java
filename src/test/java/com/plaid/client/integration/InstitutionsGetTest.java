@@ -24,9 +24,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
   }
 
   @Test
-  public void testSuccessWithIncludesInstitutionDataTrue() throws Exception {
+  public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
     Response<InstitutionsGetResponse> response =
-        client().service().institutionsGet(new InstitutionsGetRequest(3, 0).withIncludeInstitutionData(true)).execute();
+        client().service().institutionsGet(new InstitutionsGetRequest(3, 0).withIncludeOptionalMetadata(true)).execute();
 
     assertSuccessResponse(response);
 
@@ -35,9 +35,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
   }
 
   @Test
-  public void testSuccessWithIncludesInstitutionDataFalse() throws Exception {
+  public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
     Response<InstitutionsGetResponse> response =
-        client().service().institutionsGet(new InstitutionsGetRequest(3, 0).withIncludeInstitutionData(false)).execute();
+        client().service().institutionsGet(new InstitutionsGetRequest(3, 0).withIncludeOptionalMetadata(false)).execute();
 
     assertSuccessResponse(response);
 
