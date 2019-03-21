@@ -24,16 +24,16 @@ public final class InstitutionsGetRequest extends BaseClientRequest {
     this.offset = offset;
   }
 
-  public InstitutionsGetRequest withIncludeInstitutionData(boolean includeInstitutionData) {
-    this.options = new Options(includeInstitutionData);
+  public InstitutionsGetRequest withIncludeOptionalMetadata(boolean includeOptionalMetadata) {
+    this.options = new Options(includeOptionalMetadata);
     return this;
   }
 
   private static class Options {
-    private boolean includeInstitutionData;
+    private boolean includeOptionalMetadata;
 
-    private Options(boolean includeInstitutionData) {
-      this.includeInstitutionData = includeInstitutionData;
+    private Options(boolean includeOptionalMetadata) {
+      this.includeOptionalMetadata = includeOptionalMetadata;
     }
   }
 }

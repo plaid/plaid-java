@@ -26,8 +26,8 @@ public final class InstitutionsSearchRequest extends BasePublicRequest {
     this.query = query;
   }
 
-  public InstitutionsSearchRequest withIncludeInstitutionData(boolean includeInstitutionData) {
-    this.options = new Options(includeInstitutionData);
+  public InstitutionsSearchRequest withIncludeOptionalMetadata(boolean includeOptionalMetadata) {
+    this.options = new Options(includeOptionalMetadata);
     return this;
   }
 
@@ -41,10 +41,10 @@ public final class InstitutionsSearchRequest extends BasePublicRequest {
   }
 
   private static class Options {
-    private boolean includeInstitutionData;
+    private boolean includeOptionalMetadata;
 
-    private Options(boolean includeInstitutionData) {
-      this.includeInstitutionData = includeInstitutionData;
+    private Options(boolean includeOptionalMetadata) {
+      this.includeOptionalMetadata = includeOptionalMetadata;
     }
   }
 
