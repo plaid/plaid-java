@@ -29,6 +29,7 @@ import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
+import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
@@ -57,6 +58,7 @@ import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
+import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
@@ -103,6 +105,9 @@ public interface PlaidApiService {
   // sandbox-only endpoints
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
+  @POST("/sandbox/item/fire_webhook")
+  Call<SandboxItemFireWebhookResponse> sandboxItemFireWebhook(@Body SandboxItemFireWebhookRequest request);
+
   @POST("/sandbox/item/reset_login")
   Call<SandboxItemResetLoginResponse> sandboxItemResetLogin(@Body SandboxItemResetLoginRequest request);
 
