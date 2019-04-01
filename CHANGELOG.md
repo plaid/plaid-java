@@ -1,4 +1,8 @@
-# 4.0.0
+# 4.0.2
+
+- Add support for [`/sandbox/item/fire_webhook`][sandbox-item-fire-webhook] endpoint ([#140](https://github.com/plaid/plaid-java/pull/140))
+
+# 4.0.1
 
 - Deprecate direct integration as it is no longer supported
 - Replace `/item/delete` with `/item/remove`
@@ -61,3 +65,5 @@
 # 2.1.0
 
 - Initial release for [Plaid's updated API](https://blog.plaid.com/improving-our-api)
+
+[sandbox-item-fire-webhook]: https://plaid.com/docs/#firing-webhooks
