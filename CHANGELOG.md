@@ -1,3 +1,6 @@
+# 4.0.3
+- Allow more robust customization of underlying OkHttpClient used by PlaidClient.
+
 # 4.0.2
 
 - Add support for [`/sandbox/item/fire_webhook`][sandbox-item-fire-webhook] endpoint ([#140](https://github.com/plaid/plaid-java/pull/140))
