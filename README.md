@@ -20,7 +20,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>4.0.2</version>
+  <version>4.0.3</version>
 </dependency>
 ```
 
