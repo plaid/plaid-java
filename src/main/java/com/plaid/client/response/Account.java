@@ -1,9 +1,18 @@
 package com.plaid.client.response;
 
 public final class Account {
+
+  /**
+   * The verification status
+   */
+  public enum VerificationStatus {
+    pending_automatic_verification, pending_manual_verification, manually_verified
+  }
+
   private String accountId;
   private String type;
   private String subtype;
+  private VerificationStatus verificationStatus;
   private Balances balances;
   private String name;
   private String mask;
@@ -19,6 +28,10 @@ public final class Account {
 
   public String getSubtype() {
     return subtype;
+  }
+
+  public VerificationStatus getVerificationStatus() {
+    return verificationStatus;
   }
 
   public Balances getBalances() {
