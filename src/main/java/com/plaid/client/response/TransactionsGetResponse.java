@@ -87,7 +87,7 @@ public final class TransactionsGetResponse extends BaseResponse {
 
     public String getUnofficialCurrencyCode() {
       return unofficialCurrencyCode;
-    }    
+    }
 
     public List<String> getCategory() {
       return category;
@@ -155,11 +155,12 @@ public final class TransactionsGetResponse extends BaseResponse {
     public static final class Location {
       private String address;
       private String city;
-      private String state;
-      private String zip;
       private Double lat;
       private Double lon;
+      private String region;
       private String storeNumber;
+      private String postalCode;
+      private String country;
 
       public String getAddress() {
         return address;
@@ -167,14 +168,6 @@ public final class TransactionsGetResponse extends BaseResponse {
 
       public String getCity() {
         return city;
-      }
-
-      public String getState() {
-        return state;
-      }
-
-      public String getZip() {
-        return zip;
       }
 
       public Double getLat() {
@@ -185,8 +178,20 @@ public final class TransactionsGetResponse extends BaseResponse {
         return lon;
       }
 
+      public String getRegion() {
+        return region;
+      }
+
       public String getStoreNumber() {
         return storeNumber;
+      }
+
+      public String getPostalCode() {
+        return postalCode;
+      }
+
+      public String getCountry() {
+        return country;
       }
     }
   }
