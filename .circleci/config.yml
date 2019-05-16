@@ -6,6 +6,6 @@ jobs:
       - image: circleci/openjdk:8
     steps:
       - checkout
-      - verify:
+      - run:
           name: Verify
           command: mvn verify
