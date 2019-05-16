@@ -6,7 +6,7 @@ public final class Account {
    * The verification status
    */
   public enum VerificationStatus {
-    pending_automatic_verification, pending_manual_verification, manually_verified
+    pending_automatic_verification, pending_manual_verification, manually_verified, automatically_verified
   }
 
   private String accountId;
