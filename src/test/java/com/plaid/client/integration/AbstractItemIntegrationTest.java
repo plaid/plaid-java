@@ -40,7 +40,7 @@ public abstract class AbstractItemIntegrationTest extends AbstractIntegrationTes
     assertNotNull(actualAccount.getAccountId());
     assertEquals(expectedType, actualAccount.getType());
     assertEquals(expectedSubType, actualAccount.getSubtype());
-    assertEquals(expectedVerificationStatus, actualAccount.getVerificationStatus())
+    assertEquals(expectedVerificationStatus, actualAccount.getVerificationStatus());
     assertEquals(expectedBalanceAvailable, actualAccount.getBalances().getAvailable());
     assertEquals(expectedBalanceCurrent, actualAccount.getBalances().getCurrent());
     assertEquals(expectedBalanceLimit, actualAccount.getBalances().getLimit());

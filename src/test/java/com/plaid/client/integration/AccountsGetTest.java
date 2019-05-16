@@ -40,16 +40,16 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
     // sandbox should return expected accounts
     List<Account> accounts = response.body().getAccounts();
     assertEquals(7, accounts.size());
-    assertAccount(accounts.get(0), "depository", "checking", 100d,
-      110d, null, "Plaid Checking",
+    assertAccount(accounts.get(0), "depository", "checking",
+      null, 100d, 110d, null, "Plaid Checking",
       "0000", "Plaid Gold Standard 0% Interest Checking");
     assertAccount(accounts.get(1), "depository",
-      "savings", 200d, 210d, null, "Plaid Saving",
+      "savings", null, 200d, 210d, null, "Plaid Saving",
       "1111", "Plaid Silver Standard 0.1% Interest Saving");
     assertAccount(accounts.get(2), "depository",
-      "cd", null, 1000d, null, "Plaid CD",
+      "cd", null, null, 1000d, null, "Plaid CD",
       "2222", "Plaid Bronze Standard 0.2% Interest CD");
-    assertAccount(accounts.get(3), "credit", "credit card", null, 410d, 2000d, "Plaid Credit Card",
+    assertAccount(accounts.get(3), "credit", "credit card", null, null, 410d, 2000d, "Plaid Credit Card",
       "3333", "Plaid Diamond 12.5% APR Interest Credit Card");
   }
 
@@ -75,7 +75,7 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
     List<Account> accounts = response.body().getAccounts();
     assertEquals(1, accounts.size());
     assertAccount(accounts.get(0), "depository",
-      "savings", 200d, 210d, null, "Plaid Saving",
+      "savings", null, 200d, 210d, null, "Plaid Saving",
       "1111", "Plaid Silver Standard 0.1% Interest Saving");
   }
 
