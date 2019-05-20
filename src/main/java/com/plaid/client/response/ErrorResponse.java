@@ -17,6 +17,7 @@ public final class ErrorResponse extends BaseResponse {
   private String displayMessage;
   private String errorCode;
   private String errorMessage;
+  private String suggestedAction;
   private ErrorType errorType;
 
   public String getDisplayMessage() {
@@ -29,6 +30,10 @@ public final class ErrorResponse extends BaseResponse {
 
   public String getErrorMessage() {
     return errorMessage;
+  }
+
+  public String getSuggestedAction() {
+    return suggestedAction;
   }
 
   public ErrorType getErrorType() {
