@@ -25,15 +25,23 @@ public final class InstitutionsGetRequest extends BaseClientRequest {
   }
 
   public InstitutionsGetRequest withIncludeOptionalMetadata(boolean includeOptionalMetadata) {
-    this.options = new Options(includeOptionalMetadata);
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includeOptionalMetadata = includeOptionalMetadata;
+    return this;
+  }
+
+  public InstitutionsGetRequest withCountryCodes(List<String> countryCodes) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.countryCodes = countryCodes;
     return this;
   }
 
   private static class Options {
     private boolean includeOptionalMetadata;
-
-    private Options(boolean includeOptionalMetadata) {
-      this.includeOptionalMetadata = includeOptionalMetadata;
-    }
+    private List<String> countryCodes;
   }
 }

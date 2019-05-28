@@ -1,4 +1,9 @@
+# 5.0.0
+
+- Add support for 2019-05-29 API version
+
 # 4.0.3
+
 - Allow more robust customization of underlying OkHttpClient used by PlaidClient.
 
 # 4.0.2

@@ -23,6 +23,7 @@ public final class Institution {
     }
   }
 
+  private List<String> countryCodes;
   private List<Credential> credentials;
   private boolean hasMfa;
   private String institutionId;
@@ -44,6 +45,10 @@ public final class Institution {
 
   public String getPrimaryColor() {
     return primaryColor;
+  }
+
+  public List<String> getCountryCodes() {
+    return countryCodes;
   }
 
   public List<Credential> getCredentials() {
