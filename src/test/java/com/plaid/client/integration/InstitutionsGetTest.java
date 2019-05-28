@@ -24,6 +24,20 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
   }
 
   @Test
+  public void testSuccessWithProducts() throws Exception {
+    Response<InstitutionsGetResponse> response =
+    client().service().institutionsGet(new InstitutionsGetRequest(3, 0).
+      withCountryCodes(Arrays.asList("US")).
+      withProducts(Arrays.asList(Product.IDENTITY))).
+    execute();
+
+    assertSuccessResponse(response);
+
+    // check number returned
+    assertEquals(3, response.body().getInstitutions().size());
+  }
+
+  @Test
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
     Response<InstitutionsGetResponse> response =
         client().service().institutionsGet(new InstitutionsGetRequest(3, 0).withIncludeOptionalMetadata(true)).execute();

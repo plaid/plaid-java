@@ -33,7 +33,16 @@ public final class InstitutionsGetByIdRequest extends BasePublicRequest {
     return this;
   }
 
+  public InstitutionsGetByIdRequest withIncludeStatus(boolean includeStatus) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includeStatus = includeStatus;
+    return this;
+  }
+
   private static class Options {
     private boolean includeOptionalMetadata;
+    private boolean includeStatus;
   }
 }

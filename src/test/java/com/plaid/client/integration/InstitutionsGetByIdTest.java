@@ -58,8 +58,8 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
         institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
-            withIncludeOptionalMetadata(false))
-        .execute();
+        withIncludeOptionalMetadata(false))
+      .execute();
 
     assertSuccessResponse(response);
 
@@ -76,6 +76,34 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertEquals(null, institution.getUrl());
     assertEquals(null, institution.getLogo());
     assertEquals(null, institution.getPrimaryColor());
+  }
+
+  @Test
+  public void testSuccessWithIncludeStatusTrue() throws Exception {
+    Response<InstitutionsGetByIdResponse> response = client().service().
+        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+        withIncludeStatus(true))
+      .execute();
+
+    assertSuccessResponse(response);
+
+    Institution institution = response.body().getInstitution();
+    assertNotNull(institution.getStatus());
+    assertIsValidInstitution(institution);
+  }
+
+  @Test
+  public void testSuccessWithIncludeStatusFalse() throws Exception {
+    Response<InstitutionsGetByIdResponse> response = client().service().
+        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+        withIncludeStatus(false))
+      .execute();
+
+    assertSuccessResponse(response);
+
+    Institution institution = response.body().getInstitution();
+    assertNull(institution.getStatus());
+    assertIsValidInstitution(institution);
   }
 
   private void assertIsValidInstitution(Institution institution) {
