@@ -33,16 +33,7 @@ public final class InstitutionsGetByIdRequest extends BasePublicRequest {
     return this;
   }
 
-  public InstitutionsGetByIdRequest withCountryCodes(List<String> countryCodes) {
-    if (this.options == null) {
-      this.options = new Options();
-    }
-    this.options.countryCodes = countryCodes;
-    return this;
-  }
-
   private static class Options {
     private boolean includeOptionalMetadata;
-    private List<String> countryCodes;
   }
 }

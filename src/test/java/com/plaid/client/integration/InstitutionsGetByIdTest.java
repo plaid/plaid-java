@@ -78,26 +78,6 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertEquals(null, institution.getPrimaryColor());
   }
 
-  @Test
-  public void testSuccessWithCountryCodes() throws Exception {
-    Response<InstitutionsGetByIdResponse> response =
-        client().service().institutionsGetById(
-            new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withCountryCodes(Arrays.asList("US")))
-        .execute();
-
-    assertSuccessResponse(response);
-
-    Institution institution = response.body().getInstitution();
-    assertFalse(institution.getCredentials().isEmpty());
-    assertEquals(institution.getCountryCodes(), Arrays.asList("US"));
-    for (Institution.Credential c : institution.getCredentials()) {
-      assertNotNull(c.getLabel());
-      assertNotNull(c.getType());
-      assertNotNull(c.getName());
-    }
-    assertIsValidInstitution(institution);
-  }
-
   private void assertIsValidInstitution(Institution institution) {
     assertTrue(institution.hasMfa());
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
