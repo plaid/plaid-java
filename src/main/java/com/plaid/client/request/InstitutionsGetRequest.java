@@ -1,6 +1,8 @@
 package com.plaid.client.request;
 
 import com.plaid.client.request.common.BaseClientRequest;
+import com.plaid.client.request.common.Product;
+
 import java.util.List;
 
 import static com.plaid.client.internal.Util.isBetween;
@@ -24,16 +26,33 @@ public final class InstitutionsGetRequest extends BaseClientRequest {
     this.offset = offset;
   }
 
+  public InstitutionsGetRequest withProducts(List<Product> products) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.products = products;
+    return this;
+  }
+
   public InstitutionsGetRequest withIncludeOptionalMetadata(boolean includeOptionalMetadata) {
-    this.options = new Options(includeOptionalMetadata);
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includeOptionalMetadata = includeOptionalMetadata;
+    return this;
+  }
+
+  public InstitutionsGetRequest withCountryCodes(List<String> countryCodes) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.countryCodes = countryCodes;
     return this;
   }
 
   private static class Options {
+    private List<Product> products;
     private boolean includeOptionalMetadata;
-
-    private Options(boolean includeOptionalMetadata) {
-      this.includeOptionalMetadata = includeOptionalMetadata;
-    }
+    private List<String> countryCodes;
   }
 }
