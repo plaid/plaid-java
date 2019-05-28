@@ -29,6 +29,7 @@ public final class Institution {
   private List<String> mfa;
   private String name;
   private List<Product> products;
+  private List<String> countryCodes;
 
   private String url;
   private String logo;
@@ -68,5 +69,9 @@ public final class Institution {
 
   public List<Product> getProducts() {
     return products;
+  }
+
+  public List<String> getCountryCodes() {
+    return countryCodes;
   }
 }
