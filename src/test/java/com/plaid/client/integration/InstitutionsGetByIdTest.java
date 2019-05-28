@@ -51,6 +51,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertIsValidInstitution(institution);
 
     assertEquals("https://www.plaid.com/", institution.getUrl());
+    assertNotNull(institution.getLogo());
     assertEquals("#174e7c", institution.getPrimaryColor());
   }
 
