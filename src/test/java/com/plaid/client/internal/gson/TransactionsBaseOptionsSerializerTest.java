@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class BaseOptionsSerializerTest {
+public class TransactionsBaseOptionsSerializerTest {
 
   public static class ChildOptions extends TransactionsGetRequest.Options {
     private int anotherIntValue = 2;
@@ -28,7 +28,7 @@ public class BaseOptionsSerializerTest {
 
   @Test public void testSerializesChildren() {
     Gson gson = new GsonBuilder()
-      .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new BaseOptionsSerializer())
+      .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new TransactionsBaseOptionsSerializer())
       .create();
 
     ChildOptionsContainer child = new ChildOptionsContainer();
@@ -39,7 +39,7 @@ public class BaseOptionsSerializerTest {
 
   @Test public void testSerializesChildrenWithOptional() {
     Gson gson = new GsonBuilder()
-            .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new BaseOptionsSerializer())
+            .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new TransactionsBaseOptionsSerializer())
             .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
             .create();
 
@@ -52,7 +52,7 @@ public class BaseOptionsSerializerTest {
 
   @Test public void testSerializesBase() {
     Gson gson = new GsonBuilder()
-      .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new BaseOptionsSerializer())
+      .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new TransactionsBaseOptionsSerializer())
       .create();
 
     OptionsContainer base = new OptionsContainer();
