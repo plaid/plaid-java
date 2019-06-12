@@ -6,6 +6,8 @@ import com.plaid.client.response.InstitutionsSearchResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
+import java.util.Arrays;
+
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -42,6 +44,18 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
 
     assertNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
     assertNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
+  }
+
+  @Test
+  public void testSuccessWithCountryCodes() throws Exception {
+    Response<InstitutionsSearchResponse> response =
+        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withCountryCodes(Arrays.asList("US"))).execute();
+
+    assertSuccessResponse(response);
+
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+
+    assertEquals(institutionsSearchResponse.getInstitutions().get(0).getCountryCodes(), Arrays.asList("US"));
   }
 
   @Test

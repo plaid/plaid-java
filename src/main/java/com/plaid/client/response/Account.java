@@ -1,6 +1,6 @@
 package com.plaid.client.response;
 
-public final class Account {
+public class Account {
   private String accountId;
   private String type;
   private String subtype;

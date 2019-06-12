@@ -34,7 +34,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
         .execute();
 
     assertSuccessResponse(response);
-    assertEquals(7, response.body().getAccounts().size());
+    assertEquals(8, response.body().getAccounts().size());
     assertNotNull(response.body().getItem());
 
     for (AuthGetResponse.NumberACH numberACH : response.body().getNumbers().getACH()) {
@@ -44,11 +44,26 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
       assertNotNull(numberACH.getWireRouting());
     }
 
+    // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
     for (AuthGetResponse.NumberEFT numberEFT : response.body().getNumbers().getEFT()) {
       assertNotNull(numberEFT.getAccount());
       assertNotNull(numberEFT.getBranch());
       assertNotNull(numberEFT.getInstitution());
       assertNotNull(numberEFT.getAccountId());
+    }
+
+    // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
+    for (AuthGetResponse.NumberInternational numberInternational : response.body().getNumbers().getInternational()) {
+      assertNotNull(numberInternational.getIBAN());
+      assertNotNull(numberInternational.getBIC());
+      assertNotNull(numberInternational.getAccountId());
+    }
+
+    // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
+    for (AuthGetResponse.NumberBACS numberBACS : response.body().getNumbers().getBACS()) {
+      assertNotNull(numberBACS.getAccountId());
+      assertNotNull(numberBACS.getAccount());
+      assertNotNull(numberBACS.getSortCode());
     }
   }
 

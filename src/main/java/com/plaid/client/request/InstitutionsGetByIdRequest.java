@@ -5,6 +5,7 @@ import com.plaid.client.request.common.BasePublicRequest;
 import com.plaid.client.request.common.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.plaid.client.internal.Util.notEmpty;
 import static com.plaid.client.internal.Util.notNull;
@@ -25,15 +26,23 @@ public final class InstitutionsGetByIdRequest extends BasePublicRequest {
   }
 
   public InstitutionsGetByIdRequest withIncludeOptionalMetadata(boolean includeOptionalMetadata) {
-    this.options = new Options(includeOptionalMetadata);
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includeOptionalMetadata = includeOptionalMetadata;
+    return this;
+  }
+
+  public InstitutionsGetByIdRequest withIncludeStatus(boolean includeStatus) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includeStatus = includeStatus;
     return this;
   }
 
   private static class Options {
     private boolean includeOptionalMetadata;
-
-    private Options(boolean includeOptionalMetadata) {
-      this.includeOptionalMetadata = includeOptionalMetadata;
-    }
+    private boolean includeStatus;
   }
 }
