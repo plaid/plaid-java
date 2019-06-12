@@ -1,3 +1,7 @@
+# 5.1.0
+
+- Add support for [Investments](https://plaid.com/docs/api/#investments).
+
 # 5.0.0
 
 - Add support for 2019-05-29 API version

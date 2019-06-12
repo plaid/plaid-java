@@ -16,6 +16,8 @@ import com.plaid.client.request.CategoriesGetRequest;
 import com.plaid.client.request.CreditDetailsGetRequest;
 import com.plaid.client.request.IdentityGetRequest;
 import com.plaid.client.request.IncomeGetRequest;
+import com.plaid.client.request.InvestmentsTransactionsGetRequest;
+import com.plaid.client.request.InvestmentsHoldingsGetRequest;
 import com.plaid.client.request.InstitutionsGetByIdRequest;
 import com.plaid.client.request.InstitutionsGetRequest;
 import com.plaid.client.request.InstitutionsSearchRequest;
@@ -45,6 +47,8 @@ import com.plaid.client.response.CategoriesGetResponse;
 import com.plaid.client.response.CreditDetailsGetResponse;
 import com.plaid.client.response.IdentityGetResponse;
 import com.plaid.client.response.IncomeGetResponse;
+import com.plaid.client.response.InvestmentsTransactionsGetResponse;
+import com.plaid.client.response.InvestmentsHoldingsGetResponse;
 import com.plaid.client.response.InstitutionsGetByIdResponse;
 import com.plaid.client.response.InstitutionsGetResponse;
 import com.plaid.client.response.InstitutionsSearchResponse;
@@ -159,6 +163,12 @@ public interface PlaidApiService {
 
   @POST("/income/get")
   Call<IncomeGetResponse> incomeGet(@Body IncomeGetRequest request);
+
+  @POST("/investments/holdings/get")
+  Call<InvestmentsHoldingsGetResponse> investmentsHoldingsGet(@Body InvestmentsHoldingsGetRequest request);
+
+  @POST("/investments/transactions/get")
+  Call<InvestmentsTransactionsGetResponse> investmentsTransactionsGet(@Body InvestmentsTransactionsGetRequest request);
 
   @POST("/transactions/get")
   Call<TransactionsGetResponse> transactionsGet(@Body TransactionsGetRequest request);

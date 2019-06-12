@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 // By default Gson serialization takes the field base class and iterates through those fields.
 // However by serializing the field as an Object type it automatically picks up member variables
 // of child classes.
-public class BaseOptionsSerializer implements JsonSerializer<TransactionsGetRequest.BaseOptions> {
+public class TransactionsBaseOptionsSerializer implements JsonSerializer<TransactionsGetRequest.BaseOptions> {
   @Override public JsonElement serialize(TransactionsGetRequest.BaseOptions options, Type type,
     JsonSerializationContext ctx) {
     return ctx.serialize(options);
