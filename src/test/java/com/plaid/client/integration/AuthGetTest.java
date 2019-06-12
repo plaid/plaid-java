@@ -30,11 +30,11 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   public void testAllAccountsSuccess() throws Exception {
     Response<AuthGetResponse> response =
       client().service()
-        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken()))
+        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
         .execute();
 
     assertSuccessResponse(response);
-    assertEquals(4, response.body().getAccounts().size());
+    assertEquals(8, response.body().getAccounts().size());
     assertNotNull(response.body().getItem());
 
     for (AuthGetResponse.NumberACH numberACH : response.body().getNumbers().getACH()) {
@@ -44,11 +44,26 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
       assertNotNull(numberACH.getWireRouting());
     }
 
+    // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
     for (AuthGetResponse.NumberEFT numberEFT : response.body().getNumbers().getEFT()) {
       assertNotNull(numberEFT.getAccount());
       assertNotNull(numberEFT.getBranch());
       assertNotNull(numberEFT.getInstitution());
       assertNotNull(numberEFT.getAccountId());
+    }
+
+    // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
+    for (AuthGetResponse.NumberInternational numberInternational : response.body().getNumbers().getInternational()) {
+      assertNotNull(numberInternational.getIBAN());
+      assertNotNull(numberInternational.getBIC());
+      assertNotNull(numberInternational.getAccountId());
+    }
+
+    // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
+    for (AuthGetResponse.NumberBACS numberBACS : response.body().getNumbers().getBACS()) {
+      assertNotNull(numberBACS.getAccountId());
+      assertNotNull(numberBACS.getAccount());
+      assertNotNull(numberBACS.getSortCode());
     }
   }
 
@@ -56,7 +71,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   public void testSelectiveAccountSuccess() throws Exception {
     // first call to get an account ID
     Response<AccountsGetResponse> accountsGetResponse = client().service().accountsGet(
-      new AccountsGetRequest(getItemCreateResponse().getAccessToken()))
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
     assertSuccessResponse(accountsGetResponse);
     String accountId = accountsGetResponse.body().getAccounts().get(1).getAccountId();
@@ -64,7 +79,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
     // call under test
     Response<AuthGetResponse> response =
       client().service()
-        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken())
+        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
           .withAccountIds(Collections.singletonList(accountId)))
         .execute();
 
@@ -90,7 +105,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   public void testNoSuchAccountError() throws Exception {
     Response<AuthGetResponse> response =
       client().service()
-        .authGet(new AuthGetRequest(getItemCreateResponse().getAccessToken())
+        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
           .withAccountIds(Collections.singletonList("fake-not-real")))
         .execute();
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCOUNT_ID");

@@ -27,7 +27,7 @@ public class ItemDwollaProcessorTokenCreateTest extends AbstractItemIntegrationT
   @Test
   public void testError() throws Exception {
     Response<ItemDwollaProcessorTokenCreateResponse> response =
-      client().service().itemDwollaProcessorTokenCreate(new ItemDwollaProcessorTokenCreateRequest(getItemCreateResponse().getAccessToken(), "FooBarAccountId")).execute();
+      client().service().itemDwollaProcessorTokenCreate(new ItemDwollaProcessorTokenCreateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "FooBarAccountId")).execute();
     // Just assert that some error was returned - due to the nature of the
     // integration and required configuration at the API key level, we don't
     // know the exact error code to expect.

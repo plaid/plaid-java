@@ -27,39 +27,49 @@ public class IdentityGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<IdentityGetResponse> response = client().service().identityGet(
-      new IdentityGetRequest(getItemCreateResponse().getAccessToken())
+      new IdentityGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
     ).execute();
 
     assertSuccessResponse(response);
     assertFalse(response.body().getAccounts().isEmpty());
     assertNotNull(response.body().getItem());
 
-    IdentityGetResponse.Identity identity = response.body().getIdentity();
-    assertNotNull(identity);
-    assertFalse(identity.getNames().isEmpty());
-    assertFalse(identity.getEmails().isEmpty());
-    assertFalse(identity.getAddresses().isEmpty());
+    List<IdentityGetResponse.AccountWithOwners> accounts = response.body().getAccounts();
+    assertNotNull(accounts);
 
-    for (IdentityGetResponse.Email email : identity.getEmails()) {
-      assertNotNull(email.getData());
-      assertNotNull(email.getType());
-      assertNotNull(email.isPrimary());
-    }
+    for (IdentityGetResponse.AccountWithOwners account : accounts) {
+      List<IdentityGetResponse.Identity> owners = account.getOwners();
+      assertFalse(owners.isEmpty());
+      for (IdentityGetResponse.Identity identity : owners) {
+        assertNotNull(identity);
+        assertFalse(identity.getNames().isEmpty());
+        assertFalse(identity.getEmails().isEmpty());
+        assertFalse(identity.getAddresses().isEmpty());
+        assertFalse(identity.getPhoneNumbers().isEmpty());
 
-    for (IdentityGetResponse.Address address : identity.getAddresses()) {
-      assertFalse(address.getAccounts().isEmpty());
-      assertNotNull(address.isPrimary());
-      assertNotNull(address.getData());
-      assertNotNull(address.getData().getStreet());
-      assertNotNull(address.getData().getCity());
-      assertNotNull(address.getData().getState());
-      assertNotNull(address.getData().getZip());
-    }
+        for (IdentityGetResponse.Email email : identity.getEmails()) {
+          assertNotNull(email.getData());
+          assertNotNull(email.getType());
+          assertNotNull(email.isPrimary());
+        }
 
-    for (IdentityGetResponse.PhoneNumber phoneNumber : identity.getPhoneNumbers()) {
-      assertNotNull(phoneNumber.getData());
-      assertNotNull(phoneNumber.getType());
-      assertNotNull(phoneNumber.isPrimary());
+        for (IdentityGetResponse.Address address : identity.getAddresses()) {
+          assertNotNull(address.isPrimary());
+          assertNotNull(address.getData());
+          assertNotNull(address.getData().getStreet());
+          assertNotNull(address.getData().getCity());
+          assertNotNull(address.getData().getRegion());
+          assertNotNull(address.getData().getPostalCode());
+          // Sandbox data does not currently have a country set
+          // assertNotNull(address.getData().getCountry());
+        }
+
+        for (IdentityGetResponse.PhoneNumber phoneNumber : identity.getPhoneNumbers()) {
+          assertNotNull(phoneNumber.getData());
+          assertNotNull(phoneNumber.getType());
+          assertNotNull(phoneNumber.isPrimary());
+        }
+      }
     }
   }
 

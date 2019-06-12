@@ -29,17 +29,17 @@ public class AccountsBalanceGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testAccountsBalanceGetSuccess() throws Exception {
     Response<AccountsBalanceGetResponse> response = client().service().accountsBalanceGet(
-      new AccountsBalanceGetRequest(getItemCreateResponse().getAccessToken()))
+      new AccountsBalanceGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
 
     assertSuccessResponse(response);
 
     // item should be the same one we created
-    assertItemEquals(getItemCreateResponse().getItem(), response.body().getItem());
+    assertItemEquals(getItem(), response.body().getItem());
 
     // sandbox should return expected accounts
     List<Account> accounts = response.body().getAccounts();
-    assertEquals(4, accounts.size());
+    assertEquals(8, accounts.size());
     assertAccount(accounts.get(0), "depository", "checking", 100d, 110d, null, "Plaid Checking", "0000", "Plaid Gold Standard 0% Interest Checking");
     assertAccount(accounts.get(1), "depository", "savings", 200d, 210d, null, "Plaid Saving", "1111", "Plaid Silver Standard 0.1% Interest Saving");
     assertAccount(accounts.get(2), "depository", "cd", null, 1000d, null, "Plaid CD", "2222", "Plaid Bronze Standard 0.2% Interest CD");
@@ -53,19 +53,19 @@ public class AccountsBalanceGetTest extends AbstractItemIntegrationTest {
   public void testAccountsBalanceGetWithAccountId() throws Exception {
     // first call to get an account ID
     Response<AccountsBalanceGetResponse> response = client().service().accountsBalanceGet(
-      new AccountsBalanceGetRequest(getItemCreateResponse().getAccessToken()))
+      new AccountsBalanceGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
     assertSuccessResponse(response);
     String accountId = response.body().getAccounts().get(1).getAccountId();
 
     // call under test
     response = client().service().accountsBalanceGet(
-      new AccountsBalanceGetRequest(getItemCreateResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
+      new AccountsBalanceGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
       .execute();
     assertSuccessResponse(response);
 
     // item should be the same one we created
-    assertItemEquals(getItemCreateResponse().getItem(), response.body().getItem());
+    assertItemEquals(getItem(), response.body().getItem());
 
     // sandbox should return expected accounts
     List<Account> accounts = response.body().getAccounts();
@@ -77,7 +77,7 @@ public class AccountsBalanceGetTest extends AbstractItemIntegrationTest {
   @Ignore("This test fails because the request triggers a sandbox server 500.")
   public void testAccountsBalanceGetInvalidAccountId() throws Exception {
     Response<AccountsBalanceGetResponse> response = client().service().accountsBalanceGet(
-      new AccountsBalanceGetRequest(getItemCreateResponse().getAccessToken()).withAccountIds(Arrays.asList("not-real")))
+      new AccountsBalanceGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList("not-real")))
       .execute();
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCOUNT_ID");
   }

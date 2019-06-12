@@ -28,12 +28,12 @@ public class CreditDetailsGetTest extends AbstractItemIntegrationTest {
   public void testSuccess() throws Exception {
     Response<CreditDetailsGetResponse> response = client()
       .service()
-      .creditDetailsGet(new CreditDetailsGetRequest(getItemCreateResponse().getAccessToken()))
+      .creditDetailsGet(new CreditDetailsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
 
     assertSuccessResponse(response);
     CreditDetailsGetResponse creditDetailsGetResponse = response.body();
-    assertItemEquals(getItemCreateResponse().getItem(), creditDetailsGetResponse.getItem());
+    assertItemEquals(getItem(), creditDetailsGetResponse.getItem());
     assertEquals(1, creditDetailsGetResponse.getCreditDetails().size());
     CreditDetailsGetResponse.CreditDetail detail = creditDetailsGetResponse.getCreditDetails().get(0);
     assertNotNull(detail.getAccountId());

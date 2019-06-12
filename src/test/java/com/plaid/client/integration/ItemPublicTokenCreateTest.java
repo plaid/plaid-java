@@ -28,7 +28,7 @@ public class ItemPublicTokenCreateTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<ItemPublicTokenCreateResponse> response =
-      client().service().itemPublicTokenCreate(new ItemPublicTokenCreateRequest(getItemCreateResponse().getAccessToken())).execute();
+      client().service().itemPublicTokenCreate(new ItemPublicTokenCreateRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getPublicToken());

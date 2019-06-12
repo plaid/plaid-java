@@ -136,16 +136,18 @@ public final class PlaidClient {
     private final OkHttpClient.Builder okHttpClientBuilder;
     private String baseUrl;
     private HttpLoggingInterceptor.Level httpLogLevel;
-    private long readTimeoutSeconds;
-    private long connectTimeoutSeconds;
     private String publicKey;
+
     private String clientId;
     private String secret;
 
     private Builder() {
-      this.okHttpClientBuilder = new OkHttpClient.Builder();
-      this.readTimeoutSeconds = DEFAULT_READ_TIMEOUT_SECONDS;
-      this.connectTimeoutSeconds = DEFAULT_CONNECT_TIMEOUT_SECONDS;
+      this.okHttpClientBuilder = new OkHttpClient.Builder()
+        .readTimeout(DEFAULT_READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .connectTimeout(DEFAULT_CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        .followSslRedirects(false)
+        .addInterceptor(new PlaidApiHeadersInterceptor())
+        .connectionSpecs(Collections.singletonList(CONNECTION_SPEC));
     }
 
     /**
@@ -181,18 +183,11 @@ public final class PlaidClient {
         .registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ImmutableListTypeAdapterFactory())
-        .registerTypeAdapter(TransactionsGetRequest.Options.class, new BaseOptionsSerializer())
+        .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new BaseOptionsSerializer())
         .create();
     }
 
     private OkHttpClient buildOkHttpClient() {
-      okHttpClientBuilder
-        .readTimeout(readTimeoutSeconds, TimeUnit.SECONDS)
-        .connectTimeout(connectTimeoutSeconds, TimeUnit.SECONDS)
-        .followSslRedirects(false)
-        .addInterceptor(new PlaidApiHeadersInterceptor())
-        .connectionSpecs(Collections.singletonList(CONNECTION_SPEC));
-
       if (httpLogLevel != null) {
         okHttpClientBuilder.addInterceptor(new HttpLoggingInterceptor().setLevel(httpLogLevel));
       }

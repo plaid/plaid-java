@@ -30,7 +30,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testAssetReportGetSuccess() throws Exception {
     // Create asset report to get an asset report token
-    List<String> accessTokens = Arrays.asList(getItemCreateResponse().getAccessToken());
+    List<String> accessTokens = Arrays.asList(getItemPublicTokenExchangeResponse().getAccessToken());
     Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client(), accessTokens);
     String assetReportToken = createResponse.body().getAssetReportToken();
 
@@ -46,6 +46,30 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertFalse(respBody.getReport().getItems().isEmpty());
 
     assertNotNull(respBody.getReport().getAssetReportId());
+
+    // Retrieve the report as an Asset Report with Insights.
+    AssetReportGetRequest assetReportGet =
+      new AssetReportGetRequest(assetReportToken)
+        .withIncludeInsights(true);
+    response = client().service().assetReportGet(assetReportGet).execute();
+
+    respBody = response.body();
+    assertSuccessResponse(response);
+
+    assertNotNull(respBody.getReport());
+
+    // An Asset Report with Insights should include a name (when available).
+    assertTrue(containsTransactionWithName(respBody.getReport()));
+  }
+
+  private boolean containsTransactionWithName(AssetReportGetResponse.AssetReport assetReport) {
+    List<AssetReportGetResponse.Account> accounts = assetReport.getItems().get(0).getAccounts();
+    for (AssetReportGetResponse.Account account : accounts) {
+      if (account.getTransactions().size() > 0) {
+        return account.getTransactions().get(0).getName() != null;
+      }
+    }
+    return false;
   }
 
   /**
@@ -58,7 +82,8 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     int attempt = 0;
     Response<AssetReportGetResponse> response;
     do {
-      AssetReportGetRequest assetReportGet = new AssetReportGetRequest(assetReportToken);
+      AssetReportGetRequest assetReportGet =
+        new AssetReportGetRequest(assetReportToken);
       response = client.service().assetReportGet(assetReportGet).execute();
       attempt++;
       Thread.sleep(INTER_REQUEST_SLEEP);
