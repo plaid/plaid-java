@@ -81,7 +81,7 @@ public class InvestmentsTransactionsGetTest extends AbstractIntegrationTest {
       assertNotNull(txn.getDate());
       assertNotNull(txn.getName());
       assertNotNull(txn.getAmount());
-      assertNotNull(txn.getTransactionClass());
+      assertNotNull(txn.getType());
       assertNotNull(txn.getIsoCurrencyCode());
     }
 
