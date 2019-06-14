@@ -44,7 +44,7 @@ public final class InvestmentsTransactionsGetResponse extends BaseResponse {
     private Double amount;
     private Double price;
     private Double fees;
-    @SerializedName("class") private String transactionClass;
+    private String type;
     private String isoCurrencyCode;
     private String unofficialCurrencyCode;
     private String cancelTransactionId;
@@ -85,8 +85,8 @@ public final class InvestmentsTransactionsGetResponse extends BaseResponse {
       return fees;
     }
 
-    public String getTransactionClass() {
-      return transactionClass;
+    public String getType() {
+      return type;
     }
 
     public String getIsoCurrencyCode() {
