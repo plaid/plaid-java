@@ -8,6 +8,9 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +18,7 @@ import java.util.List;
  * Deserializes all {@link List} types as unmodifiable lists to
  * preserve immutability.
  */
-public class ImmutableListTypeAdapterFactory implements TypeAdapterFactory {
+public class ImmutableListStripUnknownEnumsTypeAdapterFactory implements TypeAdapterFactory {
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
     if (!List.class.isAssignableFrom(type.getRawType())) {
@@ -23,7 +26,10 @@ public class ImmutableListTypeAdapterFactory implements TypeAdapterFactory {
     }
 
     final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
+    Type actualTypeArgument = ((ParameterizedType) type.getType()).getActualTypeArguments()[0];
 
+    final boolean isEnumType = actualTypeArgument instanceof Class && Enum.class.isAssignableFrom(
+      (Class<?>) actualTypeArgument);
     return new TypeAdapter<T>() {
       @Override
       public void write(JsonWriter out, T value) throws IOException {
@@ -40,7 +46,17 @@ public class ImmutableListTypeAdapterFactory implements TypeAdapterFactory {
           return null;
         }
 
-        return (T) Collections.unmodifiableList((List<?>) value);
+        List<?> valueList = (List<?>) value;
+        if (isEnumType) {
+          List<Object> strippedList = new ArrayList<>(valueList.size());
+          for (Object enumValue : valueList) {
+            if (enumValue != null) {
+              strippedList.add(enumValue);
+            }
+          }
+          return (T) Collections.unmodifiableList(strippedList);
+        }
+        return (T) Collections.unmodifiableList(valueList);
       }
     };
   }
