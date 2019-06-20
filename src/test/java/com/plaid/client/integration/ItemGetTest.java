@@ -40,7 +40,7 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
 
   @Test(expected = UnsupportedOperationException.class)
   public void testImmutableListsInResponses() throws Exception {
-    // quick smoke tests to make sure that ImmutableListTypeAdapterFactory is installed and working
+    // quick smoke tests to make sure that ImmutableListStripUnknownEnumsTypeAdapterFactory is installed and working
     // this test could really be anywhere
     Response<ItemGetResponse> response =
       client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
