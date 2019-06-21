@@ -1,23 +1,28 @@
-node {
-   def mvnHome
+pipeline {
+    agent { label 'jenkins-deploy-pipeline-slave-01'}
+   stages {
+//   def mvnHome
+   
    stage('Preparation') { // for display purposes
+      steps {
       // Get some code from a GitHub repository
-      git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+      git 'https://github.com/plaid/plaid-java'
       // Get the Maven tool.
       // ** NOTE: This 'M3' Maven tool must be configured
       // **       in the global configuration.           
-      mvnHome = tool 'M3'
+      }
    }
    stage('Build') {
+      steps{
       // Run the maven build
-      if (isUnix()) {
          sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
-      } else {
-         bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
       }
    }
    stage('Results') {
+      steps {
       junit '**/target/surefire-reports/TEST-*.xml'
       archive 'target/*.jar'
+      }
    }
+}
 }
