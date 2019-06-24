@@ -113,16 +113,18 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
     assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("Tartan Bank", institution.getName());
-    List<Product> expectedProducts = Arrays.asList(
-      Product.ASSETS,
-      Product.AUTH,
-      Product.BALANCE,
-      Product.TRANSACTIONS,
-      Product.CREDIT_DETAILS,
-      Product.INCOME,
-      Product.IDENTITY,
-      Product.INVESTMENTS);
-    assertEquals(expectedProducts, institution.getProducts());
+    assertEquals(Arrays.asList(
+            Product.ASSETS,
+            Product.AUTH,
+            Product.BALANCE,
+            Product.TRANSACTIONS,
+            Product.CREDIT_DETAILS,
+            Product.INCOME,
+            Product.IDENTITY,
+            Product.INVESTMENTS,
+            Product.LIABILITIES
+            ),
+        institution.getProducts());
     assertTrue(institution.getCountryCodes().contains("US"));
   }
 
