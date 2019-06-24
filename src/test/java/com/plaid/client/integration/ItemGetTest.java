@@ -11,7 +11,7 @@ import retrofit2.Response;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class ItemGetTest extends AbstractItemIntegrationTest {
   @Override
