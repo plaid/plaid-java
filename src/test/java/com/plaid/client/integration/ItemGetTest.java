@@ -4,6 +4,7 @@ import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.common.Product;
 import com.plaid.client.response.ErrorResponse;
 import com.plaid.client.response.ItemGetResponse;
+import com.plaid.client.response.ItemStatusStatus;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -28,6 +29,20 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
 
     assertSuccessResponse(response);
     assertItemEquals(getItem(), response.body().getItem());
+  }
+
+  @Test
+  public void testSuccessWithStatus() throws Exception {
+    Response<ItemGetResponse> response =
+      client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
+
+    assertSuccessResponse(response);
+    assertItemEquals(getItem(), response.body().getItem());
+
+    ItemStatusStatus status = response.body().getStatus();
+    // ItemStatusTransactions transactions = status.getTransactions();
+    assertNotNull(status);
+    // assertNotNull(status.getTransactions().lastFailedUpdate());
   }
 
   @Test

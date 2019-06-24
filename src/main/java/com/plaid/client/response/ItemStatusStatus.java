@@ -4,13 +4,13 @@ import java.util.Date;
 
 public final class ItemStatusStatus {
   private ItemStatusTransactions transactions;
-  private ItemStatusWebhook lastWebhook;
+  private ItemStatusLastWebhook lastWebhook;
 
   public ItemStatusTransactions getTransactions() {
     return transactions;
   }
 
-  public ItemStatusWebhook getLastWebhook() {
+  public ItemStatusLastWebhook getLastWebhook() {
     return lastWebhook;
   }
 
@@ -27,7 +27,7 @@ public final class ItemStatusStatus {
     }
   }
 
-  public static final class ItemStatusWebhook {
+  public static final class ItemStatusLastWebhook {
     private Date sentAt;
     private String codeSent;
 
