@@ -11,6 +11,8 @@ import retrofit2.Response;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+
 public class ItemGetTest extends AbstractItemIntegrationTest {
   @Override
   protected List<Product> setupItemProducts() {
@@ -34,15 +36,18 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccessWithStatus() throws Exception {
     Response<ItemGetResponse> response =
-      client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
+            client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
 
     assertSuccessResponse(response);
     assertItemEquals(getItem(), response.body().getItem());
 
-    ItemStatusStatus status = response.body().getStatus();
-    // ItemStatusTransactions transactions = status.getTransactions();
-    assertNotNull(status);
-    // assertNotNull(status.getTransactions().lastFailedUpdate());
+    ItemStatusStatus.ItemStatusTransactions transactions = response.body().getStatus().getTransactions();
+    assertNotNull(transactions.getLastFailedUpdate());
+    assertNotNull(transactions.getLastSuccessfulUpdate());
+
+    ItemStatusStatus.ItemStatusLastWebhook webhook = response.body().getStatus().getLastWebhook();
+    assertNotNull(webhook.getCodeSent());
+    assertNotNull(webhook.getSentAt());
   }
 
   @Test
