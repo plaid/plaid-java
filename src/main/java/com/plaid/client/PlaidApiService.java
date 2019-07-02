@@ -31,6 +31,7 @@ import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
+import com.plaid.client.request.LiabilitiesGetRequest;
 import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
@@ -62,6 +63,7 @@ import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
+import com.plaid.client.response.LiabilitiesGetResponse;
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
@@ -172,6 +174,9 @@ public interface PlaidApiService {
 
   @POST("/transactions/get")
   Call<TransactionsGetResponse> transactionsGet(@Body TransactionsGetRequest request);
+
+  @POST("/liabilities/get")
+  Call<LiabilitiesGetResponse> liabilitiesGet(@Body LiabilitiesGetRequest request);
 
   @POST("/credit_details/get")
   Call<CreditDetailsGetResponse> creditDetailsGet(@Body CreditDetailsGetRequest request);

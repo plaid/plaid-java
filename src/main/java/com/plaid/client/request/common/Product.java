@@ -11,4 +11,5 @@ public enum Product {
   @SerializedName("auth") AUTH,
   @SerializedName("transactions") TRANSACTIONS,
   @SerializedName("investments") INVESTMENTS,
+  @SerializedName("liabilities") LIABILITIES,
 }

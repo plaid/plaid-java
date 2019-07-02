@@ -1,3 +1,7 @@
+# 5.2.0
+
+- Add support for [Liabilities](https://plaid.com/docs/api/#liabilities).
+
 # 5.1.0
 
 - Add support for [Investments](https://plaid.com/docs/api/#investments).

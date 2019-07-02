@@ -121,7 +121,8 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
             Product.CREDIT_DETAILS,
             Product.INCOME,
             Product.IDENTITY,
-            Product.INVESTMENTS
+            Product.INVESTMENTS,
+            Product.LIABILITIES
             ),
         institution.getProducts());
     assertTrue(institution.getCountryCodes().contains("US"));
