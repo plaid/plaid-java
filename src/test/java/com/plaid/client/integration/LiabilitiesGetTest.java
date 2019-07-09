@@ -44,6 +44,42 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
     assertTrue(studentLoans.size() > 0);
     for (LiabilitiesGetResponse.StudentLoanLiability studentLoan : studentLoans) {
       assertNotNull(studentLoan.getAccountId());
+      assertNotNull(studentLoan.getAccountNumber());
+      assertNotNull(studentLoan.getDisbursementDates());
+      assertNotNull(studentLoan.getExpectedPayoffDate());
+      assertNotNull(studentLoan.getGuarantor());
+      assertNotNull(studentLoan.getInterestRatePercentage());
+      assertNotNull(studentLoan.getIsOverdue());
+      assertNotNull(studentLoan.getLastPaymentAmount());
+      assertNotNull(studentLoan.getLastPaymentDate());
+      assertNotNull(studentLoan.getLastStatementBalance());
+      assertNotNull(studentLoan.getLastStatementIssueDate());
+      assertNotNull(studentLoan.getLoanName());
+      assertNotNull(studentLoan.getLoanStatus());
+      assertNotNull(studentLoan.getLoanStatus().getEndDate());
+      assertNotNull(studentLoan.getLoanStatus().getType());
+      assertNotNull(studentLoan.getMinimumPaymentAmount());
+      assertNotNull(studentLoan.getNextPaymentDueDate());
+      assertNotNull(studentLoan.getOriginationDate());
+      assertNotNull(studentLoan.getOriginationPrincipalAmount());
+      assertNotNull(studentLoan.getOutstandingInterestAmount());
+      assertNotNull(studentLoan.getPaymentReferenceNumber());
+      assertNotNull(studentLoan.getPslfStatus());
+      assertNotNull(studentLoan.getPslfStatus().getEstimatedEligibilityDate());
+      assertNotNull(studentLoan.getPslfStatus().getPaymentsMade());
+      assertNotNull(studentLoan.getPslfStatus().getPaymentsRemaining());
+      assertNotNull(studentLoan.getRepaymentPlan());
+      assertNotNull(studentLoan.getRepaymentPlan().getDescription());
+      assertNotNull(studentLoan.getRepaymentPlan().getType());
+      assertNotNull(studentLoan.getSequenceNumber());
+      assertNotNull(studentLoan.getServicerAddress());
+      assertNotNull(studentLoan.getServicerAddress().getCity());
+      assertNotNull(studentLoan.getServicerAddress().getCountry());
+      assertNotNull(studentLoan.getServicerAddress().getRegion());
+      assertNotNull(studentLoan.getServicerAddress().getStreet());
+      assertNotNull(studentLoan.getServicerAddress().getPostalCode());
+      assertNotNull(studentLoan.getYtdInterestPaid());
+      assertNotNull(studentLoan.getYtdPrincipalPaid());
     }
   }
 
