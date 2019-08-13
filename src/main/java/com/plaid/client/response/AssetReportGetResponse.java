@@ -400,45 +400,30 @@ public class AssetReportGetResponse extends BaseResponse {
   }
 
   public static final class AddressData {
-    private String city;
-    private String state;
     private String street;
-    private String zip;
-
-    public String getCity() {
-      return city;
-    }
-
-    public String getState() {
-      return state;
-    }
+    private String city;
+    private String region;
+    private String postalCode;
+    private String country;
 
     public String getStreet() {
       return street;
     }
 
-    public String getZip() {
-      return zip;
+    public String getCity() {
+      return city;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      AddressData that = (AddressData) obj;
-      return Objects.equals(city, that.city) &&
-          Objects.equals(state, that.state) &&
-          Objects.equals(street, that.street) &&
-          Objects.equals(zip, that.zip);
+    public String getRegion() {
+      return region;
     }
 
-    @Override
-    public int hashCode() {
-      return Objects.hash(city, state, street, zip);
+    public String getPostalCode() {
+      return postalCode;
+    }
+
+    public String getCountry() {
+      return country;
     }
   }
 
