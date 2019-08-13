@@ -46,15 +46,33 @@ public final class IdentityGetResponse extends BaseResponse {
   }
 
   public static final class Address {
-    private Boolean primary;
     private AddressData data;
-
-    public Boolean isPrimary() {
-      return primary;
-    }
+    private boolean primary;
 
     public AddressData getData() {
       return data;
+    }
+
+    public boolean isPrimary() {
+      return primary;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Address address = (Address) obj;
+      return primary == address.primary &&
+          Objects.equals(data, address.data);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(data, primary);
     }
   }
 
@@ -87,38 +105,77 @@ public final class IdentityGetResponse extends BaseResponse {
   }
 
   public static final class Email {
-    private Boolean primary;
     private String data;
+    private boolean primary;
     private String type;
-
-    public Boolean isPrimary() {
-      return primary;
-    }
 
     public String getData() {
       return data;
     }
 
+    public boolean isPrimary() {
+      return primary;
+    }
+
     public String getType() {
       return type;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Email email = (Email) obj;
+      return primary == email.primary &&
+          Objects.equals(data, email.data) &&
+          Objects.equals(type, email.type);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(data, primary, type);
     }
   }
 
   public static final class PhoneNumber {
-    private Boolean primary;
     private String data;
+    private boolean primary;
     private String type;
-
-    public Boolean isPrimary() {
-      return primary;
-    }
 
     public String getData() {
       return data;
     }
 
+    public boolean isPrimary() {
+      return primary;
+    }
+
     public String getType() {
       return type;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      PhoneNumber that = (PhoneNumber) obj;
+      return primary == that.primary &&
+          Objects.equals(data, that.data) &&
+          Objects.equals(type, that.type);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(data, primary, type);
+    }
   }
+
 }
