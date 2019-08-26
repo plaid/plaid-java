@@ -6,6 +6,9 @@ import java.util.Objects;
 
 import com.plaid.client.response.TransactionsGetResponse.Transaction.Location;
 import com.plaid.client.response.TransactionsGetResponse.Transaction.PaymentMeta;
+import com.plaid.client.response.IdentityGetResponse.Address;
+import com.plaid.client.response.IdentityGetResponse.Email;
+import com.plaid.client.response.IdentityGetResponse.PhoneNumber;
 
 /**
  * See https://plaid.com/docs/#assets for more detail into the returned schema.
@@ -291,154 +294,6 @@ public class AssetReportGetResponse extends BaseResponse {
     @Override
     public int hashCode() {
       return Objects.hash(names, phoneNumbers, emails, addresses);
-    }
-  }
-
-  public static final class PhoneNumber {
-    private String data;
-    private boolean primary;
-    private String type;
-
-    public String getData() {
-      return data;
-    }
-
-    public boolean isPrimary() {
-      return primary;
-    }
-
-    public String getType() {
-      return type;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      PhoneNumber that = (PhoneNumber) obj;
-      return primary == that.primary &&
-          Objects.equals(data, that.data) &&
-          Objects.equals(type, that.type);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(data, primary, type);
-    }
-  }
-
-  public static final class Email {
-    private String data;
-    private boolean primary;
-    private String type;
-
-    public String getData() {
-      return data;
-    }
-
-    public boolean isPrimary() {
-      return primary;
-    }
-
-    public String getType() {
-      return type;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      Email email = (Email) obj;
-      return primary == email.primary &&
-          Objects.equals(data, email.data) &&
-          Objects.equals(type, email.type);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(data, primary, type);
-    }
-  }
-
-  public static final class Address {
-    private AddressData data;
-    private boolean primary;
-
-    public AddressData getData() {
-      return data;
-    }
-
-    public boolean isPrimary() {
-      return primary;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      Address address = (Address) obj;
-      return primary == address.primary &&
-          Objects.equals(data, address.data);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(data, primary);
-    }
-  }
-
-  public static final class AddressData {
-    private String city;
-    private String state;
-    private String street;
-    private String zip;
-
-    public String getCity() {
-      return city;
-    }
-
-    public String getState() {
-      return state;
-    }
-
-    public String getStreet() {
-      return street;
-    }
-
-    public String getZip() {
-      return zip;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      AddressData that = (AddressData) obj;
-      return Objects.equals(city, that.city) &&
-          Objects.equals(state, that.state) &&
-          Objects.equals(street, that.street) &&
-          Objects.equals(zip, that.zip);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(city, state, street, zip);
     }
   }
 
