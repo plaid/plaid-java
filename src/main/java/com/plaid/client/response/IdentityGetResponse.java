@@ -1,6 +1,7 @@
 package com.plaid.client.response;
 
 import java.util.List;
+import java.util.Objects;
 
 public final class IdentityGetResponse extends BaseResponse {
   private ItemStatus item;
