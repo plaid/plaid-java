@@ -8,6 +8,7 @@ public class Account {
   private String name;
   private String mask;
   private String officialName;
+  private String verificationStatus;
 
   public String getAccountId() {
     return accountId;
@@ -35,6 +36,10 @@ public class Account {
 
   public String getOfficialName() {
     return officialName;
+  }
+
+  public String getVerificationStatus() {
+    return verificationStatus;
   }
 
   public static final class Balances {
