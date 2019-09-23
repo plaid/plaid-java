@@ -65,10 +65,10 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
     );
     Response<InstitutionsSearchResponse> response =
         client().service().institutionsSearch(new InstitutionsSearchRequest("wells")
-        .withCountryCodes(Arrays.asList("US"))
-        .withAccountFilter(accountFilter))
-        .withProducts(Product.LIABILITIES)
-        .execute();
+          .withCountryCodes(Arrays.asList("US"))
+          .withAccountFilter(accountFilter)
+          .withProducts(Product.LIABILITIES)
+        ).execute();
 
     assertSuccessResponse(response);
 
