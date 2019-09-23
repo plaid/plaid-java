@@ -64,7 +64,11 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
       "loan", Arrays.asList("student")
     );
     Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("wells").withCountryCodes(Arrays.asList("US")).withAccountFilter(accountFilter)).execute();
+        client().service().institutionsSearch(new InstitutionsSearchRequest("wells")
+        .withCountryCodes(Arrays.asList("US"))
+        .withAccountFilter(accountFilter))
+        .withProducts(Product.LIABILITIES)
+        .execute();
 
     assertSuccessResponse(response);
 
