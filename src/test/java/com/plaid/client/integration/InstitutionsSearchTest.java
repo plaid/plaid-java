@@ -59,6 +59,19 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   }
 
   @Test
+  public void testSuccessWithAccountFilter() throws Exception {
+    Map<String, List<String>> accountFilter = Map.of(
+      "loan", Arrays.asList("student")
+    );
+    Response<InstitutionsSearchResponse> response =
+        client().service().institutionsSearch(new InstitutionsSearchRequest("wells").withCountryCodes(Arrays.asList("US")).withAccountFilter(accountFilter)).execute();
+
+    assertSuccessResponse(response);
+
+    assertTrue(0, response.body().getInstitutions().size() > 0);
+  }
+
+  @Test
   public void testNoResults() throws Exception {
     Response<InstitutionsSearchResponse> response =
       client().service().institutionsSearch(new InstitutionsSearchRequest("zebra")).execute();

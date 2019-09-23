@@ -51,8 +51,17 @@ public final class InstitutionsSearchRequest extends BasePublicRequest {
     return this;
   }
 
+  public InstitutionsSearchRequest withAccountFilter(Map<String, List<String>> accountFilter) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.accountFilter = accountFilter;
+    return this;
+  }
+
   private static class Options {
     private boolean includeOptionalMetadata;
     private List<String> countryCodes;
+    private Map<String, List<String>> accountFilter;
   }
 }
