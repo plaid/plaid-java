@@ -1,5 +1,6 @@
 package com.plaid.client.response;
 
+import java.util.Objects;
 import java.util.List;
 
 public final class IdentityGetResponse extends BaseResponse {
