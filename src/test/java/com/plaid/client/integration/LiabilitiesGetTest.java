@@ -28,7 +28,7 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
   }
 
   @Test
-  public void testLiabilitiesGetSuccess() throws Exception {
+  public void testLiabilitiesStudentLoanGetSuccess() throws Exception {
     Response<LiabilitiesGetResponse> response = client().service().liabilitiesGet(
       new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
@@ -38,7 +38,7 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
     // item should be the same one we created
     assertItemEquals(getItem(), response.body().getItem());
 
-    // sandbox should return expected liabilities
+    // sandbox should return expected student loan liabilities
     LiabilitiesGetResponse.Liabilities liabilities = response.body().getLiabilities();
     List<LiabilitiesGetResponse.StudentLoanLiability> studentLoans = liabilities.getStudent();
     assertTrue(studentLoans.size() > 0);
@@ -80,6 +80,41 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
       assertNotNull(studentLoan.getServicerAddress().getPostalCode());
       assertNotNull(studentLoan.getYtdInterestPaid());
       assertNotNull(studentLoan.getYtdPrincipalPaid());
+    }
+  }
+
+  @Test
+  public void testLiabilitiesCreditCardGetSuccess() throws Exception {
+    Response<LiabilitiesGetResponse> response = client().service().liabilitiesGet(
+      new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+      .execute();
+
+    assertSuccessResponse(response);
+
+    // item should be the same one we created
+    assertItemEquals(getItem(), response.body().getItem());
+
+    // sandbox should return expected credit card liabilities
+    LiabilitiesGetResponse.Liabilities liabilities = response.body().getLiabilities();
+    List<LiabilitiesGetResponse.CreditCardLiability> creditCards = liabilities.getCredit();
+    assertTrue(creditCards.size() > 0);
+    for (LiabilitiesGetResponse.CreditCardLiability creditCard : creditCards) {
+      List<LiabilitiesGetResponse.Apr> aprs = creditCard.getAprs();
+      assertNotNull(aprs);
+      for (LiabilitiesGetResponse.Apr apr : aprs) {
+        assertNotNull(apr.getAprPercentage());
+        assertNotNull(apr.getAprType());
+        assertNotNull(apr.getBalanceSubjectToApr());
+        assertNotNull(apr.getInterestChargeAmount());
+      }
+      assertNotNull(creditCard.getAccountId());
+      assertNotNull(creditCard.getIsOverdue());
+      assertNotNull(creditCard.getLastPaymentAmount());
+      assertNotNull(creditCard.getLastPaymentDate());
+      assertNotNull(creditCard.getLastStatementBalance());
+      assertNotNull(creditCard.getLastStatementIssueDate());
+      assertNotNull(creditCard.getMinimumPaymentAmount());
+      assertNotNull(creditCard.getNextPaymentDueDate());
     }
   }
 

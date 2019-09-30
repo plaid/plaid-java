@@ -21,9 +21,14 @@ public final class LiabilitiesGetResponse extends BaseResponse {
 
   public static final class Liabilities {
     private List<StudentLoanLiability> student;
+    private List<CreditCardLiability> credit;
 
     public List<StudentLoanLiability> getStudent() {
       return student;
+    }
+
+    public List<CreditCardLiability> getCredit() {
+      return credit;
     }
   }
 
@@ -231,6 +236,79 @@ public final class LiabilitiesGetResponse extends BaseResponse {
 
     public String getDescription() {
       return description;
+    }
+  }
+
+  // CreditCardLiability contains credit card liability data.
+  public static final class CreditCardLiability {
+    private List<Apr> aprs;
+    private String accountId;
+    private Boolean isOverdue;
+    private Double lastPaymentAmount;
+    private String lastPaymentDate;
+    private Double lastStatementBalance;
+    private String lastStatementIssueDate;
+    private Double minimumPaymentAmount;
+    private String nextPaymentDueDate;
+
+    public List<Apr> getAprs() {
+      return aprs;
+    }
+
+    public String getAccountId() {
+      return accountId;
+    }
+
+    public Boolean getIsOverdue() {
+      return isOverdue;
+    }
+
+    public Double getLastPaymentAmount() {
+      return lastPaymentAmount;
+    }
+
+    public String getLastPaymentDate() {
+      return lastPaymentDate;
+    }
+
+    public Double getLastStatementBalance() {
+      return lastStatementBalance;
+    }
+
+    public String getLastStatementIssueDate() {
+      return lastStatementIssueDate;
+    }
+
+    public Double getMinimumPaymentAmount() {
+      return minimumPaymentAmount;
+    }
+
+    public String getNextPaymentDueDate() {
+      return nextPaymentDueDate;
+    }
+  }
+
+  // Apr contains APR data related to credit card liability.
+  public static final class Apr {
+    private Double aprPercentage;
+    private String aprType;
+    private Double balanceSubjectToApr;
+    private Double interestChargeAmount;
+
+    public Double getAprPercentage() {
+      return aprPercentage;
+    }
+
+    public String getAprType() {
+      return aprType;
+    }
+
+    public Double getBalanceSubjectToApr() {
+      return balanceSubjectToApr;
+    }
+
+    public Double getInterestChargeAmount() {
+      return interestChargeAmount;
     }
   }
 }
