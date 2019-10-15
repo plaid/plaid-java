@@ -60,11 +60,108 @@ public final class Institution {
     }
   }
 
+  public static final class TransactionUpdates {
+    private String status;
+    private String refreshInterval;
+    private Time lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Time getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+
+    public String getRefreshInterval() {
+      return refreshInterval;
+    }
+  }
+
+  private static class BalanceHealth {
+    private String status;
+    private Time lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Time getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+  }
+
+  private static class IdentityHealth {
+    private String status;
+    private Time lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Time getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+  }
+
+  private static class AuthHealth {
+    private String status;
+    private Time lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Time getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+  }
+
   public static final class InstitutionStatus {
     private ItemLogins itemLogins;
+    private TransactionUpdates transactionUpdates;
+    private AuthHealth auth;
+    private BalanceHealth balance;
+    private IdentityHealth identity;
 
     public ItemLogins getItemLogins() {
       return itemLogins;
+    }
+
+    public TransactionUpdates getTransactionUpdates() {
+      return transactionUpdates;
+    }
+
+    public AuthHealth getAuth() {
+      return auth;
+    }
+
+    public BalanceHealth getBalance() {
+      return balance;
+    }
+
+    public IdentityHealth getIdentity() {
+      return identity;
     }
   }
 
