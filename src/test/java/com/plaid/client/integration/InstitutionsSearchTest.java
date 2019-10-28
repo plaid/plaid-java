@@ -7,6 +7,7 @@ import org.junit.Test;
 import retrofit2.Response;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,9 +64,9 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithAccountFilter() throws Exception {
-    Map<String, List<String>> accountFilter = Map.of(
-      "loan", Arrays.asList("student")
-    );
+    Map<String, List<String>> accountFilter = new HashMap<>();
+    accountFilter.put("loan", Arrays.asList("student"));
+
     Response<InstitutionsSearchResponse> response =
         client().service().institutionsSearch(new InstitutionsSearchRequest("wells")
           .withCountryCodes(Arrays.asList("US"))
@@ -75,7 +76,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
 
     assertSuccessResponse(response);
 
-    assertTrue(0, response.body().getInstitutions().size() > 0);
+    assertTrue(response.body().getInstitutions().size() > 0);
   }
 
   @Test
