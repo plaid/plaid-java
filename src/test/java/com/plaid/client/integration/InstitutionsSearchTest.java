@@ -7,10 +7,14 @@ import org.junit.Test;
 import retrofit2.Response;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
@@ -56,6 +60,23 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
 
     assertEquals(institutionsSearchResponse.getInstitutions().get(0).getCountryCodes(), Arrays.asList("US"));
+  }
+
+  @Test
+  public void testSuccessWithAccountFilter() throws Exception {
+    Map<String, List<String>> accountFilter = new HashMap<>();
+    accountFilter.put("loan", Arrays.asList("student"));
+
+    Response<InstitutionsSearchResponse> response =
+        client().service().institutionsSearch(new InstitutionsSearchRequest("wells")
+          .withCountryCodes(Arrays.asList("US"))
+          .withAccountFilter(accountFilter)
+          .withProducts(Product.LIABILITIES)
+        ).execute();
+
+    assertSuccessResponse(response);
+
+    assertTrue(response.body().getInstitutions().size() > 0);
   }
 
   @Test
