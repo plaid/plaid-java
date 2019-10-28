@@ -7,6 +7,7 @@ import com.plaid.client.request.common.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.plaid.client.internal.Util.notEmpty;
 import static com.plaid.client.internal.Util.notNull;
