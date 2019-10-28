@@ -2,6 +2,7 @@ package com.plaid.client.response;
 
 import java.util.Objects;
 import java.util.List;
+import java.util.Objects;
 
 public final class IdentityGetResponse extends BaseResponse {
   private ItemStatus item;
@@ -102,6 +103,27 @@ public final class IdentityGetResponse extends BaseResponse {
 
     public String getCountry() {
       return country;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      AddressData addressData = (AddressData) obj;
+      return Objects.equals(street, addressData.street) &&
+          Objects.equals(city, addressData.city) &&
+          Objects.equals(region, addressData.region) &&
+          Objects.equals(postalCode, addressData.postalCode) &&
+          Objects.equals(country, addressData.country);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(street, city, region, postalCode, country);
     }
   }
 
