@@ -7,7 +7,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 To deploy a new version, you need a Sonatype account. 
 Sign up for an account [here](https://issues.sonatype.org/secure/Signup!default.jspa) with your plaid.com email.
 
-Afterwards, ask someone (mkelly@) to file a ticket like [OSSRH-39496](https://issues.sonatype.org/browse/OSSRH-39496) for you.
+Afterwards, ask someone (davidzhanghp@) to file a ticket like [OSSRH-39496](https://issues.sonatype.org/browse/OSSRH-39496) for you.
 
 This may take some time as we rely on folks at Sonatype to do this for us, so please be patient.
 
