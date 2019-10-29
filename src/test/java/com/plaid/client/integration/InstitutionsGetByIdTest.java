@@ -8,7 +8,6 @@ import com.plaid.client.response.InstitutionsGetByIdResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.List;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;

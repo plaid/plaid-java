@@ -2,7 +2,7 @@ package com.plaid.client.response;
 
 import com.plaid.client.request.common.Product;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 public final class Institution {
@@ -44,14 +44,14 @@ public final class Institution {
 
   public static final class ItemLogins {
     private String status;
-    private Time lastStatusChange;
+    private Timestamp lastStatusChange;
     private InstitutionStatusBreakdown breakdown;
 
     public String getStatus() {
       return status;
     }
 
-    public Time getLastStatusChange() {
+    public Timestamp getLastStatusChange() {
       return lastStatusChange;
     }
 
