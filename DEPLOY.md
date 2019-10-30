@@ -16,6 +16,8 @@ We need to take your credentials from Sonatype and add it to your `~/.m2/setting
 
 Using the editor of your choice, paste this into your `~/.m2/settings.xml` file, replacing the username and password.
 
+Fun fact: XML won't like it if your password contains illegal XML characters, so you probably need to escape it. Alternatively, just change your password to be more XML-friendly.
+
 ```
 <settings>
   <servers>
@@ -93,12 +95,13 @@ This will release a new artifact with a bumped patch version to the Sonatype sta
 
 ## Releasing the artifiact
 
-Login [here](https://oss.sonatype.org/#welcome) using your credentials from [above](#setting-up-your-sonatype-account). After logging in, click on "Staging Repositories" under "Build Promotion". On the top right corner there is a search bar. 
-Search for plaid. If you ran [publishing the new version](#publishing-the-new-version) properly, you'll see something like this.
+Login [here](https://oss.sonatype.org/#welcome) using your credentials from [above](#setting-up-your-sonatype-account). Try searching for "com.plaid" in the search bar and see if the newest version is in the "release" repository. If it is, the release is out! It may take a couple of hours to propagate to other Maven repositories, so just hang out and check on the Central Maven Repository in a few hours.
 
-[Screenshot](../assets/ss1.png?raw=true)
+If you don't see the newest version, continue below.
 
-This process goes.
+Click on "Staging Repositories" under "Build Promotion". On the top right corner there is a search bar. Search for "com.plaid". 
+
+This process goes:
 1. Artifact goes into a staging repo
 1. The staging repo is "closed"
 1. The staging repo is "released" (to the central repository)
@@ -108,4 +111,4 @@ Once you click on the staging repo, you'll be able to "Close" it. Closing it doe
 ## Updating the documentation (don't forget these steps).
 
 1. Update README.md with the latest version.
-1. Update the CHANGELOG.
+1. Update CHANGELOG.md.

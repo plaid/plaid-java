@@ -1,6 +1,11 @@
-# 5.2.0
+# 5.1.4
+- Add support for [Credit liabilities](https://plaid.com/docs/api/#liabilities).
+- Add support for Account subtype filtering in [Institution Search](https://plaid.com/docs/#institution-search).
+- Remove support for deprecated endpoint `/item/access_token/update_version`.
 
-- Add support for [Liabilities](https://plaid.com/docs/api/#liabilities).
+# 5.1.2
+
+- Add support for [Student loan liabilities](https://plaid.com/docs/api/#liabilities).
 
 # 5.1.0
 
