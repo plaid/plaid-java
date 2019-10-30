@@ -22,7 +22,6 @@ import com.plaid.client.request.InstitutionsGetByIdRequest;
 import com.plaid.client.request.InstitutionsGetRequest;
 import com.plaid.client.request.InstitutionsSearchRequest;
 import com.plaid.client.request.ItemAccessTokenInvalidateRequest;
-import com.plaid.client.request.ItemAccessTokenUpdateVersionRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemGetRequest;
@@ -54,7 +53,6 @@ import com.plaid.client.response.InstitutionsGetByIdResponse;
 import com.plaid.client.response.InstitutionsGetResponse;
 import com.plaid.client.response.InstitutionsSearchResponse;
 import com.plaid.client.response.ItemAccessTokenInvalidateResponse;
-import com.plaid.client.response.ItemAccessTokenUpdateVersionResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemGetResponse;
@@ -98,9 +96,6 @@ public interface PlaidApiService {
 
   @POST("/item/access_token/invalidate")
   Call<ItemAccessTokenInvalidateResponse> itemAccessTokenInvalidate(@Body ItemAccessTokenInvalidateRequest request);
-
-  @POST("/item/access_token/update_version")
-  Call<ItemAccessTokenUpdateVersionResponse> itemAccessTokenUpdateVersion(@Body ItemAccessTokenUpdateVersionRequest request);
 
   @POST("/item/remove")
   Call<ItemRemoveResponse> itemRemove(@Body ItemRemoveRequest request);
