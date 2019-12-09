@@ -19,7 +19,9 @@ public final class ItemStatusStatus {
     return lastWebhook;
   }
 
-  public static final class ItemStatusHealth {
+  public static class ItemStatusHealth extends ItemStatusTransactions {}
+
+  public static class ItemStatusTransactions {
     private Date lastSuccessfulUpdate;
     private Date lastFailedUpdate;
 
