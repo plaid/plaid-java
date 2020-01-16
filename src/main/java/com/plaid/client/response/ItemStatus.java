@@ -11,6 +11,7 @@ public final class ItemStatus {
   private String institutionId;
   private String itemId;
   private String webhook;
+  private String consentExpirationTime;
 
   public List<Product> getAvailableProducts() {
     return availableProducts;
@@ -34,5 +35,9 @@ public final class ItemStatus {
 
   public String getWebhook() {
     return webhook;
+  }
+
+  public String getConsentExpirationTime() {
+    return consentExpirationTime;
   }
 }

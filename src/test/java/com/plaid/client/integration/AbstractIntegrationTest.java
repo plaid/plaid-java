@@ -82,6 +82,7 @@ public abstract class AbstractIntegrationTest {
     assertEquals(expectedItem.getInstitutionId(), actualItem.getInstitutionId());
     assertEquals(expectedItem.getItemId(), actualItem.getItemId());
     assertEquals(expectedItem.getWebhook(), actualItem.getWebhook());
+    assertEquals(expectedItem.getConsentExpirationTime(), actualItem.getConsentExpirationTime());
   }
 
   protected PlaidSandboxApiService sandboxApiService() {
