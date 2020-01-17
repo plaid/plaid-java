@@ -27,7 +27,6 @@ public class PaymentGetTest extends AbstractIntegrationTest {
     assertNotNull(getPaymentResponse.body().getAmount());
     assertNotNull(getPaymentResponse.body().getStatus());
     assertNotNull(getPaymentResponse.body().getLastStatusUpdate());
-    assertNotNull(getPaymentResponse.body().getPaymentTokenExpirationTime());
     assertNotNull(getPaymentResponse.body().getRecipientId());
   }
 }
