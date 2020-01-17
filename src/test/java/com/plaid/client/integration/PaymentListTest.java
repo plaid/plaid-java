@@ -24,7 +24,6 @@ public class PaymentListTest extends AbstractIntegrationTest {
       client().service().paymentList(new PaymentListRequest().withCount(10)).execute();
     assertSuccessResponse(listPaymentResponse);
     assertTrue(listPaymentResponse.body().getPayments().size() > 0);
-    assertNotNull();
     if (listPaymentResponse.body().getNextCursor() != null) {
       String nextCursor = listPaymentResponse.body().getNextCursor();
       Response<PaymentListResponse> listPaymentResponseWithCursor =
