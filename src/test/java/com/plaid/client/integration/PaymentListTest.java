@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class PaymentListTest extends AbstractIntegrationTest {
 
   @Test
-  public void testPaymentGetSuccess() throws Exception {
+  public void testPaymentListSuccess() throws Exception {
 
     Response<PaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createPayment(client());
     String paymentId = createPaymentResponse.body().getPaymentId();
@@ -24,11 +24,12 @@ public class PaymentListTest extends AbstractIntegrationTest {
       client().service().paymentList(new PaymentListRequest().withCount(10)).execute();
     assertSuccessResponse(listPaymentResponse);
     assertTrue(listPaymentResponse.body().getPayments().size() > 0);
-    assertNotNull(listPaymentResponse.body().getNextCursor());
-    String nextCursor = listPaymentResponse.body().getNextCursor();
-
-    Response<PaymentListResponse> listPaymentResponseWithCursor =
-      client().service().paymentList(new PaymentListRequest().withCursor(nextCursor)).execute();
-    assertSuccessResponse(listPaymentResponseWithCursor);
+    assertNotNull();
+    if (listPaymentResponse.body().getNextCursor() != null) {
+      String nextCursor = listPaymentResponse.body().getNextCursor();
+      Response<PaymentListResponse> listPaymentResponseWithCursor =
+        client().service().paymentList(new PaymentListRequest().withCursor(nextCursor)).execute();
+      assertSuccessResponse(listPaymentResponseWithCursor);
+    }
   }
 }
