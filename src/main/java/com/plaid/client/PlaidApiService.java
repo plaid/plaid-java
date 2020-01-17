@@ -31,6 +31,13 @@ import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
 import com.plaid.client.request.LiabilitiesGetRequest;
+import com.plaid.client.request.PaymentRecipientGetRequest;
+import com.plaid.client.request.PaymentRecipientCreateRequest;
+import com.plaid.client.request.PaymentRecipientListRequest;
+import com.plaid.client.request.PaymentCreateRequest;
+import com.plaid.client.request.PaymentGetRequest;
+import com.plaid.client.request.PaymentListRequest;
+import com.plaid.client.request.PaymentTokenCreateRequest;
 import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
@@ -62,6 +69,13 @@ import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
 import com.plaid.client.response.LiabilitiesGetResponse;
+import com.plaid.client.response.PaymentRecipientCreateResponse;
+import com.plaid.client.response.PaymentRecipientGetResponse;
+import com.plaid.client.response.PaymentRecipientListResponse;
+import com.plaid.client.response.PaymentCreateResponse;
+import com.plaid.client.response.PaymentGetResponse;
+import com.plaid.client.response.PaymentListResponse;
+import com.plaid.client.response.PaymentTokenCreateResponse;
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
@@ -172,6 +186,27 @@ public interface PlaidApiService {
 
   @POST("/liabilities/get")
   Call<LiabilitiesGetResponse> liabilitiesGet(@Body LiabilitiesGetRequest request);
+
+  @POST("/payment_initiation/recipient/create")
+  Call<PaymentRecipientCreateResponse> paymentRecipientCreate(@Body PaymentRecipientCreateRequest request);
+
+  @POST("/payment_initiation/recipient/get")
+  Call<PaymentRecipientGetResponse> paymentRecipientGet(@Body PaymentRecipientGetRequest request);
+
+  @POST("/payment_initiation/recipient/list")
+  Call<PaymentRecipientListResponse> paymentRecipientList(@Body PaymentRecipientListRequest request);
+
+  @POST("/payment_initiation/payment/create")
+  Call<PaymentCreateResponse> paymentCreate(@Body PaymentCreateRequest request);
+
+  @POST("/payment_initiation/payment/token/create")
+  Call<PaymentTokenCreateResponse> paymentTokenCreate(@Body PaymentTokenCreateRequest request);
+
+  @POST("/payment_initiation/payment/get")
+  Call<PaymentGetResponse> paymentGet(@Body PaymentGetRequest request);
+
+  @POST("/payment_initiation/payment/list")
+  Call<PaymentListResponse> paymentList(@Body PaymentListRequest request);
 
   @POST("/credit_details/get")
   Call<CreditDetailsGetResponse> creditDetailsGet(@Body CreditDetailsGetRequest request);

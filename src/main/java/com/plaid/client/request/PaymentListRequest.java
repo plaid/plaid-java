@@ -1,0 +1,24 @@
+package com.plaid.client.request;
+
+import com.plaid.client.request.common.BaseClientRequest;
+
+/**
+ * Request for the /payment_initiation/payment/list endpoint.
+ */
+public final class PaymentListRequest extends BaseClientRequest {
+  private Integer count;
+  private String cursor;
+
+  public PaymentListRequest() {}
+
+  public PaymentListRequest withCount(int count) {
+    this.count = count;
+    return this;
+  }
+
+  public PaymentListRequest withCursor(String cursor) {
+    this.cursor = cursor;
+    return this;
+  }
+
+}
