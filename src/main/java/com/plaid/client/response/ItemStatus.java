@@ -2,6 +2,7 @@ package com.plaid.client.response;
 
 import com.plaid.client.request.common.Product;
 
+import java.util.Date;
 import java.util.List;
 
 public final class ItemStatus {
@@ -11,6 +12,7 @@ public final class ItemStatus {
   private String institutionId;
   private String itemId;
   private String webhook;
+  private Date consentExpirationTime;
 
   public List<Product> getAvailableProducts() {
     return availableProducts;
@@ -34,5 +36,9 @@ public final class ItemStatus {
 
   public String getWebhook() {
     return webhook;
+  }
+
+  public Date getConsentExpirationTime() {
+    return consentExpirationTime;
   }
 }
