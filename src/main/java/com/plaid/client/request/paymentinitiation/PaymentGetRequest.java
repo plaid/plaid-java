@@ -1,4 +1,4 @@
-package com.plaid.client.request;
+package com.plaid.client.request.paymentinitiation;
 
 import com.plaid.client.request.common.BaseClientRequest;
 

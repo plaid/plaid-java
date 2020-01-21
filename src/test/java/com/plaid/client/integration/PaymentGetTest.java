@@ -1,9 +1,9 @@
 package com.plaid.client.integration;
 
 import com.plaid.client.PlaidClient;
-import com.plaid.client.request.PaymentGetRequest;
-import com.plaid.client.response.PaymentCreateResponse;
-import com.plaid.client.response.PaymentGetResponse;
+import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
+import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
+import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
 import com.plaid.client.integration.PaymentCreateTest;
 import org.junit.Test;
 import retrofit2.Response;
