@@ -18,7 +18,14 @@ public class WebhookVerificationKeyGetTest extends AbstractIntegrationTest {
       client().service().getWebhookVerificationKey(new WebhookVerificationKeyGetRequest("6c5516e1-92dc-479e-a8ff-5a51992e0001")).execute();
     assertSuccessResponse(getWebhookVerificationKeyResponse);
     assertNotNull(getWebhookVerificationKeyResponse.body().getKey());
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getAlg());
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getCreatedAt());
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getCrv());
     assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getKid());
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getKty());
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getUse());
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getX());
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getY());
   }
 
   @Test

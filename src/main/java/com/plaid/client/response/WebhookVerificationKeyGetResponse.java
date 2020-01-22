@@ -26,7 +26,7 @@ public final class WebhookVerificationKeyGetResponse extends BaseResponse {
       return alg;
     }
 
-    public Integer createdAt() {
+    public Integer getCreatedAt() {
       return createdAt;
     }
 
