@@ -1,6 +1,7 @@
-package com.plaid.client.response;
+package com.plaid.client.response.paymentinitiation;
 
 import com.plaid.client.model.payment.Amount;
+import com.plaid.client.response.BaseResponse;
 
 import java.util.Date;
 

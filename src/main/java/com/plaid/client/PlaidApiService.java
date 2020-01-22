@@ -31,17 +31,17 @@ import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
 import com.plaid.client.request.LiabilitiesGetRequest;
-import com.plaid.client.request.PaymentRecipientGetRequest;
-import com.plaid.client.request.PaymentRecipientCreateRequest;
-import com.plaid.client.request.PaymentRecipientListRequest;
-import com.plaid.client.request.PaymentCreateRequest;
-import com.plaid.client.request.PaymentGetRequest;
-import com.plaid.client.request.PaymentListRequest;
-import com.plaid.client.request.PaymentTokenCreateRequest;
 import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
+import com.plaid.client.request.paymentinitiation.RecipientGetRequest;
+import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
+import com.plaid.client.request.paymentinitiation.RecipientListRequest;
+import com.plaid.client.request.paymentinitiation.PaymentCreateRequest;
+import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
+import com.plaid.client.request.paymentinitiation.PaymentListRequest;
+import com.plaid.client.request.paymentinitiation.PaymentTokenCreateRequest;
 import com.plaid.client.response.AccountsBalanceGetResponse;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.AssetReportAuditCopyCreateResponse;
@@ -69,17 +69,17 @@ import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
 import com.plaid.client.response.LiabilitiesGetResponse;
-import com.plaid.client.response.PaymentRecipientCreateResponse;
-import com.plaid.client.response.PaymentRecipientGetResponse;
-import com.plaid.client.response.PaymentRecipientListResponse;
-import com.plaid.client.response.PaymentCreateResponse;
-import com.plaid.client.response.PaymentGetResponse;
-import com.plaid.client.response.PaymentListResponse;
-import com.plaid.client.response.PaymentTokenCreateResponse;
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
+import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
+import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
+import com.plaid.client.response.paymentinitiation.RecipientListResponse;
+import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
+import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
+import com.plaid.client.response.paymentinitiation.PaymentListResponse;
+import com.plaid.client.response.paymentinitiation.PaymentTokenCreateResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -188,13 +188,13 @@ public interface PlaidApiService {
   Call<LiabilitiesGetResponse> liabilitiesGet(@Body LiabilitiesGetRequest request);
 
   @POST("/payment_initiation/recipient/create")
-  Call<PaymentRecipientCreateResponse> paymentRecipientCreate(@Body PaymentRecipientCreateRequest request);
+  Call<RecipientCreateResponse> recipientCreate(@Body RecipientCreateRequest request);
 
   @POST("/payment_initiation/recipient/get")
-  Call<PaymentRecipientGetResponse> paymentRecipientGet(@Body PaymentRecipientGetRequest request);
+  Call<RecipientGetResponse> recipientGet(@Body RecipientGetRequest request);
 
   @POST("/payment_initiation/recipient/list")
-  Call<PaymentRecipientListResponse> paymentRecipientList(@Body PaymentRecipientListRequest request);
+  Call<RecipientListResponse> recipientList(@Body RecipientListRequest request);
 
   @POST("/payment_initiation/payment/create")
   Call<PaymentCreateResponse> paymentCreate(@Body PaymentCreateRequest request);
