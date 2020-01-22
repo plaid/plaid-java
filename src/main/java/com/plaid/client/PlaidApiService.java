@@ -8,8 +8,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-import java.util.concurrent.Executor;
-
 public interface PlaidApiService {
 
   // item, link, and credentials calls
@@ -151,6 +149,9 @@ public interface PlaidApiService {
   @POST("/institutions/search")
   Call<InstitutionsSearchResponse> institutionsSearch(@Body InstitutionsSearchRequest request);
 
+  // webhooks
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
   @POST("/webhook_verification_key/get")
   Call<WebhookVerificationKeyGetResponse> getWebhookVerificationKey(@Body WebhookVerificationKeyGetRequest request);
 }
