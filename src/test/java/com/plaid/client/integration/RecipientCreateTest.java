@@ -21,11 +21,11 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
   public static Response<RecipientCreateResponse> createRecipient(PlaidClient client) throws Exception {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
-    RecipientCreateRequest RecipientCreateRequest =
+    RecipientCreateRequest recipientCreateRequest =
       new RecipientCreateRequest("John Doe", "GB33BUKB20201555555555", address);
 
     Response<RecipientCreateResponse> response =
-      client.service().recipientCreate(RecipientCreateRequest).execute();
+      client.service().recipientCreate(recipientCreateRequest).execute();
 
     return response;
   }
