@@ -1,7 +1,7 @@
 package com.plaid.client.integration;
 
 import com.plaid.client.PlaidClient;
-import com.plaid.client.model.payment.Address;
+import com.plaid.client.model.paymentinitiation.Address;
 import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientGetResponse;

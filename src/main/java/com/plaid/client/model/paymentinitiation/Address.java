@@ -1,4 +1,4 @@
-package com.plaid.client.model.payment;
+package com.plaid.client.model.paymentinitiation;
 
 import java.util.List;
 

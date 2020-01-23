@@ -1,6 +1,6 @@
-package com.plaid.client.model.payment;
+package com.plaid.client.model.paymentinitiation;
 
-import com.plaid.client.model.payment.Amount;
+import com.plaid.client.model.paymentinitiation.Amount;
 
 import java.util.Date;
 

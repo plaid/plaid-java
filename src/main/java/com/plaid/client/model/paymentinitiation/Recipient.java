@@ -1,6 +1,6 @@
-package com.plaid.client.model.payment;
+package com.plaid.client.model.paymentinitiation;
 
-import com.plaid.client.model.payment.Address;
+import com.plaid.client.model.paymentinitiation.Address;
 
 public final class Recipient {
   private String recipientId;
