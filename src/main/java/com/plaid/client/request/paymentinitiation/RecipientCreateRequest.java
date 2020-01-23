@@ -1,6 +1,6 @@
 package com.plaid.client.request.paymentinitiation;
 
-import com.plaid.client.model.payment.Address;
+import com.plaid.client.model.paymentinitiation.Address;
 import com.plaid.client.request.common.BaseClientRequest;
 
 import java.util.List;

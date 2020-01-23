@@ -1,7 +1,7 @@
 package com.plaid.client.integration;
 
 import com.plaid.client.PlaidClient;
-import com.plaid.client.model.payment.Amount;
+import com.plaid.client.model.paymentinitiation.Amount;
 import com.plaid.client.request.paymentinitiation.PaymentCreateRequest;
 import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 public class PaymentCreateTest extends AbstractIntegrationTest {
 
   /**
-   * Utility method that creates a payment.
+   * Utility method that creates a paymentinitiation.
    * Used by other integration tests to set up.
    */
   public static Response<PaymentCreateResponse> createPayment(PlaidClient client) throws Exception {
