@@ -1,7 +1,7 @@
 package com.plaid.client.request.paymentinitiation;
 
 import com.plaid.client.request.common.BaseClientRequest;
-import com.plaid.client.model.payment.Amount;
+import com.plaid.client.model.paymentinitiation.Amount;
 
 /**
  * Request for the /payment_initiation/payment/create endpoint.
