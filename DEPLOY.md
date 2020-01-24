@@ -77,7 +77,14 @@ Later on in the process, your public key will be verified against one of several
 `gpg --send-keys <key identifier from above>`.
 
 ## Publishing the new version
-`cd` to `plaid-java` and run the following.
+`cd` to `plaid-java` and create a new branch. This is important because mvn tries to push using your branch and you most likely can't push to master directly.
+
+After you have your new branch, run the following to make sure that our tests pass:
+```bash
+mvn verify
+```
+
+Now run the following on the new branch:
 
 ```bash
 PLAID_PUBLIC_KEY=insertpublickeyhere \ 
@@ -91,24 +98,17 @@ PLAID_CLIENT_ID=insertclientidhere \
 mvn release:perform
 ```  
 
-This will release a new artifact with a bumped patch version to the Sonatype staging maven repository. After it's pushed to staging, you need to do some mucking around in the UI to push it to production.
+If things go wrong, run `mvn release:rollback` and re-execute the above commands.
 
-## Releasing the artifiact
+If things go right, this will release a new artifact with a bumped patch version to the Sonatype staging maven repository.
 
-Login [here](https://oss.sonatype.org/#welcome) using your credentials from [above](#setting-up-your-sonatype-account). Try searching for "com.plaid" in the search bar and see if the newest version is in the "release" repository. If it is, the release is out! It may take a couple of hours to propagate to other Maven repositories, so just hang out and check on the Central Maven Repository in a few hours.
+### Check that the artifact is released
 
-If you don't see the newest version, continue below.
+Login [here](https://oss.sonatype.org/#welcome) using your credentials from [above](#setting-up-your-sonatype-account). Try searching for "com.plaid" in the search bar and see if the newest version is in the "release" repository. If it is, the release is out! It may take a couple of hours to propagate to other Maven repositories, so just hang out and check on the [Central Maven Repository](https://search.maven.org/) in a few hours.
 
-Click on "Staging Repositories" under "Build Promotion". On the top right corner there is a search bar. Search for "com.plaid". 
-
-This process goes:
-1. Artifact goes into a staging repo
-1. The staging repo is "closed"
-1. The staging repo is "released" (to the central repository)
-
-Once you click on the staging repo, you'll be able to "Close" it. Closing it does some checks, verifies some things, but once it finishes successfully (it may take a few minutes), you can then "Release" it. Once it's Released, the artifact is successfully released as a new version. It'll show up under "Artifact Search" within Sonatype "Nexus Repository Manager" right away. It may take a couple of hours to propagate to other Maven repositories.
-
-## Updating the documentation (don't forget these steps).
+### Updating the documentation (don't forget this).
 
 1. Update README.md with the latest version.
 1. Update CHANGELOG.md.
+
+At this point, merge your branch with master, and you should be all set!
