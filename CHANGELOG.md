@@ -1,3 +1,8 @@
+# 5.1.5
+- Add UK Payment Initiation
+- Add VerificationStatus to Account object
+- Add consent expiration time to ItemStatus
+
 # 5.1.4
 - Add support for [Credit liabilities](https://plaid.com/docs/api/#liabilities).
 - Add support for Account subtype filtering in [Institution Search](https://plaid.com/docs/#institution-search).
