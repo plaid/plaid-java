@@ -57,7 +57,7 @@ public class DepositSwitchGetTest extends AbstractIntegrationTest {
     assertNotNull(depositSwitchGetResponse.body().getDepositSwitchId());
     assertNotNull(depositSwitchGetResponse.body().getTargetItemId());
     assertNotNull(depositSwitchGetResponse.body().getTargetAccountId());
-    assertNotNull(depositSwitchGetResponse.body().getCreatedDate());
+    assertNotNull(depositSwitchGetResponse.body().getDateCreated());
     assertNotNull(depositSwitchGetResponse.body().getState());
   }
 }

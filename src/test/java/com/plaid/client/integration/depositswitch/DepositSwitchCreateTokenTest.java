@@ -4,12 +4,10 @@ import com.plaid.client.integration.AbstractIntegrationTest;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.ItemImportRequest;
 import com.plaid.client.request.depositswitch.DepositSwitchCreateRequest;
-import com.plaid.client.request.depositswitch.DepositSwitchGetRequest;
 import com.plaid.client.request.depositswitch.DepositSwitchTokenCreateRequest;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.ItemImportResponse;
 import com.plaid.client.response.depositswitch.DepositSwitchCreateResponse;
-import com.plaid.client.response.depositswitch.DepositSwitchGetResponse;
 import com.plaid.client.response.depositswitch.DepositSwitchTokenCreateResponse;
 
 import org.junit.Test;

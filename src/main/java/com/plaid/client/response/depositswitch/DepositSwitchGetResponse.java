@@ -7,11 +7,11 @@ public final class DepositSwitchGetResponse extends BaseResponse {
   private String targetItemId;
   private String targetAccountId;
   private String state;
-  private String createdDate;
+  private String dateCreated;
   private Boolean isAllocatedRemainder;
   private Boolean accountHasMultipleAllocations;
   private Float percentAllocated;
-  private String completedDate;
+  private String dateCompleted;
 
   public String getDepositSwitchId() {
     return depositSwitchId;
@@ -29,8 +29,8 @@ public final class DepositSwitchGetResponse extends BaseResponse {
     return state;
   }
 
-  public String getCreatedDate() {
-    return createdDate;
+  public String getDateCreated() {
+    return dateCreated;
   }
 
   public Boolean getIsAllocatedRemainder() {
@@ -45,9 +45,7 @@ public final class DepositSwitchGetResponse extends BaseResponse {
     return percentAllocated;
   }
 
-  // TODO: this is wrong according to the client docs - we need to change the
-  // client docs
-  public String getCompletedDate() {
-    return completedDate;
+  public String getdateCompleted() {
+    return dateCompleted;
   }
 }
