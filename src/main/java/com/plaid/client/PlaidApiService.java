@@ -25,6 +25,7 @@ import com.plaid.client.request.ItemAccessTokenInvalidateRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemGetRequest;
+import com.plaid.client.request.ItemImportRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemRemoveRequest;
@@ -35,6 +36,9 @@ import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
+import com.plaid.client.request.depositswitch.DepositSwitchCreateRequest;
+import com.plaid.client.request.depositswitch.DepositSwitchGetRequest;
+import com.plaid.client.request.depositswitch.DepositSwitchTokenCreateRequest;
 import com.plaid.client.request.paymentinitiation.RecipientGetRequest;
 import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
 import com.plaid.client.request.paymentinitiation.RecipientListRequest;
@@ -63,6 +67,7 @@ import com.plaid.client.response.ItemAccessTokenInvalidateResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemGetResponse;
+import com.plaid.client.response.ItemImportResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemRemoveResponse;
@@ -73,6 +78,9 @@ import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
+import com.plaid.client.response.depositswitch.DepositSwitchCreateResponse;
+import com.plaid.client.response.depositswitch.DepositSwitchGetResponse;
+import com.plaid.client.response.depositswitch.DepositSwitchTokenCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
 import com.plaid.client.response.paymentinitiation.RecipientListResponse;
@@ -103,16 +111,21 @@ public interface PlaidApiService {
   Call<ItemStripeTokenCreateResponse> itemStripeTokenCreate(@Body ItemStripeTokenCreateRequest request);
 
   @POST("/processor/apex/processor_token/create")
-  Call<ItemApexProcessorTokenCreateResponse> itemApexProcessorTokenCreate(@Body ItemApexProcessorTokenCreateRequest request);
+  Call<ItemApexProcessorTokenCreateResponse> itemApexProcessorTokenCreate(
+      @Body ItemApexProcessorTokenCreateRequest request);
 
   @POST("/processor/dwolla/processor_token/create")
-  Call<ItemDwollaProcessorTokenCreateResponse> itemDwollaProcessorTokenCreate(@Body ItemDwollaProcessorTokenCreateRequest request);
+  Call<ItemDwollaProcessorTokenCreateResponse> itemDwollaProcessorTokenCreate(
+      @Body ItemDwollaProcessorTokenCreateRequest request);
 
   @POST("/item/access_token/invalidate")
   Call<ItemAccessTokenInvalidateResponse> itemAccessTokenInvalidate(@Body ItemAccessTokenInvalidateRequest request);
 
   @POST("/item/remove")
   Call<ItemRemoveResponse> itemRemove(@Body ItemRemoveRequest request);
+
+  @POST("/item/import")
+  Call<ItemImportResponse> itemImport(@Body ItemImportRequest request);
 
   @POST("/item/webhook/update")
   Call<ItemWebhookUpdateResponse> itemWebhookUpdate(@Body ItemWebhookUpdateRequest request);
@@ -168,6 +181,15 @@ public interface PlaidApiService {
 
   @POST("/auth/get")
   Call<AuthGetResponse> authGet(@Body AuthGetRequest request);
+
+  @POST("/deposit_switch/get")
+  Call<DepositSwitchGetResponse> depositSwitchGet(@Body DepositSwitchGetRequest request);
+
+  @POST("/deposit_switch/create")
+  Call<DepositSwitchCreateResponse> depositSwitchCreate(@Body DepositSwitchCreateRequest request);
+
+  @POST("/deposit_switch/token/create")
+  Call<DepositSwitchTokenCreateResponse> depositSwitchTokenCreate(@Body DepositSwitchTokenCreateRequest request);
 
   @POST("/identity/get")
   Call<IdentityGetResponse> identityGet(@Body IdentityGetRequest request);

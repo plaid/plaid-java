@@ -15,24 +15,17 @@ import static org.junit.Assert.assertNotNull;
 public class AssetReportCreateTest extends AbstractItemIntegrationTest {
 
   /**
-   * Utility method that creates an asset report given a client and a list of access tokens.
-   * Used by other integration tests (ex. {@link AssetReportGetTest}) to set up.
+   * Utility method that creates an asset report given a client and a list of
+   * access tokens. Used by other integration tests (ex.
+   * {@link AssetReportGetTest}) to set up.
    */
-  public static Response<AssetReportCreateResponse> createAssetReport(
-          PlaidClient client, List<String> accessTokens) throws Exception {
-    String webhookUrl = "https://some.webook.example.com";
-    AssetReportCreateRequest assetReportCreate =
-      new AssetReportCreateRequest(accessTokens, 365)
-        .withFirstName("Alberta")
-        .withMiddleName("Bobbeth")
-        .withLastName("Charleson")
-        .withWebhook(webhookUrl);
+  public static Response<AssetReportCreateResponse> createAssetReport(PlaidClient client, List<String> accessTokens)
+      throws Exception {
+    String webhookUrl = "https://some.webhook.example.com";
+    AssetReportCreateRequest assetReportCreate = new AssetReportCreateRequest(accessTokens, 365)
+        .withFirstName("Alberta").withMiddleName("Bobbeth").withLastName("Charleson").withWebhook(webhookUrl);
 
-    Response<AssetReportCreateResponse> response =
-      client
-        .service()
-        .assetReportCreate(assetReportCreate)
-        .execute();
+    Response<AssetReportCreateResponse> response = client.service().assetReportCreate(assetReportCreate).execute();
 
     return response;
   }
