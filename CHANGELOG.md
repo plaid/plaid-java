@@ -1,5 +1,5 @@
 # 5.1.5
-- Add UK Payment Initiation
+- Add support for UK Payment Initiation
 - Add VerificationStatus to Account object
 - Add consent expiration time to ItemStatus
 
