@@ -8,9 +8,6 @@ public final class DepositSwitchGetResponse extends BaseResponse {
   private String targetAccountId;
   private String state;
   private String dateCreated;
-  private Boolean isAllocatedRemainder;
-  private Boolean accountHasMultipleAllocations;
-  private Float percentAllocated;
   private String dateCompleted;
 
   public String getDepositSwitchId() {
@@ -31,18 +28,6 @@ public final class DepositSwitchGetResponse extends BaseResponse {
 
   public String getDateCreated() {
     return dateCreated;
-  }
-
-  public Boolean getIsAllocatedRemainder() {
-    return isAllocatedRemainder;
-  }
-
-  public Boolean getAccounthasMultipleAllocations() {
-    return accountHasMultipleAllocations;
-  }
-
-  public Float getPercentAllocated() {
-    return percentAllocated;
   }
 
   public String getdateCompleted() {

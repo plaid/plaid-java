@@ -13,7 +13,7 @@ public final class DepositSwitchCreateRequest extends BaseClientRequest {
 
   public DepositSwitchCreateRequest(String targetAccountId, String targetAccessToken) {
     notNull(targetAccountId, "targetAccountId");
-    notNull(targetAccessToken, "targetaccessToken");
+    notNull(targetAccessToken, "targetAccessToken");
     this.targetAccountId = targetAccountId;
     this.targetAccessToken = targetAccessToken;
   }

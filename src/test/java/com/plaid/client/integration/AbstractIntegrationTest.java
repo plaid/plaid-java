@@ -43,8 +43,13 @@ public abstract class AbstractIntegrationTest {
     assertNotNull("PLAID_CLIENT_ID environment variable is required", plaidClientId);
     assertNotNull("PLAID_SECRET environment variable is required", plaidSecret);
 
-    plaidClient = PlaidClient.newBuilder().publicKey(plaidPublicKey).clientIdAndSecret(plaidClientId, plaidSecret)
-        .sandboxBaseUrl().logLevel(HttpLoggingInterceptor.Level.BODY).build();
+    plaidClient = PlaidClient
+      .newBuilder()
+      .publicKey(plaidPublicKey)
+      .clientIdAndSecret(plaidClientId, plaidSecret)
+      .sandboxBaseUrl()
+      .logLevel(HttpLoggingInterceptor.Level.BODY)
+      .build();
 
     sandboxApiService = client().getRetrofit().create(PlaidSandboxApiService.class);
 
@@ -59,8 +64,9 @@ public abstract class AbstractIntegrationTest {
     assertNotNull(response.body().getRequestId());
   }
 
-  void assertErrorResponse(Response<? extends BaseResponse> response, ErrorResponse.ErrorType expectedErrorType,
-      String expectedErrorCode) {
+  void assertErrorResponse(Response<? extends BaseResponse> response,
+                                  ErrorResponse.ErrorType expectedErrorType,
+                                  String expectedErrorCode) {
     assertFalse(response.isSuccessful());
     assertNotNull(response.errorBody());
 

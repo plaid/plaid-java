@@ -49,7 +49,7 @@ public class DepositSwitchCreateTokenTest extends AbstractIntegrationTest {
     assertNotNull(depositSwitchCreateResponse.body().getDepositSwitchId());
     String depositSwitchId = depositSwitchCreateResponse.body().getDepositSwitchId();
 
-    // create osit switch token
+    // create deposit switch token
     Response<DepositSwitchTokenCreateResponse> depositSwitchTokenCreateResponse = client().service()
         .depositSwitchTokenCreate(new DepositSwitchTokenCreateRequest(depositSwitchId)).execute();
 
