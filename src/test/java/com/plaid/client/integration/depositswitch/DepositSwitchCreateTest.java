@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
+
 public class DepositSwitchCreateTest extends AbstractIntegrationTest {
   @Test
   public void testDepositSwitchCreateSuccess() throws Exception {
@@ -39,7 +40,14 @@ public class DepositSwitchCreateTest extends AbstractIntegrationTest {
     assertSuccessResponse(accountsGetResponse);
     assertNotNull(accountsGetResponse.body().getAccounts());
 
-    String accountId = accountsGetResponse.body().getAccounts().get(0).getAccountId();
+    String accountId = accountsGetResponse
+        .body()
+        .getAccounts()
+        .stream()
+        .filter(account -> account.getType().equals("depository"))
+        .findFirst()
+        .get()
+        .getAccountId();
 
     Response<DepositSwitchCreateResponse> depositSwitchCreateResponse = client().service()
         .depositSwitchCreate(new DepositSwitchCreateRequest(accountId, accessToken)).execute();

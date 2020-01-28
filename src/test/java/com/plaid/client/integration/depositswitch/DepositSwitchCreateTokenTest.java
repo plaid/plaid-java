@@ -41,7 +41,14 @@ public class DepositSwitchCreateTokenTest extends AbstractIntegrationTest {
     assertSuccessResponse(accountsGetResponse);
     assertNotNull(accountsGetResponse.body().getAccounts());
 
-    String accountId = accountsGetResponse.body().getAccounts().get(0).getAccountId();
+    String accountId = accountsGetResponse
+        .body()
+        .getAccounts()
+        .stream()
+        .filter(account -> account.getType().equals("depository"))
+        .findFirst()
+        .get()
+        .getAccountId();
 
     Response<DepositSwitchCreateResponse> depositSwitchCreateResponse = client().service()
         .depositSwitchCreate(new DepositSwitchCreateRequest(accountId, accessToken)).execute();
