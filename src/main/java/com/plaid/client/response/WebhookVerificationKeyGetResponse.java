@@ -1,9 +1,5 @@
 package com.plaid.client.response;
 
-import com.plaid.client.model.payment.Amount;
-
-import java.util.Date;
-
 public final class WebhookVerificationKeyGetResponse extends BaseResponse {
   private WebhookVerificationKey key;
 
