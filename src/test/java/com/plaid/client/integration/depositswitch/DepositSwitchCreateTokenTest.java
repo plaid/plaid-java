@@ -46,8 +46,9 @@ public class DepositSwitchCreateTokenTest extends AbstractIntegrationTest {
     List<Account> accounts = accountsGetResponse.body().getAccounts();
     String accountId = "";
     for (int i = 0; i < accounts.size(); i++) {
-        if (accounts.get(i).getType() == "depository") {
+        if (accounts.get(i).getType().equals("depository")) {
           accountId = accounts.get(i).getAccountId();
+          break;
         }
     }
 
