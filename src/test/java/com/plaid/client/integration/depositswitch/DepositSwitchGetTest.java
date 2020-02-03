@@ -5,6 +5,7 @@ import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.ItemImportRequest;
 import com.plaid.client.request.depositswitch.DepositSwitchCreateRequest;
 import com.plaid.client.request.depositswitch.DepositSwitchGetRequest;
+import com.plaid.client.response.Account;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.ItemImportResponse;
 import com.plaid.client.response.depositswitch.DepositSwitchCreateResponse;
@@ -15,6 +16,7 @@ import retrofit2.Response;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -41,14 +43,13 @@ public class DepositSwitchGetTest extends AbstractIntegrationTest {
     assertSuccessResponse(accountsGetResponse);
     assertNotNull(accountsGetResponse.body().getAccounts());
 
-    String accountId = accountsGetResponse
-        .body()
-        .getAccounts()
-        .stream()
-        .filter(account -> account.getType().equals("depository"))
-        .findFirst()
-        .get()
-        .getAccountId();
+    List<Account> accounts = accountsGetResponse.body().getAccounts();
+    String accountId = "";
+    for (int i = 0; i < accounts.size(); i++) {
+        if (accounts.get(i).getType() == "depository") {
+          accountId = accounts.get(i).getAccountId();
+        }
+    }
 
     Response<DepositSwitchCreateResponse> depositSwitchCreateResponse = client().service()
         .depositSwitchCreate(new DepositSwitchCreateRequest(accountId, accessToken)).execute();
