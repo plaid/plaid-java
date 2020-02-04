@@ -9,9 +9,9 @@ public final class WebhookVerificationKeyGetResponse extends BaseResponse {
 
   public static final class WebhookVerificationKey {
     private String alg;
-    private Integer createdAt;
+    private Long createdAt;
     private String crv;
-    private Integer expiredAt;
+    private Long expiredAt;
     private String kid;
     private String kty;
     private String use;
@@ -22,7 +22,7 @@ public final class WebhookVerificationKeyGetResponse extends BaseResponse {
       return alg;
     }
 
-    public Integer getCreatedAt() {
+    public Long getCreatedAt() {
       return createdAt;
     }
 
@@ -30,7 +30,7 @@ public final class WebhookVerificationKeyGetResponse extends BaseResponse {
       return crv;
     }
 
-    public Integer getExpiredAt() {
+    public Long getExpiredAt() {
       return expiredAt;
     }
 
