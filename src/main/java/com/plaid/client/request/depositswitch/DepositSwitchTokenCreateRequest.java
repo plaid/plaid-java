@@ -6,10 +6,10 @@ import com.plaid.client.request.common.BaseClientRequest;
  * Request for the /deposit_switch/token/create endpoint.
  */
 public final class DepositSwitchTokenCreateRequest extends BaseClientRequest {
-    private String depositSwitchId;
+  private String depositSwitchId;
 
-    public DepositSwitchTokenCreateRequest(String depositSwitchId) {
-        this.depositSwitchId = depositSwitchId;
-    }
+  public DepositSwitchTokenCreateRequest(String depositSwitchId) {
+    this.depositSwitchId = depositSwitchId;
+  }
 
 }
