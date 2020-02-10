@@ -44,6 +44,7 @@ public final class TransactionsGetResponse extends BaseResponse {
     private String transactionId;
     private String transactionType;
     private String accountOwner;
+    private String authorizedDate;
 
     public String getTransactionId() {
       return transactionId;
@@ -107,6 +108,10 @@ public final class TransactionsGetResponse extends BaseResponse {
 
     public String getAccountOwner() {
       return accountOwner;
+    }
+
+    public String getAuthorizedDate() {
+      return authorizedDate;
     }
 
     public static final class PaymentMeta {

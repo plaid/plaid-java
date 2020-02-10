@@ -1,5 +1,10 @@
 package com.plaid.client;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
 import com.plaid.client.request.AccountsBalanceGetRequest;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.AssetReportAuditCopyCreateRequest;
@@ -16,11 +21,11 @@ import com.plaid.client.request.CategoriesGetRequest;
 import com.plaid.client.request.CreditDetailsGetRequest;
 import com.plaid.client.request.IdentityGetRequest;
 import com.plaid.client.request.IncomeGetRequest;
-import com.plaid.client.request.InvestmentsTransactionsGetRequest;
-import com.plaid.client.request.InvestmentsHoldingsGetRequest;
 import com.plaid.client.request.InstitutionsGetByIdRequest;
 import com.plaid.client.request.InstitutionsGetRequest;
 import com.plaid.client.request.InstitutionsSearchRequest;
+import com.plaid.client.request.InvestmentsHoldingsGetRequest;
+import com.plaid.client.request.InvestmentsTransactionsGetRequest;
 import com.plaid.client.request.ItemAccessTokenInvalidateRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
@@ -46,6 +51,8 @@ import com.plaid.client.request.paymentinitiation.PaymentCreateRequest;
 import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
 import com.plaid.client.request.paymentinitiation.PaymentListRequest;
 import com.plaid.client.request.paymentinitiation.PaymentTokenCreateRequest;
+import com.plaid.client.request.WebhookVerificationKeyGetRequest;
+
 import com.plaid.client.response.AccountsBalanceGetResponse;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.AssetReportAuditCopyCreateResponse;
@@ -58,11 +65,11 @@ import com.plaid.client.response.CategoriesGetResponse;
 import com.plaid.client.response.CreditDetailsGetResponse;
 import com.plaid.client.response.IdentityGetResponse;
 import com.plaid.client.response.IncomeGetResponse;
-import com.plaid.client.response.InvestmentsTransactionsGetResponse;
-import com.plaid.client.response.InvestmentsHoldingsGetResponse;
 import com.plaid.client.response.InstitutionsGetByIdResponse;
 import com.plaid.client.response.InstitutionsGetResponse;
 import com.plaid.client.response.InstitutionsSearchResponse;
+import com.plaid.client.response.InvestmentsHoldingsGetResponse;
+import com.plaid.client.response.InvestmentsTransactionsGetResponse;
 import com.plaid.client.response.ItemAccessTokenInvalidateResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
@@ -74,6 +81,7 @@ import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
 import com.plaid.client.response.LiabilitiesGetResponse;
+<<<<<<< HEAD
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
@@ -84,14 +92,21 @@ import com.plaid.client.response.depositswitch.DepositSwitchTokenCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
 import com.plaid.client.response.paymentinitiation.RecipientListResponse;
+=======
+>>>>>>> 3373b4ecb9cf62e45ecd76981f616b8c7bc80e2b
 import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
 import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
 import com.plaid.client.response.paymentinitiation.PaymentListResponse;
 import com.plaid.client.response.paymentinitiation.PaymentTokenCreateResponse;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
+import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
+import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
+import com.plaid.client.response.paymentinitiation.RecipientListResponse;
+import com.plaid.client.response.SandboxItemFireWebhookResponse;
+import com.plaid.client.response.SandboxItemResetLoginResponse;
+import com.plaid.client.response.SandboxPublicTokenCreateResponse;
+import com.plaid.client.response.TransactionsGetResponse;
+import com.plaid.client.response.WebhookVerificationKeyGetResponse;
+
 
 public interface PlaidApiService {
 
@@ -247,4 +262,10 @@ public interface PlaidApiService {
 
   @POST("/institutions/search")
   Call<InstitutionsSearchResponse> institutionsSearch(@Body InstitutionsSearchRequest request);
+
+  // webhooks
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  @POST("/webhook_verification_key/get")
+  Call<WebhookVerificationKeyGetResponse> getWebhookVerificationKey(@Body WebhookVerificationKeyGetRequest request);
 }
