@@ -12,25 +12,25 @@ import static com.plaid.client.internal.Util.notNull;
  * Request for the /item/import endpoint.
  */
 public final class ItemImportRequest extends BaseClientRequest {
-    private List<String> products;
-    private Optional<Options> options = Optional.empty();
-    private Map<String, String> userAuth;
+  private List<String> products;
+  private Optional<Options> options = Optional.empty();
+  private Map<String, String> userAuth;
 
-    public ItemImportRequest(List<String> products, Map<String, String> userAuth) {
-        this.products = products;
-        this.userAuth = userAuth;
-    }
+  public ItemImportRequest(List<String> products, Map<String, String> userAuth) {
+    this.products = products;
+    this.userAuth = userAuth;
+  }
 
-    public ItemImportRequest withWebhook(String webhook) {
-        notNull(webhook, "webhook");
-        options = options.orElse(new Options());
-        options.get().webhook = webhook;
-        return this;
-    }
+  public ItemImportRequest withWebhook(String webhook) {
+    notNull(webhook, "webhook");
+    options = options.orElse(new Options());
+    options.get().webhook = webhook;
+    return this;
+  }
 
-    private static class Options {
-        private String webhook;
-    }
+  private static class Options {
+    private String webhook;
+  }
 
 }
 // products, userauth, options with webhook
