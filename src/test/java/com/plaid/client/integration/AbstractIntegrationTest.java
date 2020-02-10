@@ -12,16 +12,17 @@ import retrofit2.Response;
 import static org.junit.Assert.*;
 
 /**
- * Abstract base class for integration tests which gets configuration from the environment.
+ * Abstract base class for integration tests which gets configuration from the
+ * environment.
  *
- * PLAID_PUBLIC_KEY, PLAID_CLIENT_ID, PLAID_SECRET, and PLAID_BASE_URL must be defined
- * or errors will be thrown.
+ * PLAID_PUBLIC_KEY, PLAID_CLIENT_ID, PLAID_SECRET, and PLAID_BASE_URL must be
+ * defined or errors will be thrown.
  */
 public abstract class AbstractIntegrationTest {
 
   /**
-   * Sandbox-specific institution IDs used for testing. See sandbox documentation for
-   * more information.
+   * Sandbox-specific institution IDs used for testing. See sandbox documentation
+   * for more information.
    */
   public static final String FIRST_PLATYPUS_BANK_INSTITUTION_ID = "ins_109508";
   public static final String FIRST_GINGHAM_CREDIT_UNION_INSTITION_ID = "ins_109509";
@@ -42,7 +43,8 @@ public abstract class AbstractIntegrationTest {
     assertNotNull("PLAID_CLIENT_ID environment variable is required", plaidClientId);
     assertNotNull("PLAID_SECRET environment variable is required", plaidSecret);
 
-    plaidClient = PlaidClient.newBuilder()
+    plaidClient = PlaidClient
+      .newBuilder()
       .publicKey(plaidPublicKey)
       .clientIdAndSecret(plaidClientId, plaidSecret)
       .sandboxBaseUrl()
@@ -53,11 +55,11 @@ public abstract class AbstractIntegrationTest {
 
   }
 
-  PlaidClient client() {
+  protected PlaidClient client() {
     return plaidClient;
   }
 
-  static void assertSuccessResponse(Response<? extends BaseResponse> response) {
+  protected static void assertSuccessResponse(Response<? extends BaseResponse> response) {
     assertTrue(response.isSuccessful());
     assertNotNull(response.body().getRequestId());
   }

@@ -15,8 +15,9 @@ import static org.junit.Assert.assertNotNull;
 public class AssetReportCreateTest extends AbstractItemIntegrationTest {
 
   /**
-   * Utility method that creates an asset report given a client and a list of access tokens.
-   * Used by other integration tests (ex. {@link AssetReportGetTest}) to set up.
+   * Utility method that creates an asset report given a client and a list of
+   * access tokens. Used by other integration tests (ex.
+   * {@link AssetReportGetTest}) to set up.
    */
   public static Response<AssetReportCreateResponse> createAssetReport(
           PlaidClient client, List<String> accessTokens) throws Exception {
