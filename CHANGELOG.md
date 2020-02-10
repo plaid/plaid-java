@@ -1,3 +1,8 @@
+# 5.2.0
+- Add authorized_date field to Transactions object
+- Add support for webhook_verification
+- Add support for deposit switch endpoints
+
 # 5.1.5
 - Add support for UK Payment Initiation
 - Add VerificationStatus to Account object
