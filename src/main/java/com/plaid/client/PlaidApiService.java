@@ -81,7 +81,6 @@ import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
 import com.plaid.client.response.LiabilitiesGetResponse;
-<<<<<<< HEAD
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
@@ -92,21 +91,11 @@ import com.plaid.client.response.depositswitch.DepositSwitchTokenCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
 import com.plaid.client.response.paymentinitiation.RecipientListResponse;
-=======
->>>>>>> 3373b4ecb9cf62e45ecd76981f616b8c7bc80e2b
 import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
 import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
 import com.plaid.client.response.paymentinitiation.PaymentListResponse;
 import com.plaid.client.response.paymentinitiation.PaymentTokenCreateResponse;
-import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
-import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
-import com.plaid.client.response.paymentinitiation.RecipientListResponse;
-import com.plaid.client.response.SandboxItemFireWebhookResponse;
-import com.plaid.client.response.SandboxItemResetLoginResponse;
-import com.plaid.client.response.SandboxPublicTokenCreateResponse;
-import com.plaid.client.response.TransactionsGetResponse;
 import com.plaid.client.response.WebhookVerificationKeyGetResponse;
-
 
 public interface PlaidApiService {
 
