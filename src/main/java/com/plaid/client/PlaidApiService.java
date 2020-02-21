@@ -51,6 +51,7 @@ import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
+import com.plaid.client.request.TransactionsRefreshRequest;
 import com.plaid.client.request.WebhookVerificationKeyGetRequest;
 
 import com.plaid.client.response.AccountsBalanceGetResponse;
@@ -95,6 +96,7 @@ import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
+import com.plaid.client.response.TransactionsRefreshResponse;
 import com.plaid.client.response.WebhookVerificationKeyGetResponse;
 
 public interface PlaidApiService {
@@ -209,6 +211,9 @@ public interface PlaidApiService {
 
   @POST("/transactions/get")
   Call<TransactionsGetResponse> transactionsGet(@Body TransactionsGetRequest request);
+
+  @POST("/transactions/refresh")
+  Call<TransactionsRefreshResponse> transactionsRefresh(@Body TransactionsRefreshRequest request);
 
   @POST("/liabilities/get")
   Call<LiabilitiesGetResponse> liabilitiesGet(@Body LiabilitiesGetRequest request);
