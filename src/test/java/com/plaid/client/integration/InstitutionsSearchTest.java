@@ -82,10 +82,19 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithOAuth() throws Exception {
     Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("Flexible Platypus Open Banking").withCountryCodes(Arrays.asList("GB")).withOAuth()).execute();
+      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank").withCountryCodes(Arrays.asList("GB")).withOAuth(true)).execute();
     assertSuccessResponse(response);
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
     assertTrue(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
+  }
+
+  @Test
+  public void testSuccessWithoutOAuth() throws Exception {
+    Response<InstitutionsSearchResponse> response =
+      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank").withCountryCodes(Arrays.asList("GB")).withOAuth(false)).execute();
+    assertSuccessResponse(response);
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+    assertFalse(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
   }
 
   @Test

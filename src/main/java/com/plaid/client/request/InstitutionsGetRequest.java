@@ -50,11 +50,11 @@ public final class InstitutionsGetRequest extends BaseClientRequest {
     return this;
   }
 
-  public InstitutionsGetRequest withOAuth() {
+  public InstitutionsGetRequest withOAuth(boolean oauth) {
     if (this.options == null) {
       this.options = new Options();
     }
-    this.options.oauth = true;
+    this.options.oauth = oauth;
     return this;
   }
 
@@ -62,6 +62,6 @@ public final class InstitutionsGetRequest extends BaseClientRequest {
     private List<Product> products;
     private boolean includeOptionalMetadata;
     private List<String> countryCodes;
-    private boolean oauth;
+    private Boolean oauth;
   }
 }
