@@ -60,7 +60,7 @@ public final class InstitutionsSearchRequest extends BasePublicRequest {
     return this;
   }
 
-  public InstitutionsSearchRequest withOAuth(oauth boolean) {
+  public InstitutionsSearchRequest withOAuth(boolean oauth) {
     if (this.options == null) {
       this.options = new Options();
     }
