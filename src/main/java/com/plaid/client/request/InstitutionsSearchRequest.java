@@ -60,9 +60,18 @@ public final class InstitutionsSearchRequest extends BasePublicRequest {
     return this;
   }
 
+  public InstitutionsSearchRequest withOAuth() {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.oauth = true;
+    return this;
+  }
+
   private static class Options {
     private boolean includeOptionalMetadata;
     private List<String> countryCodes;
     private Map<String, List<String>> accountFilter;
+    private boolean oauth;
   }
 }

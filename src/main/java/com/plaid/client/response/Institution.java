@@ -80,6 +80,7 @@ public final class Institution {
   private String url;
   private String logo;
   private String primaryColor;
+  private boolean oauth;
 
   public String getUrl() {
     return url;
@@ -123,5 +124,9 @@ public final class Institution {
 
   public List<Product> getProducts() {
     return products;
+  }
+
+  public boolean getOAuth() {
+    return oauth;
   }
 }

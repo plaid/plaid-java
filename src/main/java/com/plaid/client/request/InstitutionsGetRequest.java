@@ -50,9 +50,18 @@ public final class InstitutionsGetRequest extends BaseClientRequest {
     return this;
   }
 
+  public InstitutionsGetRequest withOAuth() {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.oauth = true;
+    return this;
+  }
+
   private static class Options {
     private List<Product> products;
     private boolean includeOptionalMetadata;
     private List<String> countryCodes;
+    private boolean oauth;
   }
 }
