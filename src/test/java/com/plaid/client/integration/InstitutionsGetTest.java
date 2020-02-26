@@ -8,6 +8,7 @@ import org.junit.Test;
 import retrofit2.Response;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -68,6 +69,29 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
     // check number returned
     assertEquals(3, response.body().getInstitutions().size());
+  }
+
+  @Test
+  public void testSuccessWithOAuth() throws Exception {
+    Response<InstitutionsGetResponse> response =
+      client().service().institutionsGet(new InstitutionsGetRequest(3, 0).withCountryCodes(Arrays.asList("GB")).withOAuth(true)).execute();
+    assertSuccessResponse(response);
+    List<Institution> institutions = response.body().getInstitutions();
+    assertEquals(3, institutions.size());
+    for (int i = 0; i < institutions.size(); i++) {
+      assertTrue(institutions.get(i).getOAuth());
+    }
+  }
+
+  @Test
+  public void testSuccessWithoutOAuth() throws Exception {
+    Response<InstitutionsGetResponse> response =
+      client().service().institutionsGet(new InstitutionsGetRequest(3, 0).withCountryCodes(Arrays.asList("GB")).withOAuth(false)).execute();
+    assertSuccessResponse(response);
+    List<Institution> institutions = response.body().getInstitutions();
+    for (int i = 0; i < institutions.size(); i++) {
+      assertFalse(institutions.get(i).getOAuth());
+    }
   }
 
   @Test
