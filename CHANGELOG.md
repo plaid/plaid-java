@@ -1,3 +1,7 @@
+# 5.4.0
+- Add item status for the investment product.
+- Add transaction_code field to the Transaction object.
+
 # 5.3.0
 - Add support for [Transactions Refresh](https://plaid.com/docs/api/#transactions-refresh) endpoint: `/transactions/refresh`
 
