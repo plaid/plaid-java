@@ -46,7 +46,6 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
 
     ItemStatusStatus.ItemStatusHealth investments = response.body().getStatus().getInvestments();
     assertNull(investments.getLastFailedUpdate());
-    assertNull(investments.getLastSuccessfulUpdate());
 
     ItemStatusStatus.ItemStatusLastWebhook webhook = response.body().getStatus().getLastWebhook();
     assertNull(webhook);
