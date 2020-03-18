@@ -34,6 +34,7 @@ import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemImportRequest;
+import com.plaid.client.request.ItemAddTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemRemoveRequest;
@@ -79,6 +80,7 @@ import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemImportResponse;
+import com.plaid.client.response.ItemAddTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemRemoveResponse;
@@ -106,6 +108,10 @@ public interface PlaidApiService {
   ////////////////////////////////////////////////////////
   @POST("/item/get")
   Call<ItemGetResponse> itemGet(@Body ItemGetRequest request);
+
+  // BETA ENDPOINT
+  @POST("/item/add_token/create")
+  Call<ItemAddTokenCreateResponse> itemAddTokenCreate(@Body ItemAddTokenCreateRequest request);
 
   @POST("/item/public_token/exchange")
   Call<ItemPublicTokenExchangeResponse> itemPublicTokenExchange(@Body ItemPublicTokenExchangeRequest request);
