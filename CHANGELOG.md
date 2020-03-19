@@ -1,3 +1,6 @@
+# 5.4.0
+- Add support for Beta /item/add_token/create endpoint
+
 # 5.3.0
 - Add support for [Transactions Refresh](https://plaid.com/docs/api/#transactions-refresh) endpoint: `/transactions/refresh`
 
