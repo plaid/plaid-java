@@ -46,6 +46,7 @@ public abstract class AbstractItemIntegrationTest extends AbstractIntegrationTes
     assertEquals(expectedName, actualAccount.getName());
     assertEquals(expectedMask, actualAccount.getMask());
     assertEquals(expectedOfficialName, actualAccount.getOfficialName());
+    assertEquals(expectedVerificationStatus, actualAccount.getVerificationStatus());
   }
 
   @Before
