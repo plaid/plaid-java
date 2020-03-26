@@ -42,15 +42,15 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
     assertEquals(8, accounts.size());
     assertAccount(accounts.get(0), "depository", "checking", 100d,
       110d, null, "Plaid Checking",
-      "0000", "Plaid Gold Standard 0% Interest Checking");
+      "0000", "Plaid Gold Standard 0% Interest Checking", null);
     assertAccount(accounts.get(1), "depository",
       "savings", 200d, 210d, null, "Plaid Saving",
-      "1111", "Plaid Silver Standard 0.1% Interest Saving");
+      "1111", "Plaid Silver Standard 0.1% Interest Saving", null);
     assertAccount(accounts.get(2), "depository",
       "cd", null, 1000d, null, "Plaid CD",
-      "2222", "Plaid Bronze Standard 0.2% Interest CD");
+      "2222", "Plaid Bronze Standard 0.2% Interest CD", null);
     assertAccount(accounts.get(3), "credit", "credit card", null, 410d, 2000d, "Plaid Credit Card",
-      "3333", "Plaid Diamond 12.5% APR Interest Credit Card");
+      "3333", "Plaid Diamond 12.5% APR Interest Credit Card", null);
   }
 
   @Test
@@ -76,7 +76,7 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
     assertEquals(1, accounts.size());
     assertAccount(accounts.get(0), "depository",
       "savings", 200d, 210d, null, "Plaid Saving",
-      "1111", "Plaid Silver Standard 0.1% Interest Saving");
+      "1111", "Plaid Silver Standard 0.1% Interest Saving", null);
   }
 
   @Test

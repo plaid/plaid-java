@@ -27,15 +27,16 @@ public abstract class AbstractItemIntegrationTest extends AbstractIntegrationTes
   private ItemPublicTokenExchangeResponse exchangeTokenResponse;
   private ItemStatus item;
 
-  protected static void assertAccount(Account actualAccount,
-                                      String expectedType,
-                                      String expectedSubType,
-                                      Double expectedBalanceAvailable,
-                                      Double expectedBalanceCurrent,
-                                      Double expectedBalanceLimit,
-                                      String expectedName,
-                                      String expectedMask,
-                                      String expectedOfficialName) {
+  static void assertAccount(Account actualAccount,
+    String expectedType,
+    String expectedSubType,
+    Double expectedBalanceAvailable,
+    Double expectedBalanceCurrent,
+    Double expectedBalanceLimit,
+    String expectedName,
+    String expectedMask,
+    String expectedOfficialName,
+    String expectedVerificationStatus) {
     assertNotNull(actualAccount.getAccountId());
     assertEquals(expectedType, actualAccount.getType());
     assertEquals(expectedSubType, actualAccount.getSubtype());
@@ -50,19 +51,26 @@ public abstract class AbstractItemIntegrationTest extends AbstractIntegrationTes
   @Before
   public void setUpItem() throws Exception {
     Response<SandboxPublicTokenCreateResponse> createResponse =
-      client().service().sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(setupItemInstitutionId(), setupItemProducts())).execute();
+      client().service()
+        .sandboxPublicTokenCreate(
+          new SandboxPublicTokenCreateRequest(setupItemInstitutionId(), setupItemProducts()))
+        .execute();
     assertSuccessResponse(createResponse);
     Response<ItemPublicTokenExchangeResponse> response =
-      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken())).execute();
+      client().service()
+        .itemPublicTokenExchange(
+          new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken()))
+        .execute();
     assertSuccessResponse(response);
 
     this.exchangeTokenResponse = response.body();
 
     Response<ItemGetResponse> itemGetResponse =
-      client().service().itemGet(new ItemGetRequest(exchangeTokenResponse.getAccessToken())).execute();
+      client().service()
+        .itemGet(new ItemGetRequest(exchangeTokenResponse.getAccessToken()))
+        .execute();
     assertSuccessResponse(itemGetResponse);
     item = itemGetResponse.body().getItem();
-
   }
 
   protected abstract List<Product> setupItemProducts();
