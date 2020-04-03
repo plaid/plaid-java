@@ -3,18 +3,25 @@ package com.plaid.client.response;
 import java.util.Date;
 
 public final class ItemStatusStatus {
-  private ItemStatusTransactions transactions;
+  private ItemStatusHealth transactions;
+  private ItemStatusHealth investments;
   private ItemStatusLastWebhook lastWebhook;
 
-  public ItemStatusTransactions getTransactions() {
+  public ItemStatusHealth getTransactions() {
     return transactions;
+  }
+
+  public ItemStatusHealth getInvestments() {
+    return investments;
   }
 
   public ItemStatusLastWebhook getLastWebhook() {
     return lastWebhook;
   }
 
-  public static final class ItemStatusTransactions {
+  public static class ItemStatusHealth extends ItemStatusTransactions {}
+
+  public static class ItemStatusTransactions {
     private Date lastSuccessfulUpdate;
     private Date lastFailedUpdate;
 

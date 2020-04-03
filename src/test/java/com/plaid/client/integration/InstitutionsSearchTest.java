@@ -15,6 +15,7 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
@@ -77,6 +78,24 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
     assertSuccessResponse(response);
 
     assertTrue(response.body().getInstitutions().size() > 0);
+  }
+
+  @Test
+  public void testSuccessWithOAuth() throws Exception {
+    Response<InstitutionsSearchResponse> response =
+      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank").withCountryCodes(Arrays.asList("GB")).withOAuth(true)).execute();
+    assertSuccessResponse(response);
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+    assertTrue(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
+  }
+
+  @Test
+  public void testSuccessWithoutOAuth() throws Exception {
+    Response<InstitutionsSearchResponse> response =
+      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank").withCountryCodes(Arrays.asList("GB")).withOAuth(false)).execute();
+    assertSuccessResponse(response);
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+    assertFalse(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
   }
 
   @Test

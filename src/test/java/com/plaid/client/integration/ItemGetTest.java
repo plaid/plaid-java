@@ -8,7 +8,7 @@ import com.plaid.client.response.ItemStatusStatus;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertNull;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNull;
 public class ItemGetTest extends AbstractItemIntegrationTest {
   @Override
   protected List<Product> setupItemProducts() {
-    return Collections.singletonList(Product.TRANSACTIONS);
+    return Arrays.asList(Product.TRANSACTIONS, Product.INVESTMENTS);
   }
 
   @Override
@@ -41,8 +41,11 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
     assertSuccessResponse(response);
     assertItemEquals(getItem(), response.body().getItem());
 
-    ItemStatusStatus.ItemStatusTransactions transactions = response.body().getStatus().getTransactions();
+    ItemStatusStatus.ItemStatusHealth transactions = response.body().getStatus().getTransactions();
     assertNull(transactions.getLastFailedUpdate());
+
+    ItemStatusStatus.ItemStatusHealth investments = response.body().getStatus().getInvestments();
+    assertNull(investments.getLastFailedUpdate());
 
     ItemStatusStatus.ItemStatusLastWebhook webhook = response.body().getStatus().getLastWebhook();
     assertNull(webhook);
