@@ -34,6 +34,7 @@ import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemImportRequest;
+import com.plaid.client.request.ItemAddTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemRemoveRequest;
@@ -51,6 +52,7 @@ import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
+import com.plaid.client.request.TransactionsRefreshRequest;
 import com.plaid.client.request.WebhookVerificationKeyGetRequest;
 
 import com.plaid.client.response.AccountsBalanceGetResponse;
@@ -78,6 +80,7 @@ import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemImportResponse;
+import com.plaid.client.response.ItemAddTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemRemoveResponse;
@@ -95,6 +98,7 @@ import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
+import com.plaid.client.response.TransactionsRefreshResponse;
 import com.plaid.client.response.WebhookVerificationKeyGetResponse;
 
 public interface PlaidApiService {
@@ -104,6 +108,10 @@ public interface PlaidApiService {
   ////////////////////////////////////////////////////////
   @POST("/item/get")
   Call<ItemGetResponse> itemGet(@Body ItemGetRequest request);
+
+  // BETA ENDPOINT
+  @POST("/item/add_token/create")
+  Call<ItemAddTokenCreateResponse> itemAddTokenCreate(@Body ItemAddTokenCreateRequest request);
 
   @POST("/item/public_token/exchange")
   Call<ItemPublicTokenExchangeResponse> itemPublicTokenExchange(@Body ItemPublicTokenExchangeRequest request);
@@ -209,6 +217,9 @@ public interface PlaidApiService {
 
   @POST("/transactions/get")
   Call<TransactionsGetResponse> transactionsGet(@Body TransactionsGetRequest request);
+
+  @POST("/transactions/refresh")
+  Call<TransactionsRefreshResponse> transactionsRefresh(@Body TransactionsRefreshRequest request);
 
   @POST("/liabilities/get")
   Call<LiabilitiesGetResponse> liabilitiesGet(@Body LiabilitiesGetRequest request);
