@@ -1,5 +1,6 @@
 package com.plaid.client.request;
 
+import com.plaid.client.internal.Util;
 import com.plaid.client.request.common.BaseClientRequest;
 
 /**
@@ -9,7 +10,7 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
   private User user;
 
   public ItemAddTokenCreateRequest(User user) {
-    notNull(user, "user");
+    Util.notNull(user, "user");
     this.user = user;
   }
 
@@ -17,7 +18,7 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
     private String clientUserId;
 
     public User(String clientUserId) {
-      notNull(clientUserId, "clientUserId");
+      Util.notNull(clientUserId, "clientUserId");
       this.clientUserId = clientUserId;
     }
   }
