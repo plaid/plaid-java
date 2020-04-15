@@ -33,9 +33,9 @@ public final class SandboxPublicTokenCreateRequest extends BasePublicRequest {
     options = options.orElse(new Options());
     options.get().webhook = webhook;
     return this;
-  }  
+  }
 
-  private static class Options {
-    private String webhook;
+  public static class Options {
+    public String webhook;
   }
 }

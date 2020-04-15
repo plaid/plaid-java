@@ -109,7 +109,6 @@ public interface PlaidApiService {
   @POST("/item/get")
   Call<ItemGetResponse> itemGet(@Body ItemGetRequest request);
 
-  // BETA ENDPOINT
   @POST("/item/add_token/create")
   Call<ItemAddTokenCreateResponse> itemAddTokenCreate(@Body ItemAddTokenCreateRequest request);
 
