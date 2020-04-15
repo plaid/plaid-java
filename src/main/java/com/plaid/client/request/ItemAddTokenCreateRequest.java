@@ -18,7 +18,6 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
 
     public User(String clientUserId) {
       notNull(clientUserId, "clientUserId");
-      notEmpty(clientUserId, "clientUserId");
       this.clientUserId = clientUserId;
     }
   }
