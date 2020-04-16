@@ -27,8 +27,11 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
+    String clientUserId = Long.toString((new Date()).getTime());
     Response<ItemAddTokenCreateResponse> response =
-      client().service().itemAddTokenCreate(new ItemAddTokenCreateRequest()).execute();
+      client().service().itemAddTokenCreate(
+        new ItemAddTokenCreateRequest(
+          new ItemAddTokenCreateRequest.User(clientUserId))).execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getAddToken());
