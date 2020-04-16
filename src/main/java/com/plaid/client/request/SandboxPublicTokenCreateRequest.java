@@ -35,7 +35,7 @@ public final class SandboxPublicTokenCreateRequest extends BasePublicRequest {
     return this;
   }
 
-  public static class Options {
-    public String webhook;
+  private static class Options {
+    private String webhook;
   }
 }
