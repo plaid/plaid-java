@@ -37,4 +37,23 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
     assertNotNull(response.body().getAddToken());
     assertTrue(response.body().getExpiration().after(new Date()));
   }
+
+  @Test
+  public void testSuccessWithUserOptions() throws Exception {
+    String clientUserId = Long.toString((new Date()).getTime());
+    String legalName = "John Doe";
+    String phoneNumber = "+1 415 555 0123";
+    String emailAddress = "example@plaid.com";
+    Date verifiedTime = new Date();
+    ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest.User(
+      clientUserId).withLegalName(legalName).withVerifiedPhoneNumber(
+        phoneNumber, verifiedTime).withEmailAddress(emailAddress);
+    Response<ItemAddTokenCreateResponse> response =
+      client().service().itemAddTokenCreate(
+        new ItemAddTokenCreateRequest(user)).execute();
+
+    assertSuccessResponse(response);
+    assertNotNull(response.body().getAddToken());
+    assertTrue(response.body().getExpiration().after(new Date()));
+  }
 }
