@@ -32,35 +32,35 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
 
     public User withLegalName(String legalName) {
       Util.notNull(legalName, "legalName");
-      legalName.get() = legalName
+      this.legalName = Optional.of(legalName);
       return this;
     }
 
     public User withPhoneNumber(String phoneNumber) {
       Util.notNull(phoneNumber, "phoneNumber");
-      phoneNumber.get() = phoneNumber;
+      this.phoneNumber = Optional.of(phoneNumber);
       return this;
     }
 
     public User withVerifiedPhoneNumber(String phoneNumber, Date verifiedTime) {
       Util.notNull(phoneNumber, "phoneNumber");
       Util.notNull(verifiedTime, "verifiedTime");
-      phoneNumber.get() = phoneNumber;
-      phoneNumberVerifiedTime.get() = verifiedTime;
+      this.phoneNumber = Optional.of(phoneNumber);
+      this.phoneNumberVerifiedTime = Optional.of(verifiedTime);
       return this;
     }
 
     public User withEmailAddress(String emailAddress) {
       Util.notNull(emailAddress, "emailAddress");
-      emailAddress.get() = emailAddress;
+      this.emailAddress = Optional.of(emailAddress);
       return this;
     }
 
     public User withVerifiedEmailAddress(String emailAddress, Date verifiedTime) {
       Util.notNull(emailAddress, "emailAddress");
       Util.notNull(verifiedTime, "verifiedTime");
-      emailAddress.get() = emailAddress;
-      emailAddressVerifiedTime.get() = verifiedTime;
+      this.emailAddress = Optional.of(emailAddress);
+      this.emailAddressVerifiedTime = Optional.of(verifiedTime);
       return this;
     }
   }
