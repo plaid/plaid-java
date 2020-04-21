@@ -27,22 +27,22 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
     }
 
     public User withLegalName(String legalName) {
-      notNull(legalName, "legalName");
+      Util.notNull(legalName, "legalName");
       options = options.orElse(new Options());
-      userOptions.get().legalName = legalName;
+      options.get().legalName = legalName;
       return this;
     }
 
     public User withPhoneNumber(String phoneNumber) {
-      notNull(phoneNumber, "phoneNumber");
+      Util.notNull(phoneNumber, "phoneNumber");
       options = options.orElse(new Options());
       options.get().phoneNumber = phoneNumber;
       return this;
     }
 
     public User withVerifiedPhoneNumber(String phoneNumber, Date verifiedTime) {
-      notNull(phoneNumber, "phoneNumber");
-      notNull(verifiedTime, "verifiedTime");
+      Util.notNull(phoneNumber, "phoneNumber");
+      Util.notNull(verifiedTime, "verifiedTime");
       options = options.orElse(new Options());
       options.get().phoneNumber = phoneNumber;
       options.get().phoneNumberVerifiedTime = verifiedTime;
@@ -50,15 +50,15 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
     }
 
     public User withEmailAddress(String emailAddress) {
-      notNull(emailAddress, "emailAddress");
+      Util.notNull(emailAddress, "emailAddress");
       options = options.orElse(new Options());
       options.get().emailAddress = emailAddress;
       return this;
     }
 
     public User withVerifiedEmailAddress(String emailAddress, Date verifiedTime) {
-      notNull(emailAddress, "emailAddress");
-      notNull(verifiedTime, "verifiedTime");
+      Util.notNull(emailAddress, "emailAddress");
+      Util.notNull(verifiedTime, "verifiedTime");
       options = options.orElse(new Options());
       options.get().emailAddress = emailAddress;
       options.get().emailAddressVerifiedTime = verifiedTime;
