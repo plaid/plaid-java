@@ -19,7 +19,11 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
 
   public static class User {
     private String clientUserId;
-    private Optional<Options> options = Optional.empty();
+    private Optional<String> legalName = Optional.empty();
+    private Optional<String> phoneNumber = Optional.empty();
+    private Optional<String> emailAddress = Optional.empty();
+    private Optional<Date> phoneNumberVerifiedTime = Optional.empty();
+    private Optional<Date> emailAddressVerifiedTime = Optional.empty();
 
     public User(String clientUserId) {
       Util.notNull(clientUserId, "clientUserId");
@@ -28,49 +32,36 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
 
     public User withLegalName(String legalName) {
       Util.notNull(legalName, "legalName");
-      options = options.orElse(new Options());
-      options.get().legalName = legalName;
+      legalName.get() = legalName
       return this;
     }
 
     public User withPhoneNumber(String phoneNumber) {
       Util.notNull(phoneNumber, "phoneNumber");
-      options = options.orElse(new Options());
-      options.get().phoneNumber = phoneNumber;
+      phoneNumber.get() = phoneNumber;
       return this;
     }
 
     public User withVerifiedPhoneNumber(String phoneNumber, Date verifiedTime) {
       Util.notNull(phoneNumber, "phoneNumber");
       Util.notNull(verifiedTime, "verifiedTime");
-      options = options.orElse(new Options());
-      options.get().phoneNumber = phoneNumber;
-      options.get().phoneNumberVerifiedTime = verifiedTime;
+      phoneNumber.get() = phoneNumber;
+      phoneNumberVerifiedTime.get() = verifiedTime;
       return this;
     }
 
     public User withEmailAddress(String emailAddress) {
       Util.notNull(emailAddress, "emailAddress");
-      options = options.orElse(new Options());
-      options.get().emailAddress = emailAddress;
+      emailAddress.get() = emailAddress;
       return this;
     }
 
     public User withVerifiedEmailAddress(String emailAddress, Date verifiedTime) {
       Util.notNull(emailAddress, "emailAddress");
       Util.notNull(verifiedTime, "verifiedTime");
-      options = options.orElse(new Options());
-      options.get().emailAddress = emailAddress;
-      options.get().emailAddressVerifiedTime = verifiedTime;
+      emailAddress.get() = emailAddress;
+      emailAddressVerifiedTime.get() = verifiedTime;
       return this;
-    }
-
-    private static class Options {
-      private String legalName;
-      private String phoneNumber;
-      private String emailAddress;
-      private Date phoneNumberVerifiedTime;
-      private Date emailAddressVerifiedTime;
     }
   }
 }
