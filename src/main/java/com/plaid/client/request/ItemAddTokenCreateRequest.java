@@ -1,7 +1,7 @@
 package com.plaid.client.request;
 
 import com.google.gson.annotations.JsonAdapter;
-import com.plaid.client.internal.gson.DateOnlyTypeAdapterFactory;
+import com.plaid.client.internal.gson.OptionalDateTypeAdapterFactory;
 import com.plaid.client.internal.gson.Optional;
 import com.plaid.client.internal.Util;
 import com.plaid.client.request.common.BaseClientRequest;
@@ -24,9 +24,9 @@ public final class ItemAddTokenCreateRequest extends BaseClientRequest {
     private Optional<String> legalName = Optional.empty();
     private Optional<String> phoneNumber = Optional.empty();
     private Optional<String> emailAddress = Optional.empty();
-    @JsonAdapter(DateOnlyTypeAdapterFactory.class)
+    @JsonAdapter(OptionalDateTypeAdapterFactory.class)
     private Optional<Date> phoneNumberVerifiedTime = Optional.empty();
-    @JsonAdapter(DateOnlyTypeAdapterFactory.class)
+    @JsonAdapter(OptionalDateTypeAdapterFactory.class)
     private Optional<Date> emailAddressVerifiedTime = Optional.empty();
 
     public User(String clientUserId) {
