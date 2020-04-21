@@ -4,6 +4,8 @@ import com.plaid.client.internal.gson.Optional;
 import com.plaid.client.internal.Util;
 import com.plaid.client.request.common.BaseClientRequest;
 
+import java.util.Date;
+
 /**
  * Request for the /item/add_token/create endpoint.
  */
