@@ -45,9 +45,11 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
     String phoneNumber = "+1 415 555 0123";
     String emailAddress = "example@plaid.com";
     Date verifiedTime = new Date();
-    ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest.User(
-      clientUserId).withLegalName(legalName).withVerifiedPhoneNumber(
-        phoneNumber, verifiedTime).withEmailAddress(emailAddress);
+    ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
+      .User(clientUserId)
+      .withLegalName(legalName)
+      .withVerifiedPhoneNumber(phoneNumber, verifiedTime)
+      .withEmailAddress(emailAddress);
     Response<ItemAddTokenCreateResponse> response =
       client().service().itemAddTokenCreate(
         new ItemAddTokenCreateRequest(user)).execute();
