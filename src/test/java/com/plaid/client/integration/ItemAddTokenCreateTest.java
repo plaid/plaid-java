@@ -61,7 +61,6 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccessWithVerifiedUserOptions() throws Exception {
     String clientUserId = Long.toString((new Date()).getTime());
-    String legalName = "John Doe";
     String phoneNumber = "+1 415 555 0123";
     String emailAddress = "example@plaid.com";
     Date verifiedTime = new Date();
