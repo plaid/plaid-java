@@ -1,3 +1,6 @@
+# 5.6.0
+- Add optional fields to the /item/add_token/create User object
+
 # 5.5.0
 - Add support for /item/add_token/create endpoint
 
