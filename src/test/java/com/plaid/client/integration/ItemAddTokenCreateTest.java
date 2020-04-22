@@ -44,12 +44,31 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
     String legalName = "John Doe";
     String phoneNumber = "+1 415 555 0123";
     String emailAddress = "example@plaid.com";
-    Date verifiedTime = new Date();
     ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
       .User(clientUserId)
       .withLegalName(legalName)
-      .withVerifiedPhoneNumber(phoneNumber, verifiedTime)
+      .withPhoneNumber(phoneNumber)
       .withEmailAddress(emailAddress);
+    Response<ItemAddTokenCreateResponse> response =
+      client().service().itemAddTokenCreate(
+        new ItemAddTokenCreateRequest(user)).execute();
+
+    assertSuccessResponse(response);
+    assertNotNull(response.body().getAddToken());
+    assertTrue(response.body().getExpiration().after(new Date()));
+  }
+
+  @Test
+  public void testSuccessWithVerifiedUserOptions() throws Exception {
+    String clientUserId = Long.toString((new Date()).getTime());
+    String legalName = "John Doe";
+    String phoneNumber = "+1 415 555 0123";
+    String emailAddress = "example@plaid.com";
+    Date verifiedTime = new Date();
+    ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
+      .User(clientUserId)
+      .withVerifiedPhoneNumber(phoneNumber, verifiedTime)
+      .withVerifiedEmailAddress(emailAddress, verifiedTime);
     Response<ItemAddTokenCreateResponse> response =
       client().service().itemAddTokenCreate(
         new ItemAddTokenCreateRequest(user)).execute();
