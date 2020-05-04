@@ -27,8 +27,50 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
+    String clientUserId = Long.toString((new Date()).getTime());
     Response<ItemAddTokenCreateResponse> response =
-      client().service().itemAddTokenCreate(new ItemAddTokenCreateRequest()).execute();
+      client().service().itemAddTokenCreate(
+        new ItemAddTokenCreateRequest(
+          new ItemAddTokenCreateRequest.User(clientUserId))).execute();
+
+    assertSuccessResponse(response);
+    assertNotNull(response.body().getAddToken());
+    assertTrue(response.body().getExpiration().after(new Date()));
+  }
+
+  @Test
+  public void testSuccessWithUserOptions() throws Exception {
+    String clientUserId = Long.toString((new Date()).getTime());
+    String legalName = "John Doe";
+    String phoneNumber = "+1 415 555 0123";
+    String emailAddress = "example@plaid.com";
+    ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
+      .User(clientUserId)
+      .withLegalName(legalName)
+      .withPhoneNumber(phoneNumber)
+      .withEmailAddress(emailAddress);
+    Response<ItemAddTokenCreateResponse> response =
+      client().service().itemAddTokenCreate(
+        new ItemAddTokenCreateRequest(user)).execute();
+
+    assertSuccessResponse(response);
+    assertNotNull(response.body().getAddToken());
+    assertTrue(response.body().getExpiration().after(new Date()));
+  }
+
+  @Test
+  public void testSuccessWithVerifiedUserOptions() throws Exception {
+    String clientUserId = Long.toString((new Date()).getTime());
+    String phoneNumber = "+1 415 555 0123";
+    String emailAddress = "example@plaid.com";
+    Date verifiedTime = new Date();
+    ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
+      .User(clientUserId)
+      .withVerifiedPhoneNumber(phoneNumber, verifiedTime)
+      .withVerifiedEmailAddress(emailAddress, verifiedTime);
+    Response<ItemAddTokenCreateResponse> response =
+      client().service().itemAddTokenCreate(
+        new ItemAddTokenCreateRequest(user)).execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getAddToken());

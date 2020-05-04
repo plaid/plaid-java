@@ -1,5 +1,12 @@
+# 5.6.0
+- Add optional fields to the /item/add_token/create User object
+
+# 5.5.0
+- Add support for /item/add_token/create endpoint
+
 # 5.4.0
-- Add support for Beta /item/add_token/create endpoint
+- Add item status for the investment product.
+- Add transaction_code field to the Transaction object.
 
 # 5.3.0
 - Add support for [Transactions Refresh](https://plaid.com/docs/api/#transactions-refresh) endpoint: `/transactions/refresh`
