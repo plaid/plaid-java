@@ -32,12 +32,18 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
   @Before
   public void setUp() throws Exception {
     Response<SandboxPublicTokenCreateResponse> createResponse =
-      client().service().sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList(Product.TRANSACTIONS))).execute();
+      client().service()
+        .sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(TARTAN_BANK_INSTITUTION_ID,
+          Collections.singletonList(Product.TRANSACTIONS)))
+        .execute();
 
     assertSuccessResponse(createResponse);
 
     Response<ItemPublicTokenExchangeResponse> response =
-      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken())).execute();
+      client().service()
+        .itemPublicTokenExchange(
+          new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken()))
+        .execute();
 
     assertSuccessResponse(response);
 
@@ -52,24 +58,26 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
       new TransactionsGetRequest(accessToken, startDate, endDate)
         .withCount(100);
 
-    Response<TransactionsGetResponse> response = null;
+    Response<TransactionsGetResponse> apiResponse = null;
     for (int i = 0; i < 5; i++) {
-      response = client().service().transactionsGet(request).execute();
-      if (response.isSuccessful()) {
+      apiResponse = client().service().transactionsGet(request).execute();
+      if (apiResponse.isSuccessful()) {
         break;
       } else {
-        ErrorResponse errorResponse = client().parseError(response);
+        ErrorResponse errorResponse = client().parseError(apiResponse);
         assertEquals(errorResponse.getErrorCode(), "PRODUCT_NOT_READY");
         Thread.sleep(3000);
       }
     }
-    assertSuccessResponse(response);
-    assertNotNull(response.body().getTotalTransactions());
-    assertNotNull(response.body().getItem());
-    assertNotNull(response.body().getAccounts());
-    assertFalse(response.body().getAccounts().isEmpty());
-    assertTrue(response.body().getTransactions().size() > 0);
-    for (TransactionsGetResponse.Transaction txn : response.body().getTransactions()) {
+    assertSuccessResponse(apiResponse);
+    TransactionsGetResponse transactionResponse = apiResponse.body();
+    assertNotNull(transactionResponse);
+    assertNotNull(transactionResponse.getTotalTransactions());
+    assertNotNull(transactionResponse.getItem());
+    assertNotNull(transactionResponse.getAccounts());
+    assertFalse(transactionResponse.getAccounts().isEmpty());
+    assertTrue(transactionResponse.getTransactions().size() > 0);
+    for (TransactionsGetResponse.Transaction txn : transactionResponse.getTransactions()) {
       assertNotNull(txn.getTransactionId());
       assertNotNull(txn.getAccountId());
       assertNotNull(txn.getPending());
@@ -80,6 +88,8 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
       assertNotNull(txn.getAmount());
       assertNotNull(txn.getLocation());
       assertNotNull(txn.getIsoCurrencyCode());
+      assertNotNull(txn.getPaymentChannel());
+      assertTrue(txn.getPaymentChannel().length() > 0);
     }
   }
 
