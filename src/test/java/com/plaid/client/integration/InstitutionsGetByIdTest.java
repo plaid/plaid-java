@@ -16,7 +16,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID))
+      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID))
       .execute();
 
     assertSuccessResponse(response);
@@ -28,14 +28,15 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       assertNotNull(c.getType());
       assertNotNull(c.getName());
     }
-    assertIsValidInstitution(institution);
+    assertIsTartanBank(institution);
   }
 
   @Test
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
     Response<InstitutionsGetByIdResponse> response =
-        client().service().institutionsGetById(
-            new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeOptionalMetadata(true))
+      client().service().institutionsGetById(
+        new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeOptionalMetadata(
+          true))
         .execute();
 
     assertSuccessResponse(response);
@@ -48,7 +49,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       assertNotNull(c.getName());
     }
 
-    assertIsValidInstitution(institution);
+    assertIsTartanBank(institution);
 
     assertEquals("https://www.plaid.com/", institution.getUrl());
     assertNotNull(institution.getLogo());
@@ -58,7 +59,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
         withIncludeOptionalMetadata(false))
       .execute();
 
@@ -72,7 +73,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       assertNotNull(c.getName());
     }
 
-    assertIsValidInstitution(institution);
+    assertIsTartanBank(institution);
 
     assertEquals(null, institution.getUrl());
     assertEquals(null, institution.getLogo());
@@ -82,7 +83,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeStatusTrue() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(FIRST_PLATYPUS_BANK_INSTITUTION_ID).
         withIncludeStatus(true))
       .execute();
 
@@ -90,13 +91,17 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
 
     Institution institution = response.body().getInstitution();
     assertNotNull(institution.getStatus());
-    assertIsValidInstitution(institution);
+    assertNotNull(institution.getStatus().getTransactionsUpdates());
+    assertNotNull(institution.getStatus().getAuth());
+    assertNotNull(institution.getStatus().getBalance());
+    assertNotNull(institution.getStatus().getIdentity());
+    assertIsFirstPlatypusBank(institution);
   }
 
   @Test
   public void testSuccessWithIncludeStatusFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-        institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
         withIncludeStatus(false))
       .execute();
 
@@ -104,26 +109,46 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
 
     Institution institution = response.body().getInstitution();
     assertNull(institution.getStatus());
-    assertIsValidInstitution(institution);
+    assertIsTartanBank(institution);
   }
 
-  private void assertIsValidInstitution(Institution institution) {
+  private void assertIsTartanBank(Institution institution) {
     assertTrue(institution.hasMfa());
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
     assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("Tartan Bank", institution.getName());
     assertEquals(Arrays.asList(
-            Product.ASSETS,
-            Product.AUTH,
-            Product.BALANCE,
-            Product.TRANSACTIONS,
-            Product.CREDIT_DETAILS,
-            Product.INCOME,
-            Product.IDENTITY,
-            Product.INVESTMENTS,
-            Product.LIABILITIES
-            ),
-        institution.getProducts());
+      Product.ASSETS,
+      Product.AUTH,
+      Product.BALANCE,
+      Product.TRANSACTIONS,
+      Product.CREDIT_DETAILS,
+      Product.INCOME,
+      Product.IDENTITY,
+      Product.INVESTMENTS,
+      Product.LIABILITIES
+      ),
+      institution.getProducts());
+    assertTrue(institution.getCountryCodes().contains("US"));
+  }
+
+  private void assertIsFirstPlatypusBank(Institution institution) {
+    assertTrue(institution.hasMfa());
+    assertEquals(FIRST_PLATYPUS_BANK_INSTITUTION_ID, institution.getInstitutionId());
+    assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
+    assertEquals("First Platypus Bank", institution.getName());
+    assertEquals(Arrays.asList(
+      Product.ASSETS,
+      Product.AUTH,
+      Product.BALANCE,
+      Product.TRANSACTIONS,
+      Product.CREDIT_DETAILS,
+      Product.INCOME,
+      Product.IDENTITY,
+      Product.INVESTMENTS,
+      Product.LIABILITIES
+      ),
+      institution.getProducts());
     assertTrue(institution.getCountryCodes().contains("US"));
   }
 
