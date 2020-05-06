@@ -60,11 +60,103 @@ public final class Institution {
     }
   }
 
+  public static final class TransactionsUpdates {
+    private String status;
+    private Timestamp lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Timestamp getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+  }
+
+  public static final class Auth {
+    private String status;
+    private Timestamp lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Timestamp getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+  }
+
+  public static final class Balance {
+    private String status;
+    private Timestamp lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Timestamp getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+  }
+
+  public static final class Identity {
+    private String status;
+    private Timestamp lastStatusChange;
+    private InstitutionStatusBreakdown breakdown;
+
+    public String getStatus() {
+      return status;
+    }
+
+    public Timestamp getLastStatusChange() {
+      return lastStatusChange;
+    }
+
+    public InstitutionStatusBreakdown getBreakdown() {
+      return breakdown;
+    }
+  }
+
   public static final class InstitutionStatus {
     private ItemLogins itemLogins;
+    private TransactionsUpdates transactionsUpdates;
+    private Auth auth;
+    private Balance balance;
+    private Identity identity;
 
     public ItemLogins getItemLogins() {
       return itemLogins;
+    }
+
+    public TransactionsUpdates getTransactionsUpdates() {
+      return transactionsUpdates;
+    }
+
+    public Auth getAuth() {
+      return auth;
+    }
+
+    public Balance getBalance() {
+      return balance;
+    }
+
+    public Identity getIdentity() {
+      return identity;
     }
   }
 
