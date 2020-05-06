@@ -88,6 +88,8 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
       assertNotNull(txn.getAmount());
       assertNotNull(txn.getLocation());
       assertNotNull(txn.getIsoCurrencyCode());
+      assertNotNull(txn.getPaymentChannel());
+      assertTrue(txn.getPaymentChannel().length() > 0);
     }
   }
 
