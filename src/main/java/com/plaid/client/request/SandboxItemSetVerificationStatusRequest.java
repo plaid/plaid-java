@@ -8,12 +8,12 @@ import com.plaid.client.request.common.BaseAccessTokenRequest;
  * @see <a href="https://plaid.com/docs/api/#TODO">https://plaid.com/docs/api/#TODO</a>
  */
 public final class SandboxItemSetVerificationStatusRequest extends BaseAccessTokenRequest {
-  private String accountID;
+  private String accountId;
   private String verificationStatus;
 
   public SandboxItemSetVerificationStatusRequest(String accessToken, String accountID, String verificationStatus) {
     super(accessToken);
-    this.accountID = accountID;
+    this.accountID = accountId;
     this.verificationStatus = verificationStatus;
   }
 }
