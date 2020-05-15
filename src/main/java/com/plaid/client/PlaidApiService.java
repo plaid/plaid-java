@@ -50,6 +50,7 @@ import com.plaid.client.request.paymentinitiation.RecipientGetRequest;
 import com.plaid.client.request.paymentinitiation.RecipientListRequest;
 import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
+import com.plaid.client.request.SandboxItemSetVerificationStatusRequest;
 import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.request.TransactionsRefreshRequest;
@@ -96,6 +97,7 @@ import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
 import com.plaid.client.response.paymentinitiation.RecipientListResponse;
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
+import com.plaid.client.response.SandboxItemSetVerificationStatusResponse;
 import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import com.plaid.client.response.TransactionsRefreshResponse;
@@ -149,6 +151,9 @@ public interface PlaidApiService {
 
   @POST("/sandbox/item/reset_login")
   Call<SandboxItemResetLoginResponse> sandboxItemResetLogin(@Body SandboxItemResetLoginRequest request);
+
+  @POST("/sandbox/item/set_verification_status")
+  Call<SandboxItemSetVerificationStatusResponse> sandboxItemSetVerificationStatus(@Body SandboxItemSetVerificationStatusRequest request);
 
   @POST("/sandbox/public_token/create")
   Call<SandboxPublicTokenCreateResponse> sandboxPublicTokenCreate(@Body SandboxPublicTokenCreateRequest request);
