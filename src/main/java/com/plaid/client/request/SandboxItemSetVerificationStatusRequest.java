@@ -11,9 +11,9 @@ public final class SandboxItemSetVerificationStatusRequest extends BaseAccessTok
   private String accountId;
   private String verificationStatus;
 
-  public SandboxItemSetVerificationStatusRequest(String accessToken, String accountID, String verificationStatus) {
+  public SandboxItemSetVerificationStatusRequest(String accessToken, String accountId, String verificationStatus) {
     super(accessToken);
-    this.accountID = accountId;
+    this.accountId = accountId;
     this.verificationStatus = verificationStatus;
   }
 }
