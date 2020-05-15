@@ -1,3 +1,8 @@
+# 5.7.0
+- Add remaining per-product `InstitutionStatus` fields
+- Add support for the `paymentChannel` field on `Transaction`
+- Add support for the `/sandbox/item/set_verification_status` endpoint
+
 # 5.6.0
 - Add optional fields to the /item/add_token/create User object
 
