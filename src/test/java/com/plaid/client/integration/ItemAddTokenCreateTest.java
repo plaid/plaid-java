@@ -65,8 +65,8 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
     Date verifiedTime = new Date(0);
     ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
       .User(clientUserId)
-      .withLegalName("Jane Doe")
-      .withVerifiedPhoneNumber(phoneNumber, verifiedTime);
+      .withLegalName("")
+      .withVerifiedPhoneNumber("", verifiedTime);
     Response<ItemAddTokenCreateResponse> response =
       client().service().itemAddTokenCreate(
         new ItemAddTokenCreateRequest(user)).execute();
