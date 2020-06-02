@@ -62,12 +62,10 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
   public void testSuccessWithVerifiedUserOptions() throws Exception {
     String clientUserId = Long.toString((new Date()).getTime());
     String phoneNumber = "+1 415 555 0123";
-    String emailAddress = "example@plaid.com";
     Date verifiedTime = new Date(0);
     ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
       .User(clientUserId)
-      .withVerifiedPhoneNumber(phoneNumber, verifiedTime)
-      .withVerifiedEmailAddress(emailAddress, verifiedTime);
+      .withVerifiedPhoneNumber(phoneNumber, verifiedTime);
     Response<ItemAddTokenCreateResponse> response =
       client().service().itemAddTokenCreate(
         new ItemAddTokenCreateRequest(user)).execute();
