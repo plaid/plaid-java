@@ -63,7 +63,7 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
     String clientUserId = Long.toString((new Date()).getTime());
     String phoneNumber = "+1 415 555 0123";
     String emailAddress = "example@plaid.com";
-    Date verifiedTime = Date(0);
+    Date verifiedTime = new Date(0);
     ItemAddTokenCreateRequest.User user =  new ItemAddTokenCreateRequest
       .User(clientUserId)
       .withVerifiedPhoneNumber(phoneNumber, verifiedTime)
@@ -74,6 +74,6 @@ public class ItemAddTokenCreateTest extends AbstractItemIntegrationTest {
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getAddToken());
-    assertTrue(response.body().getExpiration().after(Date(0)));
+    assertTrue(response.body().getExpiration().after(new Date(0)));
   }
 }
