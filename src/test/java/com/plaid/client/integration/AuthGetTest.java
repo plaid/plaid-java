@@ -14,6 +14,7 @@ import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class AuthGetTest extends AbstractItemIntegrationTest {
   @Override
@@ -34,7 +35,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
         .execute();
 
     assertSuccessResponse(response);
-    assertEquals(8, response.body().getAccounts().size());
+    assertTrue(response.body().getAccounts().size() > 1);
     assertNotNull(response.body().getItem());
 
     for (AuthGetResponse.NumberACH numberACH : response.body().getNumbers().getACH()) {

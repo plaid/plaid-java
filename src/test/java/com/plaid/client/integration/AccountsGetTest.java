@@ -39,7 +39,7 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
 
     // sandbox should return expected accounts
     List<Account> accounts = response.body().getAccounts();
-    assertEquals(8, accounts.size());
+    assertTrue(accounts.size() > 1);
     assertAccount(accounts.get(0), "depository", "checking", 100d,
       110d, null, "Plaid Checking",
       "0000", "Plaid Gold Standard 0% Interest Checking");
