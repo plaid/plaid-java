@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  * Abstract base class for integration tests which gets configuration from the
  * environment.
  *
- * PLAID_PUBLIC_KEY, PLAID_CLIENT_ID, PLAID_SECRET, and PLAID_BASE_URL must be
+ * PLAID_CLIENT_ID, PLAID_SECRET, and PLAID_BASE_URL must be
  * defined or errors will be thrown.
  */
 public abstract class AbstractIntegrationTest {
@@ -35,17 +35,14 @@ public abstract class AbstractIntegrationTest {
 
   @Before
   public void setUpClient() throws Exception {
-    String plaidPublicKey = System.getenv("PLAID_PUBLIC_KEY");
     String plaidClientId = System.getenv("PLAID_CLIENT_ID");
     String plaidSecret = System.getenv("PLAID_SECRET");
 
-    assertNotNull("PLAID_PUBLIC_KEY environment variable is required", plaidPublicKey);
     assertNotNull("PLAID_CLIENT_ID environment variable is required", plaidClientId);
     assertNotNull("PLAID_SECRET environment variable is required", plaidSecret);
 
     plaidClient = PlaidClient
       .newBuilder()
-      .publicKey(plaidPublicKey)
       .clientIdAndSecret(plaidClientId, plaidSecret)
       .sandboxBaseUrl()
       .logLevel(HttpLoggingInterceptor.Level.BODY)

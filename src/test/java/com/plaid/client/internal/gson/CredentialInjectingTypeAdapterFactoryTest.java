@@ -9,18 +9,9 @@ import org.junit.Test;
 public class CredentialInjectingTypeAdapterFactoryTest {
 
   @Test(expected = RuntimeException.class)
-  public void testFailsToSerializePublicRequestWithoutPublicKey() throws Exception {
-    Gson gson = new GsonBuilder()
-      .registerTypeAdapterFactory(new CredentialInjectingTypeAdapterFactory(null, "foo", "bar"))
-      .create();
-
-    gson.toJson(new InstitutionsSearchRequest("something"));
-  }
-
-  @Test(expected = RuntimeException.class)
   public void testFailsToSerializePrivateRequestWithoutSecretKey() throws Exception {
     Gson gson = new GsonBuilder()
-      .registerTypeAdapterFactory(new CredentialInjectingTypeAdapterFactory("stuff", "foo", null))
+      .registerTypeAdapterFactory(new CredentialInjectingTypeAdapterFactory("foo", null))
       .create();
 
     gson.toJson(new IdentityGetRequest("blahblahblah"));
@@ -29,7 +20,7 @@ public class CredentialInjectingTypeAdapterFactoryTest {
   @Test(expected = RuntimeException.class)
   public void testFailsToSerializePrivateRequestWithoutClientId() throws Exception {
     Gson gson = new GsonBuilder()
-      .registerTypeAdapterFactory(new CredentialInjectingTypeAdapterFactory("stuff", null, "secretss"))
+      .registerTypeAdapterFactory(new CredentialInjectingTypeAdapterFactory(null, "secretss"))
       .create();
 
     gson.toJson(new IdentityGetRequest("blahblahblah"));

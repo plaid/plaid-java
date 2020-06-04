@@ -17,7 +17,6 @@ public class PlaidClientHelpersTest {
   public void setUp() {
     plaidClient = PlaidClient.newBuilder()
       .sandboxBaseUrl()
-      .publicKey("foo")
       .clientIdAndSecret("bar", "baz")
       .build();
   }

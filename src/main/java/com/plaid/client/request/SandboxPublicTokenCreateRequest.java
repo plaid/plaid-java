@@ -1,6 +1,6 @@
 package com.plaid.client.request;
 
-import com.plaid.client.request.common.BasePublicRequest;
+import com.plaid.client.request.common.BaseClientRequest;
 import com.plaid.client.internal.gson.Optional;
 import com.plaid.client.request.common.Product;
 
@@ -15,7 +15,7 @@ import static com.plaid.client.internal.Util.notNull;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api/</a>
  */
-public final class SandboxPublicTokenCreateRequest extends BasePublicRequest {
+public final class SandboxPublicTokenCreateRequest extends BaseClientRequest {
   private String institutionId;
   private List<Product> initialProducts;
   private Optional<Options> options = Optional.empty();

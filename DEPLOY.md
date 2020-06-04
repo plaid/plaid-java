@@ -87,12 +87,10 @@ mvn verify
 Now run the following on the new branch:
 
 ```bash
-PLAID_PUBLIC_KEY=insertpublickeyhere \ 
 PLAID_SECRET=insertsecrethere \
 PLAID_CLIENT_ID=insertclientidhere \ 
 mvn release:prepare
 
-PLAID_PUBLIC_KEY=insertpublickey\ 
 PLAID_SECRET=insertsecrethere \
 PLAID_CLIENT_ID=insertclientidhere \ 
 mvn release:perform
