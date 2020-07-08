@@ -54,7 +54,9 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
     }
 
     // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
-    for (AuthGetResponse.NumberInternational numberInternational : response.body().getNumbers().getInternational()) {
+    for (AuthGetResponse.NumberInternational numberInternational : response.body()
+      .getNumbers()
+      .getInternational()) {
       assertNotNull(numberInternational.getIBAN());
       assertNotNull(numberInternational.getBIC());
       assertNotNull(numberInternational.getAccountId());
