@@ -43,7 +43,6 @@ For information about what has changed between versions and how to update your i
 // Use builder to create a client
 PlaidClient plaidClient = PlaidClient.newBuilder()
   .clientIdAndSecret("your_client_id", "your_secret")
-  .publicKey("your_public_key") // optional. only needed to call endpoints that require a public key
   .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
   .build();
 

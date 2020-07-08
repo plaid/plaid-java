@@ -1,6 +1,6 @@
 package com.plaid.client.request;
 
-import com.plaid.client.request.common.BasePublicRequest;
+import com.plaid.client.request.common.BaseClientRequest;
 
 import static com.plaid.client.internal.Util.notNull;
 
@@ -9,7 +9,7 @@ import static com.plaid.client.internal.Util.notNull;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class InstitutionsGetByIdRequest extends BasePublicRequest {
+public final class InstitutionsGetByIdRequest extends BaseClientRequest {
   private String institutionId;
   private Options options;
 

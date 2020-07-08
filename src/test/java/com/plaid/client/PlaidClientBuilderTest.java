@@ -9,14 +9,12 @@ import static org.junit.Assert.assertThat;
 
 public class PlaidClientBuilderTest {
   private static final InstitutionsSearchRequest INSTITUTIONS_SEARCH_REQUEST = new InstitutionsSearchRequest("q");
-  private static final String PUBLIC_KEY = "thepublickey";
   private static final String CLIENT_ID = "theclientid";
   private static final String SECRET = "thesecret";
 
 
   private PlaidClient.Builder getPlaidClientBuilder() {
     return PlaidClient.newBuilder()
-      .publicKey(PUBLIC_KEY)
       .clientIdAndSecret(CLIENT_ID, SECRET)
       .logLevel(HttpLoggingInterceptor.Level.BODY);
   }
@@ -30,14 +28,6 @@ public class PlaidClientBuilderTest {
   public void testUnspecifiedCredentialsFails() throws Exception {
     PlaidClient.newBuilder()
       .sandboxBaseUrl()
-      .build();
-  }
-
-  @Test
-  public void testPublicCredentialsOnlySucceeds() throws Exception {
-    PlaidClient.newBuilder()
-      .sandboxBaseUrl()
-      .publicKey(PUBLIC_KEY)
       .build();
   }
 

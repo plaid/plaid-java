@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.plaid.client.integration.AbstractItemIntegrationTest.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AccountsBalanceGetTest extends AbstractItemIntegrationTest {
   @Override
@@ -39,7 +40,7 @@ public class AccountsBalanceGetTest extends AbstractItemIntegrationTest {
 
     // sandbox should return expected accounts
     List<Account> accounts = response.body().getAccounts();
-    assertEquals(8, accounts.size());
+    assertTrue(accounts.size() > 1);
     assertAccount(accounts.get(0), "depository", "checking", 100d, 110d, null, "Plaid Checking", "0000", "Plaid Gold Standard 0% Interest Checking");
     assertAccount(accounts.get(1), "depository", "savings", 200d, 210d, null, "Plaid Saving", "1111", "Plaid Silver Standard 0.1% Interest Saving");
     assertAccount(accounts.get(2), "depository", "cd", null, 1000d, null, "Plaid CD", "2222", "Plaid Bronze Standard 0.2% Interest CD");

@@ -138,7 +138,6 @@ public final class PlaidClient {
     private final OkHttpClient.Builder okHttpClientBuilder;
     private String baseUrl;
     private HttpLoggingInterceptor.Level httpLogLevel;
-    private String publicKey;
 
     private String clientId;
     private String secret;
@@ -163,8 +162,8 @@ public final class PlaidClient {
           "must set baseUrl. You probably want to call productionBaseUrl(), developmentBaseUrl(), or sandboxBaseUrl().");
       }
 
-      if (publicKey == null && (clientId == null || secret == null)) {
-        throw new IllegalArgumentException("must set a publicKey, clientIdAndSecret, or both!");
+      if (clientId == null || secret == null) {
+        throw new IllegalArgumentException("must set a clientId and Secret.");
       }
 
       Retrofit retrofit = new Retrofit.Builder()
@@ -181,7 +180,7 @@ public final class PlaidClient {
       return new GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .registerTypeAdapterFactory(
-          new CredentialInjectingTypeAdapterFactory(publicKey, clientId, secret))
+          new CredentialInjectingTypeAdapterFactory(clientId, secret))
         .registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory())
         .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
         .registerTypeAdapterFactory(new ImmutableListStripUnknownEnumsTypeAdapterFactory())
@@ -320,24 +319,6 @@ public final class PlaidClient {
      */
     public Builder developmentBaseUrl() {
       return baseUrl(DEFAULT_DEVELOPMENT_BASE_URL);
-    }
-
-    /**
-     * Set the public key credential.
-     *
-     * Only required if this client will be used to call API endpoints
-     * that need a public key.
-     *
-     * Can be found in your Account Dashboard. See documentation for details.
-     *
-     * @param publicKey Your Plaid API Public key.
-     * @return This {@link Builder} to satisfy the builder pattern.
-     */
-    public Builder publicKey(String publicKey) {
-      Util.notNull(publicKey, "publicKey");
-
-      this.publicKey = publicKey;
-      return this;
     }
 
     /**
