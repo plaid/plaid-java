@@ -84,6 +84,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
       assertNotNull(txn.getTransactionType());
       assertNotNull(txn.getPaymentMeta());
       assertNotNull(txn.getDate());
+      assertNotNull(txn.getMerchantName());
       assertNotNull(txn.getName());
       assertNotNull(txn.getAmount());
       assertNotNull(txn.getLocation());
