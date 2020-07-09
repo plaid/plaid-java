@@ -3,11 +3,11 @@ package com.plaid.client.response;
 import java.util.Date;
 
 public class LinkTokenCreateResponse extends BaseResponse {
-  private String token;
+  private String linkToken;
   private Date expiration;
 
-  public String getToken() {
-    return token;
+  public String getLinkToken() {
+    return linkToken;
   }
 
   public Date getExpiration() {

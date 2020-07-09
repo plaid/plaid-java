@@ -1,12 +1,8 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.internal.gson.Optional;
-import com.plaid.client.request.ItemAddTokenCreateRequest;
 import com.plaid.client.request.LinkTokenCreateRequest;
 import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ItemAddTokenCreateResponse;
 import com.plaid.client.response.LinkTokenCreateResponse;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,7 +37,7 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
           Collections.singletonList("auth"))).execute();
 
     assertSuccessResponse(response);
-    assertNotNull(response.body().getToken());
+    assertNotNull(response.body().getLinkToken());
     assertTrue(response.body().getExpiration().after(new Date()));
   }
 
@@ -73,7 +69,7 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
         request).execute();
 
     assertSuccessResponse(response);
-    assertNotNull(response.body().getToken());
+    assertNotNull(response.body().getLinkToken());
     assertTrue(response.body().getExpiration().after(new Date()));
   }
 }
