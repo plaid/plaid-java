@@ -1,5 +1,7 @@
 package com.plaid.client;
 
+import com.plaid.client.request.LinkTokenCreateRequest;
+import com.plaid.client.response.LinkTokenCreateResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -114,25 +116,32 @@ public interface PlaidApiService {
   @POST("/item/add_token/create")
   Call<ItemAddTokenCreateResponse> itemAddTokenCreate(@Body ItemAddTokenCreateRequest request);
 
+  @POST("/link/token/create")
+  Call<LinkTokenCreateResponse> linkTokenCreate(@Body LinkTokenCreateRequest request);
+
   @POST("/item/public_token/exchange")
-  Call<ItemPublicTokenExchangeResponse> itemPublicTokenExchange(@Body ItemPublicTokenExchangeRequest request);
+  Call<ItemPublicTokenExchangeResponse> itemPublicTokenExchange(
+    @Body ItemPublicTokenExchangeRequest request);
 
   @POST("/item/public_token/create")
-  Call<ItemPublicTokenCreateResponse> itemPublicTokenCreate(@Body ItemPublicTokenCreateRequest request);
+  Call<ItemPublicTokenCreateResponse> itemPublicTokenCreate(
+    @Body ItemPublicTokenCreateRequest request);
 
   @POST("/processor/stripe/bank_account_token/create")
-  Call<ItemStripeTokenCreateResponse> itemStripeTokenCreate(@Body ItemStripeTokenCreateRequest request);
+  Call<ItemStripeTokenCreateResponse> itemStripeTokenCreate(
+    @Body ItemStripeTokenCreateRequest request);
 
   @POST("/processor/apex/processor_token/create")
   Call<ItemApexProcessorTokenCreateResponse> itemApexProcessorTokenCreate(
-      @Body ItemApexProcessorTokenCreateRequest request);
+    @Body ItemApexProcessorTokenCreateRequest request);
 
   @POST("/processor/dwolla/processor_token/create")
   Call<ItemDwollaProcessorTokenCreateResponse> itemDwollaProcessorTokenCreate(
-      @Body ItemDwollaProcessorTokenCreateRequest request);
+    @Body ItemDwollaProcessorTokenCreateRequest request);
 
   @POST("/item/access_token/invalidate")
-  Call<ItemAccessTokenInvalidateResponse> itemAccessTokenInvalidate(@Body ItemAccessTokenInvalidateRequest request);
+  Call<ItemAccessTokenInvalidateResponse> itemAccessTokenInvalidate(
+    @Body ItemAccessTokenInvalidateRequest request);
 
   @POST("/item/remove")
   Call<ItemRemoveResponse> itemRemove(@Body ItemRemoveRequest request);
@@ -147,16 +156,20 @@ public interface PlaidApiService {
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   @POST("/sandbox/item/fire_webhook")
-  Call<SandboxItemFireWebhookResponse> sandboxItemFireWebhook(@Body SandboxItemFireWebhookRequest request);
+  Call<SandboxItemFireWebhookResponse> sandboxItemFireWebhook(
+    @Body SandboxItemFireWebhookRequest request);
 
   @POST("/sandbox/item/reset_login")
-  Call<SandboxItemResetLoginResponse> sandboxItemResetLogin(@Body SandboxItemResetLoginRequest request);
+  Call<SandboxItemResetLoginResponse> sandboxItemResetLogin(
+    @Body SandboxItemResetLoginRequest request);
 
   @POST("/sandbox/item/set_verification_status")
-  Call<SandboxItemSetVerificationStatusResponse> sandboxItemSetVerificationStatus(@Body SandboxItemSetVerificationStatusRequest request);
+  Call<SandboxItemSetVerificationStatusResponse> sandboxItemSetVerificationStatus(
+    @Body SandboxItemSetVerificationStatusRequest request);
 
   @POST("/sandbox/public_token/create")
-  Call<SandboxPublicTokenCreateResponse> sandboxPublicTokenCreate(@Body SandboxPublicTokenCreateRequest request);
+  Call<SandboxPublicTokenCreateResponse> sandboxPublicTokenCreate(
+    @Body SandboxPublicTokenCreateRequest request);
 
   // products
   ////////////////////////////////////////////////////////
@@ -181,19 +194,24 @@ public interface PlaidApiService {
   Call<AssetReportRemoveResponse> assetReportRemove(@Body AssetReportRemoveRequest request);
 
   @POST("/asset_report/audit_copy/create")
-  Call<AssetReportAuditCopyCreateResponse> assetReportAuditCopyCreate(@Body AssetReportAuditCopyCreateRequest request);
+  Call<AssetReportAuditCopyCreateResponse> assetReportAuditCopyCreate(
+    @Body AssetReportAuditCopyCreateRequest request);
 
   @POST("/asset_report/audit_copy/remove")
-  Call<AssetReportAuditCopyRemoveResponse> assetReportAuditCopyRemove(@Body AssetReportAuditCopyRemoveRequest request);
+  Call<AssetReportAuditCopyRemoveResponse> assetReportAuditCopyRemove(
+    @Body AssetReportAuditCopyRemoveRequest request);
 
   @POST("/asset_report/audit_copy/get")
-  Call<AssetReportGetResponse> assetReportAuditCopyGet(@Body AssetReportAuditCopyGetRequest request);
+  Call<AssetReportGetResponse> assetReportAuditCopyGet(
+    @Body AssetReportAuditCopyGetRequest request);
 
   @POST("/asset_report/refresh")
-  Call<AssetReportCreateResponse> assetReportRefresh(@Body AssetReportRefreshRequest assetReportRefreshRequest);
+  Call<AssetReportCreateResponse> assetReportRefresh(
+    @Body AssetReportRefreshRequest assetReportRefreshRequest);
 
   @POST("/asset_report/filter")
-  Call<AssetReportCreateResponse> assetReportFilter(@Body AssetReportFilterRequest assetReportFilterRequest);
+  Call<AssetReportCreateResponse> assetReportFilter(
+    @Body AssetReportFilterRequest assetReportFilterRequest);
 
   @POST("/auth/get")
   Call<AuthGetResponse> authGet(@Body AuthGetRequest request);
@@ -205,7 +223,8 @@ public interface PlaidApiService {
   Call<DepositSwitchCreateResponse> depositSwitchCreate(@Body DepositSwitchCreateRequest request);
 
   @POST("/deposit_switch/token/create")
-  Call<DepositSwitchTokenCreateResponse> depositSwitchTokenCreate(@Body DepositSwitchTokenCreateRequest request);
+  Call<DepositSwitchTokenCreateResponse> depositSwitchTokenCreate(
+    @Body DepositSwitchTokenCreateRequest request);
 
   @POST("/identity/get")
   Call<IdentityGetResponse> identityGet(@Body IdentityGetRequest request);
@@ -214,10 +233,12 @@ public interface PlaidApiService {
   Call<IncomeGetResponse> incomeGet(@Body IncomeGetRequest request);
 
   @POST("/investments/holdings/get")
-  Call<InvestmentsHoldingsGetResponse> investmentsHoldingsGet(@Body InvestmentsHoldingsGetRequest request);
+  Call<InvestmentsHoldingsGetResponse> investmentsHoldingsGet(
+    @Body InvestmentsHoldingsGetRequest request);
 
   @POST("/investments/transactions/get")
-  Call<InvestmentsTransactionsGetResponse> investmentsTransactionsGet(@Body InvestmentsTransactionsGetRequest request);
+  Call<InvestmentsTransactionsGetResponse> investmentsTransactionsGet(
+    @Body InvestmentsTransactionsGetRequest request);
 
   @POST("/transactions/get")
   Call<TransactionsGetResponse> transactionsGet(@Body TransactionsGetRequest request);
@@ -271,5 +292,6 @@ public interface PlaidApiService {
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   @POST("/webhook_verification_key/get")
-  Call<WebhookVerificationKeyGetResponse> getWebhookVerificationKey(@Body WebhookVerificationKeyGetRequest request);
+  Call<WebhookVerificationKeyGetResponse> getWebhookVerificationKey(
+    @Body WebhookVerificationKeyGetRequest request);
 }
