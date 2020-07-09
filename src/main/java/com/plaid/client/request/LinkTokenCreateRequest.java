@@ -21,7 +21,7 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
   private String androidPackageName;
   private Map<String, SubtypeFilters> accountFilters;
   private LinkTokenCreateRequest.CrossAppItemAdd crossAppItemAdd;
-  private String paymentInitiation;
+  private PaymentInitiation paymentInitiation;
 
   public LinkTokenCreateRequest(
     User user,
@@ -99,9 +99,21 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
     private String targetApplicationToken;
     private String foreignId;
 
-    public CrossAppItemAdd(String targetApplicationToken, String foreignId) {
+    public CrossAppItemAdd(String targetApplicationToken) {
       this.targetApplicationToken = targetApplicationToken;
+    }
+
+    public CrossAppItemAdd withForeignID(String foreignId) {
       this.foreignId = foreignId;
+      return this;
+    }
+  }
+
+  public static class PaymentInitiation {
+    private String paymentId;
+
+    public PaymentInitiation(String paymentId) {
+      this.paymentId = paymentId;
     }
   }
 
@@ -165,7 +177,7 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
     return this;
   }
 
-  public LinkTokenCreateRequest withPaymentInitiation(String paymentInitiation) {
+  public LinkTokenCreateRequest withPaymentInitiation(PaymentInitiation paymentInitiation) {
     this.paymentInitiation = paymentInitiation;
     return this;
   }
