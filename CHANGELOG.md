@@ -1,3 +1,6 @@
+# 5.8.0
+- Add support for the `merchantName` field on `Transaction`
+
 # 5.7.0
 - Add remaining per-product `InstitutionStatus` fields
 - Add support for the `paymentChannel` field on `Transaction`

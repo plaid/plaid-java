@@ -36,6 +36,7 @@ public final class TransactionsGetResponse extends BaseResponse {
     private String categoryId;
     private String date;
     private Location location;
+    private String merchantName;
     private String name;
     private String originalDescription;
     private PaymentMeta paymentMeta;
@@ -74,6 +75,10 @@ public final class TransactionsGetResponse extends BaseResponse {
 
     public String getDate() {
       return date;
+    }
+
+    public String getMerchantName() {
+      return merchantName;
     }
 
     public String getName() {
