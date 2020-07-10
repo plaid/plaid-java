@@ -1,5 +1,5 @@
 # 6.0.0
-- Remove `public_key` from the library, becasue it is no longer needed by the API
+- [BREAKING] Remove `publicKey` from the library, becasue it is no longer needed by the API
 - Add support for the `/link/token/create` endpoint
 
 # 5.7.0
