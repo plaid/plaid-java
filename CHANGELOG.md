@@ -1,3 +1,7 @@
+# 6.0.0
+- Remove `public_key` from the library, becasue it is no longer needed by the API.
+- Add support for the `/link/token/create` endpoint
+
 # 5.7.0
 - Add remaining per-product `InstitutionStatus` fields
 - Add support for the `paymentChannel` field on `Transaction`
