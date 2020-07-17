@@ -26,11 +26,15 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
   public LinkTokenCreateRequest(
     User user,
     String clientName,
-    List<String> products
+    List<String> products,
+    List<String> countryCodes,
+    String language
   ) {
     this.user = user;
     this.clientName = clientName;
     this.products = products;
+    this.countryCodes = countryCodes;
+    this.language = language;
   }
 
   public static class SubtypeFilters {
@@ -129,16 +133,6 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
 
   public LinkTokenCreateRequest withProducts(List<String> products) {
     this.products = products;
-    return this;
-  }
-
-  public LinkTokenCreateRequest withCountryCodes(List<String> countryCodes) {
-    this.countryCodes = countryCodes;
-    return this;
-  }
-
-  public LinkTokenCreateRequest withLanguage(String language) {
-    this.language = language;
     return this;
   }
 

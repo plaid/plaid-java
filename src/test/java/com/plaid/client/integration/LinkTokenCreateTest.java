@@ -34,7 +34,9 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
         new LinkTokenCreateRequest(
           user,
           "very nice client name",
-          Collections.singletonList("auth"))).execute();
+          Collections.singletonList("auth"),
+          Collections.singletonList("US"),
+          "en")).execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getLinkToken());
@@ -57,9 +59,10 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
     LinkTokenCreateRequest request = new LinkTokenCreateRequest(
       user,
       "very nice client name",
-      Collections.singletonList("auth"))
-      .withCountryCodes(Collections.singletonList("US"))
-      .withLanguage("en")
+      Collections.singletonList("auth"),
+      Collections.singletonList("US"),
+      "en"
+    )
       .withWebhook("https://example.com/webhook")
       .withLinkCustomizationName("default")
       .withAccountFilters(accountFilters);
