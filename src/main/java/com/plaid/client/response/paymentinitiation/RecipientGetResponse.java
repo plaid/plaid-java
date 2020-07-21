@@ -11,8 +11,7 @@ public final class RecipientGetResponse extends BaseResponse {
   private String iban;
   private Address address;
   private Bacs bacs;
-
-
+  
   public Bacs getBacs() {
     return bacs;
   }

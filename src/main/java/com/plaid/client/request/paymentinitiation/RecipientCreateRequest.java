@@ -2,9 +2,12 @@ package com.plaid.client.request.paymentinitiation;
 
 import com.plaid.client.model.paymentinitiation.Address;
 import com.plaid.client.model.paymentinitiation.Bacs;
+import com.plaid.client.request.AssetReportCreateRequest;
 import com.plaid.client.request.common.BaseClientRequest;
 
 import java.util.List;
+
+import static com.plaid.client.internal.Util.notNull;
 
 /**
  * Request for the /payment_initiation/recipient/create endpoint.
@@ -15,22 +18,22 @@ public final class RecipientCreateRequest extends BaseClientRequest {
   private Address address;
   private Bacs bacs;
 
-  public RecipientCreateRequest(String name, String iban, Address address) {
+  public RecipientCreateRequest(String name) {
     this.name = name;
-    this.iban = iban;
-    this.address = address;
   }
 
-  public RecipientCreateRequest(String name, String iban, Address address, Bacs bacs) {
-    this.name = name;
-    this.bacs = bacs;
+  public RecipientCreateRequest withAddress(Address address) {
     this.address = address;
-    this.iban = iban;
+    return this;
   }
 
-  public RecipientCreateRequest(String name, Address address, Bacs bacs) {
-    this.name = name;
+  public RecipientCreateRequest withIban(String iban) {
+    this.iban = iban;
+    return this;
+  }
+
+  public RecipientCreateRequest withBacs(Bacs bacs) {
     this.bacs = bacs;
-    this.address = address;
+    return this;
   }
 }
