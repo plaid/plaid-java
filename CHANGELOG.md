@@ -1,6 +1,7 @@
 # 6.0.1
 - Alter required fields for `link/token/create` endpoint.
 - Downgrade okhttp3 version due to dependency management issue.
+- Add support for the `merchantName` field on `Transaction`
 
 # 6.0.0
 - [BREAKING] Remove `publicKey` from the library, because it is no longer needed by the API
