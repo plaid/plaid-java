@@ -18,7 +18,7 @@ public class RecipientListTest extends AbstractIntegrationTest {
   @Test
   public void testRecipientListSuccess() throws Exception {
 
-    Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipient(client());
+    Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipientWithIban(client());
     assertNotNull(createRecipientResponse.body().getRecipientId());
 
     Response<RecipientListResponse> listRecipientResponse =

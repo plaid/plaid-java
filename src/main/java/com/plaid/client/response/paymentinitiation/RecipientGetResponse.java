@@ -1,6 +1,7 @@
 package com.plaid.client.response.paymentinitiation;
 
 import com.plaid.client.model.paymentinitiation.Address;
+import com.plaid.client.model.paymentinitiation.Bacs;
 import com.plaid.client.response.BaseResponse;
 import java.util.List;
 
@@ -9,6 +10,16 @@ public final class RecipientGetResponse extends BaseResponse {
   private String name;
   private String iban;
   private Address address;
+  private Bacs bacs;
+
+
+  public Bacs getBacs() {
+    return bacs;
+  }
+
+  public void setBacs(Bacs bacs) {
+    this.bacs = bacs;
+  }
 
   public String getRecipientId() {
     return recipientId;
