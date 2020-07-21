@@ -21,7 +21,14 @@ public final class RecipientCreateRequest extends BaseClientRequest {
     this.address = address;
   }
 
-  public RecipientCreateRequest(String name, Bacs bacs, Address address) {
+  public RecipientCreateRequest(String name, String iban, Address address, Bacs bacs) {
+    this.name = name;
+    this.bacs = bacs;
+    this.address = address;
+    this.iban = iban;
+  }
+
+  public RecipientCreateRequest(String name, Address address, Bacs bacs) {
     this.name = name;
     this.bacs = bacs;
     this.address = address;

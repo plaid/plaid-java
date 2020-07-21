@@ -39,7 +39,19 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe", new Bacs("12345678", "01-02-03"), address);
+        new RecipientCreateRequest("John Doe", address, new Bacs("12345678", "01-02-03"));
+
+    Response<RecipientCreateResponse> response =
+        client.service().recipientCreate(recipientCreateRequest).execute();
+
+    return response;
+  }
+
+  public static Response<RecipientCreateResponse> createRecipientWithBacsAndIban(PlaidClient client) throws Exception {
+
+    Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
+    RecipientCreateRequest recipientCreateRequest =
+        new RecipientCreateRequest("John Doe", "GB33BUKB20201555555555", address, new Bacs("12345678", "01-02-03"));
 
     Response<RecipientCreateResponse> response =
         client.service().recipientCreate(recipientCreateRequest).execute();
@@ -57,6 +69,13 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
   @Test
   public void testRecipientCreateSuccessWithBacs() throws Exception {
     Response<RecipientCreateResponse> response = createRecipientWithBacs(client());
+    assertSuccessResponse(response);
+    assertNotNull(response.body().getRecipientId());
+  }
+
+  @Test
+  public void testRecipientCreateSuccessWithBacsAndIban() throws Exception {
+    Response<RecipientCreateResponse> response = createRecipientWithBacsAndIban(client());
     assertSuccessResponse(response);
     assertNotNull(response.body().getRecipientId());
   }
