@@ -19,7 +19,7 @@ public class PaymentCreateTest extends AbstractIntegrationTest {
    */
   public static Response<PaymentCreateResponse> createPayment(PlaidClient client) throws Exception {
 
-    Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipient(client);
+    Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipientWithIban(client);
     String recipientId = createRecipientResponse.body().getRecipientId();
     assertNotNull(recipientId);
 

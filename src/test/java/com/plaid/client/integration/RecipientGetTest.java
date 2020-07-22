@@ -15,9 +15,9 @@ import static org.junit.Assert.assertNotNull;
 public class RecipientGetTest extends AbstractIntegrationTest {
 
   @Test
-  public void testRecipientGetSuccess() throws Exception {
+  public void testRecipientGetSuccessWithIban() throws Exception {
 
-    Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipient(client());
+    Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipientWithIban(client());
     String recipientId = createRecipientResponse.body().getRecipientId();
     assertNotNull(recipientId);
 
@@ -27,6 +27,22 @@ public class RecipientGetTest extends AbstractIntegrationTest {
     assertNotNull(getRecipientResponse.body().getRecipientId());
     assertNotNull(getRecipientResponse.body().getName());
     assertNotNull(getRecipientResponse.body().getIban());
+    assertNotNull(getRecipientResponse.body().getAddress());
+  }
+
+  @Test
+  public void testRecipientGetSuccessWithBacs() throws Exception {
+
+    Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipientWithBacs(client());
+    String recipientId = createRecipientResponse.body().getRecipientId();
+    assertNotNull(recipientId);
+
+    Response<RecipientGetResponse> getRecipientResponse =
+        client().service().recipientGet(new RecipientGetRequest(recipientId)).execute();
+    assertSuccessResponse(getRecipientResponse);
+    assertNotNull(getRecipientResponse.body().getRecipientId());
+    assertNotNull(getRecipientResponse.body().getName());
+    assertNotNull(getRecipientResponse.body().getBacs());
     assertNotNull(getRecipientResponse.body().getAddress());
   }
 }
