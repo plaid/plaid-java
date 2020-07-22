@@ -40,7 +40,7 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe").withAddress(address).withBacs( new Bacs("12345678", "01-02-03"));
+        new RecipientCreateRequest("John Doe").withAddress(address).withBacs(new Bacs("12345678", "01-02-03"));
 
 
     Response<RecipientCreateResponse> response =
@@ -53,7 +53,7 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555").withAddress(address).withBacs( new Bacs("12345678", "01-02-03"));
+        new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555").withAddress(address).withBacs(new Bacs("12345678", "01-02-03"));
 
     Response<RecipientCreateResponse> response =
         client.service().recipientCreate(recipientCreateRequest).execute();

@@ -13,16 +13,8 @@ public class Bacs {
     return account;
   }
 
-  public void setAccount(String account) {
-    this.account = account;
-  }
-
   public String getSortCode() {
     return sortCode;
-  }
-
-  public void setSortCode(String sortCode) {
-    this.sortCode = sortCode;
   }
 
 }

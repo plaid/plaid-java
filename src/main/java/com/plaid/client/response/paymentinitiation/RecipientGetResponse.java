@@ -11,13 +11,9 @@ public final class RecipientGetResponse extends BaseResponse {
   private String iban;
   private Address address;
   private Bacs bacs;
-  
+
   public Bacs getBacs() {
     return bacs;
-  }
-
-  public void setBacs(Bacs bacs) {
-    this.bacs = bacs;
   }
 
   public String getRecipientId() {
