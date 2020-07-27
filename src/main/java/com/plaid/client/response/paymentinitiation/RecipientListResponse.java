@@ -6,7 +6,7 @@ import com.plaid.client.response.BaseResponse;
 
 import java.util.List;
 
-public final class RecipientListResponse extends BaseResponse {
+public class RecipientListResponse extends BaseResponse {
   private List<Recipient> recipients;
 
   public List<Recipient> getRecipients() {

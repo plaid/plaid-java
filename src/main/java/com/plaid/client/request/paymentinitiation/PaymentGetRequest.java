@@ -5,7 +5,7 @@ import com.plaid.client.request.common.BaseClientRequest;
 /**
  * Request for the /payment_initiation/payment/get endpoint.
  */
-public final class PaymentGetRequest extends BaseClientRequest {
+public class PaymentGetRequest extends BaseClientRequest {
   private String paymentId;
 
   public PaymentGetRequest(String paymentId) {

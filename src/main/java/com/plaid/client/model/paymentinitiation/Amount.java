@@ -1,6 +1,6 @@
 package com.plaid.client.model.paymentinitiation;
 
-public final class Amount {
+public class Amount {
   private String currency;
   private Double value;
 

@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.List;
 import java.util.Objects;
 
-public final class IdentityGetResponse extends BaseResponse {
+public class IdentityGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<AccountWithOwners> accounts;
 
@@ -16,7 +16,7 @@ public final class IdentityGetResponse extends BaseResponse {
     return accounts;
   }
 
-  public static final class AccountWithOwners extends Account {
+  public static class AccountWithOwners extends Account {
     private List<Identity> owners;
 
     public List<Identity> getOwners() {
@@ -24,7 +24,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Identity {
+  public static class Identity {
     private List<Address> addresses;
     private List<Email> emails;
     private List<String> names;
@@ -47,7 +47,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Address {
+  public static class Address {
     private AddressData data;
     private boolean primary;
 
@@ -78,7 +78,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public static final class AddressData {
+  public static class AddressData {
     private String street;
     private String city;
     private String region;
@@ -127,7 +127,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Email {
+  public static class Email {
     private String data;
     private boolean primary;
     private String type;
@@ -164,7 +164,7 @@ public final class IdentityGetResponse extends BaseResponse {
     }
   }
 
-  public static final class PhoneNumber {
+  public static class PhoneNumber {
     private String data;
     private boolean primary;
     private String type;

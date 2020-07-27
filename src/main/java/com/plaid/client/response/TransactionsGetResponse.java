@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Response object for /transactions/get endpoint.
  */
-public final class TransactionsGetResponse extends BaseResponse {
+public class TransactionsGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
   private List<Transaction> transactions;
@@ -27,7 +27,7 @@ public final class TransactionsGetResponse extends BaseResponse {
     return totalTransactions;
   }
 
-  public static final class Transaction {
+  public static class Transaction {
     private String accountId;
     private Double amount;
     private String isoCurrencyCode;
@@ -129,7 +129,7 @@ public final class TransactionsGetResponse extends BaseResponse {
       return paymentChannel;
     }
 
-    public static final class PaymentMeta {
+    public static class PaymentMeta {
       private String byOrderOf;
       private String payee;
       private String payer;
@@ -172,7 +172,7 @@ public final class TransactionsGetResponse extends BaseResponse {
       }
     }
 
-    public static final class Location {
+    public static class Location {
       private String address;
       private String city;
       private Double lat;

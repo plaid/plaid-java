@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Response object for /credit_details/get endpoint.
  */
-public final class CreditDetailsGetResponse extends BaseResponse {
+public class CreditDetailsGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
   private List<CreditDetail> creditDetails;
@@ -23,7 +23,7 @@ public final class CreditDetailsGetResponse extends BaseResponse {
     return creditDetails;
   }
 
-  public static final class CreditDetail {
+  public static class CreditDetail {
     private String accountId;
     private Aprs aprs;
     private Double lastPaymentAmount;
@@ -66,7 +66,7 @@ public final class CreditDetailsGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Aprs {
+  public static class Aprs {
     private Apr balanceTransfers;
     private Apr cashAdvances;
     private Apr purchases;
@@ -85,7 +85,7 @@ public final class CreditDetailsGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Apr {
+  public static class Apr {
     private Double apr;
     private Double balanceSubjectToApr;
     private Double interestChargeAmount;

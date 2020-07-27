@@ -2,7 +2,7 @@ package com.plaid.client.model.paymentinitiation;
 
 import com.plaid.client.model.paymentinitiation.Address;
 
-public final class Recipient {
+public class Recipient {
   private String recipientId;
   private String name;
   private String iban;

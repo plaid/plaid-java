@@ -7,7 +7,7 @@ import static com.plaid.client.internal.Util.notNull;
 /**
  * Request for the /deposit_switch/create endpoint.
  */
-public final class DepositSwitchCreateRequest extends BaseClientRequest {
+public class DepositSwitchCreateRequest extends BaseClientRequest {
   private String targetAccountId;
   private String targetAccessToken;
 

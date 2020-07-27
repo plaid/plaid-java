@@ -7,7 +7,7 @@ import java.util.List;
 
 import static com.plaid.client.internal.Util.notEmpty;
 
-public final class AuthGetRequest extends BaseAccessTokenRequest {
+public class AuthGetRequest extends BaseAccessTokenRequest {
   private Options options;
 
   public AuthGetRequest(String accessToken) {

@@ -11,7 +11,7 @@ import static com.plaid.client.internal.Util.notNull;
 /**
  * Request for the /item/import endpoint.
  */
-public final class ItemImportRequest extends BaseClientRequest {
+public class ItemImportRequest extends BaseClientRequest {
   private List<String> products;
   private Optional<Options> options = Optional.empty();
   private Map<String, String> userAuth;

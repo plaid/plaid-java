@@ -4,7 +4,7 @@ import com.plaid.client.model.paymentinitiation.Amount;
 
 import java.util.Date;
 
-public final class Payment {
+public class Payment {
   private String paymentId;
   private String paymentToken;
   private String reference;

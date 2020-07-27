@@ -5,7 +5,7 @@ import com.plaid.client.request.common.BaseAccessTokenRequest;
 /**
  * Request object for /credit_details/get.
  */
-public final class CreditDetailsGetRequest extends BaseAccessTokenRequest {
+public class CreditDetailsGetRequest extends BaseAccessTokenRequest {
   public CreditDetailsGetRequest(String accessToken) {
     super(accessToken);
   }

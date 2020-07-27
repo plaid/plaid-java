@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Response for /accounts/balance/get api call.
  */
-public final class AccountsBalanceGetResponse extends BaseResponse {
+public class AccountsBalanceGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
 

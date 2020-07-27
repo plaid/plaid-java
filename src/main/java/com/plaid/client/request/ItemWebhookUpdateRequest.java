@@ -5,7 +5,7 @@ import com.plaid.client.request.common.BaseAccessTokenRequest;
 /**
  * Request for /item/webhook/update endpoint.
  */
-public final class ItemWebhookUpdateRequest extends BaseAccessTokenRequest {
+public class ItemWebhookUpdateRequest extends BaseAccessTokenRequest {
   private String webhook;
 
   public ItemWebhookUpdateRequest(String accessToken, String webhook) {

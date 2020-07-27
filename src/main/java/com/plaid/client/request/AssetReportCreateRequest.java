@@ -7,7 +7,7 @@ import java.util.List;
 
 import static com.plaid.client.internal.Util.notNull;
 
-public final class AssetReportCreateRequest extends BaseClientRequest {
+public class AssetReportCreateRequest extends BaseClientRequest {
   private List<String> accessTokens;
   private Integer daysRequested;
   private Optional<Options> options = Optional.empty();

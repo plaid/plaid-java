@@ -1,6 +1,6 @@
 package com.plaid.client.response;
 
-public final class ItemGetResponse extends BaseResponse {
+public class ItemGetResponse extends BaseResponse {
   private ItemStatus item;
   private ItemStatusStatus status;
 

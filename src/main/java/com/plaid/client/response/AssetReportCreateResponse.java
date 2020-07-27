@@ -1,6 +1,6 @@
 package com.plaid.client.response;
 
-public final class AssetReportCreateResponse extends BaseResponse {
+public class AssetReportCreateResponse extends BaseResponse {
   private String assetReportToken;
   private String assetReportId;
 

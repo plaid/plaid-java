@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class InstitutionsSearchResponse extends BaseResponse {
+public class InstitutionsSearchResponse extends BaseResponse {
   private List<Institution> institutions;
 
   public List<Institution> getInstitutions() {

@@ -12,7 +12,7 @@ import static com.plaid.client.internal.Util.notEmpty;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class LiabilitiesGetRequest extends BaseAccessTokenRequest {
+public class LiabilitiesGetRequest extends BaseAccessTokenRequest {
   private Options options;
 
   public LiabilitiesGetRequest(String accessToken) {

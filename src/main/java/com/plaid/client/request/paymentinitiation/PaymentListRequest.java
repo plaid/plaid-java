@@ -5,7 +5,7 @@ import com.plaid.client.request.common.BaseClientRequest;
 /**
  * Request for the /payment_initiation/payment/list endpoint.
  */
-public final class PaymentListRequest extends BaseClientRequest {
+public class PaymentListRequest extends BaseClientRequest {
   private Integer count;
   private String cursor;
 

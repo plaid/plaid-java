@@ -7,7 +7,7 @@ import com.plaid.client.request.common.BaseAccessTokenRequest;
  *
  * @see <a href="https://plaid.com/docs/api/#TODO">https://plaid.com/docs/api/#TODO</a>
  */
-public final class SandboxItemFireWebhookRequest extends BaseAccessTokenRequest {
+public class SandboxItemFireWebhookRequest extends BaseAccessTokenRequest {
   private String webhookCode;
 
   public SandboxItemFireWebhookRequest(String accessToken, String webhookCode) {

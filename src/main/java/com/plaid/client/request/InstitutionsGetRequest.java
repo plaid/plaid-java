@@ -13,7 +13,7 @@ import static com.plaid.client.internal.Util.notNull;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class InstitutionsGetRequest extends BaseClientRequest {
+public class InstitutionsGetRequest extends BaseClientRequest {
   private Integer count;
   private Integer offset;
   private Options options;

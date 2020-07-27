@@ -2,7 +2,7 @@ package com.plaid.client.response.depositswitch;
 
 import com.plaid.client.response.BaseResponse;
 
-public final class DepositSwitchGetResponse extends BaseResponse {
+public class DepositSwitchGetResponse extends BaseResponse {
   private String depositSwitchId;
   private String targetItemId;
   private String targetAccountId;

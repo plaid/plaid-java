@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Request for the /item/add_token/create endpoint.
  */
-public final class ItemAddTokenCreateRequest extends BaseClientRequest {
+public class ItemAddTokenCreateRequest extends BaseClientRequest {
   private User user;
 
   public ItemAddTokenCreateRequest(User user) {

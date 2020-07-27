@@ -2,7 +2,7 @@ package com.plaid.client.response;
 
 import java.util.List;
 
-public final class AuthGetResponse extends BaseResponse {
+public class AuthGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
   private Numbers numbers;
@@ -101,7 +101,7 @@ public final class AuthGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Numbers {
+  public static class Numbers {
     private List<NumberACH> ach;
     private List<NumberEFT> eft;
     private List<NumberInternational> international;

@@ -2,7 +2,7 @@ package com.plaid.client.model.paymentinitiation;
 
 import java.util.List;
 
-public final class Address {
+public class Address {
   private List<String> street;
   private String city;
   private String postalCode;

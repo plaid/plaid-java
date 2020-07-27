@@ -5,7 +5,7 @@ import com.plaid.client.response.BaseResponse;
 
 import java.util.List;
 
-public final class PaymentListResponse extends BaseResponse {
+public class PaymentListResponse extends BaseResponse {
   private List<Payment> payments;
   private String nextCursor;
 

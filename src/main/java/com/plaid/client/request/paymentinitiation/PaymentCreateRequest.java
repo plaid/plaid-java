@@ -6,7 +6,7 @@ import com.plaid.client.model.paymentinitiation.Amount;
 /**
  * Request for the /payment_initiation/payment/create endpoint.
  */
-public final class PaymentCreateRequest extends BaseClientRequest {
+public class PaymentCreateRequest extends BaseClientRequest {
   private String recipientId;
   private String reference;
   private Amount amount;
