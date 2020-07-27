@@ -2,7 +2,7 @@ package com.plaid.client.response;
 
 import java.util.Date;
 
-public final class ItemStatusStatus {
+public class ItemStatusStatus {
   private ItemStatusHealth transactions;
   private ItemStatusHealth investments;
   private ItemStatusLastWebhook lastWebhook;
@@ -34,7 +34,7 @@ public final class ItemStatusStatus {
     }
   }
 
-  public static final class ItemStatusLastWebhook {
+  public static class ItemStatusLastWebhook {
     private Date sentAt;
     private String codeSent;
 

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Response object for /investments/transactions/get endpoint.
  */
-public final class InvestmentsTransactionsGetResponse extends BaseResponse {
+public class InvestmentsTransactionsGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
   private List<InvestmentTransaction> investmentTransactions;
@@ -34,7 +34,7 @@ public final class InvestmentsTransactionsGetResponse extends BaseResponse {
     return totalInvestmentTransactions;
   }
 
-  public static final class InvestmentTransaction {
+  public static class InvestmentTransaction {
     private String investmentTransactionId;
     private String accountId;
     private String securityId;

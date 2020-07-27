@@ -2,7 +2,7 @@ package com.plaid.client.response;
 
 import java.util.List;
 
-public final class InvestmentsHoldingsGetResponse extends BaseResponse {
+public class InvestmentsHoldingsGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
   private List<Holding> holdings;
@@ -24,7 +24,7 @@ public final class InvestmentsHoldingsGetResponse extends BaseResponse {
     return securities;
   }
 
-  public static final class Holding {
+  public static class Holding {
     private String accountId;
     private String securityId;
     private Double institutionValue;

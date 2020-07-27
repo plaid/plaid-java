@@ -5,7 +5,7 @@ import com.plaid.client.model.paymentinitiation.Bacs;
 import com.plaid.client.response.BaseResponse;
 import java.util.List;
 
-public final class RecipientGetResponse extends BaseResponse {
+public class RecipientGetResponse extends BaseResponse {
   private String recipientId;
   private String name;
   private String iban;

@@ -5,7 +5,7 @@ import com.plaid.client.request.common.BaseAccessTokenRequest;
 /**
  * Request object for /item/access_token/invalidate endpoint.
  */
-public final class ItemAccessTokenInvalidateRequest extends BaseAccessTokenRequest {
+public class ItemAccessTokenInvalidateRequest extends BaseAccessTokenRequest {
   public ItemAccessTokenInvalidateRequest(String accessToken) {
     super(accessToken);
   }

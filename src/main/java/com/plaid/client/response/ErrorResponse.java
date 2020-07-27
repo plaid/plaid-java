@@ -5,7 +5,7 @@ package com.plaid.client.response;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class ErrorResponse extends BaseResponse {
+public class ErrorResponse extends BaseResponse {
   /**
    * The error type.
    */

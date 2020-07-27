@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Response from /sandbox/item/fire_webhook endpoint.
  */
-public final class SandboxItemFireWebhookResponse extends BaseResponse {
+public class SandboxItemFireWebhookResponse extends BaseResponse {
   private boolean webhookFired;
 
   public boolean getWebhookFired() {

@@ -12,7 +12,7 @@ import static com.plaid.client.internal.Util.notNull;
 /**
  * Request for the /payment_initiation/recipient/create endpoint.
  */
-public final class RecipientCreateRequest extends BaseClientRequest {
+public class RecipientCreateRequest extends BaseClientRequest {
   private String name;
   private String iban;
   private Address address;

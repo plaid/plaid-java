@@ -1,13 +1,13 @@
 package com.plaid.client.response;
 
-public final class WebhookVerificationKeyGetResponse extends BaseResponse {
+public class WebhookVerificationKeyGetResponse extends BaseResponse {
   private WebhookVerificationKey key;
 
   public WebhookVerificationKey getKey() {
     return key;
   }
 
-  public static final class WebhookVerificationKey {
+  public static class WebhookVerificationKey {
     private String alg;
     private Long createdAt;
     private String crv;

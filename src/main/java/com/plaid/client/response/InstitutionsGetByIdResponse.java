@@ -5,7 +5,7 @@ package com.plaid.client.response;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class InstitutionsGetByIdResponse extends BaseResponse {
+public class InstitutionsGetByIdResponse extends BaseResponse {
   private Institution institution;
 
   public Institution getInstitution() {

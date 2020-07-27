@@ -5,5 +5,5 @@ package com.plaid.client.request;
  *
  * Mostly pointless. Just need to get gson to render an empty object.
  */
-public final class CategoriesGetRequest {
+public class CategoriesGetRequest {
 }

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Request for /transactions/get endpoint.
  */
-public final class TransactionsGetRequest extends BaseAccessTokenRequest {
+public class TransactionsGetRequest extends BaseAccessTokenRequest {
   @JsonAdapter(DateOnlyTypeAdapterFactory.class)
   private Date startDate;
   @JsonAdapter(DateOnlyTypeAdapterFactory.class)

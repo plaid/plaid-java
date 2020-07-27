@@ -25,7 +25,7 @@ public class AssetReportGetResponse extends BaseResponse {
     return this.warnings;
   }
 
-  public static final class AssetReport {
+  public static class AssetReport {
     private String assetReportId;
     private String clientReportId;
     private Date dateGenerated;
@@ -58,7 +58,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class User {
+  public static class User {
     private String clientUserId;
     private String firstName;
     private String middleName;
@@ -120,7 +120,7 @@ public class AssetReportGetResponse extends BaseResponse {
   }
 
   // The item object returned in an asset report
-  public static final class Item {
+  public static class Item {
     private String itemId;
     private String institutionName;
     private String institutionId;
@@ -168,7 +168,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Account {
+  public static class Account {
     private String accountId;
     private String mask;
     private String name;
@@ -254,7 +254,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Owner {
+  public static class Owner {
     private List<String> names;
     private List<PhoneNumber> phoneNumbers;
     private List<Email> emails;
@@ -297,7 +297,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Balance {
+  public static class Balance {
     private Double avaliable;
     private Double current;
     private String unofficialCurrencyCode;
@@ -340,7 +340,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class HistoricalBalance {
+  public static class HistoricalBalance {
     private Date date;
     private Double current;
     private String unofficialCurrencyCode;
@@ -383,7 +383,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Transaction {
+  public static class Transaction {
     private String accountId;
     private String transactionId;
     private Date date;
@@ -510,7 +510,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Warning {
+  public static class Warning {
     private String warningType;
     private String warningCode;
     private Cause cause;
@@ -528,7 +528,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Cause {
+  public static class Cause {
     private Error error;
     private String itemId;
 
@@ -541,7 +541,7 @@ public class AssetReportGetResponse extends BaseResponse {
     }
   }
 
-  public static final class Error {
+  public static class Error {
     private String errorType;
     private String errorCode;
     private String errorMessage;

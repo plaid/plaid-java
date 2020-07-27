@@ -2,7 +2,7 @@ package com.plaid.client.request;
 
 import com.plaid.client.request.common.BaseClientRequest;
 
-public final class AssetReportAuditCopyCreateRequest extends BaseClientRequest {
+public class AssetReportAuditCopyCreateRequest extends BaseClientRequest {
   private String assetReportToken;
   private String auditorId;
 

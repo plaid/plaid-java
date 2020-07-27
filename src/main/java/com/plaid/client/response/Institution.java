@@ -5,8 +5,8 @@ import com.plaid.client.request.common.Product;
 import java.sql.Timestamp;
 import java.util.List;
 
-public final class Institution {
-  public static final class Credential {
+public class Institution {
+  public static class Credential {
     private String label;
     private String name;
     private String type;
@@ -24,7 +24,7 @@ public final class Institution {
     }
   }
 
-  public static final class InstitutionStatusBreakdown {
+  public static class InstitutionStatusBreakdown {
     private Float success;
     private Float errorPlaid;
     private Float errorInstitution;
@@ -42,7 +42,7 @@ public final class Institution {
     }
   }
 
-  public static final class ItemLogins {
+  public static class ItemLogins {
     private String status;
     private Timestamp lastStatusChange;
     private InstitutionStatusBreakdown breakdown;
@@ -60,7 +60,7 @@ public final class Institution {
     }
   }
 
-  public static final class TransactionsUpdates {
+  public static class TransactionsUpdates {
     private String status;
     private Timestamp lastStatusChange;
     private InstitutionStatusBreakdown breakdown;
@@ -78,7 +78,7 @@ public final class Institution {
     }
   }
 
-  public static final class Auth {
+  public static class Auth {
     private String status;
     private Timestamp lastStatusChange;
     private InstitutionStatusBreakdown breakdown;
@@ -96,7 +96,7 @@ public final class Institution {
     }
   }
 
-  public static final class Balance {
+  public static class Balance {
     private String status;
     private Timestamp lastStatusChange;
     private InstitutionStatusBreakdown breakdown;
@@ -114,7 +114,7 @@ public final class Institution {
     }
   }
 
-  public static final class Identity {
+  public static class Identity {
     private String status;
     private Timestamp lastStatusChange;
     private InstitutionStatusBreakdown breakdown;
@@ -132,7 +132,7 @@ public final class Institution {
     }
   }
 
-  public static final class InstitutionStatus {
+  public static class InstitutionStatus {
     private ItemLogins itemLogins;
     private TransactionsUpdates transactionsUpdates;
     private Auth auth;
@@ -168,11 +168,11 @@ public final class Institution {
   private String name;
   private List<Product> products;
   private InstitutionStatus status;
-
   private String url;
   private String logo;
   private String primaryColor;
   private boolean oauth;
+  private List<String> routingNumbers;
 
   public String getUrl() {
     return url;
@@ -220,5 +220,9 @@ public final class Institution {
 
   public boolean getOAuth() {
     return oauth;
+  }
+
+  public List<String> getRoutingNumbers() {
+    return routingNumbers;
   }
 }

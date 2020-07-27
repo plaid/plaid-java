@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Response to /categories/get endpoint.
  */
-public final class CategoriesGetResponse extends BaseResponse {
+public class CategoriesGetResponse extends BaseResponse {
   private List<Category> categories;
 
   public List<Category> getCategories() {

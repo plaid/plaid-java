@@ -5,7 +5,7 @@ import com.plaid.client.request.common.Product;
 import java.util.Date;
 import java.util.List;
 
-public final class ItemStatus {
+public class ItemStatus {
   private List<Product> availableProducts;
   private List<Product> billedProducts;
   private ErrorResponse error;

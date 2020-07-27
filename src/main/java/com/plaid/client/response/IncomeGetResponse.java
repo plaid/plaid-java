@@ -2,7 +2,7 @@ package com.plaid.client.response;
 
 import java.util.List;
 
-public final class IncomeGetResponse extends BaseResponse {
+public class IncomeGetResponse extends BaseResponse {
   private ItemStatus item;
   private Income income;
 
@@ -14,7 +14,7 @@ public final class IncomeGetResponse extends BaseResponse {
     return income;
   }
 
-  public static final class Income {
+  public static class Income {
     private Float lastYearIncome;
     private Float lastYearIncomeBeforeTax;
     private Float projectedYearlyIncome;
@@ -52,7 +52,7 @@ public final class IncomeGetResponse extends BaseResponse {
     }
   }
 
-  public static final class IncomeStream {
+  public static class IncomeStream {
     private Float confidence;
     private Float days;
     private Float monthlyIncome;

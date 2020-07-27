@@ -42,7 +42,7 @@ public class Account {
     return verificationStatus;
   }
 
-  public static final class Balances {
+  public static class Balances {
     private Double available;
     private Double current;
     private Double limit;

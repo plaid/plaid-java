@@ -2,7 +2,7 @@ package com.plaid.client.response;
 
 import java.util.List;
 
-public final class AccountsGetResponse extends BaseResponse {
+public class AccountsGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
 

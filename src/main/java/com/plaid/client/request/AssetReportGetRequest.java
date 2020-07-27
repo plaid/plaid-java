@@ -2,7 +2,7 @@ package com.plaid.client.request;
 
 import com.plaid.client.request.common.BaseClientRequest;
 
-public final class AssetReportGetRequest extends BaseClientRequest {
+public class AssetReportGetRequest extends BaseClientRequest {
   private String assetReportToken;
   private boolean includeInsights = false;
 

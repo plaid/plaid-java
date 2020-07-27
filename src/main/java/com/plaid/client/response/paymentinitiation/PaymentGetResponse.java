@@ -5,7 +5,7 @@ import com.plaid.client.response.BaseResponse;
 
 import java.util.Date;
 
-public final class PaymentGetResponse extends BaseResponse {
+public class PaymentGetResponse extends BaseResponse {
   private String paymentId;
   private String paymentToken;
   private String reference;

@@ -17,7 +17,7 @@ import static com.plaid.client.internal.Util.notNull;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class InstitutionsSearchRequest extends BaseClientRequest {
+public class InstitutionsSearchRequest extends BaseClientRequest {
   private String query;
   private RequiredField<List<Product>> products = RequiredField.empty();
   private Options options;

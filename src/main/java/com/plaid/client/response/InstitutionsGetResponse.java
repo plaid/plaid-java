@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
-public final class InstitutionsGetResponse extends BaseResponse {
+public class InstitutionsGetResponse extends BaseResponse {
   private List<Institution> institutions;
   private Integer total;
 

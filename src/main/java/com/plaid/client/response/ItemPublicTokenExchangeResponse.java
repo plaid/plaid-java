@@ -1,6 +1,6 @@
 package com.plaid.client.response;
 
-public final class ItemPublicTokenExchangeResponse extends BaseResponse {
+public class ItemPublicTokenExchangeResponse extends BaseResponse {
   private String accessToken;
   private String itemId;
 

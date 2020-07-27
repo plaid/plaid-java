@@ -2,7 +2,7 @@ package com.plaid.client.response;
 
 import java.util.List;
 
-public final class LiabilitiesGetResponse extends BaseResponse {
+public class LiabilitiesGetResponse extends BaseResponse {
   private ItemStatus item;
   private List<Account> accounts;
   private Liabilities liabilities;
@@ -19,7 +19,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
     return liabilities;
   }
 
-  public static final class Liabilities {
+  public static class Liabilities {
     private List<StudentLoanLiability> student;
     private List<CreditCardLiability> credit;
 
@@ -33,7 +33,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
   }
 
   // StudentLoanLiability contains student loan liability data.
-  public static final class StudentLoanLiability {
+  public static class StudentLoanLiability {
     private String accountId;
     private String accountNumber;
     private List<String> disbursementDates;
@@ -163,7 +163,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
 
   // PslfStatus contains information about the student's eligibility in the
   // Public Service Loan Forgiveness program.
-  public static final class PslfStatus {
+  public static class PslfStatus {
     private String estimatedEligibilityDate;
     private Integer paymentsMade;
     private Integer paymentsRemaining;
@@ -182,7 +182,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
   }
 
   // StudentLoanServicerAddress is the address of the servicer.
-  public static final class StudentLoanServicerAddress {
+  public static class StudentLoanServicerAddress {
     private String city;
     private String country;
     private String postalCode;
@@ -211,7 +211,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
   }
 
   // StudentLoanStatus contains details about the status of the student loan.
-  public static final class StudentLoanStatus {
+  public static class StudentLoanStatus {
     private String type;
     private String endDate;
 
@@ -226,7 +226,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
 
   // StudentLoanRepaymentPlan contains details about the repayment plan of the
   // loan.
-  public static final class StudentLoanRepaymentPlan {
+  public static class StudentLoanRepaymentPlan {
     private String type;
     private String description;
 
@@ -240,7 +240,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
   }
 
   // CreditCardLiability contains credit card liability data.
-  public static final class CreditCardLiability {
+  public static class CreditCardLiability {
     private List<Apr> aprs;
     private String accountId;
     private Boolean isOverdue;
@@ -289,7 +289,7 @@ public final class LiabilitiesGetResponse extends BaseResponse {
   }
 
   // Apr contains APR data related to credit card liability.
-  public static final class Apr {
+  public static class Apr {
     private Double aprPercentage;
     private String aprType;
     private Double balanceSubjectToApr;
