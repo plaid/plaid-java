@@ -1,41 +1,57 @@
+# 7.0.0
+
+- [BREAKING] Add BACS support to `/recipient/create`
+- Remove unnecessary `final`s from classes
+- Adds support for `routingNumbers` field on `Institution`
+
 # 6.0.1
+
 - Alter required fields for `link/token/create` endpoint.
 - Downgrade okhttp3 version due to dependency management issue.
 - Add support for the `merchantName` field on `Transaction`
 
 # 6.0.0
+
 - [BREAKING] Remove `publicKey` from the library, because it is no longer needed by the API
 - Add support for the `/link/token/create` endpoint
 
 # 5.7.0
+
 - Add remaining per-product `InstitutionStatus` fields
 - Add support for the `paymentChannel` field on `Transaction`
 - Add support for the `/sandbox/item/set_verification_status` endpoint
 
 # 5.6.0
+
 - Add optional fields to the /item/add_token/create User object
 
 # 5.5.0
+
 - Add support for /item/add_token/create endpoint
 
 # 5.4.0
+
 - Add item status for the investment product.
 - Add transaction_code field to the Transaction object.
 
 # 5.3.0
+
 - Add support for [Transactions Refresh](https://plaid.com/docs/api/#transactions-refresh) endpoint: `/transactions/refresh`
 
 # 5.2.0
+
 - Add authorized_date field to Transactions object
 - Add support for webhook_verification
 - Add support for deposit switch endpoints
 
 # 5.1.5
+
 - Add support for UK Payment Initiation
 - Add VerificationStatus to Account object
 - Add consent expiration time to ItemStatus
 
 # 5.1.4
+
 - Add support for [Credit liabilities](https://plaid.com/docs/api/#liabilities).
 - Add support for Account subtype filtering in [Institution Search](https://plaid.com/docs/#institution-search).
 - Remove support for deprecated endpoint `/item/access_token/update_version`.

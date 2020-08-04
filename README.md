@@ -1,5 +1,4 @@
-plaid-java [![Circle CI](https://circleci.com/gh/plaid/plaid-java.svg?style=svg&circle-token=4ed876775bc0ac7fba18124bc835a9e82dab0c53)](https://circleci.com/gh/plaid/plaid-java) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
-==========
+# plaid-java [![Circle CI](https://circleci.com/gh/plaid/plaid-java.svg?style=svg&circle-token=4ed876775bc0ac7fba18124bc835a9e82dab0c53)](https://circleci.com/gh/plaid/plaid-java) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
 
 Java Bindings for the Plaid API (https://www.plaid.com/docs).
 
@@ -20,7 +19,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>6.0.1</version>
+  <version>7.0.0</version>
 </dependency>
 ```
 
@@ -28,11 +27,11 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 
 Each major version of `plaid-java` targets a specific version of the Plaid API:
 
-| API version | plaid-java release |
-| ----------- | ------------------ |
-| [`2019-05-29`][api-version-2019-05-29] (**latest**) | `5.x.x` |
-| [`2018-05-22`][api-version-2018-05-22] | `4.x.x` (and `3.x.x`) |
-| `2017-03-08` | `2.x.x` |
+| API version                                         | plaid-java release    |
+| --------------------------------------------------- | --------------------- |
+| [`2019-05-29`][api-version-2019-05-29] (**latest**) | `7.x.x`               |
+| [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
+| `2017-03-08`                                        | `2.x.x`               |
 
 For information about what has changed between versions and how to update your integration, head to the [version changelog][version-changelog].
 
@@ -84,6 +83,7 @@ try {
 ```
 
 ### Legacy API
+
 If you're looking for a Java client that works with the legacy Plaid API, use
 versions of `plaid-java` before `2.1.0`. The API and client are not backwards-compatible.
 
