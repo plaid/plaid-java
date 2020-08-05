@@ -43,7 +43,6 @@ public final class PlaidClient {
     new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
       .tlsVersions(TlsVersion.TLS_1_2)
       .build();
-  private static String headerVersion;
 
   private final PlaidApiService plaidApiService;
   private final Retrofit retrofit;
@@ -141,6 +140,7 @@ public final class PlaidClient {
 
     private String clientId;
     private String secret;
+    private GsonBuilder gsonBuilder;
 
     private Builder() {
       this.okHttpClientBuilder = new OkHttpClient.Builder()
@@ -149,6 +149,15 @@ public final class PlaidClient {
         .followSslRedirects(false)
         .addInterceptor(new PlaidApiHeadersInterceptor())
         .connectionSpecs(Collections.singletonList(CONNECTION_SPEC));
+      this.gsonBuilder = new GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory())
+        .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
+        .registerTypeAdapterFactory(new ImmutableListStripUnknownEnumsTypeAdapterFactory())
+        .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class,
+          new TransactionsBaseOptionsSerializer())
+        .registerTypeAdapter(InvestmentsTransactionsGetRequest.BaseOptions.class,
+          new InvestmentsTransactionsBaseOptionsSerializer());
     }
 
     /**
@@ -166,27 +175,16 @@ public final class PlaidClient {
         throw new IllegalArgumentException("must set a clientId and Secret.");
       }
 
+      gsonBuilder.registerTypeAdapterFactory(
+        new CredentialInjectingTypeAdapterFactory(clientId, secret));
       Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(baseUrl)
         .validateEagerly(true)
-        .addConverterFactory(GsonConverterFactory.create(buildGson()))
+        .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
         .client(buildOkHttpClient())
         .build();
 
       return new PlaidClient(retrofit.create(PlaidApiService.class), retrofit);
-    }
-
-    private Gson buildGson() {
-      return new GsonBuilder()
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        .registerTypeAdapterFactory(
-          new CredentialInjectingTypeAdapterFactory(clientId, secret))
-        .registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory())
-        .registerTypeAdapterFactory(new OptionalTypeAdapterFactory())
-        .registerTypeAdapterFactory(new ImmutableListStripUnknownEnumsTypeAdapterFactory())
-        .registerTypeAdapter(TransactionsGetRequest.BaseOptions.class, new TransactionsBaseOptionsSerializer())
-        .registerTypeAdapter(InvestmentsTransactionsGetRequest.BaseOptions.class, new InvestmentsTransactionsBaseOptionsSerializer())
-        .create();
     }
 
     private OkHttpClient buildOkHttpClient() {
@@ -262,7 +260,6 @@ public final class PlaidClient {
 
     /**
      * Generally, you should not need this!
-     * <p>
      * Direct access to the underlying OkHTTP client builder for advanced settings
      * like SSL, proxy, logging, and timeout options if needed.
      *
@@ -270,6 +267,17 @@ public final class PlaidClient {
      */
     public OkHttpClient.Builder okHttpClientBuilder() {
       return okHttpClientBuilder;
+    }
+
+    /**
+     * Generally, you should not need this!
+     * The built version of this gsonBuilder is passed into the OkHttp client at creation time.
+     *
+     * @return the underlying builder.
+     */
+
+    public GsonBuilder gsonBuilder() {
+      return gsonBuilder;
     }
 
     /**
