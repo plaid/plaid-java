@@ -1,3 +1,6 @@
+# 7.0.1
+- expose Gson builder on Plaid Client.
+
 # 7.0.0
 
 - [BREAKING] Add BACS support to `/recipient/create`
