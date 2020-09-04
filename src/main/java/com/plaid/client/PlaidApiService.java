@@ -1,12 +1,5 @@
 package com.plaid.client;
 
-import com.plaid.client.request.LinkTokenCreateRequest;
-import com.plaid.client.response.LinkTokenCreateResponse;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-
 import com.plaid.client.request.AccountsBalanceGetRequest;
 import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.AssetReportAuditCopyCreateRequest;
@@ -21,9 +14,6 @@ import com.plaid.client.request.AssetReportRemoveRequest;
 import com.plaid.client.request.AuthGetRequest;
 import com.plaid.client.request.CategoriesGetRequest;
 import com.plaid.client.request.CreditDetailsGetRequest;
-import com.plaid.client.request.depositswitch.DepositSwitchCreateRequest;
-import com.plaid.client.request.depositswitch.DepositSwitchGetRequest;
-import com.plaid.client.request.depositswitch.DepositSwitchTokenCreateRequest;
 import com.plaid.client.request.IdentityGetRequest;
 import com.plaid.client.request.IncomeGetRequest;
 import com.plaid.client.request.InstitutionsGetByIdRequest;
@@ -32,24 +22,19 @@ import com.plaid.client.request.InstitutionsSearchRequest;
 import com.plaid.client.request.InvestmentsHoldingsGetRequest;
 import com.plaid.client.request.InvestmentsTransactionsGetRequest;
 import com.plaid.client.request.ItemAccessTokenInvalidateRequest;
+import com.plaid.client.request.ItemAddTokenCreateRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemImportRequest;
-import com.plaid.client.request.ItemAddTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
 import com.plaid.client.request.ItemWebhookUpdateRequest;
 import com.plaid.client.request.LiabilitiesGetRequest;
-import com.plaid.client.request.paymentinitiation.PaymentCreateRequest;
-import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
-import com.plaid.client.request.paymentinitiation.PaymentListRequest;
-import com.plaid.client.request.paymentinitiation.PaymentTokenCreateRequest;
-import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
-import com.plaid.client.request.paymentinitiation.RecipientGetRequest;
-import com.plaid.client.request.paymentinitiation.RecipientListRequest;
+import com.plaid.client.request.LinkTokenCreateRequest;
+import com.plaid.client.request.LinkTokenGetRequest;
 import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxItemSetVerificationStatusRequest;
@@ -57,7 +42,6 @@ import com.plaid.client.request.SandboxPublicTokenCreateRequest;
 import com.plaid.client.request.TransactionsGetRequest;
 import com.plaid.client.request.TransactionsRefreshRequest;
 import com.plaid.client.request.WebhookVerificationKeyGetRequest;
-
 import com.plaid.client.response.AccountsBalanceGetResponse;
 import com.plaid.client.response.AccountsGetResponse;
 import com.plaid.client.response.AssetReportAuditCopyCreateResponse;
@@ -68,9 +52,6 @@ import com.plaid.client.response.AssetReportRemoveResponse;
 import com.plaid.client.response.AuthGetResponse;
 import com.plaid.client.response.CategoriesGetResponse;
 import com.plaid.client.response.CreditDetailsGetResponse;
-import com.plaid.client.response.depositswitch.DepositSwitchCreateResponse;
-import com.plaid.client.response.depositswitch.DepositSwitchGetResponse;
-import com.plaid.client.response.depositswitch.DepositSwitchTokenCreateResponse;
 import com.plaid.client.response.IdentityGetResponse;
 import com.plaid.client.response.IncomeGetResponse;
 import com.plaid.client.response.InstitutionsGetByIdResponse;
@@ -79,24 +60,19 @@ import com.plaid.client.response.InstitutionsSearchResponse;
 import com.plaid.client.response.InvestmentsHoldingsGetResponse;
 import com.plaid.client.response.InvestmentsTransactionsGetResponse;
 import com.plaid.client.response.ItemAccessTokenInvalidateResponse;
+import com.plaid.client.response.ItemAddTokenCreateResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemImportResponse;
-import com.plaid.client.response.ItemAddTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import com.plaid.client.response.ItemWebhookUpdateResponse;
 import com.plaid.client.response.LiabilitiesGetResponse;
-import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
-import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
-import com.plaid.client.response.paymentinitiation.PaymentListResponse;
-import com.plaid.client.response.paymentinitiation.PaymentTokenCreateResponse;
-import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
-import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
-import com.plaid.client.response.paymentinitiation.RecipientListResponse;
+import com.plaid.client.response.LinkTokenCreateResponse;
+import com.plaid.client.response.LinkTokenGetResponse;
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxItemSetVerificationStatusResponse;
@@ -104,6 +80,32 @@ import com.plaid.client.response.SandboxPublicTokenCreateResponse;
 import com.plaid.client.response.TransactionsGetResponse;
 import com.plaid.client.response.TransactionsRefreshResponse;
 import com.plaid.client.response.WebhookVerificationKeyGetResponse;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+import com.plaid.client.request.depositswitch.DepositSwitchCreateRequest;
+import com.plaid.client.request.depositswitch.DepositSwitchGetRequest;
+import com.plaid.client.request.depositswitch.DepositSwitchTokenCreateRequest;
+import com.plaid.client.request.paymentinitiation.PaymentCreateRequest;
+import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
+import com.plaid.client.request.paymentinitiation.PaymentListRequest;
+import com.plaid.client.request.paymentinitiation.PaymentTokenCreateRequest;
+import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
+import com.plaid.client.request.paymentinitiation.RecipientGetRequest;
+import com.plaid.client.request.paymentinitiation.RecipientListRequest;
+
+import com.plaid.client.response.depositswitch.DepositSwitchCreateResponse;
+import com.plaid.client.response.depositswitch.DepositSwitchGetResponse;
+import com.plaid.client.response.depositswitch.DepositSwitchTokenCreateResponse;
+import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
+import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
+import com.plaid.client.response.paymentinitiation.PaymentListResponse;
+import com.plaid.client.response.paymentinitiation.PaymentTokenCreateResponse;
+import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
+import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
+import com.plaid.client.response.paymentinitiation.RecipientListResponse;
 
 public interface PlaidApiService {
 
@@ -118,6 +120,9 @@ public interface PlaidApiService {
 
   @POST("/link/token/create")
   Call<LinkTokenCreateResponse> linkTokenCreate(@Body LinkTokenCreateRequest request);
+
+  @POST("/link/token/get")
+  Call<LinkTokenGetResponse> linkTokenGet(@Body LinkTokenGetRequest request);
 
   @POST("/item/public_token/exchange")
   Call<ItemPublicTokenExchangeResponse> itemPublicTokenExchange(
