@@ -8,6 +8,7 @@ import java.util.Map;
 public class LinkTokenGetResponse extends BaseResponse {
   private String linkToken;
   private Date expiration;
+  private Date createdAt;
   private LinkTokenMetadata metadata;
 
   public String getLinkToken() {
@@ -20,6 +21,10 @@ public class LinkTokenGetResponse extends BaseResponse {
 
   public LinkTokenMetadata getMetadata() {
     return metadata;
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
   }
 
   public static class LinkTokenMetadata {
