@@ -45,10 +45,14 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
       this.accountSubtypes = accountSubtypes;
     }
 
-    @Override public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      SubtypeFilters that = (SubtypeFilters) o;
+    @Override public boolean equals(Object other) {
+      if (this == other) {
+        return true;
+      }
+      if (other == null || getClass() != other.getClass()) {
+        return false;
+      }
+      SubtypeFilters that = (SubtypeFilters) other;
       return Objects.equals(accountSubtypes, that.accountSubtypes);
     }
 
