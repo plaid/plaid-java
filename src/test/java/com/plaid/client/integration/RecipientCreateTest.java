@@ -5,26 +5,25 @@ import com.plaid.client.model.paymentinitiation.Address;
 import com.plaid.client.model.paymentinitiation.Bacs;
 import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
-import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
+import java.util.Arrays;
 import org.junit.Test;
 import retrofit2.Response;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
 public class RecipientCreateTest extends AbstractIntegrationTest {
 
   /**
-   * Utility method that creates a payment recipient with an iban.
-   * Used by other integration tests to set up.
+   * Utility method that creates a payment recipient with an iban. Used by other integration tests
+   * to set up.
    */
-  public static Response<RecipientCreateResponse> createRecipientWithIban(PlaidClient client) throws Exception {
+  public static Response<RecipientCreateResponse> createRecipientWithIban(PlaidClient client)
+    throws Exception {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555").withAddress(address);
-
+      new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555")
+        .withAddress(address);
 
     Response<RecipientCreateResponse> response =
       client.service().recipientCreate(recipientCreateRequest).execute();
@@ -33,30 +32,34 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
   }
 
   /**
-   * Utility method that creates a payment recipient with bacs.
-   * Used by other integration tests to set up.
+   * Utility method that creates a payment recipient with bacs. Used by other integration tests to
+   * set up.
    */
-  public static Response<RecipientCreateResponse> createRecipientWithBacs(PlaidClient client) throws Exception {
+  public static Response<RecipientCreateResponse> createRecipientWithBacs(PlaidClient client)
+    throws Exception {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe").withAddress(address).withBacs(new Bacs("12345678", "01-02-03"));
-
+      new RecipientCreateRequest("John Doe").withAddress(address)
+        .withBacs(new Bacs("123456", "010203"));
 
     Response<RecipientCreateResponse> response =
-        client.service().recipientCreate(recipientCreateRequest).execute();
+      client.service().recipientCreate(recipientCreateRequest).execute();
 
     return response;
   }
 
-  public static Response<RecipientCreateResponse> createRecipientWithBacsAndIban(PlaidClient client) throws Exception {
+  public static Response<RecipientCreateResponse> createRecipientWithBacsAndIban(PlaidClient client)
+    throws Exception {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555").withAddress(address).withBacs(new Bacs("12345678", "01-02-03"));
+      new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555")
+        .withAddress(address)
+        .withBacs(new Bacs("12345678", "010203"));
 
     Response<RecipientCreateResponse> response =
-        client.service().recipientCreate(recipientCreateRequest).execute();
+      client.service().recipientCreate(recipientCreateRequest).execute();
 
     return response;
   }

@@ -7,6 +7,7 @@ import com.plaid.client.request.common.BaseClientRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class LinkTokenCreateRequest extends BaseClientRequest {
   private User user;
@@ -39,10 +40,24 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
 
   public static class SubtypeFilters {
     private List<String> accountSubtypes;
-    private List<String> subtypes;
 
     public SubtypeFilters(List<String> accountSubtypes) {
       this.accountSubtypes = accountSubtypes;
+    }
+
+    @Override public boolean equals(Object other) {
+      if (this == other) {
+        return true;
+      }
+      if (other == null || getClass() != other.getClass()) {
+        return false;
+      }
+      SubtypeFilters that = (SubtypeFilters) other;
+      return Objects.equals(accountSubtypes, that.accountSubtypes);
+    }
+
+    @Override public int hashCode() {
+      return Objects.hash(accountSubtypes);
     }
   }
 
