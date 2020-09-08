@@ -5,11 +5,9 @@ import com.plaid.client.model.paymentinitiation.Address;
 import com.plaid.client.model.paymentinitiation.Bacs;
 import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
-import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
+import java.util.Arrays;
 import org.junit.Test;
 import retrofit2.Response;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -40,7 +38,7 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe").withAddress(address).withBacs(new Bacs("12345678", "01-02-03"));
+        new RecipientCreateRequest("John Doe").withAddress(address).withBacs(new Bacs("123456", "01-02-03"));
 
 
     Response<RecipientCreateResponse> response =
@@ -53,7 +51,7 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
 
     Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
     RecipientCreateRequest recipientCreateRequest =
-        new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555").withAddress(address).withBacs(new Bacs("12345678", "01-02-03"));
+        new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555").withAddress(address).withBacs(new Bacs("123456", "01-02-03"));
 
     Response<RecipientCreateResponse> response =
         client.service().recipientCreate(recipientCreateRequest).execute();
