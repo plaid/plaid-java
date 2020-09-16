@@ -48,6 +48,7 @@ public class InvestmentsTransactionsGetResponse extends BaseResponse {
     private String isoCurrencyCode;
     private String unofficialCurrencyCode;
     private String cancelTransactionId;
+    private String subtype;
 
     public String getInvestmentTransactionId() {
       return investmentTransactionId;
