@@ -101,5 +101,9 @@ public class InvestmentsTransactionsGetResponse extends BaseResponse {
     public String getCancelTransactionId() {
       return cancelTransactionId;
     }
+    
+    public String getSubtype() {
+      return subtype; 
+    }
   }
 }

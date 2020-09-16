@@ -83,6 +83,7 @@ public class InvestmentsTransactionsGetTest extends AbstractIntegrationTest {
       assertNotNull(txn.getAmount());
       assertNotNull(txn.getType());
       assertNotNull(txn.getIsoCurrencyCode());
+      assertNotNull(txn.getSubtype());
     }
 
     List<Security> securities = response.body().getSecurities();
