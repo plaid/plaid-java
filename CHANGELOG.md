@@ -1,4 +1,10 @@
+## 7.1.0
+
+- Add support for Link Token get endpoint ([#239](https://github.com/plaid/plaid-java/pull/239))
+  - `/link/token/get`
+
 # 7.0.1
+
 - expose Gson builder on Plaid Client.
 
 # 7.0.0
