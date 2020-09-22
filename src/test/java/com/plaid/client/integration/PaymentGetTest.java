@@ -21,6 +21,18 @@ public class PaymentGetTest extends AbstractIntegrationTest {
     String paymentId = createPaymentResponse.body().getPaymentId();
     assertNotNull(paymentId);
 
+    String clientUserId = Long.toString((new Date()).getTime());
+    LinkTokenCreateRequest.User user = new LinkTokenCreateRequest.User(clientUserId);
+    Response<LinkTokenCreateResponse> response = client().service().linkTokenCreate(
+      new LinkTokenCreateRequest(
+        user,
+        "client name",
+        Collections.singletonList("auth"),
+        Collections.singletonList("US"),
+        "en",
+      )
+        .withPaymentInitiation(new LinkTokenCreateRequest.PaymentInitiation(paymentId))
+    ).execute();
     Response<PaymentTokenCreateResponse> createPaymentTokenResponse =
       client().service().paymentTokenCreate(new PaymentTokenCreateRequest(paymentId)).execute();
     assertSuccessResponse(createPaymentTokenResponse);
@@ -34,6 +46,5 @@ public class PaymentGetTest extends AbstractIntegrationTest {
     assertNotNull(getPaymentResponse.body().getStatus());
     assertNotNull(getPaymentResponse.body().getLastStatusUpdate());
     assertNotNull(getPaymentResponse.body().getRecipientId());
-    assertNotNull(getPaymentResponse.body().getPaymentToken());
   }
 }

@@ -29,6 +29,5 @@ public class ItemRemoveTest extends AbstractItemIntegrationTest {
     ).execute();
 
     assertSuccessResponse(response);
-    assertTrue(response.body().getRemoved());
   }
 }
