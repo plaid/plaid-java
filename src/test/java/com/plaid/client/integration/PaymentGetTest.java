@@ -27,7 +27,7 @@ public class PaymentGetTest extends AbstractIntegrationTest {
       new LinkTokenCreateRequest(
         user,
         "client name",
-        Collections.singletonList("auth"),
+        Collections.singletonList("payment_initiation"),
         Collections.singletonList("US"),
         "en",
       )
