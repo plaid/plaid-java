@@ -22,12 +22,6 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertSuccessResponse(response);
 
     Institution institution = response.body().getInstitution();
-    assertFalse(institution.getCredentials().isEmpty());
-    for (Institution.Credential c : institution.getCredentials()) {
-      assertNotNull(c.getLabel());
-      assertNotNull(c.getType());
-      assertNotNull(c.getName());
-    }
     assertIsTartanBank(institution);
   }
 
@@ -42,13 +36,6 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertSuccessResponse(response);
 
     Institution institution = response.body().getInstitution();
-    assertFalse(institution.getCredentials().isEmpty());
-    for (Institution.Credential c : institution.getCredentials()) {
-      assertNotNull(c.getLabel());
-      assertNotNull(c.getType());
-      assertNotNull(c.getName());
-    }
-
     assertIsTartanBank(institution);
 
     assertEquals("https://www.plaid.com/", institution.getUrl());
@@ -66,13 +53,6 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertSuccessResponse(response);
 
     Institution institution = response.body().getInstitution();
-    assertFalse(institution.getCredentials().isEmpty());
-    for (Institution.Credential c : institution.getCredentials()) {
-      assertNotNull(c.getLabel());
-      assertNotNull(c.getType());
-      assertNotNull(c.getName());
-    }
-
     assertIsTartanBank(institution);
 
     assertEquals(null, institution.getUrl());
@@ -113,9 +93,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   }
 
   private void assertIsTartanBank(Institution institution) {
-    assertTrue(institution.hasMfa());
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
-    assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("Tartan Bank", institution.getName());
     assertEquals(Arrays.asList(
       Product.ASSETS,
@@ -133,9 +111,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   }
 
   private void assertIsFirstPlatypusBank(Institution institution) {
-    assertTrue(institution.hasMfa());
     assertEquals(FIRST_PLATYPUS_BANK_INSTITUTION_ID, institution.getInstitutionId());
-    assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("First Platypus Bank", institution.getName());
     assertEquals(Arrays.asList(
       Product.ASSETS,
