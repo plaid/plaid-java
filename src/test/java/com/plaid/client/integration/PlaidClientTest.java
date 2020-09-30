@@ -6,13 +6,15 @@ import com.plaid.client.response.InstitutionsSearchResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class PlaidClientTest extends AbstractIntegrationTest {
 
   @Test
   public void testFailedRequest() throws Exception {
-    Response<InstitutionsSearchResponse> resp = client().service().institutionsSearch(new InstitutionsSearchRequest("")).execute();
+    Response<InstitutionsSearchResponse> resp = client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("US"), "")).execute();
 
     assertFalse(resp.isSuccessful());
 

@@ -4,11 +4,13 @@ import com.plaid.client.request.InstitutionsSearchRequest;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 
 public class PlaidClientBuilderTest {
-  private static final InstitutionsSearchRequest INSTITUTIONS_SEARCH_REQUEST = new InstitutionsSearchRequest("q");
+  private static final InstitutionsSearchRequest INSTITUTIONS_SEARCH_REQUEST = new InstitutionsSearchRequest(Arrays.asList("US"), "q");
   private static final String CLIENT_ID = "theclientid";
   private static final String SECRET = "thesecret";
 

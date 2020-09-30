@@ -9,6 +9,7 @@ import org.junit.Test;
 import retrofit2.Response;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +17,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID))
+      institutionsGetById(new InstitutionsGetByIdRequest(Arrays.asList("US"), TARTAN_BANK_INSTITUTION_ID))
       .execute();
 
     assertSuccessResponse(response);
@@ -35,7 +36,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
     Response<InstitutionsGetByIdResponse> response =
       client().service().institutionsGetById(
-        new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeOptionalMetadata(
+        new InstitutionsGetByIdRequest(Arrays.asList("US"), TARTAN_BANK_INSTITUTION_ID).withIncludeOptionalMetadata(
           true))
         .execute();
 
@@ -59,7 +60,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(Arrays.asList("US"), TARTAN_BANK_INSTITUTION_ID).
         withIncludeOptionalMetadata(false))
       .execute();
 
@@ -83,7 +84,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeStatusTrue() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(FIRST_PLATYPUS_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(Arrays.asList("US"), FIRST_PLATYPUS_BANK_INSTITUTION_ID).
         withIncludeStatus(true))
       .execute();
 
@@ -101,7 +102,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeStatusFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(Arrays.asList("US"), TARTAN_BANK_INSTITUTION_ID).
         withIncludeStatus(false))
       .execute();
 
@@ -155,7 +156,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testInvalidInstitution() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().institutionsGetById(
-      new InstitutionsGetByIdRequest("notreal"))
+      new InstitutionsGetByIdRequest(Arrays.asList("US"), "notreal"))
       .execute();
 
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_INSTITUTION");

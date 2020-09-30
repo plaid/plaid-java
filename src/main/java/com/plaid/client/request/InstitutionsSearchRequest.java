@@ -18,12 +18,16 @@ import static com.plaid.client.internal.Util.notNull;
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
 public class InstitutionsSearchRequest extends BaseClientRequest {
+  private List<String> countryCodes;
   private String query;
   private RequiredField<List<Product>> products = RequiredField.empty();
   private Options options;
 
-  public InstitutionsSearchRequest(String query) {
+  public InstitutionsSearchRequest(List<String> countryCodes, String query) {
+    notEmpty(countryCodes, "countryCodes");
     notNull(query, "query");
+    
+    this.countryCodes = countryCodes;
     this.query = query;
   }
 
@@ -41,14 +45,6 @@ public class InstitutionsSearchRequest extends BaseClientRequest {
       this.options = new Options();
     }
     this.options.includeOptionalMetadata = includeOptionalMetadata;
-    return this;
-  }
-
-  public InstitutionsSearchRequest withCountryCodes(List<String> countryCodes) {
-    if (this.options == null) {
-      this.options = new Options();
-    }
-    this.options.countryCodes = countryCodes;
     return this;
   }
 
@@ -70,7 +66,6 @@ public class InstitutionsSearchRequest extends BaseClientRequest {
 
   private static class Options {
     private boolean includeOptionalMetadata;
-    private List<String> countryCodes;
     private Map<String, List<String>> accountFilter;
     private Boolean oauth;
   }

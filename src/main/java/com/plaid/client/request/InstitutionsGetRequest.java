@@ -6,7 +6,7 @@ import com.plaid.client.request.common.Product;
 import java.util.List;
 
 import static com.plaid.client.internal.Util.isBetween;
-import static com.plaid.client.internal.Util.notNull;
+import static com.plaid.client.internal.Util.notEmpty;
 
 /**
  * Request for the /institutions/get endpoint.
@@ -14,14 +14,17 @@ import static com.plaid.client.internal.Util.notNull;
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
 public class InstitutionsGetRequest extends BaseClientRequest {
+  private List<String> countryCodes;
   private Integer count;
   private Integer offset;
   private Options options;
 
-  public InstitutionsGetRequest(Integer count, Integer offset) {
+  public InstitutionsGetRequest(List<String> countryCodes, Integer count, Integer offset) {
+    notEmpty(countryCodes, "countryCodes");
     isBetween(count, 1, 500, "count");
     isBetween(offset, 0, Integer.MAX_VALUE, "offset");
 
+    this.countryCodes = countryCodes;
     this.count = count;
     this.offset = offset;
   }
@@ -42,14 +45,6 @@ public class InstitutionsGetRequest extends BaseClientRequest {
     return this;
   }
 
-  public InstitutionsGetRequest withCountryCodes(List<String> countryCodes) {
-    if (this.options == null) {
-      this.options = new Options();
-    }
-    this.options.countryCodes = countryCodes;
-    return this;
-  }
-
   public InstitutionsGetRequest withOAuth(boolean oauth) {
     if (this.options == null) {
       this.options = new Options();
@@ -61,7 +56,6 @@ public class InstitutionsGetRequest extends BaseClientRequest {
   private static class Options {
     private List<Product> products;
     private boolean includeOptionalMetadata;
-    private List<String> countryCodes;
     private Boolean oauth;
   }
 }

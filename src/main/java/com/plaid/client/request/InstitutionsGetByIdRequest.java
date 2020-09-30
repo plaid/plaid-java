@@ -2,7 +2,10 @@ package com.plaid.client.request;
 
 import com.plaid.client.request.common.BaseClientRequest;
 
+import static com.plaid.client.internal.Util.notEmpty;
 import static com.plaid.client.internal.Util.notNull;
+
+import java.util.List;
 
 /**
  * Request for the /institutions/get_by_id endpoint.
@@ -10,12 +13,15 @@ import static com.plaid.client.internal.Util.notNull;
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
 public class InstitutionsGetByIdRequest extends BaseClientRequest {
+  private List<String> countryCodes;
   private String institutionId;
   private Options options;
 
-  public InstitutionsGetByIdRequest(String institutionId) {
+  public InstitutionsGetByIdRequest(List<String> countryCodes, String institutionId) {
+    notEmpty(countryCodes, "countryCodes");
     notNull(institutionId, "institutionId");
 
+    this.countryCodes = countryCodes;
     this.institutionId = institutionId;
   }
 

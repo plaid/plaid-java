@@ -21,7 +21,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("t").withProducts(Product.IDENTITY)).execute();
+      client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("US"), "t").withProducts(Product.IDENTITY)).execute();
 
     assertSuccessResponse(response);
   }
@@ -29,7 +29,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
     Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withIncludeOptionalMetadata(true)).execute();
+        client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("US"), "t").withIncludeOptionalMetadata(true)).execute();
 
     assertSuccessResponse(response);
 
@@ -41,7 +41,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
     Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withIncludeOptionalMetadata(false)).execute();
+        client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("US"), "t").withIncludeOptionalMetadata(false)).execute();
 
     assertSuccessResponse(response);
 
@@ -52,25 +52,12 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   }
 
   @Test
-  public void testSuccessWithCountryCodes() throws Exception {
-    Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("t").withCountryCodes(Arrays.asList("US"))).execute();
-
-    assertSuccessResponse(response);
-
-    InstitutionsSearchResponse institutionsSearchResponse = response.body();
-
-    assertEquals(institutionsSearchResponse.getInstitutions().get(0).getCountryCodes(), Arrays.asList("US"));
-  }
-
-  @Test
   public void testSuccessWithAccountFilter() throws Exception {
     Map<String, List<String>> accountFilter = new HashMap<>();
     accountFilter.put("loan", Arrays.asList("student"));
 
     Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("wells")
-          .withCountryCodes(Arrays.asList("US"))
+        client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("US"), "wells")
           .withAccountFilter(accountFilter)
           .withProducts(Product.LIABILITIES)
         ).execute();
@@ -83,7 +70,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithOAuth() throws Exception {
     Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank").withCountryCodes(Arrays.asList("GB")).withOAuth(true)).execute();
+      client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("GB"), "Bank").withOAuth(true)).execute();
     assertSuccessResponse(response);
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
     assertTrue(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
@@ -92,7 +79,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithoutOAuth() throws Exception {
     Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank").withCountryCodes(Arrays.asList("GB")).withOAuth(false)).execute();
+      client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("GB"), "Bank").withOAuth(false)).execute();
     assertSuccessResponse(response);
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
     assertFalse(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
@@ -101,7 +88,7 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   @Test
   public void testNoResults() throws Exception {
     Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("zebra")).execute();
+      client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("US"), "zebra")).execute();
 
     assertSuccessResponse(response);
     assertEquals(0, response.body().getInstitutions().size());
