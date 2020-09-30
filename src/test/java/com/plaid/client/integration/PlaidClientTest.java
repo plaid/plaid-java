@@ -14,7 +14,7 @@ public class PlaidClientTest extends AbstractIntegrationTest {
 
   @Test
   public void testFailedRequest() throws Exception {
-    Response<InstitutionsSearchResponse> resp = client().service().institutionsSearch(new InstitutionsSearchRequest(Arrays.asList("US"), "")).execute();
+    Response<InstitutionsSearchResponse> resp = client().service().institutionsSearch(new InstitutionsSearchRequest("", Arrays.asList("US"))).execute();
 
     assertFalse(resp.isSuccessful());
 

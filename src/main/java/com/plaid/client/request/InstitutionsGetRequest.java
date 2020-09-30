@@ -14,19 +14,19 @@ import static com.plaid.client.internal.Util.notEmpty;
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
 public class InstitutionsGetRequest extends BaseClientRequest {
-  private List<String> countryCodes;
   private Integer count;
   private Integer offset;
+  private List<String> countryCodes;
   private Options options;
 
-  public InstitutionsGetRequest(List<String> countryCodes, Integer count, Integer offset) {
-    notEmpty(countryCodes, "countryCodes");
+  public InstitutionsGetRequest(Integer count, Integer offset, List<String> countryCodes) {
     isBetween(count, 1, 500, "count");
     isBetween(offset, 0, Integer.MAX_VALUE, "offset");
+    notEmpty(countryCodes, "countryCodes");
 
-    this.countryCodes = countryCodes;
     this.count = count;
     this.offset = offset;
+    this.countryCodes = countryCodes;
   }
 
   public InstitutionsGetRequest withProducts(List<Product> products) {

@@ -18,17 +18,17 @@ import static com.plaid.client.internal.Util.notNull;
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
 public class InstitutionsSearchRequest extends BaseClientRequest {
-  private List<String> countryCodes;
   private String query;
   private RequiredField<List<Product>> products = RequiredField.empty();
+  private List<String> countryCodes;
   private Options options;
 
-  public InstitutionsSearchRequest(List<String> countryCodes, String query) {
-    notEmpty(countryCodes, "countryCodes");
+  public InstitutionsSearchRequest(String query, List<String> countryCodes) {
     notNull(query, "query");
-    
-    this.countryCodes = countryCodes;
+    notEmpty(countryCodes, "countryCodes");
+
     this.query = query;
+    this.countryCodes = countryCodes;
   }
 
   public InstitutionsSearchRequest withProducts(Product... products) {

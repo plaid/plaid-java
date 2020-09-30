@@ -13,16 +13,16 @@ import java.util.List;
  * @see <a href="https://plaid.com/docs/api/">https://plaid.com/docs/api</a>
  */
 public class InstitutionsGetByIdRequest extends BaseClientRequest {
-  private List<String> countryCodes;
   private String institutionId;
+  private List<String> countryCodes;
   private Options options;
 
-  public InstitutionsGetByIdRequest(List<String> countryCodes, String institutionId) {
-    notEmpty(countryCodes, "countryCodes");
+  public InstitutionsGetByIdRequest(String institutionId, List<String> countryCodes) {
     notNull(institutionId, "institutionId");
+    notEmpty(countryCodes, "countryCodes");
 
-    this.countryCodes = countryCodes;
     this.institutionId = institutionId;
+    this.countryCodes = countryCodes;
   }
 
   public InstitutionsGetByIdRequest withIncludeOptionalMetadata(boolean includeOptionalMetadata) {

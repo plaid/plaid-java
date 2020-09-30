@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 
 public class PlaidClientBuilderTest {
-  private static final InstitutionsSearchRequest INSTITUTIONS_SEARCH_REQUEST = new InstitutionsSearchRequest(Arrays.asList("US"), "q");
+  private static final InstitutionsSearchRequest INSTITUTIONS_SEARCH_REQUEST = new InstitutionsSearchRequest("q", Arrays.asList("US"));
   private static final String CLIENT_ID = "theclientid";
   private static final String SECRET = "thesecret";
 

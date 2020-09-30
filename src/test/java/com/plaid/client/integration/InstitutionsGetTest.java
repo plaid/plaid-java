@@ -20,8 +20,8 @@ import retrofit2.Response;
 public class InstitutionsGetTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
-    Response<InstitutionsGetResponse> response =
-      client().service().institutionsGet(new InstitutionsGetRequest(Arrays.asList("US"), 3, 0)).execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US"))).execute();
 
     assertSuccessResponse(response);
 
@@ -31,10 +31,10 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithProducts() throws Exception {
-    Response<InstitutionsGetResponse> response =
-    client().service().institutionsGet(new InstitutionsGetRequest(Arrays.asList("US"), 3, 0).
-      withProducts(Arrays.asList(Product.IDENTITY))).
-    execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(
+            new InstitutionsGetRequest(3, 0, Arrays.asList("US")).withProducts(Arrays.asList(Product.IDENTITY)))
+        .execute();
 
     assertSuccessResponse(response);
 
@@ -44,8 +44,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
-    Response<InstitutionsGetResponse> response =
-        client().service().institutionsGet(new InstitutionsGetRequest(Arrays.asList("US"), 3, 0).withIncludeOptionalMetadata(true)).execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US")).withIncludeOptionalMetadata(true))
+        .execute();
 
     assertSuccessResponse(response);
 
@@ -55,8 +56,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
-    Response<InstitutionsGetResponse> response =
-        client().service().institutionsGet(new InstitutionsGetRequest(Arrays.asList("US"), 3, 0).withIncludeOptionalMetadata(false)).execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US")).withIncludeOptionalMetadata(false))
+        .execute();
 
     assertSuccessResponse(response);
 
@@ -66,8 +68,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithCountryCodes() throws Exception {
-    Response<InstitutionsGetResponse> response =
-    client().service().institutionsGet(new InstitutionsGetRequest(Arrays.asList("US"), 3, 0)).execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US"))).execute();
 
     assertSuccessResponse(response);
 
@@ -77,8 +79,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithOAuth() throws Exception {
-    Response<InstitutionsGetResponse> response =
-      client().service().institutionsGet(new InstitutionsGetRequest(Arrays.asList("GB"), 3, 0).withOAuth(true)).execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("GB")).withOAuth(true)).execute();
     assertSuccessResponse(response);
     List<Institution> institutions = response.body().getInstitutions();
     assertEquals(3, institutions.size());
@@ -89,8 +91,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithoutOAuth() throws Exception {
-    Response<InstitutionsGetResponse> response =
-      client().service().institutionsGet(new InstitutionsGetRequest(Arrays.asList("GB"), 3, 0).withOAuth(false)).execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("GB")).withOAuth(false)).execute();
     assertSuccessResponse(response);
     List<Institution> institutions = response.body().getInstitutions();
     for (int i = 0; i < institutions.size(); i++) {
@@ -101,17 +103,17 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
   @Test
   public void testRequestValidation() throws Exception {
     try {
-      new InstitutionsGetRequest(Arrays.asList("US"), 0, 0);
+      new InstitutionsGetRequest(0, 0, Arrays.asList("US"));
       fail("should have thrown exception");
     } catch (IllegalArgumentException e) {
     }
     try {
-      new InstitutionsGetRequest(Arrays.asList("US"), 501, 0);
+      new InstitutionsGetRequest(501, 0, Arrays.asList("US"));
       fail("should have thrown exception");
     } catch (IllegalArgumentException e) {
     }
     try {
-      new InstitutionsGetRequest(Arrays.asList("US"), 1, -1);
+      new InstitutionsGetRequest(1, -1, Arrays.asList("US"));
       fail("should have thrown exception");
     } catch (IllegalArgumentException e) {
     }
