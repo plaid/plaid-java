@@ -16,18 +16,12 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID))
+      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList("US")))
       .execute();
 
     assertSuccessResponse(response);
 
     Institution institution = response.body().getInstitution();
-    assertFalse(institution.getCredentials().isEmpty());
-    for (Institution.Credential c : institution.getCredentials()) {
-      assertNotNull(c.getLabel());
-      assertNotNull(c.getType());
-      assertNotNull(c.getName());
-    }
     assertIsTartanBank(institution);
   }
 
@@ -35,20 +29,13 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
     Response<InstitutionsGetByIdResponse> response =
       client().service().institutionsGetById(
-        new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).withIncludeOptionalMetadata(
+        new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList("US")).withIncludeOptionalMetadata(
           true))
         .execute();
 
     assertSuccessResponse(response);
 
     Institution institution = response.body().getInstitution();
-    assertFalse(institution.getCredentials().isEmpty());
-    for (Institution.Credential c : institution.getCredentials()) {
-      assertNotNull(c.getLabel());
-      assertNotNull(c.getType());
-      assertNotNull(c.getName());
-    }
-
     assertIsTartanBank(institution);
 
     assertEquals("https://www.plaid.com/", institution.getUrl());
@@ -59,20 +46,13 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList("US")).
         withIncludeOptionalMetadata(false))
       .execute();
 
     assertSuccessResponse(response);
 
     Institution institution = response.body().getInstitution();
-    assertFalse(institution.getCredentials().isEmpty());
-    for (Institution.Credential c : institution.getCredentials()) {
-      assertNotNull(c.getLabel());
-      assertNotNull(c.getType());
-      assertNotNull(c.getName());
-    }
-
     assertIsTartanBank(institution);
 
     assertEquals(null, institution.getUrl());
@@ -83,7 +63,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeStatusTrue() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(FIRST_PLATYPUS_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(FIRST_PLATYPUS_BANK_INSTITUTION_ID, Arrays.asList("US")).
         withIncludeStatus(true))
       .execute();
 
@@ -101,7 +81,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testSuccessWithIncludeStatusFalse() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().
-      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID).
+      institutionsGetById(new InstitutionsGetByIdRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList("US")).
         withIncludeStatus(false))
       .execute();
 
@@ -113,9 +93,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   }
 
   private void assertIsTartanBank(Institution institution) {
-    assertTrue(institution.hasMfa());
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
-    assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("Tartan Bank", institution.getName());
     assertEquals(Arrays.asList(
       Product.ASSETS,
@@ -133,9 +111,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   }
 
   private void assertIsFirstPlatypusBank(Institution institution) {
-    assertTrue(institution.hasMfa());
     assertEquals(FIRST_PLATYPUS_BANK_INSTITUTION_ID, institution.getInstitutionId());
-    assertEquals(Arrays.asList("code", "list", "questions", "selections"), institution.getMfa());
     assertEquals("First Platypus Bank", institution.getName());
     assertEquals(Arrays.asList(
       Product.ASSETS,
@@ -155,7 +131,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   @Test
   public void testInvalidInstitution() throws Exception {
     Response<InstitutionsGetByIdResponse> response = client().service().institutionsGetById(
-      new InstitutionsGetByIdRequest("notreal"))
+      new InstitutionsGetByIdRequest("notreal", Arrays.asList("US")))
       .execute();
 
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_INSTITUTION");
