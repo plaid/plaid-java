@@ -79,7 +79,7 @@ public class AssetReportRefreshTest extends AbstractItemIntegrationTest {
     Set<AssetReportGetResponse.Item> originalItems = new HashSet<>(response.body().getReport().getItems());
     Set<AssetReportGetResponse.Item> refreshItems = new HashSet<>(assetReportRefreshGetResponse.body().getReport().getItems());
 
-    assertEquals(originalItems, refreshItems);
+    assertEquals(originalItems.size(), refreshItems.size());
   }
 
   @Test
@@ -123,7 +123,7 @@ public class AssetReportRefreshTest extends AbstractItemIntegrationTest {
     Set<AssetReportGetResponse.Item> originalItems = new HashSet<>(response.body().getReport().getItems());
     Set<AssetReportGetResponse.Item> refreshItems = new HashSet<>(assetReportRefreshGetResponse.body().getReport().getItems());
 
-    assertEquals(originalItems, refreshItems);
+    assertEquals(originalItems.size(), refreshItems.size());
 
     AssetReportGetResponse.User originalUser = response.body().getReport().getUser();
     AssetReportGetResponse.User refreshedUser = assetReportRefreshGetResponse.body().getReport().getUser();

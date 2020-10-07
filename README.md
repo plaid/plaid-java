@@ -29,7 +29,8 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 
 | API version                                         | plaid-java release    |
 | --------------------------------------------------- | --------------------- |
-| [`2019-05-29`][api-version-2019-05-29] (**latest**) | `7.x.x`               |
+| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x`               |
+| [`2019-05-29`][api-version-2019-05-29]              | `7.x.x`               |
 | [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
 | `2017-03-08`                                        | `2.x.x`               |
 
@@ -90,3 +91,4 @@ versions of `plaid-java` before `2.1.0`. The API and client are not backwards-co
 [version-changelog]: https://plaid.com/docs/version-changelog
 [api-version-2018-05-22]: https://plaid.com/docs/api-upgrades#2018-05-22
 [api-version-2019-05-29]: https://plaid.com/docs/api-upgrades#2019-05-29
+[api-version-2020-09-14]: https://plaid.com/docs/api-upgrades#2020-09-14
