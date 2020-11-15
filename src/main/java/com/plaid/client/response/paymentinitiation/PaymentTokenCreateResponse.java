@@ -1,17 +1,17 @@
-package com.plaid.client.response.paymentinitiation;	
+package com.plaid.client.response.paymentinitiation;
 
-import com.plaid.client.response.BaseResponse;	
-import java.util.Date;	
+import com.plaid.client.response.BaseResponse;
+import java.util.Date;
 
-public class PaymentTokenCreateResponse extends BaseResponse {	
-  private String paymentToken;	
-  private Date paymentTokenExpirationTime;	
+public class PaymentTokenCreateResponse extends BaseResponse {
+  private String paymentToken;
+  private Date paymentTokenExpirationTime;
 
-  public String getPaymentToken() {	
-    return paymentToken;	
-  }	
+  public String getPaymentToken() {
+    return paymentToken;
+  }
 
-  public Date getPaymentTokenExpirationTime() {	
-    return paymentTokenExpirationTime;	
-  }	
+  public Date getPaymentTokenExpirationTime() {
+    return paymentTokenExpirationTime;
+  }
 }
