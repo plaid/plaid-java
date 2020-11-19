@@ -22,7 +22,6 @@ import com.plaid.client.request.InstitutionsSearchRequest;
 import com.plaid.client.request.InvestmentsHoldingsGetRequest;
 import com.plaid.client.request.InvestmentsTransactionsGetRequest;
 import com.plaid.client.request.ItemAccessTokenInvalidateRequest;
-import com.plaid.client.request.ItemAddTokenCreateRequest;
 import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemGetRequest;
@@ -60,7 +59,6 @@ import com.plaid.client.response.InstitutionsSearchResponse;
 import com.plaid.client.response.InvestmentsHoldingsGetResponse;
 import com.plaid.client.response.InvestmentsTransactionsGetResponse;
 import com.plaid.client.response.ItemAccessTokenInvalidateResponse;
-import com.plaid.client.response.ItemAddTokenCreateResponse;
 import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemGetResponse;
@@ -114,11 +112,6 @@ public interface PlaidApiService {
   ////////////////////////////////////////////////////////
   @POST("/item/get")
   Call<ItemGetResponse> itemGet(@Body ItemGetRequest request);
-
-  // Warning: this method will be deprecated in a future version. To replace the item_add_token,
-  // look into the link_token at https://plaid.com/docs/api/tokens/#linktokencreate.
-  @POST("/item/add_token/create")
-  Call<ItemAddTokenCreateResponse> itemAddTokenCreate(@Body ItemAddTokenCreateRequest request);
 
   @POST("/link/token/create")
   Call<LinkTokenCreateResponse> linkTokenCreate(@Body LinkTokenCreateRequest request);
