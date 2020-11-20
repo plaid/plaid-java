@@ -26,6 +26,7 @@ import com.plaid.client.request.ItemApexProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemDwollaProcessorTokenCreateRequest;
 import com.plaid.client.request.ItemGetRequest;
 import com.plaid.client.request.ItemImportRequest;
+import com.plaid.client.request.ItemPublicTokenCreateRequest;
 import com.plaid.client.request.ItemPublicTokenExchangeRequest;
 import com.plaid.client.request.ItemRemoveRequest;
 import com.plaid.client.request.ItemStripeTokenCreateRequest;
@@ -62,6 +63,7 @@ import com.plaid.client.response.ItemApexProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemDwollaProcessorTokenCreateResponse;
 import com.plaid.client.response.ItemGetResponse;
 import com.plaid.client.response.ItemImportResponse;
+import com.plaid.client.response.ItemPublicTokenCreateResponse;
 import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.plaid.client.response.ItemRemoveResponse;
 import com.plaid.client.response.ItemStripeTokenCreateResponse;
@@ -87,6 +89,7 @@ import com.plaid.client.request.depositswitch.DepositSwitchTokenCreateRequest;
 import com.plaid.client.request.paymentinitiation.PaymentCreateRequest;
 import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
 import com.plaid.client.request.paymentinitiation.PaymentListRequest;
+import com.plaid.client.request.paymentinitiation.PaymentTokenCreateRequest;
 import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
 import com.plaid.client.request.paymentinitiation.RecipientGetRequest;
 import com.plaid.client.request.paymentinitiation.RecipientListRequest;
@@ -97,6 +100,7 @@ import com.plaid.client.response.depositswitch.DepositSwitchTokenCreateResponse;
 import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
 import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
 import com.plaid.client.response.paymentinitiation.PaymentListResponse;
+import com.plaid.client.response.paymentinitiation.PaymentTokenCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
 import com.plaid.client.response.paymentinitiation.RecipientGetResponse;
 import com.plaid.client.response.paymentinitiation.RecipientListResponse;
@@ -118,6 +122,12 @@ public interface PlaidApiService {
   @POST("/item/public_token/exchange")
   Call<ItemPublicTokenExchangeResponse> itemPublicTokenExchange(
     @Body ItemPublicTokenExchangeRequest request);
+
+  // Warning: this method will be deprecated in a future version. To replace the public_token for
+  // initializing Link, look into the link_token at https://plaid.com/docs/api/tokens/#linktokencreate.
+  @POST("/item/public_token/create")
+  Call<ItemPublicTokenCreateResponse> itemPublicTokenCreate(
+    @Body ItemPublicTokenCreateRequest request);
 
   @POST("/processor/stripe/bank_account_token/create")
   Call<ItemStripeTokenCreateResponse> itemStripeTokenCreate(
@@ -252,6 +262,11 @@ public interface PlaidApiService {
 
   @POST("/payment_initiation/payment/create")
   Call<PaymentCreateResponse> paymentCreate(@Body PaymentCreateRequest request);
+
+  // Warning: this method will be deprecated in a future version. To replace the payment_token,
+  // look into the link_token at https://plaid.com/docs/api/tokens/#linktokencreate.
+  @POST("/payment_initiation/payment/token/create")
+  Call<PaymentTokenCreateResponse> paymentTokenCreate(@Body PaymentTokenCreateRequest request);
 
   @POST("/payment_initiation/payment/get")
   Call<PaymentGetResponse> paymentGet(@Body PaymentGetRequest request);
