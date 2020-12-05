@@ -1,9 +1,9 @@
-package com.plaid.client.request;
+package com.plaid.client.request.banktransfer;
 
 import com.plaid.client.request.common.BaseClientRequest;
 
 public class BankTransferGetRequest extends BaseClientRequest {
-  private Integer bankTransferId;
+  private String bankTransferId;
 
   public BankTransferGetRequest(String bankTransferId) {
     this.bankTransferId = bankTransferId;

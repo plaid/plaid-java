@@ -10,7 +10,7 @@ import com.plaid.client.request.common.BaseClientRequest;
 public class BankTransferCancelRequest extends BaseClientRequest {
   private String bankTransferId;
 
-  public BankTransferBalanceGetRequest(String bankTransferId) {
+  public BankTransferCancelRequest(String bankTransferId) {
     this.bankTransferId = bankTransferId;
   }
 }

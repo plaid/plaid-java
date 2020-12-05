@@ -1,4 +1,4 @@
-package com.plaid.client.request;
+package com.plaid.client.request.banktransfer;
 
 import com.plaid.client.request.common.BaseClientRequest;
 
@@ -15,7 +15,7 @@ public class BankTransferListRequest extends BaseClientRequest {
     return this;
   }
 
-  public BankTransferListRequest WithEndDate(String endDate) {
+  public BankTransferListRequest withEndDate(String endDate) {
     this.endDate = endDate;
     return this;
   }

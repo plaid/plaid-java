@@ -11,10 +11,12 @@ public class BankTransferUser {
 
   public BankTransferUser withEmailAddress(String emailAddress) {
     this.emailAddress = emailAddress;
+    return this;
   }
 
   public BankTransferUser withRoutingNumber(String routingNumber) {
     this.routingNumber = routingNumber;
+    return this;
   }
 
   public String getLegalName() {

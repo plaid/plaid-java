@@ -1,4 +1,4 @@
-package com.plaid.client.request;
+package com.plaid.client.request.banktransfer;
 
 import com.plaid.client.request.common.BaseClientRequest;
 
@@ -10,7 +10,7 @@ public class BankTransferMigrateAccountRequest extends BaseClientRequest {
   public BankTransferMigrateAccountRequest(
     String accountNumber,
     String routingNumber,
-    String accountType,
+    String accountType
   ) {
     this.accountNumber = accountNumber;
     this.routingNumber = routingNumber;

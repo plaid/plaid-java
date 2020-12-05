@@ -4,7 +4,7 @@ public class BankTransferFailure {
   private String achReturnCode;
   private String description;
 
-  public BankTransferUser(String achReturnCode, String description) {
+  public BankTransferFailure(String achReturnCode, String description) {
     this.achReturnCode = achReturnCode;
     this.description = description;
   }

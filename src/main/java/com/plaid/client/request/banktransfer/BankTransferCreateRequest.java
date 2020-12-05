@@ -1,4 +1,4 @@
-package com.plaid.client.request;
+package com.plaid.client.request.banktransfer;
 
 import com.plaid.client.model.banktransfer.BankTransferUser;
 import com.plaid.client.request.common.BaseAccessTokenRequest;
@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class BankTransferCreateRequest extends BaseAccessTokenRequest {
   private String idempotencyKey;
-  private String accessToken;
   private String accountId;
   private String type;
   private String network;
@@ -19,16 +18,16 @@ public class BankTransferCreateRequest extends BaseAccessTokenRequest {
   private Map<String, String> metadata;
   private String originationAccountId;
 
-  public LinkTokenCreateRequest(
+  public BankTransferCreateRequest(
     String idempotencyKey,
     String accessToken,
     String accountId,
-    BankTransferType type,
-    BankTransferNetwork network,
+    String type,
+    String network,
     String amount,
     String isoCurrencyCode,
     String description,
-    BankTransferUser user,
+    BankTransferUser user
   ) {
     super(accessToken);
     this.idempotencyKey = idempotencyKey;
@@ -41,7 +40,7 @@ public class BankTransferCreateRequest extends BaseAccessTokenRequest {
     this.user = user;
   }
 
-  public BankTransferCreateRequest withAchClass(ACHClass achClass) {
+  public BankTransferCreateRequest withAchClass(String achClass) {
     this.achClass = achClass;
     return this;
   }

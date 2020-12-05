@@ -38,7 +38,7 @@ public class BankTransfer {
   }
 
   public BankTransferUser getUser() {
-    return type;
+    return user;
   }
 
   public String getAmount() {

@@ -1,11 +1,13 @@
-package com.plaid.client.response;
+package com.plaid.client.response.banktransfer;
 
 import com.plaid.client.model.banktransfer.BankTransferEvent;
+import com.plaid.client.response.BaseResponse;
+import java.util.List;
 
 public class BankTransferEventListResponse extends BaseResponse {
   private List<BankTransferEvent> bankTransferEvents;
 
-  public String getBankTransferEvents() {
+  public List<BankTransferEvent> getBankTransferEvents() {
     return bankTransferEvents;
   }
 }

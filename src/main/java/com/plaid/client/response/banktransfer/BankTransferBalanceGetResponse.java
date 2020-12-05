@@ -1,6 +1,7 @@
-package com.plaid.client.response;
+package com.plaid.client.response.banktransfer;
 
 import com.plaid.client.model.banktransfer.BankTransferBalance;
+import com.plaid.client.response.BaseResponse;
 
 public class BankTransferBalanceGetResponse extends BaseResponse {
   private BankTransferBalance balance;

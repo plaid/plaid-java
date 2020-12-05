@@ -1,4 +1,4 @@
-package com.plaid.client.request;
+package com.plaid.client.request.banktransfer;
 
 import com.plaid.client.request.common.BaseClientRequest;
 import java.util.ArrayList;
@@ -21,12 +21,12 @@ public class BankTransferEventListRequest extends BaseClientRequest {
     return this;
   }
 
-  public BankTransferEventListRequest WithEndDate(String endDate) {
+  public BankTransferEventListRequest withEndDate(String endDate) {
     this.endDate = endDate;
     return this;
   }
 
-  public BankTransferEventListRequest WithBankTransferId(String bankTransferId) {
+  public BankTransferEventListRequest withBankTransferId(String bankTransferId) {
     this.bankTransferId = bankTransferId;
     return this;
   }
