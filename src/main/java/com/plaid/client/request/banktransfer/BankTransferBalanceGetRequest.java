@@ -10,7 +10,8 @@ import com.plaid.client.request.common.BaseClientRequest;
 public class BankTransferBalanceGetRequest extends BaseClientRequest {
   private String originationAccountId;
 
-  public BankTransferBalanceGetRequest(String originationAccountId) {
+  public BankTransferBalanceGetRequest withOriginationAccountId(String originationAccountId) {
     this.originationAccountId = originationAccountId;
+    return this;
   }
 }

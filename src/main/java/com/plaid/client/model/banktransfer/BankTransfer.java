@@ -2,6 +2,8 @@ package com.plaid.client.model.banktransfer;
 
 import java.util.Map;
 
+import okhttp3.internal.platform.Platform;
+
 public class BankTransfer {
   private String id;
   private String achClass;
@@ -87,5 +89,16 @@ public class BankTransfer {
 
   public String getDirection() {
     return direction;
+  }
+
+  @Override public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    BankTransfer that = (BankTransfer) other;
+    return this.getId().equals(that.getId());
   }
 }
