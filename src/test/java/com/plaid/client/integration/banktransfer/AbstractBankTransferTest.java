@@ -59,7 +59,6 @@ public abstract class AbstractBankTransferTest extends AbstractItemIntegrationTe
       ).execute();
     assertSuccessResponse(createResponse);
     this.bankTransfer = createResponse.body().getBankTransfer();
-    System.out.println("Created " + bankTransfer.getId());
   }
 
   protected abstract void bankTransferTest() throws AssertionError, Exception;
