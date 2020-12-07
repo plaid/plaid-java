@@ -11,7 +11,7 @@ public class ErrorResponse extends BaseResponse {
    */
   public enum ErrorType {
     INVALID_REQUEST, INVALID_INPUT, RATE_LIMIT_EXCEEDED, API_ERROR, ITEM_ERROR, INSTITUTION_ERROR,
-    ASSET_REPORT_ERROR
+    ASSET_REPORT_ERROR, BANK_TRANSFER_ERROR
   }
 
   private String displayMessage;
