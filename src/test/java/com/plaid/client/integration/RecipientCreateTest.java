@@ -56,7 +56,7 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
     RecipientCreateRequest recipientCreateRequest =
       new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555")
         .withAddress(address)
-        .withBacs(new Bacs("12345678", "401276"));
+        .withBacs(new Bacs("123456", "401276"));
 
     Response<RecipientCreateResponse> response =
       client.service().recipientCreate(recipientCreateRequest).execute();
