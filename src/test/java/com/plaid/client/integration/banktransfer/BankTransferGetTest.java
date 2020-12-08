@@ -10,7 +10,7 @@ import retrofit2.Response;
 public class BankTransferGetTest extends AbstractBankTransferTest {
   @Override
   protected void bankTransferTest() throws AssertionError, Exception {
-    Response<BankTransferGetResponse> response =  client().service().bankTransferGet(
+    Response<BankTransferGetResponse> response = client().service().bankTransferGet(
       new BankTransferGetRequest(getBankTransfer().getId())
     ).execute();
     assertSuccessResponse(response);

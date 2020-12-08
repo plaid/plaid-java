@@ -14,7 +14,7 @@ public class BankTransferCancelFailureTest extends AbstractBankTransferTest {
     Response<SandboxBankTransferSimulateResponse> simulateResponse = client().service().sandboxBankTransferSimulate(
       new SandboxBankTransferSimulateRequest(getBankTransfer().getId(), "failed")).execute();
     assertSuccessResponse(simulateResponse);
-    Response<BankTransferCancelResponse> cancelResponse =  client().service().bankTransferCancel(
+    Response<BankTransferCancelResponse> cancelResponse = client().service().bankTransferCancel(
       new BankTransferCancelRequest(getBankTransfer().getId())).execute();
     assertErrorResponse(cancelResponse, ErrorResponse.ErrorType.BANK_TRANSFER_ERROR, "BANK_TRANSFER_NOT_CANCELLABLE");
   }

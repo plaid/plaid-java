@@ -8,7 +8,7 @@ import retrofit2.Response;
 public class BankTransferCancelSuccessTest extends AbstractBankTransferTest {
   @Override
   protected void bankTransferTest() throws AssertionError, Exception {
-    Response<BankTransferCancelResponse> response =  client().service().bankTransferCancel(
+    Response<BankTransferCancelResponse> response = client().service().bankTransferCancel(
       new BankTransferCancelRequest(getBankTransfer().getId())).execute();
     assertSuccessResponse(response);
   }
