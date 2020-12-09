@@ -76,7 +76,6 @@ public abstract class AbstractBankTransferTest extends AbstractItemIntegrationTe
           throw e;
         }
         Thread.sleep(1000);
-        continue;
       }
     }
   }
