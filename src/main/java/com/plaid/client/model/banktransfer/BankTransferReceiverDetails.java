@@ -1,5 +1,7 @@
 package com.plaid.client.model.banktransfer;
 
+import java.util.Objects;
+
 public class BankTransferReceiverDetails {
   private String availableBalance;
 
@@ -15,6 +17,6 @@ public class BankTransferReceiverDetails {
       return false;
     }
     BankTransferReceiverDetails that = (BankTransferReceiverDetails) other;
-    return this.getAvailableBalance().equals(that.getAvailableBalance());
+    return Objects.equals(availableBalance, that.getAvailableBalance());
   }
 }

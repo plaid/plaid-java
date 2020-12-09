@@ -1,5 +1,7 @@
 package com.plaid.client.model.banktransfer;
 
+import java.util.Objects;
+
 public class BankTransferUser {
   private String legalName;
   private String emailAddress;
@@ -39,8 +41,8 @@ public class BankTransferUser {
       return false;
     }
     BankTransferUser that = (BankTransferUser) other;
-    return this.getLegalName().equals(that.getLegalName()) &&
-      this.getEmailAddress().equals(that.getEmailAddress()) &&
-      this.getRoutingNumber().equals(that.getRoutingNumber());
+    return Objects.equals(legalName, that.getLegalName()) &&
+      Objects.equals(emailAddress, that.getEmailAddress()) &&
+      Objects.equals(routingNumber, that.getRoutingNumber());
   }
 }

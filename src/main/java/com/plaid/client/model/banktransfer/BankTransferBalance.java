@@ -19,6 +19,6 @@ public class BankTransferBalance {
       return false;
     }
     BankTransferBalance that = (BankTransferBalance) other;
-    return this.getAvailable().equals(that.getAvailable());
+    return Objects.equals(available, that.getAvailable());
   }
 }

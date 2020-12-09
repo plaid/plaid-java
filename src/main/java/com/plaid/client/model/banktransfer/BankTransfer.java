@@ -1,8 +1,8 @@
 package com.plaid.client.model.banktransfer;
 
 import java.util.Map;
+import java.util.Objects;
 
-import okhttp3.internal.platform.Platform;
 
 public class BankTransfer {
   private String id;
@@ -99,20 +99,20 @@ public class BankTransfer {
       return false;
     }
     BankTransfer that = (BankTransfer) other;
-    return this.getId().equals(that.getId()) &&
-      this.getAccountId().equals(that.getAccountId()) &&
-      this.getAchClass().equals(that.getAchClass()) &&
-      this.getAmount().equals(that.getAmount()) &&
-      this.getCreated().equals(that.getCreated()) &&
-      this.getCustomTag().equals(that.getCustomTag()) &&
-      this.getDescription().equals(that.getDescription()) &&
-      this.getFailureReason().equals(that.getFailureReason()) &&
-      this.getIsoCurrencyCode().equals(that.getIsoCurrencyCode()) &&
-      this.getNetwork().equals(that.getNetwork()) &&
-      this.getOriginationAccountId().equals(that.getOriginationAccountId()) &&
-      this.getStatus().equals(that.getStatus()) &&
-      this.getType().equals(that.getType()) &&
-      this.getUser().equals(that.getUser()) &&
-      this.getCancellable() == that.getCancellable();
+    return Objects.equals(id, that.getId()) &&
+      Objects.equals(accountId, that.getAccountId()) &&
+      Objects.equals(achClass, that.getAchClass()) &&
+      Objects.equals(amount, that.getAmount()) &&
+      Objects.equals(created, that.getCreated()) &&
+      Objects.equals(customTag, that.getCustomTag()) &&
+      Objects.equals(description, that.getDescription()) &&
+      Objects.equals(failureReason, that.getFailureReason()) &&
+      Objects.equals(isoCurrencyCode, that.getIsoCurrencyCode()) &&
+      Objects.equals(network, that.getNetwork()) &&
+      Objects.equals(originationAccountId, that.getOriginationAccountId()) &&
+      Objects.equals(status, that.getStatus()) &&
+      Objects.equals(type, that.getType()) &&
+      Objects.equals(user, that.getUser()) &&
+      cancellable == that.getCancellable();
   }
 }

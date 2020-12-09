@@ -1,5 +1,7 @@
 package com.plaid.client.model.banktransfer;
 
+import java.util.Objects;
+
 public class BankTransferFailure {
   private String achReturnCode;
   private String description;
@@ -25,7 +27,7 @@ public class BankTransferFailure {
       return false;
     }
     BankTransferFailure that = (BankTransferFailure) other;
-    return this.getAchReturnCode().equals(that.getAchReturnCode()) &&
-      this.getDescription().equals(that.getDescription());
+    return Objects.equals(achReturnCode, that.getAchReturnCode()) &&
+      Objects.equals(description, that.getDescription());
   }
 }

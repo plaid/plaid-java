@@ -1,6 +1,7 @@
 package com.plaid.client.model.banktransfer;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class BankTransferEvent {
   private String eventId;
@@ -67,16 +68,16 @@ public class BankTransferEvent {
       return false;
     }
     BankTransferEvent that = (BankTransferEvent) other;
-    return this.getEventId().equals(that.getEventId()) &&
-      this.getAccountId().equals(that.getAccountId()) &&
-      this.getBankTransferAmount().equals(that.getBankTransferAmount()) &&
-      this.getBankTransferId().equals(that.getBankTransferId()) &&
-      this.getBankTransferIsoCurrencyCode().equals(that.getBankTransferIsoCurrencyCode()) &&
-      this.getBankTransferType().equals(that.getBankTransferType()) &&
-      this.getDirection().equals(that.getDirection()) &&
-      this.getEventType().equals(that.getEventType()) &&
-      this.getFailureReason().equals(that.getFailureReason()) &&
-      this.getReceiverDetails().equals(that.getReceiverDetails()) &&
-      this.getTimestamp().equals(that.getTimestamp());
+    return Objects.equals(eventId, that.getEventId()) &&
+      Objects.equals(accountId, that.getAccountId()) &&
+      Objects.equals(bankTransferAmount, that.getBankTransferAmount()) &&
+      Objects.equals(bankTransferId, that.getBankTransferId()) &&
+      Objects.equals(bankTransferIsoCurrencyCode, that.getBankTransferIsoCurrencyCode()) &&
+      Objects.equals(bankTransferType, that.getBankTransferType()) &&
+      Objects.equals(direction, that.getDirection()) &&
+      Objects.equals(eventType, that.getEventType()) &&
+      Objects.equals(failureReason, that.getFailureReason()) &&
+      Objects.equals(receiverDetails, that.getReceiverDetails()) &&
+      Objects.equals(timestamp, that.getTimestamp());
   }
 }
