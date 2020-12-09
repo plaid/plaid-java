@@ -58,4 +58,25 @@ public class BankTransferEvent {
   public BankTransferReceiverDetails getReceiverDetails() {
     return receiverDetails;
   }
+
+  @Override public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    BankTransferEvent that = (BankTransferEvent) other;
+    return this.getEventId().equals(that.getEventId()) &&
+      this.getAccountId().equals(that.getAccountId()) &&
+      this.getBankTransferAmount().equals(that.getBankTransferAmount()) &&
+      this.getBankTransferId().equals(that.getBankTransferId()) &&
+      this.getBankTransferIsoCurrencyCode().equals(that.getBankTransferIsoCurrencyCode()) &&
+      this.getBankTransferType().equals(that.getBankTransferType()) &&
+      this.getDirection().equals(that.getDirection()) &&
+      this.getEventType().equals(that.getEventType()) &&
+      this.getFailureReason().equals(that.getFailureReason()) &&
+      this.getReceiverDetails().equals(that.getReceiverDetails()) &&
+      this.getTimestamp().equals(that.getTimestamp());
+  }
 }

@@ -10,4 +10,15 @@ public class BankTransferBalance {
   public String getAvailable() {
     return available;
   }
+
+  @Override public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    BankTransferBalance that = (BankTransferBalance) other;
+    return this.getAvailable().equals(that.getAvailable());
+  }
 }

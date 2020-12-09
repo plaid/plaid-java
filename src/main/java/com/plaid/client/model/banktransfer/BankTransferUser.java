@@ -30,4 +30,17 @@ public class BankTransferUser {
   public String getRoutingNumber() {
     return routingNumber;
   }
+
+  @Override public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    BankTransferUser that = (BankTransferUser) other;
+    return this.getLegalName().equals(that.getLegalName()) &&
+      this.getEmailAddress().equals(that.getEmailAddress()) &&
+      this.getRoutingNumber().equals(that.getRoutingNumber());
+  }
 }

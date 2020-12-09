@@ -99,6 +99,20 @@ public class BankTransfer {
       return false;
     }
     BankTransfer that = (BankTransfer) other;
-    return this.getId().equals(that.getId());
+    return this.getId().equals(that.getId()) &&
+      this.getAccountId().equals(that.getAccountId()) &&
+      this.getAchClass().equals(that.getAchClass()) &&
+      this.getAmount().equals(that.getAmount()) &&
+      this.getCreated().equals(that.getCreated()) &&
+      this.getCustomTag().equals(that.getCustomTag()) &&
+      this.getDescription().equals(that.getDescription()) &&
+      this.getFailureReason().equals(that.getFailureReason()) &&
+      this.getIsoCurrencyCode().equals(that.getIsoCurrencyCode()) &&
+      this.getNetwork().equals(that.getNetwork()) &&
+      this.getOriginationAccountId().equals(that.getOriginationAccountId()) &&
+      this.getStatus().equals(that.getStatus()) &&
+      this.getType().equals(that.getType()) &&
+      this.getUser().equals(that.getUser()) &&
+      this.getCancellable() == that.getCancellable();
   }
 }
