@@ -1,5 +1,7 @@
 package com.plaid.client.model.banktransfer;
 
+import java.util.Objects;
+
 public class BankTransferBalance {
   private String available;
 
