@@ -11,6 +11,14 @@ import com.plaid.client.request.AssetReportGetRequest;
 import com.plaid.client.request.AssetReportPdfGetRequest;
 import com.plaid.client.request.AssetReportRefreshRequest;
 import com.plaid.client.request.AssetReportRemoveRequest;
+import com.plaid.client.request.banktransfer.BankTransferBalanceGetRequest;
+import com.plaid.client.request.banktransfer.BankTransferCancelRequest;
+import com.plaid.client.request.banktransfer.BankTransferCreateRequest;
+import com.plaid.client.request.banktransfer.BankTransferEventListRequest;
+import com.plaid.client.request.banktransfer.BankTransferEventSyncRequest;
+import com.plaid.client.request.banktransfer.BankTransferGetRequest;
+import com.plaid.client.request.banktransfer.BankTransferListRequest;
+import com.plaid.client.request.banktransfer.BankTransferMigrateAccountRequest;
 import com.plaid.client.request.AuthGetRequest;
 import com.plaid.client.request.CategoriesGetRequest;
 import com.plaid.client.request.CreditDetailsGetRequest;
@@ -34,6 +42,7 @@ import com.plaid.client.request.ItemWebhookUpdateRequest;
 import com.plaid.client.request.LiabilitiesGetRequest;
 import com.plaid.client.request.LinkTokenCreateRequest;
 import com.plaid.client.request.LinkTokenGetRequest;
+import com.plaid.client.request.SandboxBankTransferSimulateRequest;
 import com.plaid.client.request.SandboxItemFireWebhookRequest;
 import com.plaid.client.request.SandboxItemResetLoginRequest;
 import com.plaid.client.request.SandboxItemSetVerificationStatusRequest;
@@ -49,6 +58,14 @@ import com.plaid.client.response.AssetReportCreateResponse;
 import com.plaid.client.response.AssetReportGetResponse;
 import com.plaid.client.response.AssetReportRemoveResponse;
 import com.plaid.client.response.AuthGetResponse;
+import com.plaid.client.response.banktransfer.BankTransferBalanceGetResponse;
+import com.plaid.client.response.banktransfer.BankTransferCancelResponse;
+import com.plaid.client.response.banktransfer.BankTransferCreateResponse;
+import com.plaid.client.response.banktransfer.BankTransferEventListResponse;
+import com.plaid.client.response.banktransfer.BankTransferEventSyncResponse;
+import com.plaid.client.response.banktransfer.BankTransferGetResponse;
+import com.plaid.client.response.banktransfer.BankTransferListResponse;
+import com.plaid.client.response.banktransfer.BankTransferMigrateAccountResponse;
 import com.plaid.client.response.CategoriesGetResponse;
 import com.plaid.client.response.CreditDetailsGetResponse;
 import com.plaid.client.response.IdentityGetResponse;
@@ -71,6 +88,7 @@ import com.plaid.client.response.ItemWebhookUpdateResponse;
 import com.plaid.client.response.LiabilitiesGetResponse;
 import com.plaid.client.response.LinkTokenCreateResponse;
 import com.plaid.client.response.LinkTokenGetResponse;
+import com.plaid.client.response.SandboxBankTransferSimulateResponse;
 import com.plaid.client.response.SandboxItemFireWebhookResponse;
 import com.plaid.client.response.SandboxItemResetLoginResponse;
 import com.plaid.client.response.SandboxItemSetVerificationStatusResponse;
@@ -157,6 +175,10 @@ public interface PlaidApiService {
   // sandbox-only endpoints
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
+  @POST("/sandbox/bank_transfer/simulate")
+  Call<SandboxBankTransferSimulateResponse> sandboxBankTransferSimulate(
+    @Body SandboxBankTransferSimulateRequest request);
+
   @POST("/sandbox/item/fire_webhook")
   Call<SandboxItemFireWebhookResponse> sandboxItemFireWebhook(
     @Body SandboxItemFireWebhookRequest request);
@@ -217,6 +239,38 @@ public interface PlaidApiService {
 
   @POST("/auth/get")
   Call<AuthGetResponse> authGet(@Body AuthGetRequest request);
+
+  @POST("/bank_transfer/balance/get")
+  Call<BankTransferBalanceGetResponse> bankTransferBalanceGet(
+    @Body BankTransferBalanceGetRequest request);
+
+  @POST("/bank_transfer/cancel")
+  Call<BankTransferCancelResponse> bankTransferCancel(
+    @Body BankTransferCancelRequest request);
+
+  @POST("/bank_transfer/create")
+  Call<BankTransferCreateResponse> bankTransferCreate(
+    @Body BankTransferCreateRequest request);
+
+  @POST("/bank_transfer/event/list")
+  Call<BankTransferEventListResponse> bankTransferEventList(
+    @Body BankTransferEventListRequest request);
+
+  @POST("/bank_transfer/event/sync")
+  Call<BankTransferEventSyncResponse> bankTransferEventSync(
+    @Body BankTransferEventSyncRequest request);
+
+  @POST("/bank_transfer/get")
+  Call<BankTransferGetResponse> bankTransferGet(
+    @Body BankTransferGetRequest request);
+
+  @POST("/bank_transfer/list")
+  Call<BankTransferListResponse> bankTransferList(
+    @Body BankTransferListRequest request);
+
+  @POST("/bank_transfer/migrate_account")
+  Call<BankTransferMigrateAccountResponse> bankTransferMigrateAccount(
+    @Body BankTransferMigrateAccountRequest request);
 
   @POST("/deposit_switch/get")
   Call<DepositSwitchGetResponse> depositSwitchGet(@Body DepositSwitchGetRequest request);

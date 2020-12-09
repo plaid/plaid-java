@@ -1,3 +1,7 @@
+## 8.1.0
+
+- Add [Bank Transfers](https://plaid.com/docs/bank-transfers/) endpoints to the library
+
 ## 8.0.0
 
 - The library has been pinned to the '2020-09-14' API release. Visit the [docs](https://plaid.com/docs/api/versioning/) to see what changed.

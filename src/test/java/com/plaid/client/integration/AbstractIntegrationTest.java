@@ -61,7 +61,7 @@ public abstract class AbstractIntegrationTest {
     assertNotNull(response.body().getRequestId());
   }
 
-  void assertErrorResponse(Response<? extends BaseResponse> response,
+  protected void assertErrorResponse(Response<? extends BaseResponse> response,
                                   ErrorResponse.ErrorType expectedErrorType,
                                   String expectedErrorCode) {
     assertFalse(response.isSuccessful());
