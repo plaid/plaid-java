@@ -85,6 +85,8 @@ Later on in the process, your public key will be verified against one of several
 After you have your new branch, run the following to make sure that our tests pass:
 
 ```bash
+PLAID_SECRET=insertsecrethere \
+PLAID_CLIENT_ID=insertclientidhere \
 mvn verify
 ```
 
