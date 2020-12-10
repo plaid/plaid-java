@@ -1,4 +1,4 @@
-## 8.0.1
+## 8.1.0
 
 - Add [Bank Transfers](https://plaid.com/docs/bank-transfers/) endpoints to the library
 
