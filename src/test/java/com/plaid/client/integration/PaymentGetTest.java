@@ -29,7 +29,7 @@ public class PaymentGetTest extends AbstractIntegrationTest {
     LinkTokenCreateRequest.User user = new LinkTokenCreateRequest.User(clientUserId);
     Response<LinkTokenCreateResponse> response = client().service()
         .linkTokenCreate(new LinkTokenCreateRequest(user, "client name",
-            Collections.singletonList("payment_initiation"), Collections.singletonList("US"), "en")
+            Collections.singletonList("payment_initiation"), Collections.singletonList("GB"), "en")
                 .withPaymentInitiation(new LinkTokenCreateRequest.PaymentInitiation(paymentId)))
         .execute();
     assertSuccessResponse(response);
@@ -57,7 +57,7 @@ public class PaymentGetTest extends AbstractIntegrationTest {
     LinkTokenCreateRequest.User user = new LinkTokenCreateRequest.User(clientUserId);
     Response<LinkTokenCreateResponse> response = client().service()
         .linkTokenCreate(new LinkTokenCreateRequest(user, "client name",
-            Collections.singletonList("payment_initiation"), Collections.singletonList("US"), "en")
+            Collections.singletonList("payment_initiation"), Collections.singletonList("GB"), "en")
                 .withPaymentInitiation(new LinkTokenCreateRequest.PaymentInitiation(paymentId)))
         .execute();
     assertSuccessResponse(response);

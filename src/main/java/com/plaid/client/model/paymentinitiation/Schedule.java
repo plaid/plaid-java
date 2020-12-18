@@ -2,10 +2,10 @@ package com.plaid.client.model.paymentinitiation;
 
 public class Schedule {
   private String interval;
-  private Integer intervalExecutionDay;
+  private int intervalExecutionDay;
   private String startDate;
 
-  public Schedule(String interval, Integer intervalExecutionDay, String startDate) {
+  public Schedule(String interval, int intervalExecutionDay, String startDate) {
     this.interval = interval;
     this.intervalExecutionDay = intervalExecutionDay;
     this.startDate = startDate;
@@ -15,7 +15,7 @@ public class Schedule {
     return interval;
   }
 
-  public Integer getIntervalExecutionDay() {
+  public int getIntervalExecutionDay() {
     return intervalExecutionDay;
   }
 
