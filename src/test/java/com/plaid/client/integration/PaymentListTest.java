@@ -16,7 +16,7 @@ public class PaymentListTest extends AbstractIntegrationTest {
   @Test
   public void testPaymentListSuccess() throws Exception {
 
-    Response<PaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createPayment(client());
+    Response<PaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createSingleImmediatePayment(client());
     String paymentId = createPaymentResponse.body().getPaymentId();
     assertNotNull(paymentId);
 
