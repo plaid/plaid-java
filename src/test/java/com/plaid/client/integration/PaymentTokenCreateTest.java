@@ -13,7 +13,7 @@ public class PaymentTokenCreateTest extends AbstractIntegrationTest {
 
   @Test	
   public void testPaymentTokenCreateSuccess() throws Exception {	
-    Response<PaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createPayment(client());	
+    Response<PaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createSingleImmediatePayment(client());	
     String paymentId = createPaymentResponse.body().getPaymentId();	
     assertNotNull(paymentId);	
 
