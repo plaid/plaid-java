@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>8.1.1-SNAPSHOT</version>
+  <version>9.0.0-beta-1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -38,8 +39,14 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <!-- Plaid generated properties -->
+    <swagger-annotations-version>1.5.22</swagger-annotations-version>
+    <oltu-version>1.0.1</oltu-version>
+    <gson-fire-version>1.8.3</gson-fire-version>
+    <threetenbp-version>1.4.0</threetenbp-version>
+    <javax-annotation-version>1.3.2</javax-annotation-version>
   </properties>
 
   <packaging>jar</packaging>
@@ -165,24 +172,6 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.0.0</version>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <configLocation>plaid_checks.xml</configLocation>
-          <violationSeverity>warning</violationSeverity>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
         <version>1.6.7</version>
@@ -218,11 +207,56 @@
       <version>3.14.9</version>
     </dependency>
 
+    <!-- Plaid Generated Deps -->
+    <dependency>
+      <groupId>com.squareup.retrofit2</groupId>
+      <artifactId>converter-scalars</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-annotations-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.oltu.oauth2</groupId>
+      <artifactId>org.apache.oltu.oauth2.client</artifactId>
+      <version>${oltu-version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.oltu.oauth2</groupId>
+          <artifactId>common</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.gsonfire</groupId>
+      <artifactId>gson-fire</artifactId>
+      <version>${gson-fire-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.threeten</groupId>
+      <artifactId>threetenbp</artifactId>
+      <version>${threetenbp-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>${javax-annotation-version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- @Nullable annotation -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+
     <!-- Test Deps -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

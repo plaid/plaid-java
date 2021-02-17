@@ -1,34 +1,42 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.SandboxPublicTokenCreateRequest;
-import com.plaid.client.request.ItemPublicTokenExchangeRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemPublicTokenExchangeResponse;
-import com.plaid.client.response.SandboxPublicTokenCreateResponse;
-import org.junit.Test;
-import retrofit2.Response;
+import static org.junit.Assert.assertNotNull;
 
+import com.plaid.client.model.Error;
+import com.plaid.client.model.ItemPublicTokenExchangeRequest;
+import com.plaid.client.model.ItemPublicTokenExchangeResponse;
+import com.plaid.client.model.Products;
+import com.plaid.client.model.SandboxPublicTokenCreateRequest;
+import com.plaid.client.model.SandboxPublicTokenCreateResponse;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+import retrofit2.Response;
 
 public class SandboxPublicTokenCreateTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    Response<SandboxPublicTokenCreateResponse> createResponse =
-      client().service().sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList(Product.AUTH))).execute();
+    SandboxPublicTokenCreateRequest request = new SandboxPublicTokenCreateRequest()
+      .institutionId(TARTAN_BANK_INSTITUTION_ID)
+      .initialProducts(Arrays.asList(Products.AUTH));
+
+    Response<SandboxPublicTokenCreateResponse> createResponse = client()
+      .sandboxPublicTokenCreate(request)
+      .execute();
 
     assertSuccessResponse(createResponse);
     assertNotNull(createResponse.body().getPublicToken());
 
-    Response<ItemPublicTokenExchangeResponse> response =
-      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken())).execute();
+    ItemPublicTokenExchangeRequest exchangeRequest = new ItemPublicTokenExchangeRequest()
+      .publicToken(createResponse.body().getPublicToken());
+
+    Response<ItemPublicTokenExchangeResponse> response = client()
+      .itemPublicTokenExchange(exchangeRequest)
+      .execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getAccessToken());
-    assertNotNull(response.body().getItemId());    
+    assertNotNull(response.body().getItemId());
   }
 }

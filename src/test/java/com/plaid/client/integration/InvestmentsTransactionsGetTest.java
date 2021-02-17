@@ -1,68 +1,80 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.AccountsGetRequest;
-import com.plaid.client.request.SandboxPublicTokenCreateRequest;
-import com.plaid.client.request.ItemPublicTokenExchangeRequest;
-import com.plaid.client.request.InvestmentsTransactionsGetRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.Account;
-import com.plaid.client.response.AccountsGetResponse;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemPublicTokenExchangeResponse;
-import com.plaid.client.response.InvestmentsTransactionsGetResponse;
-import com.plaid.client.response.SandboxPublicTokenCreateResponse;
-import com.plaid.client.response.Security;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Arrays;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import retrofit2.Response;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class InvestmentsTransactionsGetTest extends AbstractIntegrationTest {
-  private String accessToken;
-  private Date startDate;
-  private Date endDate;
+import com.google.gson.Gson;
+import com.plaid.client.model.AccountBase;
+import com.plaid.client.model.AccountType;
+import com.plaid.client.model.AccountsGetRequest;
+import com.plaid.client.model.AccountsGetResponse;
+import com.plaid.client.model.Error;
+import com.plaid.client.model.InvestmentTransaction;
+import com.plaid.client.model.InvestmentsTransactionsGetRequest;
+import com.plaid.client.model.InvestmentsTransactionsGetRequestOptions;
+import com.plaid.client.model.InvestmentsTransactionsGetResponse;
+import com.plaid.client.model.ItemPublicTokenExchangeRequest;
+import com.plaid.client.model.ItemPublicTokenExchangeResponse;
+import com.plaid.client.model.Products;
+import com.plaid.client.model.SandboxPublicTokenCreateRequest;
+import com.plaid.client.model.SandboxPublicTokenCreateResponse;
+import com.plaid.client.model.Security;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.List;
+import org.ietf.jgss.GSSContext;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.threeten.bp.LocalDate;
+import retrofit2.Response;
+
+public class InvestmentsTransactionsGetTest
+  extends AbstractItemIntegrationTest {
+
+  private LocalDate startDate;
+  private LocalDate endDate;
+
+  @Override
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.INVESTMENTS);
+  }
+
+  @Override
+  protected String setupItemInstitutionId() {
+    return TARTAN_BANK_INSTITUTION_ID;
+  }
 
   @Before
   public void setUp() throws Exception {
-    Response<SandboxPublicTokenCreateResponse> createResponse =
-      client().service().sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList(Product.INVESTMENTS))).execute();
-
-    assertSuccessResponse(createResponse);
-
-    Response<ItemPublicTokenExchangeResponse> response =
-      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(createResponse.body().getPublicToken())).execute();
-
-    assertSuccessResponse(response);
-
-    this.accessToken = response.body().getAccessToken();
-    startDate = new Date(System.currentTimeMillis() - 86400000L * 100);
-    endDate = new Date();
+    startDate = LocalDate.now().minusDays(365 * 2);
+    endDate = LocalDate.now();
   }
 
   @Test
   public void testSuccess() throws Exception {
-    InvestmentsTransactionsGetRequest request =
-      new InvestmentsTransactionsGetRequest(accessToken, startDate, endDate)
-        .withCount(100);
+    InvestmentsTransactionsGetRequestOptions options = new InvestmentsTransactionsGetRequestOptions()
+    .count(100);
+
+    InvestmentsTransactionsGetRequest request = new InvestmentsTransactionsGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
+      .startDate(startDate)
+      .endDate(endDate)
+      .options(options);
 
     Response<InvestmentsTransactionsGetResponse> response = null;
     for (int i = 0; i < 5; i++) {
-      response = client().service().investmentsTransactionsGet(request).execute();
+      response = client().investmentsTransactionsGet(request).execute();
       if (response.isSuccessful()) {
         break;
       } else {
-        ErrorResponse errorResponse = client().parseError(response);
-        assertEquals(errorResponse.getErrorCode(), "PRODUCT_NOT_READY");
+        Gson gson = new Gson();
+        Error error = gson.fromJson(response.errorBody().string(), Error.class);
+        assertEquals(error.getErrorCode(), "PRODUCT_NOT_READY");
         Thread.sleep(3000);
       }
     }
@@ -73,9 +85,11 @@ public class InvestmentsTransactionsGetTest extends AbstractIntegrationTest {
     assertFalse(response.body().getAccounts().isEmpty());
     assertTrue(response.body().getInvestmentTransactions().size() > 0);
 
-    List<InvestmentsTransactionsGetResponse.InvestmentTransaction> investmentTransactions = response.body().getInvestmentTransactions();
+    List<InvestmentTransaction> investmentTransactions = response
+      .body()
+      .getInvestmentTransactions();
     assertTrue(investmentTransactions.size() > 0);
-    for (InvestmentsTransactionsGetResponse.InvestmentTransaction txn : investmentTransactions) {
+    for (InvestmentTransaction txn : investmentTransactions) {
       assertNotNull(txn.getInvestmentTransactionId());
       assertNotNull(txn.getAccountId());
       assertNotNull(txn.getDate());
@@ -97,44 +111,60 @@ public class InvestmentsTransactionsGetTest extends AbstractIntegrationTest {
     }
   }
 
+  @Test
   public void testFullyLoadedRequest() throws Exception {
     // get some account info
-    Response<AccountsGetResponse> accountsGetResponse =
-      client().service().accountsGet(new AccountsGetRequest(accessToken)).execute();
+    AccountsGetRequest request = new AccountsGetRequest()
+    .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<AccountsGetResponse> accountsGetResponse = client()
+      .accountsGet(request)
+      .execute();
     assertSuccessResponse(accountsGetResponse);
-    String someAccountId = null;
-    for (Account account : accountsGetResponse.body().getAccounts()) {
-      if ("investment".equals(account.getType())) {
-        someAccountId = account.getAccountId();
+
+    String accountId = null;
+    for (AccountBase account : accountsGetResponse.body().getAccounts()) {
+      if (AccountType.INVESTMENT.equals(account.getType())) {
+        accountId = account.getAccountId();
         break;
       }
     }
 
     // actual test
-    int numTxns = 2;
-    Response<InvestmentsTransactionsGetResponse> response = client().service().investmentsTransactionsGet(
-      new InvestmentsTransactionsGetRequest(
-        accessToken,
-        startDate,
-        endDate)
-        .withAccountIds(Collections.singletonList(someAccountId))
-        .withCount(numTxns)
-        .withOffset(1)).execute();
+    InvestmentsTransactionsGetRequestOptions options = new InvestmentsTransactionsGetRequestOptions()
+      .accountIds(Arrays.asList(accountId))
+      .count(2)
+      .offset(1);
 
+    InvestmentsTransactionsGetRequest investmentGetRequest = new InvestmentsTransactionsGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
+      .startDate(startDate)
+      .endDate(endDate)
+      .options(options);
+
+    Response<InvestmentsTransactionsGetResponse> response = client()
+      .investmentsTransactionsGet(investmentGetRequest)
+      .execute();
     assertSuccessResponse(response);
-    assertTrue(response.body().getTotalInvestmentTransactions() > numTxns);
-    assertEquals(numTxns, response.body().getInvestmentTransactions().size());
+    assertTrue(response.body().getTotalInvestmentTransactions() > 2);
+    assertEquals(2, response.body().getInvestmentTransactions().size());
   }
 
   @Test
   public void testBadAccessToken() throws Exception {
-    Response<InvestmentsTransactionsGetResponse> response = client().service().investmentsTransactionsGet(
-      new InvestmentsTransactionsGetRequest(
-        "totally-invalid-stuff",
-        new Date(),
-        new Date()))
+    InvestmentsTransactionsGetRequest request = new InvestmentsTransactionsGetRequest()
+      .accessToken("totally-invalid-stuff")
+      .startDate(startDate)
+      .endDate(endDate);
+
+    Response<InvestmentsTransactionsGetResponse> response = client()
+      .investmentsTransactionsGet(request)
       .execute();
 
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_ACCESS_TOKEN"
+    );
   }
 }
