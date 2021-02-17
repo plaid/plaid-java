@@ -1,27 +1,24 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.PlaidClient;
-import com.plaid.client.request.AssetReportAuditCopyCreateRequest;
-import com.plaid.client.request.AssetReportAuditCopyGetRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.AssetReportAuditCopyCreateResponse;
-import com.plaid.client.response.AssetReportCreateResponse;
-import com.plaid.client.response.AssetReportGetResponse;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
+import com.plaid.client.model.AssetReportAuditCopyCreateRequest;
+import com.plaid.client.model.AssetReportAuditCopyCreateResponse;
+import com.plaid.client.model.AssetReportAuditCopyGetRequest;
+import com.plaid.client.model.AssetReportCreateResponse;
+import com.plaid.client.model.AssetReportGetResponse;
+import com.plaid.client.model.Products;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
 public class AssetReportAuditCopyGetTest extends AbstractItemIntegrationTest {
 
-  private final static String PRODUCT_NOT_READY = "PRODUCT_NOT_READY";
-
   @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.ASSETS);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.ASSETS);
   }
 
   @Override
@@ -32,32 +29,33 @@ public class AssetReportAuditCopyGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testAssetReportAuditCopyGetSuccess() throws Exception {
     // Create asset report to get an asset report token
-    PlaidClient client = client();
-    List<String> accessTokens = Arrays.asList(getItemPublicTokenExchangeResponse().getAccessToken());
-    Response<AssetReportCreateResponse> createResponse =
-        AssetReportCreateTest.createAssetReport(client, accessTokens);
+    List<String> accessTokens = Arrays.asList(
+      getItemPublicTokenExchangeResponse().getAccessToken()
+    );
+    Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(
+      client(),
+      accessTokens
+    );
     String assetReportToken = createResponse.body().getAssetReportToken();
 
-    AssetReportGetTest.waitTillReady(client, assetReportToken);
+    AssetReportGetTest.waitTillReady(client(), assetReportToken);
 
-    String clientId = System.getenv("PLAID_CLIENT_ID");
+    AssetReportAuditCopyCreateRequest request = new AssetReportAuditCopyCreateRequest()
+      .assetReportToken(assetReportToken)
+      .auditorId(System.getenv("PLAID_CLIENT_ID"));
 
-    AssetReportAuditCopyCreateRequest
-        request = new AssetReportAuditCopyCreateRequest(assetReportToken, clientId);
-    Response<AssetReportAuditCopyCreateResponse> response =
-        client.service().assetReportAuditCopyCreate(request).execute();
+    Response<AssetReportAuditCopyCreateResponse> response = client()
+      .assetReportAuditCopyCreate(request)
+      .execute();
     String auditCopyToken = response.body().getAuditCopyToken();
     assertNotNull(auditCopyToken);
 
-    AssetReportAuditCopyGetRequest assetReportAuditCopyGetRequest =
-        new AssetReportAuditCopyGetRequest(auditCopyToken);
+    AssetReportAuditCopyGetRequest assetReportAuditCopyGetRequest = new AssetReportAuditCopyGetRequest()
+      .auditCopyToken(auditCopyToken);
 
-    Response<AssetReportGetResponse> auditCopyGetResponse =
-        client
-            .service()
-            .assetReportAuditCopyGet(assetReportAuditCopyGetRequest
-            )
-            .execute();
+    Response<AssetReportGetResponse> auditCopyGetResponse = client()
+      .assetReportAuditCopyGet(assetReportAuditCopyGetRequest)
+      .execute();
 
     // Validate the responses
     AssetReportGetResponse respBody = auditCopyGetResponse.body();
@@ -71,4 +69,3 @@ public class AssetReportAuditCopyGetTest extends AbstractItemIntegrationTest {
     assertNotNull(respBody.getReport().getAssetReportId());
   }
 }
-

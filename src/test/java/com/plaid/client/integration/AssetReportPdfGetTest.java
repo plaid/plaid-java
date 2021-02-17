@@ -1,23 +1,21 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.PlaidClient;
-import com.plaid.client.request.AssetReportPdfGetRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.AssetReportCreateResponse;
+import static org.junit.Assert.assertTrue;
+
+import com.plaid.client.model.AssetReportCreateResponse;
+import com.plaid.client.model.AssetReportPDFGetRequest;
+import com.plaid.client.model.Products;
+import java.util.Arrays;
+import java.util.List;
 import okhttp3.ResponseBody;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
-
 public class AssetReportPdfGetTest extends AbstractItemIntegrationTest {
 
   @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.ASSETS);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.ASSETS);
   }
 
   @Override
@@ -28,15 +26,23 @@ public class AssetReportPdfGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testAssetReportPdfGetSuccess() throws Exception {
     // Create asset report to get an asset report token
-    PlaidClient client = client();
-    List<String> accessTokens = Arrays.asList(getItemPublicTokenExchangeResponse().getAccessToken());
-    Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client, accessTokens);
+    List<String> accessTokens = Arrays.asList(
+      getItemPublicTokenExchangeResponse().getAccessToken()
+    );
+    Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(
+      client(),
+      accessTokens
+    );
     String assetReportToken = createResponse.body().getAssetReportToken();
 
-    AssetReportGetTest.waitTillReady(client, assetReportToken);
+    AssetReportGetTest.waitTillReady(client(), assetReportToken);
 
-    AssetReportPdfGetRequest assetReportPdfGet = new AssetReportPdfGetRequest(assetReportToken);
-    Response<ResponseBody> response = client.service().assetReportPdfGet(assetReportPdfGet).execute();
+    AssetReportPDFGetRequest assetReportPdfGet = new AssetReportPDFGetRequest()
+      .assetReportToken(assetReportToken);
+
+    Response<ResponseBody> response = client()
+      .assetReportPdfGet(assetReportPdfGet)
+      .execute();
     assertTrue(response.body().bytes().length > 0);
   }
 }
