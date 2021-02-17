@@ -9,6 +9,8 @@ jobs:
     - run:
         name: Download OpenAPI file via Curl from github
         command: make pull-openapi
+    - run: ls
+    - run: cat pom.xml | grep -m1 "version" | cut -d'>' -f2 | cut -d'<' -f1
     - run:
         name: Build generated code using Docker cli openapigenerator
         command: make build-openapi
