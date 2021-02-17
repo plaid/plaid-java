@@ -1,27 +1,32 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.ItemPublicTokenExchangeRequest;
-import com.plaid.client.request.SandboxPublicTokenCreateRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemPublicTokenExchangeResponse;
-import com.plaid.client.response.SandboxPublicTokenCreateResponse;
+import static org.junit.Assert.assertNotNull;
+
+import com.plaid.client.model.Error;
+import com.plaid.client.model.ItemPublicTokenExchangeRequest;
+import com.plaid.client.model.ItemPublicTokenExchangeResponse;
+import com.plaid.client.model.Products;
+import com.plaid.client.model.SandboxPublicTokenCreateRequest;
+import com.plaid.client.model.SandboxPublicTokenCreateResponse;
+import java.util.Arrays;
+import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
-import static org.junit.Assert.assertNotNull;
-
 public class ItemPublicTokenExchangeTest extends AbstractIntegrationTest {
+
   private String publicToken;
 
   @Before
   public void setUp() throws Exception {
-    Response<SandboxPublicTokenCreateResponse> response =
-      client().service().sandboxPublicTokenCreate(new SandboxPublicTokenCreateRequest(TARTAN_BANK_INSTITUTION_ID, Arrays.asList(Product.AUTH))).execute();
+    SandboxPublicTokenCreateRequest request = new SandboxPublicTokenCreateRequest()
+      .institutionId(TARTAN_BANK_INSTITUTION_ID)
+      .initialProducts(Arrays.asList(Products.AUTH));
+
+    Response<SandboxPublicTokenCreateResponse> response = client()
+      .sandboxPublicTokenCreate(request)
+      .execute();
 
     assertSuccessResponse(response);
     publicToken = response.body().getPublicToken();
@@ -29,8 +34,12 @@ public class ItemPublicTokenExchangeTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    Response<ItemPublicTokenExchangeResponse> response =
-      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(publicToken)).execute();
+    ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest()
+      .publicToken(publicToken);
+
+    Response<ItemPublicTokenExchangeResponse> response = client()
+      .itemPublicTokenExchange(request)
+      .execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getAccessToken());
@@ -39,9 +48,17 @@ public class ItemPublicTokenExchangeTest extends AbstractIntegrationTest {
 
   @Test
   public void testInvalidTokenFailure() throws Exception {
-    Response<ItemPublicTokenExchangeResponse> response =
-      client().service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest("not-real")).execute();
+    ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest()
 
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_PUBLIC_TOKEN");
+      .publicToken("not-real");
+    Response<ItemPublicTokenExchangeResponse> response = client()
+      .itemPublicTokenExchange(request)
+      .execute();
+
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_PUBLIC_TOKEN"
+    );
   }
 }
