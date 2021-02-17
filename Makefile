@@ -1,4 +1,5 @@
 CURRENT_DIR:=$(shell pwd)
+OPENAPI_VERSION:=1.5.0-beta
 OPENAPI_FILE:=2020-09-14.yml
 OPENAPI_FILE_INTERNAL:=2020-09-14-internal.yml
 OPENAPI_GENERATOR:=docker run --rm -v $(CURRENT_DIR):/local openapitools/openapi-generator-cli:v5.0.1 generate
