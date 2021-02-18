@@ -1,25 +1,28 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.InvestmentsHoldingsGetRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.Account;
-import com.plaid.client.response.InvestmentsHoldingsGetResponse;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.Security;
+import static org.junit.Assert.*;
+
+import com.plaid.client.model.AccountBase;
+import com.plaid.client.model.AccountType;
+import com.plaid.client.model.Error;
+import com.plaid.client.model.Holding;
+import com.plaid.client.model.InvestmentHoldingsGetRequestOptions;
+import com.plaid.client.model.InvestmentsHoldingsGetRequest;
+import com.plaid.client.model.InvestmentsHoldingsGetResponse;
+import com.plaid.client.model.Products;
+import com.plaid.client.model.Security;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 public class InvestmentsHoldingsGetTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Collections.singletonList(Product.INVESTMENTS);
+  protected List<Products> setupItemProducts() {
+    return Collections.singletonList(Products.INVESTMENTS);
   }
 
   @Override
@@ -29,19 +32,21 @@ public class InvestmentsHoldingsGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testInvestmentsHoldingsGetSuccess() throws Exception {
-    Response<InvestmentsHoldingsGetResponse> response = client().service().investmentsHoldingsGet(
-      new InvestmentsHoldingsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
-      .execute();
+    InvestmentsHoldingsGetRequest request = new InvestmentsHoldingsGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
 
+    Response<InvestmentsHoldingsGetResponse> response = client()
+      .investmentsHoldingsGet(request)
+      .execute();
     assertSuccessResponse(response);
 
     // item should be the same one we created
     assertItemEquals(getItem(), response.body().getItem());
 
     // sandbox should return expected holdings
-    List<InvestmentsHoldingsGetResponse.Holding> holdings = response.body().getHoldings();
+    List<Holding> holdings = response.body().getHoldings();
     assertTrue(holdings.size() > 0);
-    for (InvestmentsHoldingsGetResponse.Holding holding : holdings) {
+    for (Holding holding : holdings) {
       assertNotNull(holding.getAccountId());
       assertNotNull(holding.getSecurityId());
       assertNotNull(holding.getQuantity());
@@ -62,38 +67,59 @@ public class InvestmentsHoldingsGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testInvestmentsHoldingGetWithAccountIds() throws Exception {
     // first call to get an account ID
-    Response<InvestmentsHoldingsGetResponse> response = client().service().investmentsHoldingsGet(
-      new InvestmentsHoldingsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+    InvestmentsHoldingsGetRequest request = new InvestmentsHoldingsGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<InvestmentsHoldingsGetResponse> response = client()
+      .investmentsHoldingsGet(request)
       .execute();
     assertSuccessResponse(response);
+
     String accountId = null;
-    for (Account account : response.body().getAccounts()) {
-      if ("investment".equals(account.getType())) {
+    for (AccountBase account : response.body().getAccounts()) {
+      if (AccountType.INVESTMENT.equals(account.getType())) {
         accountId = account.getAccountId();
         break;
       }
     }
 
-    // call under test
-    response = client().service().investmentsHoldingsGet(
-      new InvestmentsHoldingsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
+    InvestmentHoldingsGetRequestOptions options = new InvestmentHoldingsGetRequestOptions()
+    .accountIds(Arrays.asList(accountId));
+
+    InvestmentsHoldingsGetRequest investmentsHoldingsGetRequest = new InvestmentsHoldingsGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
+      .options(options);
+
+    Response<InvestmentsHoldingsGetResponse> investmentsHoldingsGetResponse = client()
+      .investmentsHoldingsGet(investmentsHoldingsGetRequest)
       .execute();
-    assertSuccessResponse(response);
+    assertSuccessResponse(investmentsHoldingsGetResponse);
 
     // item should be the same one we created
-    assertItemEquals(getItem(), response.body().getItem());
+    assertItemEquals(
+      getItem(),
+      investmentsHoldingsGetResponse.body().getItem()
+    );
 
     // sandbox should return expected accounts
-    List<Account> accounts = response.body().getAccounts();
+    List<AccountBase> accounts = investmentsHoldingsGetResponse
+      .body()
+      .getAccounts();
     assertEquals(1, accounts.size());
   }
 
   @Test
   public void testInvestmentsHoldingGetInvalidAccessToken() throws Exception {
-    Response<InvestmentsHoldingsGetResponse> response = client().service().investmentsHoldingsGet(
-      new InvestmentsHoldingsGetRequest("notreal"))
-      .execute();
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
-  }
+    InvestmentsHoldingsGetRequest investmentsHoldingsGetRequest = new InvestmentsHoldingsGetRequest()
+      .accessToken("notreal");
 
+    Response<InvestmentsHoldingsGetResponse> response = client()
+      .investmentsHoldingsGet(investmentsHoldingsGetRequest)
+      .execute();
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_ACCESS_TOKEN"
+    );
+  }
 }

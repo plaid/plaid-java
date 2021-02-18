@@ -1,22 +1,22 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.ItemAccessTokenInvalidateRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemAccessTokenInvalidateResponse;
-import org.junit.Test;
-import retrofit2.Response;
-
-import java.util.Collections;
-import java.util.List;
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.plaid.client.model.Error;
+import com.plaid.client.model.ItemAccessTokenInvalidateRequest;
+import com.plaid.client.model.ItemAccessTokenInvalidateResponse;
+import com.plaid.client.model.Products;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Test;
+import retrofit2.Response;
+
 public class ItemAccessTokenInvalidateTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Collections.singletonList(Product.AUTH);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.AUTH);
   }
 
   @Override
@@ -26,21 +26,34 @@ public class ItemAccessTokenInvalidateTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    Response<ItemAccessTokenInvalidateResponse> response = client().service().itemAccessTokenInvalidate(
-      new ItemAccessTokenInvalidateRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+    ItemAccessTokenInvalidateRequest request = new ItemAccessTokenInvalidateRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<ItemAccessTokenInvalidateResponse> response = client()
+      .itemAccessTokenInvalidate(request)
       .execute();
 
     assertSuccessResponse(response);
     assertNotNull(response.body().getNewAccessToken());
-    assertNotEquals(getItemPublicTokenExchangeResponse().getAccessToken(), response.body().getNewAccessToken());
+    assertNotEquals(
+      getItemPublicTokenExchangeResponse().getAccessToken(),
+      response.body().getNewAccessToken()
+    );
   }
 
   @Test
   public void testInvalidAccessToken() throws Exception {
-    Response<ItemAccessTokenInvalidateResponse> response = client().service().itemAccessTokenInvalidate(
-      new ItemAccessTokenInvalidateRequest("not-real"))
+    ItemAccessTokenInvalidateRequest request = new ItemAccessTokenInvalidateRequest()
+      .accessToken("not-real");
+
+    Response<ItemAccessTokenInvalidateResponse> response = client()
+      .itemAccessTokenInvalidate(request)
       .execute();
 
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_ACCESS_TOKEN"
+    );
   }
 }
