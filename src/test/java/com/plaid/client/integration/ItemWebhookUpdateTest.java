@@ -1,22 +1,22 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.ItemWebhookUpdateRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemWebhookUpdateResponse;
-import com.plaid.client.response.ItemStatus;
+import static org.junit.Assert.assertEquals;
+
+import com.plaid.client.model.Error;
+import com.plaid.client.model.Item;
+import com.plaid.client.model.ItemWebhookUpdateRequest;
+import com.plaid.client.model.ItemWebhookUpdateResponse;
+import com.plaid.client.model.Products;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-
 public class ItemWebhookUpdateTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.TRANSACTIONS);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.TRANSACTIONS);
   }
 
   @Override
@@ -27,20 +27,35 @@ public class ItemWebhookUpdateTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     // Update the webhook
-    Response<ItemWebhookUpdateResponse> webhookResponse = client().service().itemWebhookUpdate(
-    	new ItemWebhookUpdateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "https://baz.xyz/foo-test-hook")).execute();
+    String webhook = "https://baz.xyz/foo-test-hook";
+    ItemWebhookUpdateRequest request = new ItemWebhookUpdateRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
+      .webhook(webhook);
+
+    Response<ItemWebhookUpdateResponse> webhookResponse = client()
+      .itemWebhookUpdate(request)
+      .execute();
 
     assertSuccessResponse(webhookResponse);
-    ItemStatus itemStatus = webhookResponse.body().getItem();
-    assertEquals(itemStatus.getWebhook(), "https://baz.xyz/foo-test-hook");
+    Item item = webhookResponse.body().getItem();
+    assertEquals(item.getWebhook(), webhook);
   }
 
   @Test
   public void testFailure() throws Exception {
-	  // Invalid webhook URL provided
-	  Response<ItemWebhookUpdateResponse> webhookResponse = client().service().itemWebhookUpdate(
-    	  new ItemWebhookUpdateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "INVALID_HOOK")).execute();
+    // Invalid webhook URL provided
+    ItemWebhookUpdateRequest request = new ItemWebhookUpdateRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
+      .webhook("invalid-hook");
 
-    assertErrorResponse(webhookResponse, ErrorResponse.ErrorType.INVALID_REQUEST, "INVALID_FIELD");
+    Response<ItemWebhookUpdateResponse> webhookResponse = client()
+      .itemWebhookUpdate(request)
+      .execute();
+
+    assertErrorResponse(
+      webhookResponse,
+      Error.ErrorTypeEnum.INVALID_REQUEST,
+      "INVALID_FIELD"
+    );
   }
 }

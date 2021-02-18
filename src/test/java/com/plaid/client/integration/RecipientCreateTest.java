@@ -1,15 +1,16 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.PlaidClient;
-import com.plaid.client.model.paymentinitiation.Address;
-import com.plaid.client.model.paymentinitiation.Bacs;
-import com.plaid.client.request.paymentinitiation.RecipientCreateRequest;
-import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
+import static org.junit.Assert.assertNotNull;
+
+import com.plaid.client.request.PlaidApi;
+import com.plaid.client.model.NullableRecipientBACS;
+import com.plaid.client.model.PaymentInitiationAddress;
+import com.plaid.client.model.PaymentInitiationRecipientCreateRequest;
+import com.plaid.client.model.PaymentInitiationRecipientCreateResponse;
 import java.util.Arrays;
 import org.junit.Test;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertNotNull;
 
 public class RecipientCreateTest extends AbstractIntegrationTest {
 
@@ -17,16 +18,24 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
    * Utility method that creates a payment recipient with an iban. Used by other integration tests
    * to set up.
    */
-  public static Response<RecipientCreateResponse> createRecipientWithIban(PlaidClient client)
+  public static Response<PaymentInitiationRecipientCreateResponse> createRecipientWithIban(
+    PlaidApi client
+  )
     throws Exception {
+    PaymentInitiationAddress address = new PaymentInitiationAddress()
+      .street(Arrays.asList("Street Name 999"))
+      .city("City")
+      .postalCode("99999")
+      .country("GB");
 
-    Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
-    RecipientCreateRequest recipientCreateRequest =
-      new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555")
-        .withAddress(address);
+    PaymentInitiationRecipientCreateRequest recipientCreateRequest = new PaymentInitiationRecipientCreateRequest()
+      .name("John Doe")
+      .iban("GB33BUKB20201555555555")
+      .address(address);
 
-    Response<RecipientCreateResponse> response =
-      client.service().recipientCreate(recipientCreateRequest).execute();
+    Response<PaymentInitiationRecipientCreateResponse> response = client
+      .paymentInitiationRecipientCreate(recipientCreateRequest)
+      .execute();
 
     return response;
   }
@@ -35,52 +44,81 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
    * Utility method that creates a payment recipient with bacs. Used by other integration tests to
    * set up.
    */
-  public static Response<RecipientCreateResponse> createRecipientWithBacs(PlaidClient client)
+  public static Response<PaymentInitiationRecipientCreateResponse> createRecipientWithBacs(
+    PlaidApi client
+  )
     throws Exception {
+    PaymentInitiationAddress address = new PaymentInitiationAddress()
+      .street(Arrays.asList("Street Name 999"))
+      .city("City")
+      .postalCode("99999")
+      .country("GB");
+    NullableRecipientBACS bacs = new NullableRecipientBACS()
+      .account("26207729")
+      .sortCode("560029");
 
-    Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
-    RecipientCreateRequest recipientCreateRequest =
-      new RecipientCreateRequest("John Doe").withAddress(address)
-        .withBacs(new Bacs("123456", "401276"));
+    PaymentInitiationRecipientCreateRequest recipientCreateRequest = new PaymentInitiationRecipientCreateRequest()
+      .name("John Doe")
+      .bacs(bacs)
+      .address(address);
 
-    Response<RecipientCreateResponse> response =
-      client.service().recipientCreate(recipientCreateRequest).execute();
+    Response<PaymentInitiationRecipientCreateResponse> response = client
+      .paymentInitiationRecipientCreate(recipientCreateRequest)
+      .execute();
 
     return response;
   }
 
-  public static Response<RecipientCreateResponse> createRecipientWithBacsAndIban(PlaidClient client)
+  public static Response<PaymentInitiationRecipientCreateResponse> createRecipientWithBacsAndIban(
+    PlaidApi client
+  )
     throws Exception {
+    PaymentInitiationAddress address = new PaymentInitiationAddress()
+      .street(Arrays.asList("Street Name 999"))
+      .city("City")
+      .postalCode("99999")
+      .country("GB");
 
-    Address address = new Address(Arrays.asList("Street Name 999"), "City", "99999", "GB");
-    RecipientCreateRequest recipientCreateRequest =
-      new RecipientCreateRequest("John Doe").withIban("GB33BUKB20201555555555")
-        .withAddress(address)
-        .withBacs(new Bacs("123456", "401276"));
+    NullableRecipientBACS bacs = new NullableRecipientBACS()
+      .account("26207729")
+      .sortCode("560029");
 
-    Response<RecipientCreateResponse> response =
-      client.service().recipientCreate(recipientCreateRequest).execute();
+    PaymentInitiationRecipientCreateRequest recipientCreateRequest = new PaymentInitiationRecipientCreateRequest()
+      .name("John Doe")
+      .bacs(bacs)
+      .iban("GB33BUKB20201555555555")
+      .address(address);
+
+    Response<PaymentInitiationRecipientCreateResponse> response = client
+      .paymentInitiationRecipientCreate(recipientCreateRequest)
+      .execute();
 
     return response;
   }
 
   @Test
   public void testRecipientCreateSuccessWithIban() throws Exception {
-    Response<RecipientCreateResponse> response = createRecipientWithIban(client());
+    Response<PaymentInitiationRecipientCreateResponse> response = createRecipientWithIban(
+      client()
+    );
     assertSuccessResponse(response);
     assertNotNull(response.body().getRecipientId());
   }
 
   @Test
   public void testRecipientCreateSuccessWithBacs() throws Exception {
-    Response<RecipientCreateResponse> response = createRecipientWithBacs(client());
+    Response<PaymentInitiationRecipientCreateResponse> response = createRecipientWithBacs(
+      client()
+    );
     assertSuccessResponse(response);
     assertNotNull(response.body().getRecipientId());
   }
 
   @Test
   public void testRecipientCreateSuccessWithBacsAndIban() throws Exception {
-    Response<RecipientCreateResponse> response = createRecipientWithBacsAndIban(client());
+    Response<PaymentInitiationRecipientCreateResponse> response = createRecipientWithBacsAndIban(
+      client()
+    );
     assertSuccessResponse(response);
     assertNotNull(response.body().getRecipientId());
   }

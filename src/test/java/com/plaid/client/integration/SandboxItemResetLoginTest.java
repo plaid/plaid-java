@@ -1,21 +1,21 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.SandboxItemResetLoginRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.SandboxItemResetLoginResponse;
+import static org.junit.Assert.assertTrue;
+
+import com.plaid.client.model.Error;
+import com.plaid.client.model.Products;
+import com.plaid.client.model.SandboxItemResetLoginRequest;
+import com.plaid.client.model.SandboxItemResetLoginResponse;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
-
 public class SandboxItemResetLoginTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.AUTH);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.AUTH);
   }
 
   @Override
@@ -25,8 +25,12 @@ public class SandboxItemResetLoginTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    Response<SandboxItemResetLoginResponse> response =
-      client().service().sandboxItemResetLogin(new SandboxItemResetLoginRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
+    SandboxItemResetLoginRequest request = new SandboxItemResetLoginRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<SandboxItemResetLoginResponse> response = client()
+      .sandboxItemResetLogin(request)
+      .execute();
 
     assertSuccessResponse(response);
     assertTrue(response.body().getResetLogin());

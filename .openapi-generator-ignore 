@@ -1,0 +1,12 @@
+gradle/**
+api/**
+.gitignore
+.travis.yml
+build.gradle
+build.sbt
+git_push.sh
+gradle.properties
+gradlew
+gradlew.bat
+readme.md
+settings.gradle

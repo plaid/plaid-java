@@ -1,23 +1,23 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.ItemWebhookUpdateRequest;
-import com.plaid.client.request.SandboxItemFireWebhookRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemWebhookUpdateResponse;
-import com.plaid.client.response.SandboxItemFireWebhookResponse;
+import static org.junit.Assert.assertTrue;
+
+import com.plaid.client.model.Error;
+import com.plaid.client.model.ItemWebhookUpdateRequest;
+import com.plaid.client.model.ItemWebhookUpdateResponse;
+import com.plaid.client.model.Products;
+import com.plaid.client.model.SandboxItemFireWebhookRequest;
+import com.plaid.client.model.SandboxItemFireWebhookResponse;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
-
 public class SandboxItemFireWebhookTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.TRANSACTIONS);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.TRANSACTIONS);
   }
 
   @Override
@@ -28,11 +28,24 @@ public class SandboxItemFireWebhookTest extends AbstractItemIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     // Set a webhook
-    Response<ItemWebhookUpdateResponse> webhookResponse = client().service().itemWebhookUpdate(
-      new ItemWebhookUpdateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "https://baz.xyz/foo-test-hook")).execute();
+    ItemWebhookUpdateRequest request = new ItemWebhookUpdateRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
+      .webhook("https://baz.xyz/foo-test-hook");
+
+    Response<ItemWebhookUpdateResponse> webhookResponse = client()
+      .itemWebhookUpdate(request)
+      .execute();
+
     // Fire a webhook
-    Response<SandboxItemFireWebhookResponse> response =
-      client().service().sandboxItemFireWebhook(new SandboxItemFireWebhookRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "DEFAULT_UPDATE")).execute();
+    SandboxItemFireWebhookRequest fireRequest = new SandboxItemFireWebhookRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
+      .webhookCode(
+        SandboxItemFireWebhookRequest.WebhookCodeEnum.DEFAULT_UPDATE
+      );
+
+    Response<SandboxItemFireWebhookResponse> response = client()
+      .sandboxItemFireWebhook(fireRequest)
+      .execute();
 
     assertSuccessResponse(response);
     assertTrue(response.body().getWebhookFired());
