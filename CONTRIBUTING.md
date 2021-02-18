@@ -14,7 +14,7 @@ If you find an issue, please investigate whether it is a type problem with [Open
 
 1. To build the docker image for the client tests, run `docker build -t plaid-java .`.
 2. Go to the [Plaid Dashboard](https://dashboard.plaid.com/) and copy and paste your `client_id` and sandbox `secret` into the following command.
-3. Run `docker run --rm -e CLIENT_ID=$CLIENT_ID -e SECRET=$SECRET plaid-java`.
+3. Run `docker run --rm -e PLAID_CLIENT_ID=$CLIENT_ID -e PLAID_SECRET=$SECRET plaid-java`.
 
 If you wish to run a single test, edit the `Dockerfile` CMD and add a parmeter like so: `CMD ["mvn", "-Dit.test=IdentityGet*", "-Dmaven.javadoc.skip=true", "verify", "-e"]`
 
