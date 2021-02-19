@@ -8,3 +8,4 @@ plaid-java.iml
 *.iws
 pom.xml.releaseBackup
 release.properties
+/src/main/java/com/**
