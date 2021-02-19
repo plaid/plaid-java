@@ -6,7 +6,7 @@ This version represents a transition in how we maintain our external client libr
 
 **Change CountryCodes to enum:**
 
-- from: `Arrays.list("US)`
+- from: `Arrays.list("US")`
 - to: `Arrays.list(CountryCode.US`)
 
 **Rename model imports:**
