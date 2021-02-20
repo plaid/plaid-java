@@ -1,25 +1,32 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.AccountsGetRequest;
-import com.plaid.client.request.AuthGetRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.AccountsGetResponse;
-import com.plaid.client.response.AuthGetResponse;
-import com.plaid.client.response.ErrorResponse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import com.plaid.client.model.AccountsGetRequest;
+import com.plaid.client.model.AccountsGetResponse;
+import com.plaid.client.model.AuthGetNumbers;
+import com.plaid.client.model.AuthGetRequest;
+import com.plaid.client.model.AuthGetRequestOptions;
+import com.plaid.client.model.AuthGetResponse;
+import com.plaid.client.model.Error;
+import com.plaid.client.model.NumbersACH;
+import com.plaid.client.model.NumbersBACS;
+import com.plaid.client.model.NumbersEFT;
+import com.plaid.client.model.NumbersInternational;
+import com.plaid.client.model.Products;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 public class AuthGetTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Collections.singletonList(Product.AUTH);
+  protected List<Products> setupItemProducts() {
+    return Collections.singletonList(Products.AUTH);
   }
 
   @Override
@@ -29,16 +36,18 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testAllAccountsSuccess() throws Exception {
-    Response<AuthGetResponse> response =
-      client().service()
-        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
-        .execute();
+    AuthGetRequest authGetRequest = new AuthGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<AuthGetResponse> response = client()
+      .authGet(authGetRequest)
+      .execute();
 
     assertSuccessResponse(response);
     assertTrue(response.body().getAccounts().size() > 1);
     assertNotNull(response.body().getItem());
 
-    for (AuthGetResponse.NumberACH numberACH : response.body().getNumbers().getACH()) {
+    for (NumbersACH numberACH : response.body().getNumbers().getAch()) {
       assertNotNull(numberACH.getAccount());
       assertNotNull(numberACH.getRouting());
       assertNotNull(numberACH.getAccountId());
@@ -46,7 +55,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
     }
 
     // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
-    for (AuthGetResponse.NumberEFT numberEFT : response.body().getNumbers().getEFT()) {
+    for (NumbersEFT numberEFT : response.body().getNumbers().getEft()) {
       assertNotNull(numberEFT.getAccount());
       assertNotNull(numberEFT.getBranch());
       assertNotNull(numberEFT.getInstitution());
@@ -54,16 +63,17 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
     }
 
     // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
-    for (AuthGetResponse.NumberInternational numberInternational : response.body()
+    for (NumbersInternational numberInternational : response
+      .body()
       .getNumbers()
       .getInternational()) {
-      assertNotNull(numberInternational.getIBAN());
-      assertNotNull(numberInternational.getBIC());
+      assertNotNull(numberInternational.getIban());
+      assertNotNull(numberInternational.getBic());
       assertNotNull(numberInternational.getAccountId());
     }
 
     // The sandbox data that is returned only has ACH numbers so this doesn't actually do anything
-    for (AuthGetResponse.NumberBACS numberBACS : response.body().getNumbers().getBACS()) {
+    for (NumbersBACS numberBACS : response.body().getNumbers().getBacs()) {
       assertNotNull(numberBACS.getAccountId());
       assertNotNull(numberBACS.getAccount());
       assertNotNull(numberBACS.getSortCode());
@@ -73,21 +83,25 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testSelectiveAccountSuccess() throws Exception {
     // first call to get an account ID
-    Response<AccountsGetResponse> accountsGetResponse = client().service().accountsGet(
-      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
-      .execute();
+    AccountsGetRequest accountsGetRequest = new AccountsGetRequest()
+    .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<AccountsGetResponse> accountsGetResponse = client().accountsGet(accountsGetRequest).execute();
     assertSuccessResponse(accountsGetResponse);
     String accountId = accountsGetResponse.body().getAccounts().get(1).getAccountId();
 
     // call under test
-    Response<AuthGetResponse> response =
-      client().service()
-        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
-          .withAccountIds(Collections.singletonList(accountId)))
-        .execute();
+    AuthGetRequest authGetRequest = new AuthGetRequest()
+    .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    AuthGetRequestOptions authGetRequestOptions = new AuthGetRequestOptions()
+    .accountIds(Collections.singletonList(accountId));
+    authGetRequest.options(authGetRequestOptions);
+
+    Response<AuthGetResponse> response = client().authGet(authGetRequest).execute();
 
     assertSuccessResponse(response);
-    List<AuthGetResponse.NumberACH> achList = response.body().getNumbers().getACH();
+    List<NumbersACH> achList = response.body().getNumbers().getAch();
     assertNotNull(achList);
     assertEquals(1, achList.size());
     assertEquals(accountId, achList.get(0).getAccountId());
@@ -98,19 +112,35 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testNoSuchTokenError() throws Exception {
-    Response<AuthGetResponse> response =
-      client().service().authGet(new AuthGetRequest("bad-access-token")).execute();
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
+    AuthGetRequest authGetRequest = new AuthGetRequest()
+      .accessToken("bad-access-token");
+
+    Response<AuthGetResponse> response = client()
+      .authGet(authGetRequest)
+      .execute();
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_ACCESS_TOKEN"
+    );
   }
 
   @Test
-  @Ignore("triggers a sandbox 500 error at this time")
   public void testNoSuchAccountError() throws Exception {
-    Response<AuthGetResponse> response =
-      client().service()
-        .authGet(new AuthGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
-          .withAccountIds(Collections.singletonList("fake-not-real")))
-        .execute();
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCOUNT_ID");
+    AuthGetRequest authGetRequestErr = new AuthGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    AuthGetRequestOptions authGetRequestOptions = new AuthGetRequestOptions()
+    .accountIds(Collections.singletonList("fake-not-real"));
+    authGetRequestErr.options(authGetRequestOptions);
+
+    Response<AuthGetResponse> authResponse = client()
+      .authGet(authGetRequestErr)
+      .execute();
+    assertErrorResponse(
+      authResponse,
+      Error.ErrorTypeEnum.INVALID_REQUEST,
+      "INVALID_FIELD"
+    );
   }
 }
