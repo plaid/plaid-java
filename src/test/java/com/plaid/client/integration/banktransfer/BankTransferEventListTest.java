@@ -14,6 +14,7 @@ import retrofit2.Response;
 
 public class BankTransferEventListTest extends AbstractBankTransferTest {
   @Override
+  @Ignore
   protected void bankTransferTest() throws AssertionError, Exception {
     Response<SandboxBankTransferSimulateResponse> simulateResponse = client().service().sandboxBankTransferSimulate(
       new SandboxBankTransferSimulateRequest(getBankTransfer().getId(), "posted")
