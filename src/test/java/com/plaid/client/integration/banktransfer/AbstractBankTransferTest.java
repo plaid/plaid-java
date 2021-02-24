@@ -12,7 +12,6 @@ import com.plaid.client.response.banktransfer.BankTransferCreateResponse;
 import java.util.List;
 import java.util.Arrays;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import retrofit2.Response;
@@ -65,7 +64,6 @@ public abstract class AbstractBankTransferTest extends AbstractItemIntegrationTe
   protected abstract void bankTransferTest() throws AssertionError, Exception;
 
   @Test
-  @Ignore("Intermittently failing.")
   public void runWithRetries() throws Exception {
     int maxRetries = 3;
     for (int i = 0; i < maxRetries; i++) {
