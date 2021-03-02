@@ -1,21 +1,45 @@
 package com.plaid.client.integration.banktransfer;
 
-import com.plaid.client.request.SandboxBankTransferSimulateRequest;
-import com.plaid.client.request.banktransfer.BankTransferCancelRequest;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.SandboxBankTransferSimulateResponse;
-import com.plaid.client.response.banktransfer.BankTransferCancelResponse;
+import static org.junit.Assert.*;
 
+import com.google.gson.Gson;
+import com.plaid.client.model.BankTransferCancelRequest;
+import com.plaid.client.model.BankTransferCancelResponse;
+import com.plaid.client.model.BankTransferFailure;
+import com.plaid.client.model.Error;
+import com.plaid.client.model.SandboxBankTransferSimulateRequest;
+import com.plaid.client.model.SandboxBankTransferSimulateResponse;
 import retrofit2.Response;
 
 public class BankTransferCancelFailureTest extends AbstractBankTransferTest {
+
   @Override
   protected void bankTransferTest() throws AssertionError, Exception {
-    Response<SandboxBankTransferSimulateResponse> simulateResponse = client().service().sandboxBankTransferSimulate(
-      new SandboxBankTransferSimulateRequest(getBankTransfer().getId(), "failed")).execute();
+    SandboxBankTransferSimulateRequest request = new SandboxBankTransferSimulateRequest()
+      .bankTransferId(getBankTransfer().getId())
+      .eventType("failed");
+
+    Response<SandboxBankTransferSimulateResponse> simulateResponse = client()
+      .sandboxBankTransferSimulate(request)
+      .execute();
+
     assertSuccessResponse(simulateResponse);
-    Response<BankTransferCancelResponse> cancelResponse = client().service().bankTransferCancel(
-      new BankTransferCancelRequest(getBankTransfer().getId())).execute();
-    assertErrorResponse(cancelResponse, ErrorResponse.ErrorType.BANK_TRANSFER_ERROR, "BANK_TRANSFER_NOT_CANCELLABLE");
+
+    BankTransferCancelRequest cancelRequest = new BankTransferCancelRequest()
+      .bankTransferId(getBankTransfer().getId());
+
+    Response<BankTransferCancelResponse> cancelResponse = client()
+      .bankTransferCancel(cancelRequest)
+      .execute();
+
+    Gson gson = new Gson();
+    Error error = gson.fromJson(
+      cancelResponse.errorBody().string(),
+      Error.class
+    );
+    assertNotNull(error);
+    assertNotNull(error.getRequestId());
+    assertEquals(Error.ErrorTypeEnum.BANK_TRANSFER_ERROR, error.getErrorType());
+    assertEquals("BANK_TRANSFER_NOT_CANCELLABLE", error.getErrorCode());
   }
-};
+}

@@ -1,22 +1,24 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.ItemGetRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.ItemGetResponse;
-import com.plaid.client.response.ItemStatusStatus;
+import static org.junit.Assert.assertNull;
+
+import com.plaid.client.model.Error;
+import com.plaid.client.model.ItemGetRequest;
+import com.plaid.client.model.ItemGetResponse;
+import com.plaid.client.model.ItemStatusInvestments;
+import com.plaid.client.model.ItemStatusLastWebhook;
+import com.plaid.client.model.ItemStatusTransactions;
+import com.plaid.client.model.Products;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertNull;
-
 public class ItemGetTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.TRANSACTIONS, Product.INVESTMENTS);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.TRANSACTIONS, Products.INVESTMENTS);
   }
 
   @Override
@@ -26,8 +28,10 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    Response<ItemGetResponse> response =
-      client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
+    ItemGetRequest request = new ItemGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<ItemGetResponse> response = client().itemGet(request).execute();
 
     assertSuccessResponse(response);
     assertItemEquals(getItem(), response.body().getItem());
@@ -35,38 +39,44 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccessWithStatus() throws Exception {
-    Response<ItemGetResponse> response =
-            client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
+    ItemGetRequest request = new ItemGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<ItemGetResponse> response = client().itemGet(request).execute();
 
     assertSuccessResponse(response);
     assertItemEquals(getItem(), response.body().getItem());
 
-    ItemStatusStatus.ItemStatusHealth transactions = response.body().getStatus().getTransactions();
+    ItemStatusTransactions transactions = response
+      .body()
+      .getStatus()
+      .getTransactions();
     assertNull(transactions.getLastFailedUpdate());
 
-    ItemStatusStatus.ItemStatusHealth investments = response.body().getStatus().getInvestments();
+    ItemStatusInvestments investments = response
+      .body()
+      .getStatus()
+      .getInvestments();
     assertNull(investments.getLastFailedUpdate());
 
-    ItemStatusStatus.ItemStatusLastWebhook webhook = response.body().getStatus().getLastWebhook();
+    ItemStatusLastWebhook webhook = response
+      .body()
+      .getStatus()
+      .getLastWebhook();
     assertNull(webhook);
   }
 
   @Test
   public void testFailure() throws Exception {
-    Response<ItemGetResponse> response =
-      client().service().itemGet(new ItemGetRequest("not-a-token")).execute();
+    ItemGetRequest request = new ItemGetRequest()
+      .accessToken("not-a-token");
 
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
-  }
+    Response<ItemGetResponse> response = client().itemGet(request).execute();
 
-  @Test(expected = UnsupportedOperationException.class)
-  public void testImmutableListsInResponses() throws Exception {
-    // quick smoke tests to make sure that ImmutableListStripUnknownEnumsTypeAdapterFactory is installed and working
-    // this test could really be anywhere
-    Response<ItemGetResponse> response =
-      client().service().itemGet(new ItemGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())).execute();
-
-    assertSuccessResponse(response);
-    response.body().getItem().getAvailableProducts().add(Product.IDENTITY);
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_ACCESS_TOKEN"
+    );
   }
 }

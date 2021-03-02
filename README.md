@@ -2,7 +2,7 @@
 
 Java Bindings for the Plaid API (https://www.plaid.com/docs).
 
-The whole available Plaid API is defined in the `PlaidApiService` interface.
+Plaid API is defined in the `PlaidApi` interface.
 
 Check the Junit test classes for examples of more use cases. Every API endpoint has at
 least one integration test against the sandbox environment.
@@ -15,11 +15,10 @@ the hood. You may want to take a look at those libraries if you need to do anyth
 Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java)
 
 ```xml
-
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>8.1.0</version>
+  <version>9.0.0-beta-1</version>
 </dependency>
 ```
 
@@ -29,7 +28,7 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 
 | API version                                         | plaid-java release    |
 | --------------------------------------------------- | --------------------- |
-| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x`               |
+| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x`, `9.x.x`      |
 | [`2019-05-29`][api-version-2019-05-29]              | `7.x.x`               |
 | [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
 | `2017-03-08`                                        | `2.x.x`               |
@@ -40,17 +39,21 @@ For information about what has changed between versions and how to update your i
 
 ```java
 
-// Use builder to create a client
-PlaidClient plaidClient = PlaidClient.newBuilder()
-  .clientIdAndSecret("your_client_id", "your_secret")
-  .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
-  .build();
+private PlaidApi plaidClient;
 
+HashMap<String, String> apiKeys = new HashMap<String, String>();
+apiKeys.put("clientId", plaidClientId);
+apiKeys.put("secret", plaidSecret);
+apiKeys.put("plaidVersion", "2020-09-14");
+apiClient = new ApiClient(apiKeys);
+apiClient.setPlaidAdapter(ApiClient.Sandbox); // or equivalent, depending on which environment you're calling into
+plaidClient = apiClient.createService(PlaidApi.class);
 
 // Synchronously exchange a Link public_token for an API access_token
 // Required request parameters are always Request object constructor arguments
-Response<ItemPublicTokenExchangeResponse> response = plaidClient.service()
-    .itemPublicTokenExchange(new ItemPublicTokenExchangeRequest("the_link_public_token")).execute();
+ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken("the_link_public_token");
+Response<ItemPublicTokenExchangeResponse> response = plaidClient()
+    .itemPublicTokenExchange(request).execute();
 
 if (response.isSuccessful()) {
   accessToken = response.body().getAccessToken();
@@ -58,8 +61,9 @@ if (response.isSuccessful()) {
 
 
 // Asynchronously do the same thing. Useful for potentially long-lived calls.
-plaidClient.service()
-    .itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(publicToken))
+ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(publicToken);
+plaidClient()
+    .itemPublicTokenExchange(request)
     .enqueue(new Callback<ItemPublicTokenExchangeResponse>() {
         @Override
         public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {
@@ -77,9 +81,15 @@ plaidClient.service()
 
 // Decoding an unsuccessful response
 try {
-  ErrorResponse errorResponse = plaidClient.parseError(response);
+  Gson gson = new Gson();
+  Error error = gson.fromJson(response.errorBody().string(), Error.class);
 } catch (Exception e) {
-  // deal with it. you didn't even receive a well-formed JSON error response.
+  throw new Exception(
+    String.format(
+      "Failed converting from API Response Error Body to Error %f",
+      response.errorBody().string()
+    )
+  );
 }
 ```
 

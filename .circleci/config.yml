@@ -2,45 +2,18 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/plaid/plaid-java
-    parallelism: 1
-    shell: /bin/bash --login
-    environment:
-      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
-      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-    docker:
-    - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
-      # command: /sbin/init
+    machine: true
     steps:
     - checkout
-    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
-        working_directory: ~/plaid/plaid-java
-        command: sudo update-alternatives --set java /usr/lib/jvm/jdk1.8.0/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/jdk1.8.0/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/jdk1.8.0" >> $BASH_ENV
-    - restore_cache:
-        keys:
-        # This branch if available
-        - v1-dep-{{ .Branch }}-
-        # Default branch if not
-        - v1-dep-master-
-        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
-        - v1-dep-
-    - run: mvn dependency:go-offline || true
-    # Save dependency cache
-    - save_cache:
-        key: v1-dep-{{ .Branch }}-{{ epoch }}
-        paths:
-        # This is a broad list of cache paths to include many possible development environments
-        # You can probably delete some of these entries
-        - vendor/bundle
-        - ~/.gradle
-    # Test
-    - run: mvn verify
-    # Save test results
-    - store_test_results:
-        path: /tmp/circleci-test-results
-    # Save artifacts
-    - store_artifacts:
-        path: /tmp/circleci-artifacts
-    - store_artifacts:
-        path: /tmp/circleci-test-results
+        name: Download OpenAPI file via Curl from github
+        command: make pull-openapi
+    - run:
+        name: Build generated code using Docker cli openapigenerator
+        command: make build-openapi
+    - run:
+        name: Build Docker image for running java tests
+        command: docker build -t plaid-java .
+    - run:
+        name: Run java tests in Docker
+        command: docker run --rm -e PLAID_CLIENT_ID=$PLAID_CLIENT_ID -e PLAID_SECRET=$PLAID_SECRET plaid-java
