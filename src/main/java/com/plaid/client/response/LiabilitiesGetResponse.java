@@ -133,54 +133,98 @@ public class LiabilitiesGetResponse extends BaseResponse {
     private Double ytdInterestPaid;
     private Double ytdPrincipalPaid;
 
-    public String getAccountId() { return accountId; }
+    public String getAccountId() {
+      return accountId;
+    }
 
-    public String getAccountNumber() { return accountNumber; }
+    public String getAccountNumber() {
+      return accountNumber;
+    }
 
-    public Double getCurrentLateFee() { return currentLateFee; }
+    public Double getCurrentLateFee() {
+      return currentLateFee;
+    }
 
-    public Double getEscrowBalance() { return escrowBalance; }
+    public Double getEscrowBalance() {
+      return escrowBalance;
+    }
 
-    public Boolean getHasPmi() { return hasPmi; }
+    public Boolean getHasPmi() {
+      return hasPmi;
+    }
 
-    public Boolean getHasPrepaymentPenalty() { return hasPrepaymentPenalty; }
+    public Boolean getHasPrepaymentPenalty() {
+      return hasPrepaymentPenalty;
+    }
 
-    public InterestRate getInterestRate() { return interestRate; }
+    public InterestRate getInterestRate() {
+      return interestRate;
+    }
 
-    public Double getLastPaymentAmount() { return lastPaymentAmount; }
+    public Double getLastPaymentAmount() {
+      return lastPaymentAmount;
+    }
 
-    public String getLastPaymentDate() { return lastPaymentDate; }
+    public String getLastPaymentDate() {
+      return lastPaymentDate;
+    }
 
-    public String getLoanTypeDescription() { return loanTypeDescription; }
+    public String getLoanTypeDescription() {
+      return loanTypeDescription;
+    }
 
-    public String getLoanTerm() { return loanTerm; }
+    public String getLoanTerm() {
+      return loanTerm;
+    }
 
-    public String getMaturityDate() { return maturityDate; }
+    public String getMaturityDate() {
+      return maturityDate;
+    }
 
-    public Double getNextMonthlyPayment() { return nextMonthlyPayment; }
+    public Double getNextMonthlyPayment() {
+      return nextMonthlyPayment;
+    }
 
-    public String getNextPaymentDueDate() { return nextPaymentDueDate; }
+    public String getNextPaymentDueDate() {
+      return nextPaymentDueDate;
+    }
 
-    public String getOriginationDate() { return originationDate; }
+    public String getOriginationDate() {
+      return originationDate;
+    }
 
-    public Double getOriginationPrincipalAmount() { return originationPrincipalAmount; }
+    public Double getOriginationPrincipalAmount() {
+      return originationPrincipalAmount;
+    }
 
-    public Double getPastDueAmount() { return pastDueAmount; }
+    public Double getPastDueAmount() {
+      return pastDueAmount;
+    }
 
-    public PropertyAddress getPropertyAddress() { return propertyAddress; }
+    public PropertyAddress getPropertyAddress() {
+      return propertyAddress;
+    }
 
-    public Double getYtdInterestPaid() { return ytdInterestPaid; }
+    public Double getYtdInterestPaid() {
+      return ytdInterestPaid;
+    }
 
-    public Double getYtdPrincipalPaid() { return ytdPrincipalPaid; }
+    public Double getYtdPrincipalPaid() {
+      return ytdPrincipalPaid;
+    }
   }
 
   public static class InterestRate {
     private Double percentage;
     private String type;
 
-    public Double getPercentage() { return percentage; }
+    public Double getPercentage() {
+      return percentage;
+    }
 
-    public String getType() { return type; }
+    public String getType() {
+      return type;
+    }
   }
 
   public static class PropertyAddress {
@@ -190,15 +234,25 @@ public class LiabilitiesGetResponse extends BaseResponse {
     private String region;
     private String street;
 
-    public String getCity() { return city; }
+    public String getCity() {
+      return city;
+    }
 
-    public String getCountry() { return country; }
+    public String getCountry() {
+      return country;
+    }
 
-    public String getPostalCode() { return postalCode; }
+    public String getPostalCode() {
+      return postalCode;
+    }
 
-    public String getRegion() { return region; }
+    public String getRegion() {
+      return region;
+    }
 
-    public String getStreet() { return street; }
+    public String getStreet() {
+      return street;
+    }
   }
 
   // StudentLoanLiability contains student loan liability data.
