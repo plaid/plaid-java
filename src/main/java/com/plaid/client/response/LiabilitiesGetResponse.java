@@ -214,6 +214,7 @@ public class LiabilitiesGetResponse extends BaseResponse {
     }
   }
 
+  // InterestRate contains interest data related to mortgage liability.
   public static class InterestRate {
     private Double percentage;
     private String type;
@@ -227,6 +228,7 @@ public class LiabilitiesGetResponse extends BaseResponse {
     }
   }
 
+  // PropertyAddress contains the address associated to mortgage liability.
   public static class PropertyAddress {
     private String city;
     private String country;
