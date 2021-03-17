@@ -85,10 +85,17 @@ Later on in the process, your public key will be verified against one of several
 After you have your new branch, run the following to make sure that our tests pass:
 
 ```bash
+make pull-openapi && make build-openapi
+```
+
+```bash
 PLAID_SECRET=insertsecrethere \
 PLAID_CLIENT_ID=insertclientidhere \
 mvn verify
 ```
+<!-- We'll add a make command for this until we figure out a better long term. -->
+Temporary fix: Maven requires the generated code to not be in the `.gitignore` file.
+Comment out the last line of the `.gitignore`, `/src/main/java/com/**` by using a `#` in front.
 
 Now run the following on the new branch:
 

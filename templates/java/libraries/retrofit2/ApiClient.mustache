@@ -7,6 +7,8 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.Request;
+import okhttp3.Response;
 {{#hasOAuthMethods}}
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
@@ -53,7 +55,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-
 public class ApiClient {
 
   private Map<String, Interceptor> apiAuthorizations;
@@ -69,7 +70,19 @@ public class ApiClient {
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, Interceptor>();
     createDefaultAdapter();
-    okBuilder = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS);
+    {{! This function modified by Plaid }}
+    okBuilder = new OkHttpClient.Builder()
+        .readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS)
+        .addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request originalRequest = chain.request();
+                Request requestWithUserAgent = originalRequest.newBuilder()
+                        .header("User-Agent", "Plaid Java v{{{artifactVersion}}}")
+                        .build();
+                return chain.proceed(requestWithUserAgent);
+            }
+        });
   }
 
   public ApiClient(OkHttpClient client){
@@ -211,7 +224,7 @@ public class ApiClient {
       .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
   }
-
+  {{! This function added by Plaid }}
   public void setPlaidAdapter(String baseUrl) {
     json = new JSON();
 
