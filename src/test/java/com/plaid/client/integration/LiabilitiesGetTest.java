@@ -28,10 +28,49 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
   }
 
   @Test
+  public  void testLiabilitiesMortgageGetSuccess() throws Exception {
+    Response<LiabilitiesGetResponse> response = client().service().liabilitiesGet(
+            new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+            .execute();
+
+    assertSuccessResponse(response);
+
+    // item should be the same one we created
+    assertItemEquals(getItem(), response.body().getItem());
+
+    // sandbox should return expected mortgage liabilities
+    LiabilitiesGetResponse.Liabilities liabilities = response.body().getLiabilities();
+    List<LiabilitiesGetResponse.MortgageLiability> mortgages = liabilities.getMortgage();
+    assertTrue(mortgages.size() > 0);
+    for (LiabilitiesGetResponse.MortgageLiability mortgage : mortgages) {
+      assertNotNull(mortgage.getAccountId());
+      assertNotNull(mortgage.getAccountNumber());
+      assertNotNull(mortgage.getCurrentLateFee());
+      assertNotNull(mortgage.getEscrowBalance());
+      assertNotNull(mortgage.getHasPmi());
+      assertNotNull(mortgage.getHasPrepaymentPenalty());
+      assertNotNull(mortgage.getInterestRate());
+      assertNotNull(mortgage.getLastPaymentAmount());
+      assertNotNull(mortgage.getLastPaymentDate());
+      assertNotNull(mortgage.getLoanTypeDescription());
+      assertNotNull(mortgage.getLoanTerm());
+      assertNotNull(mortgage.getMaturityDate());
+      assertNotNull(mortgage.getNextMonthlyPayment());
+      assertNotNull(mortgage.getNextPaymentDueDate());
+      assertNotNull(mortgage.getOriginationDate());
+      assertNotNull(mortgage.getOriginationPrincipalAmount());
+      assertNotNull(mortgage.getPastDueAmount());
+      assertNotNull(mortgage.getPropertyAddress());
+      assertNotNull(mortgage.getYtdInterestPaid());
+      assertNotNull(mortgage.getYtdPrincipalPaid());
+    }
+  }
+
+  @Test
   public void testLiabilitiesStudentLoanGetSuccess() throws Exception {
     Response<LiabilitiesGetResponse> response = client().service().liabilitiesGet(
-      new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
-      .execute();
+            new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+            .execute();
 
     assertSuccessResponse(response);
 
@@ -86,8 +125,8 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testLiabilitiesCreditCardGetSuccess() throws Exception {
     Response<LiabilitiesGetResponse> response = client().service().liabilitiesGet(
-      new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
-      .execute();
+            new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+            .execute();
 
     assertSuccessResponse(response);
 
@@ -122,8 +161,8 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
   public void testLiabilitiesGetWithAccountIds() throws Exception {
     // first call to get an account ID
     Response<LiabilitiesGetResponse> response = client().service().liabilitiesGet(
-      new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
-      .execute();
+            new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+            .execute();
     assertSuccessResponse(response);
     String accountId = null;
     for (Account account : response.body().getAccounts()) {
@@ -135,8 +174,8 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
 
     // call under test
     response = client().service().liabilitiesGet(
-      new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
-      .execute();
+            new LiabilitiesGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
+            .execute();
     assertSuccessResponse(response);
 
     // item should be the same one we created
@@ -150,8 +189,8 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testLiabilitiesGetInvalidAccessToken() throws Exception {
     Response<LiabilitiesGetResponse> response = client().service().liabilitiesGet(
-      new LiabilitiesGetRequest("notreal"))
-      .execute();
+            new LiabilitiesGetRequest("notreal"))
+            .execute();
     assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
   }
 
