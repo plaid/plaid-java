@@ -1,3 +1,7 @@
+## 8.2.0
+- Add mortage object to Liabilities
+- Add Standing Orders support to Payment Initiation
+
 ## 8.1.0
 
 - Add [Bank Transfers](https://plaid.com/docs/bank-transfers/) endpoints to the library
