@@ -82,27 +82,6 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   }
 
   @Test
-  public void testSuccessWithAccountFilter() throws Exception {
-    InstitutionsSearchAccountFilter accountFilter = new InstitutionsSearchAccountFilter()
-    .loan(Arrays.asList(AccountSubtype.STUDENT));
-
-    InstitutionsSearchRequestOptions options = new InstitutionsSearchRequestOptions()
-    .accountFilter(accountFilter);
-
-    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
-      .countryCodes(Arrays.asList(CountryCode.US))
-      .products(Arrays.asList(Products.LIABILITIES))
-      .query("wells")
-      .options(options);
-
-    Response<InstitutionsSearchResponse> response = client()
-      .institutionsSearch(request)
-      .execute();
-    assertSuccessResponse(response);
-    assertTrue(response.body().getInstitutions().size() > 0);
-  }
-
-  @Test
   public void testSuccessWithOAuth() throws Exception {
     InstitutionsSearchRequestOptions options = new InstitutionsSearchRequestOptions()
     .oauth(true);

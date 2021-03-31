@@ -4,7 +4,7 @@
 
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>9.0.0-beta-2-SNAPSHOT</version>
+  <version>9.0.0-beta-3-SNAPSHOT</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -24,7 +24,7 @@
   </scm>
 
   <organization>
-    <name>Plaid Technologies, Inc.</name>
+    <name>Plaid Inc.</name>
     <url>https://plaid.com</url>
   </organization>
 
