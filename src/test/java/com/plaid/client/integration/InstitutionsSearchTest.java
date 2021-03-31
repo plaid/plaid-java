@@ -1,97 +1,138 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.InstitutionsSearchRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.InstitutionsSearchResponse;
-import org.junit.Test;
-import retrofit2.Response;
+import static junit.framework.TestCase.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import com.plaid.client.model.AccountSubtype;
+import com.plaid.client.model.CountryCode;
+import com.plaid.client.model.InstitutionsSearchAccountFilter;
+import com.plaid.client.model.InstitutionsSearchRequest;
+import com.plaid.client.model.InstitutionsSearchRequestOptions;
+import com.plaid.client.model.InstitutionsSearchResponse;
+import com.plaid.client.model.Products;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import org.junit.Test;
+import retrofit2.Response;
 
 public class InstitutionsSearchTest extends AbstractIntegrationTest {
+
   @Test
   public void testSuccess() throws Exception {
-    Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("t", Arrays.asList("US")).withProducts(Product.IDENTITY)).execute();
+    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
+      .countryCodes(Arrays.asList(CountryCode.US))
+      .products(Arrays.asList(Products.IDENTITY))
+      .query("t");
 
+    Response<InstitutionsSearchResponse> response = client()
+      .institutionsSearch(request)
+      .execute();
     assertSuccessResponse(response);
   }
 
   @Test
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
-    Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("t", Arrays.asList("US")).withIncludeOptionalMetadata(true)).execute();
+    InstitutionsSearchRequestOptions options = new InstitutionsSearchRequestOptions()
+    .includeOptionalMetadata(true);
 
+    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
+      .countryCodes(Arrays.asList(CountryCode.US))
+      .products(Arrays.asList(Products.IDENTITY))
+      .query("t")
+      .options(options);
+
+    Response<InstitutionsSearchResponse> response = client()
+      .institutionsSearch(request)
+      .execute();
     assertSuccessResponse(response);
 
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
     assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
-    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
+    assertNotNull(
+      institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor()
+    );
   }
 
   @Test
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
-    Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("t", Arrays.asList("US")).withIncludeOptionalMetadata(false)).execute();
+    InstitutionsSearchRequestOptions options = new InstitutionsSearchRequestOptions()
+    .includeOptionalMetadata(false);
 
+    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
+      .countryCodes(Arrays.asList(CountryCode.US))
+      .products(Arrays.asList(Products.IDENTITY))
+      .query("t")
+      .options(options);
+
+    Response<InstitutionsSearchResponse> response = client()
+      .institutionsSearch(request)
+      .execute();
     assertSuccessResponse(response);
 
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
-
     assertNull(institutionsSearchResponse.getInstitutions().get(0).getUrl());
-    assertNull(institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor());
-  }
-
-  @Test
-  public void testSuccessWithAccountFilter() throws Exception {
-    Map<String, List<String>> accountFilter = new HashMap<>();
-    accountFilter.put("loan", Arrays.asList("student"));
-
-    Response<InstitutionsSearchResponse> response =
-        client().service().institutionsSearch(new InstitutionsSearchRequest("wells", Arrays.asList("US"))
-          .withAccountFilter(accountFilter)
-          .withProducts(Product.LIABILITIES)
-        ).execute();
-
-    assertSuccessResponse(response);
-
-    assertTrue(response.body().getInstitutions().size() > 0);
+    assertNull(
+      institutionsSearchResponse.getInstitutions().get(0).getPrimaryColor()
+    );
   }
 
   @Test
   public void testSuccessWithOAuth() throws Exception {
-    Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank", Arrays.asList("GB")).withOAuth(true)).execute();
+    InstitutionsSearchRequestOptions options = new InstitutionsSearchRequestOptions()
+    .oauth(true);
+
+    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
+      .countryCodes(Arrays.asList(CountryCode.GB))
+      .products(Arrays.asList(Products.AUTH))
+      .query("Pl")
+      .options(options);
+
+    Response<InstitutionsSearchResponse> response = client()
+      .institutionsSearch(request)
+      .execute();
     assertSuccessResponse(response);
+
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
-    assertTrue(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
+    assertTrue(institutionsSearchResponse.getInstitutions().get(0).getOauth());
   }
 
   @Test
   public void testSuccessWithoutOAuth() throws Exception {
-    Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("Bank", Arrays.asList("GB")).withOAuth(false)).execute();
+    InstitutionsSearchRequestOptions options = new InstitutionsSearchRequestOptions()
+    .oauth(false);
+
+    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
+      .countryCodes(Arrays.asList(CountryCode.GB))
+      .products(Arrays.asList(Products.AUTH))
+      .query("Bank")
+      .options(options);
+
+    Response<InstitutionsSearchResponse> response = client()
+      .institutionsSearch(request)
+      .execute();
+
     assertSuccessResponse(response);
     InstitutionsSearchResponse institutionsSearchResponse = response.body();
-    assertFalse(institutionsSearchResponse.getInstitutions().get(0).getOAuth());
+    assertFalse(institutionsSearchResponse.getInstitutions().get(0).getOauth());
   }
 
   @Test
   public void testNoResults() throws Exception {
-    Response<InstitutionsSearchResponse> response =
-      client().service().institutionsSearch(new InstitutionsSearchRequest("zebra", Arrays.asList("US"))).execute();
+    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
+      .countryCodes(Arrays.asList(CountryCode.US))
+      .products(Arrays.asList(Products.AUTH))
+      .query("zebra");
+
+    Response<InstitutionsSearchResponse> response = client()
+      .institutionsSearch(request)
+      .execute();
 
     assertSuccessResponse(response);
     assertEquals(0, response.body().getInstitutions().size());
-
   }
 }

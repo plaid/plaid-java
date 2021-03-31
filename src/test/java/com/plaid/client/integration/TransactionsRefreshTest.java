@@ -1,19 +1,19 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.TransactionsRefreshRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.TransactionsRefreshResponse;
-import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.model.Error;
+import com.plaid.client.model.Products;
+import com.plaid.client.model.TransactionsRefreshRequest;
+import com.plaid.client.model.TransactionsRefreshResponse;
+import java.util.Collections;
+import java.util.List;
 import org.junit.Test;
 import retrofit2.Response;
 
-import java.util.Collections;
-import java.util.List;
-
 public class TransactionsRefreshTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Collections.singletonList(Product.TRANSACTIONS);
+  protected List<Products> setupItemProducts() {
+    return Collections.singletonList(Products.TRANSACTIONS);
   }
 
   @Override
@@ -23,20 +23,28 @@ public class TransactionsRefreshTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
+    TransactionsRefreshRequest request = new TransactionsRefreshRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
     Response<TransactionsRefreshResponse> response = client()
-      .service()
-      .transactionsRefresh(new TransactionsRefreshRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
+      .transactionsRefresh(request)
       .execute();
     assertSuccessResponse(response);
   }
 
   @Test
   public void testInvalidAccessKey() throws Exception {
+    TransactionsRefreshRequest request = new TransactionsRefreshRequest()
+      .accessToken("Bad Token");
+
     Response<TransactionsRefreshResponse> response = client()
-      .service()
-      .transactionsRefresh(new TransactionsRefreshRequest("Bad Token"))
+      .transactionsRefresh(request)
       .execute();
 
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_ACCESS_TOKEN"
+    );
   }
 }
