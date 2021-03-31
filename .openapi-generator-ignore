@@ -8,5 +8,8 @@ git_push.sh
 gradle.properties
 gradlew
 gradlew.bat
-readme.md
+README.md
 settings.gradle
+pom.xml
+gradle
+api
