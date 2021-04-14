@@ -92,6 +92,52 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertIsTartanBank(institution);
   }
 
+  @Test
+  public void testSuccessWithIncludePaymentInitiationMetadataTrue() throws Exception {
+    Response<InstitutionsGetByIdResponse> response =
+      client().service().institutionsGetById(
+        new InstitutionsGetByIdRequest(ROYAL_BANK_OF_PLAID_INSTITUTION_ID, Arrays.asList("GB")).
+        withIncludePaymentInitiationMetadata(true))
+        .execute();
+
+    assertSuccessResponse(response);
+
+    Institution institution = response.body().getInstitution();
+    assertIsRoyalBankOfPlaid(institution);
+
+    assertNotNull(institution.getPaymentInitiationMetadata());
+  }
+
+  @Test
+  public void testSuccessWithIncludePaymentInitiationMetadataFalse() throws Exception {
+    Response<InstitutionsGetByIdResponse> response = client().service().
+      institutionsGetById(new InstitutionsGetByIdRequest(ROYAL_BANK_OF_PLAID_INSTITUTION_ID, Arrays.asList("GB")).
+        withIncludePaymentInitiationMetadata(false))
+      .execute();
+
+    assertSuccessResponse(response);
+
+    Institution institution = response.body().getInstitution();
+    assertIsRoyalBankOfPlaid(institution);
+
+    assertNull(institution.getPaymentInitiationMetadata());
+  }
+
+  private void assertIsRoyalBankOfPlaid(Institution institution) {
+    assertEquals(ROYAL_BANK_OF_PLAID_INSTITUTION_ID, institution.getInstitutionId());
+    assertEquals("Royal Bank of Plaid", institution.getName());
+    assertEquals(Arrays.asList(
+      Product.ASSETS,
+      Product.AUTH,
+      Product.BALANCE,
+      Product.TRANSACTIONS,
+      Product.IDENTITY,
+      Product.PAYMENT_INITIATION
+      ),
+      institution.getProducts());
+    assertTrue(institution.getCountryCodes().contains("GB"));
+  }
+
   private void assertIsTartanBank(Institution institution) {
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
     assertEquals("Tartan Bank", institution.getName());
