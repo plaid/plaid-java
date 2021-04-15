@@ -66,6 +66,5 @@ public class InstitutionsGetRequest extends BaseClientRequest {
     private boolean includeOptionalMetadata;
     private Boolean oauth;
     private boolean includePaymentInitiationMetadata;
-    private PaymentInitiation paymentInitiation;
   }
 }
