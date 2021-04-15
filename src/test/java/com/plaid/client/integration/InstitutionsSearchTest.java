@@ -86,6 +86,24 @@ public class InstitutionsSearchTest extends AbstractIntegrationTest {
   }
 
   @Test
+  public void testSuccessWithIncludePaymentInitiationMetadataTrue() throws Exception {
+    Response<InstitutionsSearchResponse> response = client().service().
+      institutionsSearch(new InstitutionsSearchRequest("Royal Bank of Plaid", Arrays.asList("GB")).withIncludePaymentInitiationMetadata(true)).execute();
+    assertSuccessResponse(response);
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+    assertNotNull(institutionsSearchResponse.getInstitutions().get(0).getPaymentInitiationMetadata());
+  }
+
+  @Test
+  public void testSuccessWithIncludePaymentInitiationMetadataFalse() throws Exception {
+    Response<InstitutionsSearchResponse> response =
+      client().service().institutionsSearch(new InstitutionsSearchRequest("Royal Bank of Plaid", Arrays.asList("GB")).withIncludePaymentInitiationMetadata(false)).execute();
+    assertSuccessResponse(response);
+    InstitutionsSearchResponse institutionsSearchResponse = response.body();
+    assertNull(institutionsSearchResponse.getInstitutions().get(0).getPaymentInitiationMetadata());
+  }
+
+  @Test
   public void testNoResults() throws Exception {
     Response<InstitutionsSearchResponse> response =
       client().service().institutionsSearch(new InstitutionsSearchRequest("zebra", Arrays.asList("US"))).execute();

@@ -53,9 +53,18 @@ public class InstitutionsGetRequest extends BaseClientRequest {
     return this;
   }
 
+  public InstitutionsGetRequest withIncludePaymentInitiationMetadata(boolean includePaymentInitiationMetadata) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includePaymentInitiationMetadata = includePaymentInitiationMetadata;
+    return this;
+  }
+
   private static class Options {
     private List<Product> products;
     private boolean includeOptionalMetadata;
     private Boolean oauth;
+    private boolean includePaymentInitiationMetadata;
   }
 }

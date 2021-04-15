@@ -29,6 +29,7 @@ public abstract class AbstractIntegrationTest {
   public static final String TATTERSALL_FEDERAL_CREDIT_UNION_INSTITUTION_ID = "ins_109510";
   public static final String TARTAN_BANK_INSTITUTION_ID = "ins_109511";
   public static final String HOUNDSTOOTH_BANK_INSTITUTION_ID = "ins_109512";
+  public static final String ROYAL_BANK_OF_PLAID_INSTITUTION_ID = "ins_117650";
 
   private PlaidClient plaidClient;
   private PlaidSandboxApiService sandboxApiService;

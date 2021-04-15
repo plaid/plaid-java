@@ -64,9 +64,35 @@ public class InstitutionsSearchRequest extends BaseClientRequest {
     return this;
   }
 
+  public InstitutionsSearchRequest withIncludePaymentInitiationMetadata(boolean includePaymentInitiationMetadata) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includePaymentInitiationMetadata = includePaymentInitiationMetadata;
+    return this;
+  }
+
+  public InstitutionsSearchRequest withPaymentInitiation(PaymentInitiation paymentInitiation) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.paymentInitiation = paymentInitiation;
+    return this;
+  }
+
+  public static class PaymentInitiation {
+    private String paymentId;
+
+    public PaymentInitiation(String paymentId) {
+      this.paymentId = paymentId;
+    }
+  }
+
   private static class Options {
     private boolean includeOptionalMetadata;
     private Map<String, List<String>> accountFilter;
     private Boolean oauth;
+    private boolean includePaymentInitiationMetadata;
+    private PaymentInitiation paymentInitiation;
   }
 }

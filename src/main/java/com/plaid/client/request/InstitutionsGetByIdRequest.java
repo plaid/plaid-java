@@ -41,8 +41,17 @@ public class InstitutionsGetByIdRequest extends BaseClientRequest {
     return this;
   }
 
+  public InstitutionsGetByIdRequest withIncludePaymentInitiationMetadata(boolean includePaymentInitiationMetadata) {
+    if (this.options == null) {
+      this.options = new Options();
+    }
+    this.options.includePaymentInitiationMetadata = includePaymentInitiationMetadata;
+    return this;
+  }
+
   private static class Options {
     private boolean includeOptionalMetadata;
     private boolean includeStatus;
+    private boolean includePaymentInitiationMetadata;
   }
 }
