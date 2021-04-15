@@ -49,26 +49,9 @@ public class InstitutionsGetByIdRequest extends BaseClientRequest {
     return this;
   }
 
-  public InstitutionsGetByIdRequest withPaymentInitiation(PaymentInitiation paymentInitiation) {
-    if (this.options == null) {
-      this.options = new Options();
-    }
-    this.options.paymentInitiation = paymentInitiation;
-    return this;
-  }
-
-  public static class PaymentInitiation {
-    private String paymentId;
-
-    public PaymentInitiation(String paymentId) {
-      this.paymentId = paymentId;
-    }
-  }
-
   private static class Options {
     private boolean includeOptionalMetadata;
     private boolean includeStatus;
     private boolean includePaymentInitiationMetadata;
-    private PaymentInitiation paymentInitiation;
   }
 }
