@@ -4,6 +4,7 @@ import com.plaid.client.request.common.Product;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 public class Institution {
   public static class Credential {
@@ -160,6 +161,47 @@ public class Institution {
     }
   }
 
+  public static class StandingOrderMetadata {
+    private boolean supportsStandingOrderEndDate;
+    private boolean supportsStandingOrderNegativeExecutionDays;
+    private List<String> validStandingOrderIntervals;
+
+    public boolean getSupportsStandingOrderEndDate() {
+      return supportsStandingOrderEndDate;
+    }
+
+    public boolean getSupportsStandingOrderNegativeExecutionDays() {
+      return supportsStandingOrderNegativeExecutionDays;
+    }
+
+    public List<String> getValidStandingOrderIntervals() {
+      return validStandingOrderIntervals;
+    }
+  }
+
+  public static class PaymentInitiationMetadata {
+    private StandingOrderMetadata standingOrderMetadata;
+    private Map<String, String> maximumPaymentAmount;
+    private boolean supportsInternationalPayments;
+    private boolean supportsRefundDetails;
+
+    public StandingOrderMetadata getStandingOrderMetadata() {
+      return standingOrderMetadata;
+    }
+
+    public Map<String, String> getMaximumPaymentAmount() {
+      return maximumPaymentAmount;
+    }
+
+    public boolean getSupportsInternationalPayments() {
+      return supportsInternationalPayments;
+    }
+
+    public boolean getSupportsRefundDetails() {
+      return supportsRefundDetails;
+    }
+  }
+
   private List<String> countryCodes;
   private List<Credential> credentials;
   private boolean hasMfa;
@@ -173,6 +215,7 @@ public class Institution {
   private String primaryColor;
   private boolean oauth;
   private List<String> routingNumbers;
+  private PaymentInitiationMetadata paymentInitiationMetadata;
 
   public String getUrl() {
     return url;
@@ -224,5 +267,9 @@ public class Institution {
 
   public List<String> getRoutingNumbers() {
     return routingNumbers;
+  }
+
+  public PaymentInitiationMetadata getPaymentInitiationMetadata() {
+    return paymentInitiationMetadata;
   }
 }
