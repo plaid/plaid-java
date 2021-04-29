@@ -48,6 +48,7 @@ public class Account {
     private Double limit;
     private String isoCurrencyCode;
     private String unofficialCurrencyCode;
+    private String lastUpdatedDatetime;
 
     public Double getAvailable() {
       return available;
@@ -67,6 +68,10 @@ public class Account {
 
     public String getUnofficialCurrencyCode() {
       return unofficialCurrencyCode;
+    }
+
+    public String getLastUpdatedDatetime() {
+      return lastUpdatedDatetime;
     }
   }
 }
