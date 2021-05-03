@@ -66,6 +66,21 @@ public final class Util {
   }
 
   /**
+   * Checks that a given string is not null and not blank.
+   *
+   * @param str    The string to check
+   * @param name The name of the string to use when raising an error.
+   * @throws IllegalArgumentException If the collection was null or empty.
+   */
+  public static void notBlank(String str, String name) {
+    notNull(str, name);
+
+    if (str.trim().isEmpty()) {
+      throw new IllegalArgumentException(name + " must not be blank");
+    }
+  }
+
+  /**
    * Checks that i is not null and is in the range min &lt;= i &lt;= max.
    *
    * @param value    The integer value to check.
