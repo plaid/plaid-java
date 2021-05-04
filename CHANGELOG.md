@@ -1,8 +1,11 @@
+## 8.4.0
+- Add support for new payment initiation options
+
 ## 8.3.0
 - Add `last_updated_datetime` to `/accounts/balance/get`
 
 ## 8.2.0
-- Add mortage object to Liabilities
+- Add mortgage object to Liabilities
 - Add Standing Orders support to Payment Initiation
 
 ## 8.1.0
