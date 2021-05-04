@@ -62,7 +62,7 @@ public class PaymentCreateTest extends AbstractIntegrationTest {
   }
 
   /**
-   * Utility method that creates a single immediate payment. Used by other
+   * Utility method that creates a single immediate payment with options. Used by other
    * integration tests to set up.
    */
   public static Response<PaymentCreateResponse> createSingleImmediatePaymentWithOptions(PlaidClient client, Options options) throws Exception {
