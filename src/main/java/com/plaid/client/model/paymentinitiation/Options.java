@@ -5,9 +5,6 @@ public class Options {
   private Bacs bacs;
   private String iban;
 
-  public Options() {
-  }
-
   public Options withRefundDetails(boolean requestRefundDetails) {
     this.requestRefundDetails = requestRefundDetails;
     return this;

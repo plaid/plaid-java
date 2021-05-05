@@ -112,4 +112,13 @@ public class PaymentCreateTest extends AbstractIntegrationTest {
     assertNotNull(response.body().getPaymentId());
     assertNotNull(response.body().getStatus());
   }
+
+  @Test
+  public void testSingleImmediatePaymentWithIbanCreateSuccess() throws Exception {
+    Options options = new Options().withIban("iban");
+    Response<PaymentCreateResponse> response = createSingleImmediatePaymentWithOptions(client(), options);
+    assertSuccessResponse(response);
+    assertNotNull(response.body().getPaymentId());
+    assertNotNull(response.body().getStatus());
+  }
 }
