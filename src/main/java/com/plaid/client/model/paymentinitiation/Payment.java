@@ -13,7 +13,7 @@ public class Payment {
   private String lastStatusUpdate;
   private Date paymentTokenExpirationTime;
   private String recipientId;
-  private Options options;
+  private PaymentOptions options;
 
   public String getPaymentId() {
     return paymentId;
@@ -47,7 +47,7 @@ public class Payment {
     return recipientId;
   }
 
-  public Options getOptions() {
+  public PaymentOptions getOptions() {
     return options;
   }
 }
