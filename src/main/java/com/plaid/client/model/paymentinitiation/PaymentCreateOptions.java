@@ -1,21 +1,21 @@
 package com.plaid.client.model.paymentinitiation;
 
-public class PaymentOptions {
+public class PaymentCreateOptions {
   private boolean requestRefundDetails;
   private Bacs bacs;
   private String iban;
 
-  public PaymentOptions withRefundDetails(boolean requestRefundDetails) {
+  public PaymentCreateOptions withRefundDetails(boolean requestRefundDetails) {
     this.requestRefundDetails = requestRefundDetails;
     return this;
   }
 
-  public PaymentOptions withBacs(Bacs bacs) {
+  public PaymentCreateOptions withBacs(Bacs bacs) {
     this.bacs = bacs;
     return this;
   }
 
-  public PaymentOptions withIban(String iban) {
+  public PaymentCreateOptions withIban(String iban) {
     this.iban = iban;
     return this;
   }

@@ -1,7 +1,5 @@
 package com.plaid.client.model.paymentinitiation;
 
-import com.plaid.client.model.paymentinitiation.Amount;
-
 import java.util.Date;
 
 public class Payment {
@@ -13,7 +11,7 @@ public class Payment {
   private String lastStatusUpdate;
   private Date paymentTokenExpirationTime;
   private String recipientId;
-  private PaymentOptions options;
+  private PaymentCreateOptions options;
 
   public String getPaymentId() {
     return paymentId;
@@ -47,7 +45,7 @@ public class Payment {
     return recipientId;
   }
 
-  public PaymentOptions getOptions() {
+  public PaymentCreateOptions getOptions() {
     return options;
   }
 }

@@ -2,7 +2,7 @@ package com.plaid.client.request.paymentinitiation;
 
 import com.plaid.client.internal.gson.Optional;
 import com.plaid.client.model.paymentinitiation.Amount;
-import com.plaid.client.model.paymentinitiation.PaymentOptions;
+import com.plaid.client.model.paymentinitiation.PaymentCreateOptions;
 import com.plaid.client.model.paymentinitiation.Schedule;
 import com.plaid.client.request.common.BaseClientRequest;
 
@@ -14,7 +14,7 @@ public class PaymentCreateRequest extends BaseClientRequest {
   private String reference;
   private Amount amount;
   private Schedule schedule;
-  private Optional<PaymentOptions> options = Optional.empty();
+  private Optional<PaymentCreateOptions> options = Optional.empty();
 
   public PaymentCreateRequest(String recipientId, String reference, Amount amount) {
     this.recipientId = recipientId;
@@ -29,7 +29,7 @@ public class PaymentCreateRequest extends BaseClientRequest {
     this.schedule = schedule;
   }
 
-  public PaymentCreateRequest withOptions(PaymentOptions options) {
+  public PaymentCreateRequest withOptions(PaymentCreateOptions options) {
     this.options = Optional.of(options);
     return this;
   }

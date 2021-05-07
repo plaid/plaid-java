@@ -9,10 +9,12 @@ import java.util.concurrent.TimeUnit;
 import com.plaid.client.PlaidClient;
 import com.plaid.client.model.paymentinitiation.Amount;
 import com.plaid.client.model.paymentinitiation.Bacs;
-import com.plaid.client.model.paymentinitiation.PaymentOptions;
+import com.plaid.client.model.paymentinitiation.PaymentCreateOptions;
 import com.plaid.client.model.paymentinitiation.Schedule;
 import com.plaid.client.request.paymentinitiation.PaymentCreateRequest;
+import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
 import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
+import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
 import com.plaid.client.response.paymentinitiation.RecipientCreateResponse;
 
 import org.junit.Test;
@@ -65,7 +67,7 @@ public class PaymentCreateTest extends AbstractIntegrationTest {
    * Utility method that creates a single immediate payment with options. Used by other
    * integration tests to set up.
    */
-  public static Response<PaymentCreateResponse> createSingleImmediatePaymentWithOptions(PlaidClient client, PaymentOptions options) throws Exception {
+  public static Response<PaymentCreateResponse> createSingleImmediatePaymentWithOptions(PlaidClient client, PaymentCreateOptions options) throws Exception {
 
     Response<RecipientCreateResponse> createRecipientResponse = RecipientCreateTest.createRecipientWithIban(client);
     String recipientId = createRecipientResponse.body().getRecipientId();
@@ -97,7 +99,7 @@ public class PaymentCreateTest extends AbstractIntegrationTest {
 
   @Test
   public void testSingleImmediatePaymentWithRequestRefundDetailsCreateSuccess() throws Exception {
-    PaymentOptions options = new PaymentOptions().withRefundDetails(true);
+    PaymentCreateOptions options = new PaymentCreateOptions().withRefundDetails(true);
     Response<PaymentCreateResponse> response = createSingleImmediatePaymentWithOptions(client(), options);
     assertSuccessResponse(response);
     assertNotNull(response.body().getPaymentId());
@@ -106,19 +108,35 @@ public class PaymentCreateTest extends AbstractIntegrationTest {
 
   @Test
   public void testSingleImmediatePaymentWithBacsCreateSuccess() throws Exception {
-    PaymentOptions options = new PaymentOptions().withBacs(new Bacs("1234567890", "000000"));
+    PaymentCreateOptions options = new PaymentCreateOptions().withBacs(new Bacs("1234567890", "000000"));
     Response<PaymentCreateResponse> response = createSingleImmediatePaymentWithOptions(client(), options);
     assertSuccessResponse(response);
     assertNotNull(response.body().getPaymentId());
     assertNotNull(response.body().getStatus());
+
+    PaymentGetRequest request = new PaymentGetRequest(response.body().getPaymentId());
+    Response<PaymentGetResponse> getResponse = client().service().paymentGet(request).execute();
+
+    assertSuccessResponse(response);
+    assertNotNull(getResponse.body().getPaymentId());
+    assertNotNull(getResponse.body().getStatus());
+    assertNotNull(getResponse.body().getBacs());
   }
 
   @Test
   public void testSingleImmediatePaymentWithIbanCreateSuccess() throws Exception {
-    PaymentOptions options = new PaymentOptions().withIban("iban");
+    PaymentCreateOptions options = new PaymentCreateOptions().withIban("iban");
     Response<PaymentCreateResponse> response = createSingleImmediatePaymentWithOptions(client(), options);
     assertSuccessResponse(response);
     assertNotNull(response.body().getPaymentId());
     assertNotNull(response.body().getStatus());
+
+    PaymentGetRequest request = new PaymentGetRequest(response.body().getPaymentId());
+    Response<PaymentGetResponse> getResponse = client().service().paymentGet(request).execute();
+
+    assertSuccessResponse(response);
+    assertNotNull(getResponse.body().getPaymentId());
+    assertNotNull(getResponse.body().getStatus());
+    assertNotNull(getResponse.body().getIban());
   }
 }
