@@ -1,3 +1,6 @@
+## 8.4.0
+- Add support for `options` to `/payment_initiation/payment/create`
+
 ## 8.3.0
 - Add `last_updated_datetime` to `/accounts/balance/get`
 
