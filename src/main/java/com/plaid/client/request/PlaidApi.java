@@ -12,6 +12,8 @@ import okhttp3.MultipartBody;
 import com.plaid.client.model.AccountsBalanceGetRequest;
 import com.plaid.client.model.AccountsGetRequest;
 import com.plaid.client.model.AccountsGetResponse;
+import com.plaid.client.model.ApplicationGetRequest;
+import com.plaid.client.model.ApplicationGetResponse;
 import com.plaid.client.model.AssetReportAuditCopyCreateRequest;
 import com.plaid.client.model.AssetReportAuditCopyCreateResponse;
 import com.plaid.client.model.AssetReportAuditCopyGetRequest;
@@ -183,6 +185,20 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve information about a Plaid application
+   * Allows financial institutions to retrieve information about Plaid clients for the purpose of building control-tower experiences
+   * @param applicationGetRequest  (required)
+   * @return Call&lt;ApplicationGetResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("application/get")
+  Call<ApplicationGetResponse> applicationGet(
+    @retrofit2.http.Body ApplicationGetRequest applicationGetRequest
+  );
+
+  /**
    * Create Asset Report Audit Copy
    * Plaid can provide an Audit Copy of any Asset Report directly to a participating third party on your behalf. For example, Plaid can supply an Audit Copy directly to Fannie Mae on your behalf if you participate in the Day 1 Certainty™ program. An Audit Copy contains the same underlying data as the Asset Report.  To grant access to an Audit Copy, use the &#x60;/asset_report/audit_copy/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the third party who needs access. Each third party has its own &#x60;auditor_id&#x60;, for example &#x60;fannie_mae&#x60;. You’ll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report.
    * @param assetReportAuditCopyCreateRequest  (required)
@@ -264,7 +280,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve an Asset Report
-   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](/docs/api/webhooks) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report.  To retrieve an Asset Report with Insights, call the &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;. Note that you will need to [contact us](https://dashboard.plaid.com/support) to get access to this feature.
+   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](/docs/api/webhooks) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report.  To retrieve an Asset Report with Insights, call the &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.
    * @param assetReportGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
@@ -506,7 +522,7 @@ public interface PlaidApi {
 
   /**
    * Create a deposit switch when not using Plaid Exchange.&#39;
-   * This endpoint provides an alternative to &#x60;/deposit_switch/create&#x60; for customers who have not yet fully integrated with Plaid Exchange. Like &#x60;/deposit_switch/create&#x60;, it created a deposit switch entity that will be persisted throughout the lifecycle of the switch.
+   * This endpoint provides an alternative to &#x60;/deposit_switch/create&#x60; for customers who have not yet fully integrated with Plaid Exchange. Like &#x60;/deposit_switch/create&#x60;, it creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
    * @param depositSwitchAltCreateRequest  (required)
    * @return Call&lt;DepositSwitchAltCreateResponse&gt;
    * 
@@ -571,7 +587,7 @@ public interface PlaidApi {
   /**
    * Search employer database
    * &#x60;/employers/search&#x60; allows you the ability to search Plaid’s database of known employers, for use with Deposit Switch. You can use this endpoint to look up a user&#39;s employer in order to confirm that they are supported. Users with non-supported employers can then be routed out of the Deposit Switch flow.  The data in the employer database is currently limited. As the Verification of Income product progresses through the beta period, more employers are being regularly added. Because the employer database is frequently updated, we recommend that you do not cache or store data from this endpoint for more than a day.
-   * @param employersSearchRequest  (optional)
+   * @param employersSearchRequest  (required)
    * @return Call&lt;EmployersSearchResponse&gt;
    * 
    * @see <a href="/api/employers#employerssearch">Search employer database Documentation</a>
@@ -601,9 +617,25 @@ public interface PlaidApi {
   );
 
   /**
+   * Create an income verification instance
+   * &#x60;/income/verification/create&#x60; begins the income verification process by returning an &#x60;income_verification_id&#x60;. You can then provide the &#x60;income_verification_id&#x60; to &#x60;/link/token/create&#x60; under the &#x60;income_verification&#x60; parameter in order to create a Link instance that will prompt the user to upload their income documents. Once the documents have been uploaded and parsed, Plaid will fire an &#x60;INCOME&#x60; webhook.
+   * @param incomeVerificationCreateRequest  (required)
+   * @return Call&lt;IncomeVerificationCreateResponse&gt;
+   * 
+   * @see <a href="/income-verification/reference#incomeverificationcreate">Create an income verification instance Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("income/verification/create")
+  Call<IncomeVerificationCreateResponse> incomeVerificationCreate(
+    @retrofit2.http.Body IncomeVerificationCreateRequest incomeVerificationCreateRequest
+  );
+
+  /**
    * Download the original documents used for income verification
    * &#x60;/income/verification/documents/download&#x60; provides the ability to download the source paystub PDF that the end user uploaded via Paystub Import.  The response to &#x60;/income/verification/documents/download&#x60; is a ZIP file in binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  In the future, when Digital Verification is available, the most recent file available for download with the payroll provider will also be available from this endpoint.
-   * @param incomeVerificationDocumentsDownloadRequest  (optional)
+   * @param incomeVerificationDocumentsDownloadRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
    * @see <a href="/income-verification/reference#incomeverificationdocumentsdownload">Download the original documents used for income verification Documentation</a>
@@ -619,7 +651,7 @@ public interface PlaidApi {
   /**
    * Retrieve information from the paystub used for income verification
    * &#x60;/income/verification/paystub/get&#x60; returns the information collected from the paystub that was used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
-   * @param incomeVerificationPaystubGetRequest  (optional)
+   * @param incomeVerificationPaystubGetRequest  (required)
    * @return Call&lt;IncomeVerificationPaystubGetResponse&gt;
    * 
    * @see <a href="/income-verification/reference#incomeverificationpaystubget">Retrieve information from the paystub used for income verification Documentation</a>
@@ -635,7 +667,7 @@ public interface PlaidApi {
   /**
    * Retrieve a summary of information derived from income verification
    * &#x60;/income/verification/summary/get&#x60; returns a verification summary for the income that was verified for an end user. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
-   * @param incomeVerificationSummaryGetRequest  (optional)
+   * @param incomeVerificationSummaryGetRequest  (required)
    * @return Call&lt;IncomeVerificationSummaryGetResponse&gt;
    * 
    * @see <a href="/income-verification/reference#incomeverificationsummaryget">Retrieve a summary of information derived from income verification Documentation</a>
@@ -808,7 +840,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60;  endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;  associated with the Item is no longer valid and cannot be used to access any data that was associated with the Item.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count.
+   * The &#x60;/item/remove&#x60;  endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;  associated with the Item is no longer valid and cannot be used to access any data that was associated with the Item.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count. To increase your credential account in Development, contact Support.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -936,7 +968,7 @@ public interface PlaidApi {
 
   /**
    * Create payment recipient
-   * Create a payment recipient for payment initiation.  The recipient must be in Europe, within a country that is a member of the Single Euro Payment Area (SEPA).  For a standing order (recurring) payment, the recipient must be in the UK.  The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same &#x60;recipient_id&#x60;.  In the Sandbox environment, you can use the &#x60;/payment_initiation/recipient/create&#x60; endpoint to generate recipients. Programmatic recipient creation in the Development and Production environments can be done after approval by Plaid&#39;s Compliance team. [Contact Sales](https://plaid.com/contact/)for approval. 
+   * Create a payment recipient for payment initiation.  The recipient must be in Europe, within a country that is a member of the Single Euro Payment Area (SEPA).  For a standing order (recurring) payment, the recipient must be in the UK.  The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same &#x60;recipient_id&#x60;. 
    * @param paymentInitiationRecipientCreateRequest  (required)
    * @return Call&lt;PaymentInitiationRecipientCreateResponse&gt;
    * 
@@ -980,22 +1012,6 @@ public interface PlaidApi {
   @POST("payment_initiation/recipient/list")
   Call<PaymentInitiationRecipientListResponse> paymentInitiationRecipientList(
     @retrofit2.http.Body PaymentInitiationRecipientListRequest paymentInitiationRecipientListRequest
-  );
-
-  /**
-   * Create an income verification instance
-   * &#x60;/income/verification/create&#x60; begins the income verification process by returning an &#x60;income_verification_id&#x60;. You can then provide the &#x60;income_verification_id&#x60; to &#x60;/link/token/create&#x60; under the &#x60;income_verification&#x60; parameter in order to create a Link instance that will prompt the user to upload their income documents. Once the documents have been uploaded and parsed, Plaid will fire an &#x60;INCOME&#x60; webhook.
-   * @param incomeVerificationCreateRequest  (optional)
-   * @return Call&lt;IncomeVerificationCreateResponse&gt;
-   * 
-   * @see <a href="/income-verification/reference#incomeverificationcreate">Create an income verification instance Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("income/verification/create")
-  Call<IncomeVerificationCreateResponse> postIncomeVerificationCreate(
-    @retrofit2.http.Body IncomeVerificationCreateRequest incomeVerificationCreateRequest
   );
 
   /**
@@ -1064,7 +1080,7 @@ public interface PlaidApi {
 
   /**
    * Create Stripe bank account token
-   * Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations.
+   * Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).
    * @param processorStripeBankAccountTokenCreateRequest  (required)
    * @return Call&lt;ProcessorStripeBankAccountTokenCreateResponse&gt;
    * 
@@ -1177,7 +1193,7 @@ public interface PlaidApi {
   /**
    * Create a test Item and processor token
    * Use the &#x60;/sandbox/processor_token/create&#x60; endpoint to create a valid &#x60;processor_token&#x60; for an arbitrary institution ID and test credentials. The created &#x60;processor_token&#x60; corresponds to a new Sandbox Item. You can then use this &#x60;processor_token&#x60; with the &#x60;/processor/&#x60; API endpoints in Sandbox. You can also use &#x60;/sandbox/processor_token/create&#x60; with the [&#x60;user_custom&#x60; test username](/docs/sandbox/user-custom) to generate a test account with custom data.
-   * @param sandboxProcessorTokenCreateRequest  (optional)
+   * @param sandboxProcessorTokenCreateRequest  (required)
    * @return Call&lt;SandboxProcessorTokenCreateResponse&gt;
    * 
    * @see <a href="/api/sandbox/#sandboxprocessor_tokencreate">Create a test Item and processor token Documentation</a>

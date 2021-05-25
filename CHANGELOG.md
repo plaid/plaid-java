@@ -1,3 +1,6 @@
+# 9.0.0-beta-4
+Updating to OAS 2020-09-14_1.16.6. See full changelog [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
+
 # 9.0.0-beta-2
 Type fixes, see full changelog [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 

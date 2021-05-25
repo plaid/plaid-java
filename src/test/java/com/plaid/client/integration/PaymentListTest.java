@@ -31,7 +31,7 @@ public class PaymentListTest extends AbstractIntegrationTest {
     assertTrue(listPaymentResponse.body().getPayments().size() > 0);
 
     if (listPaymentResponse.body().getNextCursor() != null) {
-      String nextCursor = listPaymentResponse.body().getNextCursor();
+      String nextCursor = listPaymentResponse.body().getNextCursor().toString();
       PaymentInitiationPaymentListRequest cursorReq = new PaymentInitiationPaymentListRequest()
         .cursor(nextCursor);
 
