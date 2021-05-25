@@ -1,6 +1,6 @@
 # plaid-java [![Circle CI](https://circleci.com/gh/plaid/plaid-java.svg?style=svg&circle-token=4ed876775bc0ac7fba18124bc835a9e82dab0c53)](https://app.circleci.com/pipelines/github/plaid/plaid-java) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
 
-:warning: After 7/12/21, this major version of the library will only receive critical security patches. Please consider trying out our new [beta version](https://github.com/plaid/plaid-java/tree/9.0.0-beta-release).
+:warning: After 8/16/21, this major version of the library will only receive critical security patches. Please consider trying out our new [beta version](https://github.com/plaid/plaid-java/tree/9.0.0-beta-release).
 
 Java Bindings for the Plaid API (https://www.plaid.com/docs).
 
