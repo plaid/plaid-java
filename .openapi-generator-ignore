@@ -11,3 +11,5 @@ gradlew.bat
 README.md
 settings.gradle
 pom.xml
+gradle
+api

@@ -61,7 +61,6 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
       assertNotNull(studentLoan.getIsOverdue());
       assertNotNull(studentLoan.getLastPaymentAmount());
       assertNotNull(studentLoan.getLastPaymentDate());
-      assertNotNull(studentLoan.getLastStatementBalance());
       assertNotNull(studentLoan.getLastStatementIssueDate());
       assertNotNull(studentLoan.getLoanName());
       assertNotNull(studentLoan.getLoanStatus());
@@ -123,7 +122,6 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
       assertNotNull(creditCard.getIsOverdue());
       assertNotNull(creditCard.getLastPaymentAmount());
       assertNotNull(creditCard.getLastPaymentDate());
-      assertNotNull(creditCard.getLastStatementBalance());
       assertNotNull(creditCard.getLastStatementIssueDate());
       assertNotNull(creditCard.getMinimumPaymentAmount());
       assertNotNull(creditCard.getNextPaymentDueDate());
