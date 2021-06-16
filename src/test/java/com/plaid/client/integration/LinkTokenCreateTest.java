@@ -130,7 +130,7 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
       Collections.singletonList("deposit_switch"),
       Collections.singletonList("US"),
       "en"
-    ).WithDepositSwitch(depositSwitchId);
+    ).withDepositSwitch(depositSwitchId);
     
     Response<LinkTokenCreateResponse> response =
       client().service().linkTokenCreate(
