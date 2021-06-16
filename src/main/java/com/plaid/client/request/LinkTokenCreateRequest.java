@@ -139,13 +139,9 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
 
   public static class DepositSwitch {
     private String depositSwitchId;
-    private String phoneNumberVerifiedTime;
 
-    public DepositSwitch(String depositSwitchId, String employerId) {
+    public DepositSwitch(String depositSwitchId) {
       this.depositSwitchId = depositSwitchId;
-      if employerId != null { 
-        this.employerId = employerId;
-      }
     }
   }
 
