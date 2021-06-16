@@ -23,6 +23,7 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
   private Map<String, SubtypeFilters> accountFilters;
   private LinkTokenCreateRequest.CrossAppItemAdd crossAppItemAdd;
   private PaymentInitiation paymentInitiation;
+  private DepositSwitch depositSwitch;
 
   public LinkTokenCreateRequest(
     User user,
@@ -136,6 +137,14 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
     }
   }
 
+  public static class DepositSwitch {
+    private String depositSwitchId;
+
+    public DepositSwitch(String depositSwitchId) {
+      this.depositSwitchId = depositSwitchId;
+    }
+  }
+
   public LinkTokenCreateRequest withUser(User user) {
     this.user = user;
     return this;
@@ -188,6 +197,11 @@ public class LinkTokenCreateRequest extends BaseClientRequest {
 
   public LinkTokenCreateRequest withPaymentInitiation(PaymentInitiation paymentInitiation) {
     this.paymentInitiation = paymentInitiation;
+    return this;
+  }
+
+  public LinkTokenCreateRequest withDepositSwitch(DepositSwitch depositSwitch) {
+    this.depositSwitch = depositSwitch;
     return this;
   }
 }
