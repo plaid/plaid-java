@@ -124,13 +124,14 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
     String clientUserId = Long.toString((new Date()).getTime());
 
     LinkTokenCreateRequest.User user = new LinkTokenCreateRequest.User(clientUserId);
+    LinkTokenCreateRequest.DepositSwitch depositSwitch = new LinkTokenCreateRequest.DepositSwitch(depositSwitchId);
     LinkTokenCreateRequest request = new LinkTokenCreateRequest(
       user,
       "very nice client name",
       Collections.singletonList("deposit_switch"),
       Collections.singletonList("US"),
       "en"
-    ).withDepositSwitch(depositSwitchId);
+    ).withDepositSwitch(depositSwitch);
     
     Response<LinkTokenCreateResponse> response =
       client().service().linkTokenCreate(
