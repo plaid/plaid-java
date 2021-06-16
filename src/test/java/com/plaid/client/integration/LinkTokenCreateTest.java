@@ -1,8 +1,16 @@
 package com.plaid.client.integration;
 
+import com.plaid.client.request.AccountsGetRequest;
 import com.plaid.client.request.LinkTokenCreateRequest;
+import com.plaid.client.request.ItemImportRequest;
 import com.plaid.client.request.common.Product;
+import com.plaid.client.request.depositswitch.DepositSwitchCreateRequest;
 import com.plaid.client.response.LinkTokenCreateResponse;
+import com.plaid.client.response.Account;
+import com.plaid.client.response.AccountsGetResponse;
+import com.plaid.client.response.ItemImportResponse;
+import com.plaid.client.response.depositswitch.DepositSwitchCreateResponse;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
