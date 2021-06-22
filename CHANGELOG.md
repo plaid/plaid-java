@@ -1,3 +1,6 @@
+## 8.5.0
+- Add deposit switch support for `/link/token/create`
+
 ## 8.4.0
 - Add support for `options` to `/payment_initiation/payment/create`
 

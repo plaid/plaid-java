@@ -3,7 +3,7 @@
 
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>8.4.0-SNAPSHOT</version>
+  <version>8.5.0-SNAPSHOT</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
