@@ -78,6 +78,10 @@ Later on in the process, your public key will be verified against one of several
 
 `gpg --send-keys <key identifier from above>`.
 
+Also, some people have issues sending the key to the default keyserver. You could try specifying one of them like this:
+
+`gpg --keyserver http://keyserver.ubuntu.com --send-keys <key id>`
+
 ## Publishing the new version
 
 `cd` to `plaid-java` and create a new branch. This is important because mvn tries to push using your branch and you most likely can't push to master directly.
@@ -102,7 +106,7 @@ PLAID_CLIENT_ID=insertclientidhere \
 mvn release:perform
 ```
 
-If things go wrong, run `mvn release:rollback` and re-execute the above commands.
+If things go wrong, run `mvn release:rollback` and `mvn release:clean` and re-execute the above commands. 
 
 If things go right, this will release a new artifact with a bumped patch version to the Sonatype staging maven repository.
 
