@@ -106,7 +106,7 @@ PLAID_CLIENT_ID=insertclientidhere \
 mvn release:perform
 ```
 
-If things go wrong, run `mvn release:rollback` and `mvn release:clean` and re-execute the above commands. 
+If things go wrong, run `mvn release:rollback` and `mvn release:clean` and re-execute the above commands.
 
 If things go right, this will release a new artifact with a bumped patch version to the Sonatype staging maven repository.
 
