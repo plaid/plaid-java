@@ -298,13 +298,13 @@ public class AssetReportGetResponse extends BaseResponse {
   }
 
   public static class Balance {
-    private Double avaliable;
+    private Double available;
     private Double current;
     private String unofficialCurrencyCode;
     private String isoCurrencyCode;
 
-    public Double getAvaliable() {
-      return avaliable;
+    public Double getAvailable() {
+      return available;
     }
 
     public Double getCurrent() {
@@ -328,7 +328,7 @@ public class AssetReportGetResponse extends BaseResponse {
         return false;
       }
       Balance balance = (Balance) obj;
-      return Objects.equals(avaliable, balance.avaliable) &&
+      return Objects.equals(available, balance.available) &&
           Objects.equals(current, balance.current) &&
           Objects.equals(unofficialCurrencyCode, balance.unofficialCurrencyCode) &&
           Objects.equals(isoCurrencyCode, balance.isoCurrencyCode);
@@ -336,7 +336,7 @@ public class AssetReportGetResponse extends BaseResponse {
 
     @Override
     public int hashCode() {
-      return Objects.hash(avaliable, current, unofficialCurrencyCode, isoCurrencyCode);
+      return Objects.hash(available, current, unofficialCurrencyCode, isoCurrencyCode);
     }
   }
 
