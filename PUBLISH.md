@@ -1,6 +1,8 @@
+If you have issues with any of the following steps, please follow the troubleshooting guide at the bottom!
+
 # Releasing a new version to Maven Central Repository
 
-Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java)
+plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cplaid-java)
 
 ## Setting up your Sonatype account
 
@@ -82,15 +84,7 @@ Later on in the process, your public key will be verified against one of several
 
 `cd` to `plaid-java` and create a new branch. This is important because mvn tries to push using your branch and you most likely can't push to master directly.
 
-After you have your new branch, run the following to make sure that our tests pass:
-
-```bash
-PLAID_SECRET=insertsecrethere \
-PLAID_CLIENT_ID=insertclientidhere \
-mvn verify
-```
-
-Now run the following on the new branch:
+After you have your new branch, run the following on the new branch:
 
 ```bash
 PLAID_SECRET=insertsecrethere \
@@ -116,3 +110,25 @@ Login [here](https://oss.sonatype.org/#welcome) using your credentials from [abo
 2. Update CHANGELOG.md.
 
 At this point, merge your branch with master, and you should be all set!
+
+# Troubleshooting
+
+### `gpg --send-key` isn't working
+
+Try running the `gpg` commands off of VPN. Also, it might take some time for your key to propagate.
+
+### OpenAPI is generating a ton of files, which is breaking other stuff
+
+Right now, building and publishing on the public repo is broken. Unfortunately, you'll have to do this internally (in the monorepo).
+
+### `.gitignore` stuff and/or `mvn perform` isn't finding the generated files
+
+This is temporary, but make sure you uncomment the line mentioned above! Also, you should add and commit src/main to the new branch, or else `mvn perform` will fail.
+
+### `gpg: signing failed: Inappropriate ioctl for device`
+
+https://github.com/keybase/keybase-issues/issues/2798 :/
+
+### `You don't have a SNAPSHOT project in the reactor projects list`
+
+Modify `pom.xml` to have `-SNAPSHOT` at the end of the version number.

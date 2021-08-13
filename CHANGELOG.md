@@ -1,5 +1,8 @@
-# 9.0.0-beta-4
-Updating to OAS 2020-09-14_1.16.6. See full changelog [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
+# 9.0.0
+
+The official release of the `plaid-java` generated library. Refer to the beta migration guide for tips on migrating from older version of the libraries.
+
+This particular version is pinned to OpenAPI version `2020-09-14_1.20.6`.
 
 # 9.0.0-beta-2
 Type fixes, see full changelog [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
