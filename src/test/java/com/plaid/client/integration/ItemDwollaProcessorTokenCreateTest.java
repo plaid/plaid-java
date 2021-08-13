@@ -29,7 +29,7 @@ public class ItemDwollaProcessorTokenCreateTest
   public void testError() throws Exception {
     ProcessorTokenCreateRequest request = new ProcessorTokenCreateRequest()
       .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
-      .processor("dwolla")
+      .processor(ProcessorTokenCreateRequest.ProcessorEnum.DWOLLA)
       .accountId("FooBarAccountId");
 
     Response<ProcessorTokenCreateResponse> response = client()
