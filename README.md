@@ -1,6 +1,6 @@
 # plaid-java [![Circle CI](https://circleci.com/gh/plaid/plaid-java.svg?style=svg&circle-token=4ed876775bc0ac7fba18124bc835a9e82dab0c53)](https://app.circleci.com/pipelines/github/plaid/plaid-java) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
 
-Java Bindings for the Plaid API (https://www.plaid.com/docs).
+Java Bindings for the Plaid API (https://www.plaid.com/docs). This library is generated from the [Plaid OpenAPI spec](https://github.com/plaid/plaid-openapi).
 
 Plaid API is defined in the `PlaidApi` interface.
 
@@ -18,11 +18,13 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>9.0.0-beta-1</version>
+  <version>9.0.0</version>
 </dependency>
 ```
 
 ### Versioning
+
+As of `9.0.0`, the library is generated from the OpenAPI spec. Previous versions were written manually and should still mostly work. [Here's](https://github.com/plaid/plaid-java/releases/tag/plaid-java-8.5.0) a link to `8.5.0`, the latest pre-generated version.
 
 Each major version of `plaid-java` targets a specific version of the Plaid API:
 
@@ -44,7 +46,6 @@ private PlaidApi plaidClient;
 HashMap<String, String> apiKeys = new HashMap<String, String>();
 apiKeys.put("clientId", plaidClientId);
 apiKeys.put("secret", plaidSecret);
-apiKeys.put("plaidVersion", "2020-09-14");
 apiClient = new ApiClient(apiKeys);
 apiClient.setPlaidAdapter(ApiClient.Sandbox); // or equivalent, depending on which environment you're calling into
 plaidClient = apiClient.createService(PlaidApi.class);

@@ -33,7 +33,7 @@ public class BankTransferEventListTest extends AbstractBankTransferTest {
     List<BankTransferEvent> bankTransferEvents = eventListResponse
       .body()
       .getBankTransferEvents();
-    assertEquals(2, bankTransferEvents.size());
+    assertEquals(1, bankTransferEvents.size());
     for (BankTransferEvent e : bankTransferEvents) {
       assertEquals(getBankTransfer().getId(), e.getBankTransferId());
     }

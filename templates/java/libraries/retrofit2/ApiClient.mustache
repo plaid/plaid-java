@@ -79,6 +79,7 @@ public class ApiClient {
                 Request originalRequest = chain.request();
                 Request requestWithUserAgent = originalRequest.newBuilder()
                         .header("User-Agent", "Plaid Java v{{{artifactVersion}}}")
+                        .header("Plaid-Version", "{{{plaidApiVersion}}}")
                         .build();
                 return chain.proceed(requestWithUserAgent);
             }

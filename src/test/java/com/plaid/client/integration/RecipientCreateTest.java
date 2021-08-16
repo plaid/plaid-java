@@ -3,7 +3,7 @@ package com.plaid.client.integration;
 import static org.junit.Assert.assertNotNull;
 
 import com.plaid.client.request.PlaidApi;
-import com.plaid.client.model.NullableRecipientBACS;
+import com.plaid.client.model.RecipientBACSNullable;
 import com.plaid.client.model.PaymentInitiationAddress;
 import com.plaid.client.model.PaymentInitiationRecipientCreateRequest;
 import com.plaid.client.model.PaymentInitiationRecipientCreateResponse;
@@ -53,7 +53,7 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
       .city("City")
       .postalCode("99999")
       .country("GB");
-    NullableRecipientBACS bacs = new NullableRecipientBACS()
+    RecipientBACSNullable bacs = new RecipientBACSNullable()
       .account("26207729")
       .sortCode("560029");
 
@@ -79,7 +79,7 @@ public class RecipientCreateTest extends AbstractIntegrationTest {
       .postalCode("99999")
       .country("GB");
 
-    NullableRecipientBACS bacs = new NullableRecipientBACS()
+    RecipientBACSNullable bacs = new RecipientBACSNullable()
       .account("26207729")
       .sortCode("560029");
 
