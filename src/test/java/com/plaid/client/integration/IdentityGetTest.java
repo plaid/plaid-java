@@ -1,22 +1,27 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.request.IdentityGetRequest;
-import com.plaid.client.request.common.Product;
-import com.plaid.client.response.ErrorResponse;
-import com.plaid.client.response.IdentityGetResponse;
-import org.junit.Test;
-import retrofit2.Response;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+import com.plaid.client.model.AccountIdentity;
+import com.plaid.client.model.Address;
+import com.plaid.client.model.Email;
+import com.plaid.client.model.Error;
+import com.plaid.client.model.IdentityGetRequest;
+import com.plaid.client.model.IdentityGetResponse;
+import com.plaid.client.model.Owner;
+import com.plaid.client.model.PhoneNumber;
+import com.plaid.client.model.Products;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Test;
+import retrofit2.Response;
+
 public class IdentityGetTest extends AbstractItemIntegrationTest {
+
   @Override
-  protected List<Product> setupItemProducts() {
-    return Arrays.asList(Product.IDENTITY);
+  protected List<Products> setupItemProducts() {
+    return Arrays.asList(Products.IDENTITY);
   }
 
   @Override
@@ -26,48 +31,50 @@ public class IdentityGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    Response<IdentityGetResponse> response = client().service().identityGet(
-      new IdentityGetRequest(getItemPublicTokenExchangeResponse().getAccessToken())
-    ).execute();
+    IdentityGetRequest identityGetRequest = new IdentityGetRequest()
+      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
+
+    Response<IdentityGetResponse> response = client()
+      .identityGet(identityGetRequest)
+      .execute();
 
     assertSuccessResponse(response);
     assertFalse(response.body().getAccounts().isEmpty());
     assertNotNull(response.body().getItem());
 
-    List<IdentityGetResponse.AccountWithOwners> accounts = response.body().getAccounts();
+    List<AccountIdentity> accounts = response.body().getAccounts();
     assertNotNull(accounts);
 
-    for (IdentityGetResponse.AccountWithOwners account : accounts) {
-      List<IdentityGetResponse.Identity> owners = account.getOwners();
+    for (AccountIdentity account : accounts) {
+      List<Owner> owners = account.getOwners();
       assertFalse(owners.isEmpty());
-      for (IdentityGetResponse.Identity identity : owners) {
-        assertNotNull(identity);
-        assertFalse(identity.getNames().isEmpty());
-        assertFalse(identity.getEmails().isEmpty());
-        assertFalse(identity.getAddresses().isEmpty());
-        assertFalse(identity.getPhoneNumbers().isEmpty());
+      for (Owner owner : owners) {
+        assertNotNull(owner);
+        assertFalse(owner.getNames().isEmpty());
+        assertFalse(owner.getEmails().isEmpty());
+        assertFalse(owner.getAddresses().isEmpty());
+        assertFalse(owner.getPhoneNumbers().isEmpty());
 
-        for (IdentityGetResponse.Email email : identity.getEmails()) {
+        for (Email email : owner.getEmails()) {
           assertNotNull(email.getData());
           assertNotNull(email.getType());
-          assertNotNull(email.isPrimary());
+          assertNotNull(email.getPrimary());
         }
 
-        for (IdentityGetResponse.Address address : identity.getAddresses()) {
-          assertNotNull(address.isPrimary());
+        for (Address address : owner.getAddresses()) {
+          assertNotNull(address.getPrimary());
           assertNotNull(address.getData());
           assertNotNull(address.getData().getStreet());
           assertNotNull(address.getData().getCity());
           assertNotNull(address.getData().getRegion());
           assertNotNull(address.getData().getPostalCode());
-          // Sandbox data does not currently have a country set
           // assertNotNull(address.getData().getCountry());
         }
 
-        for (IdentityGetResponse.PhoneNumber phoneNumber : identity.getPhoneNumbers()) {
+        for (PhoneNumber phoneNumber : owner.getPhoneNumbers()) {
           assertNotNull(phoneNumber.getData());
           assertNotNull(phoneNumber.getType());
-          assertNotNull(phoneNumber.isPrimary());
+          assertNotNull(phoneNumber.getPrimary());
         }
       }
     }
@@ -75,10 +82,17 @@ public class IdentityGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testFailure() throws Exception {
-    Response<IdentityGetResponse> response = client().service().identityGet(
-      new IdentityGetRequest("made-up-token")
-    ).execute();
+    IdentityGetRequest identityGetRequest = new IdentityGetRequest()
+      .accessToken("made-up-token");
 
-    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
+    Response<IdentityGetResponse> response = client()
+      .identityGet(identityGetRequest)
+      .execute();
+
+    assertErrorResponse(
+      response,
+      Error.ErrorTypeEnum.INVALID_INPUT,
+      "INVALID_ACCESS_TOKEN"
+    );
   }
 }

@@ -1,3 +1,66 @@
+# 9.0.0
+
+The official release of the `plaid-java` generated library. Refer to the beta migration guide for tips on migrating from older version of the libraries.
+
+This particular version is pinned to OpenAPI version `2020-09-14_1.20.6`.
+
+# 9.0.0-beta-2
+Type fixes, see full changelog [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
+
+# 9.0.0-beta-1
+
+This version represents a transition in how we maintain our external client libraries. We are now using an [API spec](https://github.com/plaid/plaid-openapi) written in `OpenAPI 3.0.0` and running our definition file through [OpenAPITool's `java` generator](https://github.com/OpenAPITools/openapi-generator). All tests have been rewritten to support the new format.
+
+## Java Migration Guide
+
+**Change CountryCodes to enum:**
+
+- from: `Arrays.list("US")`
+- to: `Arrays.list(CountryCode.US`)
+
+**Rename model imports:**
+
+- from: `com.plaid.request.ModelName` and `com.plaid.response.ModelName`
+- to: `com.plaid.model.ModelName`
+
+**Rename products:**
+
+- from: `com.plaid.client.request.common.Product`
+- to: `com.plaid.model.Products`
+
+**Rename Error model:**
+
+- from:  `com.plaid.client.model.ErrorResponse`
+- to:  `com.plaid.client.model.Error`
+- from: `ErrorResponse.ErrorType`
+- to: `Error.ErrorTypeEnum`
+
+**Rename Account model:**
+
+- from: `import com.plaid.client.model.Account`
+- to: `import com.plaid.client.model.AccountBase`
+
+**Rename Payment Initiation Models**:
+
+- from: `import com.plaid.client.model.paymentinitiation.`
+- to: `import com.plaid.client.model.PaymentInitiation${Model}`
+
+**Request Model Structure:**
+
+- All request models changed from having their options passed as function arguments  `new AuthGetRequest(accessToken)`
+- To now having builder syntax  `new AuthGetRequest().accessToken(accessToken)`.
+- All `with$VARNAME` chained setters are now setters have been converted to `${}options`.
+
+**Response Model Structure:**
+
+- Model response properties are no longer connected to their parent response.
+- Most other getters/setters stayed the same outside of a few capitalization changes.
+
+**Plaid Client changes:**
+
+- Remove all occurrences of `service()` attached to `client()` endpoint queries.
+- Endpoints that start with `get` are now ${Model}Get.
+
 ## 8.5.0
 - Add deposit switch support for `/link/token/create`
 
@@ -12,8 +75,8 @@
 - Add Standing Orders support to Payment Initiation
 
 ## 8.1.0
-
 - Add [Bank Transfers](https://plaid.com/docs/bank-transfers/) endpoints to the library
+
 
 ## 8.0.0
 
