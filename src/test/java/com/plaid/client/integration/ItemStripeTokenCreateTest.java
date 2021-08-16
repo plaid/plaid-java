@@ -1,22 +1,22 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.*;
-
-import com.plaid.client.model.Error;
-import com.plaid.client.model.ProcessorStripeBankAccountTokenCreateRequest;
-import com.plaid.client.model.ProcessorStripeBankAccountTokenCreateResponse;
-import com.plaid.client.model.Products;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import com.plaid.client.request.ItemStripeTokenCreateRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.response.ItemStripeTokenCreateResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
-public class ItemStripeTokenCreateTest extends AbstractItemIntegrationTest {
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
+import static org.junit.Assert.*;
+
+public class ItemStripeTokenCreateTest extends AbstractItemIntegrationTest {
   @Override
-  protected List<Products> setupItemProducts() {
-    return Arrays.asList(Products.AUTH);
+  protected List<Product> setupItemProducts() {
+    return Arrays.asList(Product.AUTH);
   }
 
   @Override
@@ -26,20 +26,16 @@ public class ItemStripeTokenCreateTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testError() throws Exception {
-    ProcessorStripeBankAccountTokenCreateRequest request = new ProcessorStripeBankAccountTokenCreateRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
-      .accountId("FooBarAccountId");
-
-    Response<ProcessorStripeBankAccountTokenCreateResponse> response = client()
-      .processorStripeBankAccountTokenCreate(request)
-      .execute();
+    Response<ItemStripeTokenCreateResponse> response =
+      client().service().itemStripeTokenCreate(new ItemStripeTokenCreateRequest(getItemPublicTokenExchangeResponse().getAccessToken(), "FooBarAccountId")).execute();
     // Just assert that some error was returned - due to the nature of the
     // integration and required configuration at the API key level, we don't
     // know the exact error code to expect.
-    assertErrorResponse(
-      response,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
-      "INVALID_FIELD"
-    );
+    assertFalse(response.isSuccessful());
+    assertNotNull(response.errorBody());
+
+    ErrorResponse errorResponse = client().parseError(response);
+    assertNotNull(errorResponse);
+    assertNotNull(errorResponse.getRequestId());
   }
 }

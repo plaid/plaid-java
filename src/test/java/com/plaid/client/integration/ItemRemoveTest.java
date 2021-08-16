@@ -1,20 +1,20 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.assertTrue;
-
-import com.plaid.client.model.ItemRemoveRequest;
-import com.plaid.client.model.ItemRemoveResponse;
-import com.plaid.client.model.Products;
-import java.util.Arrays;
-import java.util.List;
+import com.plaid.client.request.ItemRemoveRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.ItemRemoveResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
-public class ItemRemoveTest extends AbstractItemIntegrationTest {
+import java.util.Collections;
+import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
+public class ItemRemoveTest extends AbstractItemIntegrationTest {
   @Override
-  protected List<Products> setupItemProducts() {
-    return Arrays.asList(Products.AUTH);
+  protected List<Product> setupItemProducts() {
+    return Collections.singletonList(Product.AUTH);
   }
 
   @Override
@@ -24,12 +24,9 @@ public class ItemRemoveTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    ItemRemoveRequest request = new ItemRemoveRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
-
-    Response<ItemRemoveResponse> response = client()
-      .itemRemove(request)
-      .execute();
+    Response<ItemRemoveResponse> response = client().service().itemRemove(
+      new ItemRemoveRequest(getItemPublicTokenExchangeResponse().getAccessToken())
+    ).execute();
 
     assertSuccessResponse(response);
   }

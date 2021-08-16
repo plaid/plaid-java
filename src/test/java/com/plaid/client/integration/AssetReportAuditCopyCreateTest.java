@@ -1,9 +1,10 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.model.AssetReportAuditCopyCreateRequest;
-import com.plaid.client.model.Products;
-import com.plaid.client.model.AssetReportAuditCopyCreateResponse;
-import com.plaid.client.model.AssetReportCreateResponse;
+import com.plaid.client.PlaidClient;
+import com.plaid.client.request.AssetReportAuditCopyCreateRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.AssetReportAuditCopyCreateResponse;
+import com.plaid.client.response.AssetReportCreateResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -15,8 +16,8 @@ import static org.junit.Assert.assertNotNull;
 public class AssetReportAuditCopyCreateTest extends AbstractItemIntegrationTest {
 
   @Override
-  protected List<Products> setupItemProducts() {
-    return Arrays.asList(Products.ASSETS);
+  protected List<Product> setupItemProducts() {
+    return Arrays.asList(Product.ASSETS);
   }
 
   @Override
@@ -27,17 +28,15 @@ public class AssetReportAuditCopyCreateTest extends AbstractItemIntegrationTest 
   @Test
   public void testAssetReportAuditCopyCreateSuccess() throws Exception {
     // Create asset report to get an asset report token
+    PlaidClient client = client();
     List<String> accessTokens = Arrays.asList(getItemPublicTokenExchangeResponse().getAccessToken());
-    Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client(), accessTokens);
+    Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client, accessTokens);
     String assetReportToken = createResponse.body().getAssetReportToken();
 
-    AssetReportGetTest.waitTillReady(client(), assetReportToken);
+    AssetReportGetTest.waitTillReady(client, assetReportToken);
 
-    AssetReportAuditCopyCreateRequest request = new AssetReportAuditCopyCreateRequest()
-    .assetReportToken(assetReportToken)
-    .auditorId("fannie_mae");
-
-    Response<AssetReportAuditCopyCreateResponse> response = client().assetReportAuditCopyCreate(request).execute();
+    AssetReportAuditCopyCreateRequest request = new AssetReportAuditCopyCreateRequest(assetReportToken, "fannie_mae");
+    Response<AssetReportAuditCopyCreateResponse> response = client.service().assetReportAuditCopyCreate(request).execute();
     assertNotNull(response.body().getAuditCopyToken());
   }
 }

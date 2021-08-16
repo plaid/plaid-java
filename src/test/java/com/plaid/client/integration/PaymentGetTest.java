@@ -1,64 +1,74 @@
 package com.plaid.client.integration;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import com.plaid.client.integration.PaymentCreateTest;
-import com.plaid.client.model.CountryCode;
-import com.plaid.client.model.LinkTokenCreateRequest;
-import com.plaid.client.model.LinkTokenCreateRequestPaymentInitiation;
-import com.plaid.client.model.LinkTokenCreateRequestUser;
-import com.plaid.client.model.LinkTokenCreateResponse;
-import com.plaid.client.model.PaymentInitiationPaymentCreateResponse;
-import com.plaid.client.model.PaymentInitiationPaymentGetRequest;
-import com.plaid.client.model.PaymentInitiationPaymentGetResponse;
-import com.plaid.client.model.Products;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+
+import com.plaid.client.request.LinkTokenCreateRequest;
+import com.plaid.client.request.paymentinitiation.PaymentGetRequest;
+import com.plaid.client.response.LinkTokenCreateResponse;
+import com.plaid.client.response.paymentinitiation.PaymentCreateResponse;
+import com.plaid.client.response.paymentinitiation.PaymentGetResponse;
+
 import org.junit.Test;
+
 import retrofit2.Response;
 
 public class PaymentGetTest extends AbstractIntegrationTest {
 
   @Test
-  public void testPaymentGetSuccess() throws Exception {
-    Response<PaymentInitiationPaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createPayment(
-      client()
-    );
+  public void testSingleImmediatePaymentGetSuccess() throws Exception {
+
+    Response<PaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createSingleImmediatePayment(client());
     String paymentId = createPaymentResponse.body().getPaymentId();
     assertNotNull(paymentId);
 
     String clientUserId = Long.toString((new Date()).getTime());
-
-    LinkTokenCreateRequestUser user = new LinkTokenCreateRequestUser()
-    .clientUserId(clientUserId);
-
-    LinkTokenCreateRequestPaymentInitiation paymentInitiation = new LinkTokenCreateRequestPaymentInitiation()
-    .paymentId(paymentId);
-
-    LinkTokenCreateRequest request = new LinkTokenCreateRequest()
-      .user(user)
-      .clientName("client name")
-      .products(Arrays.asList(Products.PAYMENT_INITIATION))
-      .countryCodes(Arrays.asList(CountryCode.US))
-      .language("en")
-      .paymentInitiation(paymentInitiation);
-
-    Response<LinkTokenCreateResponse> response = client()
-      .linkTokenCreate(request)
-      .execute();
+    LinkTokenCreateRequest.User user = new LinkTokenCreateRequest.User(clientUserId);
+    Response<LinkTokenCreateResponse> response = client().service()
+        .linkTokenCreate(new LinkTokenCreateRequest(user, "client name",
+            Collections.singletonList("payment_initiation"), Collections.singletonList("GB"), "en")
+                .withPaymentInitiation(new LinkTokenCreateRequest.PaymentInitiation(paymentId)))
+        .execute();
     assertSuccessResponse(response);
 
-    PaymentInitiationPaymentGetRequest payRequest = new PaymentInitiationPaymentGetRequest()
-      .paymentId(paymentId);
-
-    Response<PaymentInitiationPaymentGetResponse> getPaymentResponse = client()
-      .paymentInitiationPaymentGet(payRequest)
-      .execute();
+    Response<PaymentGetResponse> getPaymentResponse = client().service().paymentGet(new PaymentGetRequest(paymentId))
+        .execute();
     assertSuccessResponse(getPaymentResponse);
     assertNotNull(getPaymentResponse.body().getPaymentId());
     assertNotNull(getPaymentResponse.body().getReference());
     assertNotNull(getPaymentResponse.body().getAmount());
+    assertNull(getPaymentResponse.body().getSchedule());
+    assertNotNull(getPaymentResponse.body().getStatus());
+    assertNotNull(getPaymentResponse.body().getLastStatusUpdate());
+    assertNotNull(getPaymentResponse.body().getRecipientId());
+  }
+
+  @Test
+  public void testStandingOrderGetSuccess() throws Exception {
+
+    Response<PaymentCreateResponse> createPaymentResponse = PaymentCreateTest.createStandingOrder(client());
+    String paymentId = createPaymentResponse.body().getPaymentId();
+    assertNotNull(paymentId);
+
+    String clientUserId = Long.toString((new Date()).getTime());
+    LinkTokenCreateRequest.User user = new LinkTokenCreateRequest.User(clientUserId);
+    Response<LinkTokenCreateResponse> response = client().service()
+        .linkTokenCreate(new LinkTokenCreateRequest(user, "client name",
+            Collections.singletonList("payment_initiation"), Collections.singletonList("GB"), "en")
+                .withPaymentInitiation(new LinkTokenCreateRequest.PaymentInitiation(paymentId)))
+        .execute();
+    assertSuccessResponse(response);
+
+    Response<PaymentGetResponse> getPaymentResponse = client().service().paymentGet(new PaymentGetRequest(paymentId))
+        .execute();
+    assertSuccessResponse(getPaymentResponse);
+    assertNotNull(getPaymentResponse.body().getPaymentId());
+    assertNotNull(getPaymentResponse.body().getReference());
+    assertNotNull(getPaymentResponse.body().getAmount());
+    assertNotNull(getPaymentResponse.body().getSchedule());
     assertNotNull(getPaymentResponse.body().getStatus());
     assertNotNull(getPaymentResponse.body().getLastStatusUpdate());
     assertNotNull(getPaymentResponse.body().getRecipientId());

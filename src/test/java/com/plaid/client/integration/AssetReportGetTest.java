@@ -1,30 +1,25 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.*;
-
-import com.google.gson.Gson;
-import com.plaid.client.model.AccountAssets;
-import com.plaid.client.model.AssetReport;
-import com.plaid.client.model.AssetReportCreateResponse;
-import com.plaid.client.model.AssetReportGetRequest;
-import com.plaid.client.model.AssetReportGetResponse;
-import com.plaid.client.model.Error;
-import com.plaid.client.model.Products;
-import com.plaid.client.request.PlaidApi;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import org.json.JSONObject;
+import com.plaid.client.PlaidClient;
+import com.plaid.client.request.AssetReportGetRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.AssetReportCreateResponse;
+import com.plaid.client.response.AssetReportGetResponse;
 import org.junit.Test;
 import retrofit2.Response;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
 public class AssetReportGetTest extends AbstractItemIntegrationTest {
 
-  private static final String PRODUCT_NOT_READY = "PRODUCT_NOT_READY";
+  private final static String PRODUCT_NOT_READY = "PRODUCT_NOT_READY";
 
   @Override
-  protected List<Products> setupItemProducts() {
-    return Arrays.asList(Products.ASSETS);
+  protected List<Product> setupItemProducts() {
+    return Arrays.asList(Product.ASSETS);
   }
 
   @Override
@@ -35,20 +30,12 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
   @Test
   public void testAssetReportGetSuccess() throws Exception {
     // Create asset report to get an asset report token
-    List<String> accessTokens = Arrays.asList(
-      getItemPublicTokenExchangeResponse().getAccessToken()
-    );
-    Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(
-      client(),
-      accessTokens
-    );
+    List<String> accessTokens = Arrays.asList(getItemPublicTokenExchangeResponse().getAccessToken());
+    Response<AssetReportCreateResponse> createResponse = AssetReportCreateTest.createAssetReport(client(), accessTokens);
     String assetReportToken = createResponse.body().getAssetReportToken();
 
     // Wait till asset report is ready
-    Response<AssetReportGetResponse> response = waitTillReady(
-      client(),
-      assetReportToken
-    );
+    Response<AssetReportGetResponse> response = waitTillReady(client(), assetReportToken);
 
     // Validate the responses
     AssetReportGetResponse respBody = response.body();
@@ -61,11 +48,10 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertNotNull(respBody.getReport().getAssetReportId());
 
     // Retrieve the report as an Asset Report with Insights.
-    AssetReportGetRequest assetReportGetRequest = new AssetReportGetRequest()
-      .includeInsights(true)
-      .assetReportToken(assetReportToken);
-
-    response = client().assetReportGet(assetReportGetRequest).execute();
+    AssetReportGetRequest assetReportGet =
+      new AssetReportGetRequest(assetReportToken)
+        .withIncludeInsights(true);
+    response = client().service().assetReportGet(assetReportGet).execute();
 
     respBody = response.body();
     assertSuccessResponse(response);
@@ -76,9 +62,9 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     assertTrue(containsTransactionWithName(respBody.getReport()));
   }
 
-  private boolean containsTransactionWithName(AssetReport assetReport) {
-    List<AccountAssets> accounts = assetReport.getItems().get(0).getAccounts();
-    for (AccountAssets account : accounts) {
+  private boolean containsTransactionWithName(AssetReportGetResponse.AssetReport assetReport) {
+    List<AssetReportGetResponse.Account> accounts = assetReport.getItems().get(0).getAccounts();
+    for (AssetReportGetResponse.Account account : accounts) {
       if (account.getTransactions().size() > 0) {
         return account.getTransactions().get(0).getName() != null;
       }
@@ -90,45 +76,27 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
    * Utility function that polls Plaid till we see the Asset Report is ready
    */
   public static Response<AssetReportGetResponse> waitTillReady(
-    PlaidApi client,
-    String assetReportToken
-  )
-    throws Exception {
+          PlaidClient client, String assetReportToken) throws Exception {
     int NUM_RETRIES = 20;
     int INTER_REQUEST_SLEEP = 1000; // millis
     int attempt = 0;
     Response<AssetReportGetResponse> response;
-    JSONObject errorResponse = new JSONObject();
-    Error error = new Error();
-
     do {
-      AssetReportGetRequest assetReportGetRequest = new AssetReportGetRequest()
-        .assetReportToken(assetReportToken);
-
-      response = client.assetReportGet(assetReportGetRequest).execute();
-
-      try {
-        Gson gson = new Gson();
-        error = gson.fromJson(response.errorBody().string(), Error.class);
-      } catch (Exception e) {
-        // Dont' want to throw here.
-      }
-
+      AssetReportGetRequest assetReportGet =
+        new AssetReportGetRequest(assetReportToken);
+      response = client.service().assetReportGet(assetReportGet).execute();
       attempt++;
       Thread.sleep(INTER_REQUEST_SLEEP);
     } while (
-      !response.isSuccessful() &&
-      response.errorBody() != null &&
-      error.getErrorType().equals(Error.ErrorTypeEnum.ASSET_REPORT_ERROR) &&
-      attempt < NUM_RETRIES
-    );
+        !response.isSuccessful() &&
+         response.errorBody() != null &&
+         client.parseError(response).getErrorCode().equals(PRODUCT_NOT_READY) &&
+         attempt < NUM_RETRIES
+      );
     if (!response.isSuccessful()) {
       throw new Exception(
-        String.format(
-          "Could not get asset report. Failed with %s",
-          errorResponse.getJSONObject("error").getString("error_message")
-        )
-      );
+        String.format("Could not get asset report. Failed with %s", client.parseError(response).getErrorMessage()
+      ));
     }
     return response;
   }

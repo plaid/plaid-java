@@ -1,27 +1,24 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.*;
-
-import com.plaid.client.model.AccountBase;
-import com.plaid.client.model.AccountSubtype;
-import com.plaid.client.model.AccountType;
-import com.plaid.client.model.AccountsGetRequest;
-import com.plaid.client.model.AccountsGetRequestOptions;
-import com.plaid.client.model.AccountsGetResponse;
-import com.plaid.client.model.Error;
-import com.plaid.client.model.Products;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import com.plaid.client.request.AccountsGetRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.Account;
+import com.plaid.client.response.AccountsGetResponse;
+import com.plaid.client.response.ErrorResponse;
 import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Response;
 
-public class AccountsGetTest extends AbstractItemIntegrationTest {
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
+import static org.junit.Assert.*;
+
+public class AccountsGetTest extends AbstractItemIntegrationTest {
   @Override
-  protected List<Products> setupItemProducts() {
-    return Collections.singletonList(Products.TRANSACTIONS);
+  protected List<Product> setupItemProducts() {
+    return Collections.singletonList(Product.TRANSACTIONS);
   }
 
   @Override
@@ -31,11 +28,8 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testAccountsGetSuccess() throws Exception {
-    AccountsGetRequest request = new AccountsGetRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
-
-    Response<AccountsGetResponse> response = client()
-      .accountsGet(request)
+    Response<AccountsGetResponse> response = client().service().accountsGet(
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
 
     assertSuccessResponse(response);
@@ -44,126 +38,62 @@ public class AccountsGetTest extends AbstractItemIntegrationTest {
     assertItemEquals(getItem(), response.body().getItem());
 
     // sandbox should return expected accounts
-    List<AccountBase> accounts = response.body().getAccounts();
+    List<Account> accounts = response.body().getAccounts();
     assertTrue(accounts.size() > 1);
-    assertAccount(
-      accounts.get(0),
-      AccountType.DEPOSITORY,
-      AccountSubtype.CHECKING,
-      100d,
-      110d,
-      null,
-      "Plaid Checking",
-      "0000",
-      "Plaid Gold Standard 0% Interest Checking"
-    );
-    assertAccount(
-      accounts.get(1),
-      AccountType.DEPOSITORY,
-      AccountSubtype.SAVINGS,
-      200d,
-      210d,
-      null,
-      "Plaid Saving",
-      "1111",
-      "Plaid Silver Standard 0.1% Interest Saving"
-    );
-    assertAccount(
-      accounts.get(2),
-      AccountType.DEPOSITORY,
-      AccountSubtype.CD,
-      null,
-      1000d,
-      null,
-      "Plaid CD",
-      "2222",
-      "Plaid Bronze Standard 0.2% Interest CD"
-    );
-    assertAccount(
-      accounts.get(3),
-      AccountType.CREDIT,
-      AccountSubtype.CREDIT_CARD,
-      null,
-      410d,
-      2000d,
-      "Plaid Credit Card",
-      "3333",
-      "Plaid Diamond 12.5% APR Interest Credit Card"
-    );
+    assertAccount(accounts.get(0), "depository", "checking", 100d,
+      110d, null, "Plaid Checking",
+      "0000", "Plaid Gold Standard 0% Interest Checking");
+    assertAccount(accounts.get(1), "depository",
+      "savings", 200d, 210d, null, "Plaid Saving",
+      "1111", "Plaid Silver Standard 0.1% Interest Saving");
+    assertAccount(accounts.get(2), "depository",
+      "cd", null, 1000d, null, "Plaid CD",
+      "2222", "Plaid Bronze Standard 0.2% Interest CD");
+    assertAccount(accounts.get(3), "credit", "credit card", null, 410d, 2000d, "Plaid Credit Card",
+      "3333", "Plaid Diamond 12.5% APR Interest Credit Card");
   }
 
   @Test
   public void testAccountGetWithAccountId() throws Exception {
     // first call to get an account ID
-    AccountsGetRequest request = new AccountsGetRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
-    Response<AccountsGetResponse> response = client()
-      .accountsGet(request)
+    Response<AccountsGetResponse> response = client().service().accountsGet(
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()))
       .execute();
     assertSuccessResponse(response);
     String accountId = response.body().getAccounts().get(1).getAccountId();
 
     // call under test
-    AccountsGetRequest accountsGetRequest = new AccountsGetRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
-
-    AccountsGetRequestOptions options = new AccountsGetRequestOptions()
-    .accountIds(Arrays.asList(accountId));
-    accountsGetRequest.setOptions(options);
-
-    response = client().accountsGet(accountsGetRequest).execute();
+    response = client().service().accountsGet(
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList(accountId)))
+      .execute();
     assertSuccessResponse(response);
 
     // item should be the same one we created
     assertItemEquals(getItem(), response.body().getItem());
 
     // sandbox should return expected accounts
-    List<AccountBase> accounts = response.body().getAccounts();
+    List<Account> accounts = response.body().getAccounts();
     assertEquals(1, accounts.size());
-    assertAccount(
-      accounts.get(0),
-      AccountType.DEPOSITORY,
-      AccountSubtype.SAVINGS,
-      200d,
-      210d,
-      null,
-      "Plaid Saving",
-      "1111",
-      "Plaid Silver Standard 0.1% Interest Saving"
-    );
+    assertAccount(accounts.get(0), "depository",
+      "savings", 200d, 210d, null, "Plaid Saving",
+      "1111", "Plaid Silver Standard 0.1% Interest Saving");
   }
 
   @Test
+  @Ignore("This test fails because the request triggers a sandbox server 500.")
   public void testAccountGetInvalidAccountId() throws Exception {
-    AccountsGetRequest accountsGetRequest = new AccountsGetRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
-
-    AccountsGetRequestOptions options = new AccountsGetRequestOptions()
-    .accountIds(Arrays.asList("not-real"));
-    accountsGetRequest.setOptions(options);
-
-    Response<AccountsGetResponse> response = client()
-      .accountsGet(accountsGetRequest)
+    Response<AccountsGetResponse> response = client().service().accountsGet(
+      new AccountsGetRequest(getItemPublicTokenExchangeResponse().getAccessToken()).withAccountIds(Arrays.asList("not-real")))
       .execute();
-    assertErrorResponse(
-      response,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
-      "INVALID_FIELD"
-    );
+    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCOUNT_ID");
   }
 
   @Test
   public void testAccountGetInvalidAccessToken() throws Exception {
-    AccountsGetRequest accountsGetRequest = new AccountsGetRequest()
-      .accessToken("notreal");
-
-    Response<AccountsGetResponse> response = client()
-      .accountsGet(accountsGetRequest)
+    Response<AccountsGetResponse> response = client().service().accountsGet(
+      new AccountsGetRequest("notreal"))
       .execute();
-    assertErrorResponse(
-      response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
-      "INVALID_ACCESS_TOKEN"
-    );
+    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_ACCESS_TOKEN");
   }
+
 }

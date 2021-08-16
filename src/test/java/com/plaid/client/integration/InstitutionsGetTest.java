@@ -5,28 +5,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.plaid.client.model.CountryCode;
-import com.plaid.client.model.Institution;
-import com.plaid.client.model.InstitutionsGetRequest;
-import com.plaid.client.model.InstitutionsGetRequestOptions;
-import com.plaid.client.model.InstitutionsGetResponse;
-import com.plaid.client.model.Products;
 import java.util.Arrays;
 import java.util.List;
+
+import com.plaid.client.request.InstitutionsGetRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.Institution;
+import com.plaid.client.response.InstitutionsGetResponse;
+
 import org.junit.Test;
+
 import retrofit2.Response;
 
 public class InstitutionsGetTest extends AbstractIntegrationTest {
-
   @Test
   public void testSuccess() throws Exception {
-    InstitutionsGetRequest request = new InstitutionsGetRequest()
-      .count(3)
-      .offset(1)
-      .countryCodes(Arrays.asList(CountryCode.US));
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US"))).execute();
 
     assertSuccessResponse(response);
 
@@ -36,18 +31,10 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithProducts() throws Exception {
-    InstitutionsGetRequestOptions options = new InstitutionsGetRequestOptions();
-    options.products(Arrays.asList(Products.IDENTITY));
-
-    InstitutionsGetRequest request = new InstitutionsGetRequest()
-      .count(3)
-      .offset(0)
-      .countryCodes(Arrays.asList(CountryCode.US))
-      .options(options);
-
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(
+            new InstitutionsGetRequest(3, 0, Arrays.asList("US")).withProducts(Arrays.asList(Product.IDENTITY)))
+        .execute();
 
     assertSuccessResponse(response);
 
@@ -57,18 +44,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithIncludeOptionalMetadataTrue() throws Exception {
-    InstitutionsGetRequestOptions options = new InstitutionsGetRequestOptions();
-    options.includeOptionalMetadata(true);
-
-    InstitutionsGetRequest request = new InstitutionsGetRequest()
-      .count(3)
-      .offset(0)
-      .countryCodes(Arrays.asList(CountryCode.US))
-      .options(options);
-
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US")).withIncludeOptionalMetadata(true))
+        .execute();
 
     assertSuccessResponse(response);
 
@@ -78,18 +56,10 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithIncludeOptionalMetadataFalse() throws Exception {
-    InstitutionsGetRequestOptions options = new InstitutionsGetRequestOptions();
-    options.includeOptionalMetadata(false);
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US")).withIncludeOptionalMetadata(false))
+        .execute();
 
-    InstitutionsGetRequest request = new InstitutionsGetRequest()
-      .count(3)
-      .offset(0)
-      .countryCodes(Arrays.asList(CountryCode.US))
-      .options(options);
-
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
     assertSuccessResponse(response);
 
     // check number returned
@@ -98,14 +68,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithCountryCodes() throws Exception {
-    InstitutionsGetRequest request = new InstitutionsGetRequest()
-      .count(3)
-      .offset(0)
-      .countryCodes(Arrays.asList(CountryCode.US));
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("US"))).execute();
 
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
     assertSuccessResponse(response);
 
     // check number returned
@@ -114,48 +79,43 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccessWithOAuth() throws Exception {
-    InstitutionsGetRequestOptions options = new InstitutionsGetRequestOptions();
-    options.oauth(true);
-
-    InstitutionsGetRequest request = new InstitutionsGetRequest()
-      .count(3)
-      .offset(1)
-      .countryCodes(Arrays.asList(CountryCode.GB))
-      .options(options);
-
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
-
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("GB")).withOAuth(true)).execute();
     assertSuccessResponse(response);
     List<Institution> institutions = response.body().getInstitutions();
     assertEquals(3, institutions.size());
-    // TODO: reenable this after institution fix for oauth filtering
-    // for (int i = 0; i < institutions.size(); i++) {
-    //   assertTrue(institutions.get(i).getOauth());
-    // }
+    for (int i = 0; i < institutions.size(); i++) {
+      assertTrue(institutions.get(i).getOAuth());
+    }
   }
 
   @Test
   public void testSuccessWithoutOAuth() throws Exception {
-    InstitutionsGetRequestOptions options = new InstitutionsGetRequestOptions();
-    options.oauth(false);
-
-    InstitutionsGetRequest request = new InstitutionsGetRequest()
-      .count(3)
-      .offset(1)
-      .countryCodes(Arrays.asList(CountryCode.GB))
-      .options(options);
-
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
-
+    Response<InstitutionsGetResponse> response = client().service()
+        .institutionsGet(new InstitutionsGetRequest(3, 0, Arrays.asList("GB")).withOAuth(false)).execute();
     assertSuccessResponse(response);
-    // TODO: reenable this after institution fix for oauth filtering
-    // List<Institution> institutions = response.body().getInstitutions();
-    // for (int i = 0; i < institutions.size(); i++) {
-    //   assertFalse(institutions.get(i).getOauth());
-    // }
+    List<Institution> institutions = response.body().getInstitutions();
+    for (int i = 0; i < institutions.size(); i++) {
+      assertFalse(institutions.get(i).getOAuth());
+    }
+  }
+
+  @Test
+  public void testRequestValidation() throws Exception {
+    try {
+      new InstitutionsGetRequest(0, 0, Arrays.asList("US"));
+      fail("should have thrown exception");
+    } catch (IllegalArgumentException e) {
+    }
+    try {
+      new InstitutionsGetRequest(501, 0, Arrays.asList("US"));
+      fail("should have thrown exception");
+    } catch (IllegalArgumentException e) {
+    }
+    try {
+      new InstitutionsGetRequest(1, -1, Arrays.asList("US"));
+      fail("should have thrown exception");
+    } catch (IllegalArgumentException e) {
+    }
   }
 }

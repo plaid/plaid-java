@@ -1,29 +1,25 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.assertNotNull;
-
-import com.plaid.client.model.Error;
-import com.plaid.client.model.WebhookVerificationKeyGetRequest;
-import com.plaid.client.model.WebhookVerificationKeyGetResponse;
+import com.plaid.client.PlaidClient;
+import com.plaid.client.request.WebhookVerificationKeyGetRequest;
+import com.plaid.client.response.WebhookVerificationKeyGetResponse;
+import com.plaid.client.response.ErrorResponse;
 import org.junit.Test;
 import retrofit2.Response;
+
+import static org.junit.Assert.assertNotNull;
 
 public class WebhookVerificationKeyGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testWebhookVerificationKeyGetSuccess() throws Exception {
-    WebhookVerificationKeyGetRequest request = new WebhookVerificationKeyGetRequest()
-      .keyId("6c5516e1-92dc-479e-a8ff-5a51992e0001");
 
-    Response<WebhookVerificationKeyGetResponse> getWebhookVerificationKeyResponse = client()
-      .webhookVerificationKeyGet(request)
-      .execute();
+    Response<WebhookVerificationKeyGetResponse> getWebhookVerificationKeyResponse =
+      client().service().getWebhookVerificationKey(new WebhookVerificationKeyGetRequest("6c5516e1-92dc-479e-a8ff-5a51992e0001")).execute();
     assertSuccessResponse(getWebhookVerificationKeyResponse);
     assertNotNull(getWebhookVerificationKeyResponse.body().getKey());
     assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getAlg());
-    assertNotNull(
-      getWebhookVerificationKeyResponse.body().getKey().getCreatedAt()
-    );
+    assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getCreatedAt());
     assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getCrv());
     assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getKid());
     assertNotNull(getWebhookVerificationKeyResponse.body().getKey().getKty());
@@ -34,17 +30,10 @@ public class WebhookVerificationKeyGetTest extends AbstractIntegrationTest {
 
   @Test
   public void testWebhookVerificationKeyGetFailure() throws Exception {
-    WebhookVerificationKeyGetRequest request = new WebhookVerificationKeyGetRequest()
-      .keyId("not-a-key-id");
+    Response<WebhookVerificationKeyGetResponse> response =
+      client().service().getWebhookVerificationKey(new WebhookVerificationKeyGetRequest("not-a-key-id")).execute();
 
-    Response<WebhookVerificationKeyGetResponse> response = client()
-      .webhookVerificationKeyGet(request)
-      .execute();
-
-    assertErrorResponse(
-      response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
-      "INVALID_WEBHOOK_VERIFICATION_KEY_ID"
-    );
+    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_INPUT, "INVALID_WEBHOOK_VERIFICATION_KEY_ID");
   }
 }
+

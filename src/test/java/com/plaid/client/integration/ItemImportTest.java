@@ -1,36 +1,27 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.*;
-
-import com.plaid.client.model.ItemImportRequest;
-import com.plaid.client.model.ItemImportRequestUserAuth;
-import com.plaid.client.model.ItemImportRequestOptions;
-import com.plaid.client.model.ItemImportResponse;
-import com.plaid.client.model.Products;
-import java.util.Arrays;
-import java.util.HashMap;
+import com.plaid.client.request.ItemImportRequest;
+import com.plaid.client.response.ItemImportResponse;
 import org.junit.Test;
 import retrofit2.Response;
+
+import java.util.Arrays;
+import java.util.HashMap;
+
+import static org.junit.Assert.*;
 
 public class ItemImportTest extends AbstractIntegrationTest {
 
   @Test
   public void testSuccess() throws Exception {
-    ItemImportRequestOptions options = new ItemImportRequestOptions()
-    .webhook("https://some.webhook.example.com");
+    HashMap<String, String> userAuth = new HashMap<>();
+    userAuth.put("user_id", "user_good");
+    userAuth.put("auth_token", "pass_good");
 
-    ItemImportRequestUserAuth itemImportRequestUserAuth = new ItemImportRequestUserAuth()
-      .userId("user_good")
-      .authToken("pass_good");
-
-    ItemImportRequest request = new ItemImportRequest()
-      .products(Arrays.asList(Products.IDENTITY, Products.AUTH))
-      .userAuth(itemImportRequestUserAuth)
-      .options(options);
-
-    Response<ItemImportResponse> response = client()
-      .itemImport(request)
-      .execute();
+    Response<ItemImportResponse> response = client().service()
+        .itemImport(new ItemImportRequest(Arrays.asList("identity", "auth"), userAuth)
+            .withWebhook("https://some.webhook.example.com"))
+        .execute();
     assertSuccessResponse(response);
     assertNotNull(response.body().getAccessToken());
   }

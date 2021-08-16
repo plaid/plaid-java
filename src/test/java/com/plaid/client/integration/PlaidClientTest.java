@@ -1,30 +1,29 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.*;
-
-import com.plaid.client.model.CountryCode;
-import com.plaid.client.model.Error;
-import com.plaid.client.model.InstitutionsSearchRequest;
-import com.plaid.client.model.InstitutionsSearchResponse;
-import com.plaid.client.model.Products;
-
-import java.util.Arrays;
+import com.plaid.client.request.InstitutionsSearchRequest;
+import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.response.InstitutionsSearchResponse;
 import org.junit.Test;
 import retrofit2.Response;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
 
 public class PlaidClientTest extends AbstractIntegrationTest {
 
   @Test
   public void testFailedRequest() throws Exception {
-    InstitutionsSearchRequest request = new InstitutionsSearchRequest()
-      .products(Arrays.asList(Products.ASSETS))
-      .countryCodes(Arrays.asList(CountryCode.US))
-      .query("");
+    Response<InstitutionsSearchResponse> resp = client().service().institutionsSearch(new InstitutionsSearchRequest("", Arrays.asList("US"))).execute();
 
-    Response<InstitutionsSearchResponse> response = client()
-      .institutionsSearch(request)
-      .execute();
+    assertFalse(resp.isSuccessful());
 
-    assertErrorResponse(response, Error.ErrorTypeEnum.INVALID_REQUEST, "INVALID_FIELD");
+    ErrorResponse errorResponse = client().parseError(resp);
+
+    assertNull(errorResponse.getDisplayMessage());
+    assertEquals("INVALID_FIELD", errorResponse.getErrorCode());
+    assertEquals("query must be a non-empty string", errorResponse.getErrorMessage());
+    assertEquals(ErrorResponse.ErrorType.INVALID_REQUEST, errorResponse.getErrorType());
+    assertNotNull(errorResponse.getRequestId());
   }
 }

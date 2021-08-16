@@ -1,20 +1,11 @@
 package com.plaid.client.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import com.plaid.client.model.AccountFiltersResponse;
-import com.plaid.client.model.AccountSubtype;
-import com.plaid.client.model.CountryCode;
-import com.plaid.client.model.DepositoryFilter;
-import com.plaid.client.model.Error;
-import com.plaid.client.model.LinkTokenAccountFilters;
-import com.plaid.client.model.LinkTokenCreateRequest;
-import com.plaid.client.model.LinkTokenCreateRequestUser;
-import com.plaid.client.model.LinkTokenCreateResponse;
-import com.plaid.client.model.LinkTokenGetRequest;
-import com.plaid.client.model.LinkTokenGetResponse;
-import com.plaid.client.model.Products;
+import com.plaid.client.request.LinkTokenCreateRequest;
+import com.plaid.client.request.LinkTokenGetRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.ErrorResponse;
+import com.plaid.client.response.LinkTokenCreateResponse;
+import com.plaid.client.response.LinkTokenGetResponse;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -24,11 +15,13 @@ import java.util.Map;
 import org.junit.Test;
 import retrofit2.Response;
 
-public class LinkTokenGetTest extends AbstractItemIntegrationTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+public class LinkTokenGetTest extends AbstractItemIntegrationTest {
   @Override
-  protected List<Products> setupItemProducts() {
-    return Arrays.asList(Products.AUTH);
+  protected List<Product> setupItemProducts() {
+    return Collections.singletonList(Product.AUTH);
   }
 
   @Override
@@ -38,76 +31,44 @@ public class LinkTokenGetTest extends AbstractItemIntegrationTest {
 
   @Test
   public void testInvalidToken() throws Exception {
-    LinkTokenGetRequest request = new LinkTokenGetRequest()
-      .linkToken("bad token");
+    Response<LinkTokenGetResponse> response =
+      client().service().linkTokenGet(
+        new LinkTokenGetRequest("bad token")).execute();
 
-    Response<LinkTokenGetResponse> response = client()
-      .linkTokenGet(request)
-      .execute();
-
-    assertErrorResponse(
-      response,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
-      "INVALID_FIELD"
-    );
+    assertErrorResponse(response, ErrorResponse.ErrorType.INVALID_REQUEST, "INVALID_FIELD");
   }
 
   @Test
   public void testSuccess() throws Exception {
-    String clientName = "very nice client name";
     String clientUserId = Long.toString((new Date()).getTime());
+    LinkTokenCreateRequest.User user = new LinkTokenCreateRequest.User(clientUserId);
+    String clientName = "very nice client name";
+    Map<String, LinkTokenCreateRequest.SubtypeFilters> accountFilters =
+      new HashMap<>();
+    accountFilters.put("depository",
+      new LinkTokenCreateRequest.SubtypeFilters(Arrays.asList("savings")));
 
-    LinkTokenCreateRequestUser user = new LinkTokenCreateRequestUser()
-    .clientUserId(clientUserId);
-
-    DepositoryFilter types = new DepositoryFilter()
-    .accountSubtypes(Arrays.asList(AccountSubtype.SAVINGS));
-
-    LinkTokenAccountFilters accountFilters = new LinkTokenAccountFilters()
-    .depository(types);
-
-    LinkTokenCreateRequest request = new LinkTokenCreateRequest()
-      .user(user)
-      .clientName(clientName)
-      .products(Arrays.asList(Products.AUTH))
-      .countryCodes(Arrays.asList(CountryCode.US))
-      .language("en")
-      .accountFilters(accountFilters);
-
-    Response<LinkTokenCreateResponse> createResponse = client()
-      .linkTokenCreate(request)
-      .execute();
+    LinkTokenCreateRequest request = new LinkTokenCreateRequest(
+      user,
+      clientName,
+      Collections.singletonList("auth"),
+      Collections.singletonList("US"),
+      "en").withAccountFilters(accountFilters);
+    Response<LinkTokenCreateResponse> createResponse =
+      client().service().linkTokenCreate(
+        request).execute();
 
     assertSuccessResponse(createResponse);
-
     String linkToken = createResponse.body().getLinkToken();
     assertNotNull(linkToken);
-
-    LinkTokenGetRequest getRequest = new LinkTokenGetRequest()
-      .linkToken(linkToken);
-
-    Response<LinkTokenGetResponse> getResponse = client()
-      .linkTokenGet(getRequest)
-      .execute();
+    Response<LinkTokenGetResponse> getResponse =
+      client().service().linkTokenGet(
+        new LinkTokenGetRequest(linkToken)).execute();
 
     assertSuccessResponse(getResponse);
     assertEquals(clientName, getResponse.body().getMetadata().getClientName());
-    assertEquals(
-      Arrays.asList(Products.AUTH),
-      getResponse.body().getMetadata().getInitialProducts()
-    );
-    assertEquals(
-      Arrays.asList(CountryCode.US),
-      getResponse.body().getMetadata().getCountryCodes()
-    );
-    // TODO: Fix when AccountFilters object is condensed.
-
-    DepositoryFilter depositoryType = new DepositoryFilter()
-    .accountSubtypes(Arrays.asList(AccountSubtype.SAVINGS));
-
-    AccountFiltersResponse filters = new AccountFiltersResponse()
-    .depository(depositoryType);
-
-    assertEquals(filters, getResponse.body().getMetadata().getAccountFilters());
+    assertEquals(Arrays.asList("auth"), getResponse.body().getMetadata().getInitialProducts());
+    assertEquals(Arrays.asList("US"), getResponse.body().getMetadata().getCountryCodes());
+    assertEquals(accountFilters, getResponse.body().getMetadata().getAccountFilters());
   }
 }

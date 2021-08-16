@@ -1,20 +1,19 @@
 package com.plaid.client.integration.banktransfer;
 
 import com.plaid.client.integration.AbstractItemIntegrationTest;
-import com.plaid.client.model.ACHClass;
-import com.plaid.client.model.AccountsGetRequest;
-import com.plaid.client.model.AccountsGetResponse;
-import com.plaid.client.model.BankTransfer;
-import com.plaid.client.model.BankTransferCreateRequest;
-import com.plaid.client.model.BankTransferCreateResponse;
-import com.plaid.client.model.BankTransferNetwork;
-import com.plaid.client.model.BankTransferType;
-import com.plaid.client.model.BankTransferUser;
-import com.plaid.client.model.Products;
-import java.util.Arrays;
+import com.plaid.client.model.banktransfer.BankTransfer;
+import com.plaid.client.model.banktransfer.BankTransferUser;
+import com.plaid.client.request.AccountsGetRequest;
+import com.plaid.client.request.banktransfer.BankTransferCreateRequest;
+import com.plaid.client.request.common.Product;
+import com.plaid.client.response.AccountsGetResponse;
+import com.plaid.client.response.banktransfer.BankTransferCreateResponse;
+
 import java.util.List;
+import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
+
 import retrofit2.Response;
 
 /**
@@ -23,14 +22,12 @@ import retrofit2.Response;
  * Subclasses must implement the institution and products desired by implementing.
  * {@link #setupItemProducts()} and {@link #setupItemInstitutionId()}
  */
-public abstract class AbstractBankTransferTest
-  extends AbstractItemIntegrationTest {
-
+public abstract class AbstractBankTransferTest extends AbstractItemIntegrationTest {
   private BankTransfer bankTransfer;
 
   @Override
-  protected List<Products> setupItemProducts() {
-    return Arrays.asList(Products.AUTH);
+  protected List<Product> setupItemProducts() {
+    return Arrays.asList(Product.AUTH);
   }
 
   @Override
@@ -40,33 +37,26 @@ public abstract class AbstractBankTransferTest
 
   @Before
   public void setUpBankTransfer() throws Exception {
-    AccountsGetRequest request = new AccountsGetRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
-
-    Response<AccountsGetResponse> response = client()
-      .accountsGet(request)
+    String accessToken = getItemPublicTokenExchangeResponse().getAccessToken();
+    Response<AccountsGetResponse> response = client().service().accountsGet(
+      new AccountsGetRequest(accessToken))
       .execute();
-
     assertSuccessResponse(response);
     String accountId = response.body().getAccounts().get(0).getAccountId();
 
-    BankTransferUser user = new BankTransferUser().legalName("First Last");
-
-    BankTransferCreateRequest bankRequest = new BankTransferCreateRequest()
-      .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
-      .idempotencyKey(String.valueOf(Math.random()))
-      .accountId(accountId)
-      .type(BankTransferType.CREDIT)
-      .network(BankTransferNetwork.ACH)
-      .amount("1.00")
-      .isoCurrencyCode("USD")
-      .description("testdesc")
-      .user(user)
-      .achClass(ACHClass.PPD);
-
-    Response<BankTransferCreateResponse> createResponse = client()
-      .bankTransferCreate(bankRequest)
-      .execute();
+    Response<BankTransferCreateResponse> createResponse =
+      client().service().bankTransferCreate(new BankTransferCreateRequest(
+        String.valueOf(Math.random()),
+        accessToken,
+        accountId,
+        "credit",
+        "ach",
+        "1.00",
+        "USD",
+        "testdesc",
+        new BankTransferUser("Firstname Lastname"))
+        .withAchClass("ppd")
+      ).execute();
     assertSuccessResponse(createResponse);
     this.bankTransfer = createResponse.body().getBankTransfer();
   }
@@ -82,7 +72,7 @@ public abstract class AbstractBankTransferTest
         break;
       } catch (AssertionError e) {
         // Rethrow error on final retry
-        if (i == maxRetries - 1) {
+        if (i == maxRetries-1) {
           throw e;
         }
         Thread.sleep(1000);
@@ -93,4 +83,4 @@ public abstract class AbstractBankTransferTest
   public BankTransfer getBankTransfer() {
     return bankTransfer;
   }
-}
+};
