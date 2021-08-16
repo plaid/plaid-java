@@ -61,6 +61,23 @@ This version represents a transition in how we maintain our external client libr
 - Remove all occurrences of `service()` attached to `client()` endpoint queries.
 - Endpoints that start with `get` are now ${Model}Get.
 
+## 8.5.0
+- Add deposit switch support for `/link/token/create`
+
+## 8.4.0
+- Add support for `options` to `/payment_initiation/payment/create`
+
+## 8.3.0
+- Add `last_updated_datetime` to `/accounts/balance/get`
+
+## 8.2.0
+- Add mortgage object to Liabilities
+- Add Standing Orders support to Payment Initiation
+
+## 8.1.0
+- Add [Bank Transfers](https://plaid.com/docs/bank-transfers/) endpoints to the library
+
+
 ## 8.0.0
 
 - The library has been pinned to the '2020-09-14' API release. Visit the [docs](https://plaid.com/docs/api/versioning/) to see what changed.
