@@ -48,6 +48,8 @@ import com.plaid.client.model.BankTransferListRequest;
 import com.plaid.client.model.BankTransferListResponse;
 import com.plaid.client.model.BankTransferMigrateAccountRequest;
 import com.plaid.client.model.BankTransferMigrateAccountResponse;
+import com.plaid.client.model.BankTransferSweepGetRequest;
+import com.plaid.client.model.BankTransferSweepGetResponse;
 import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.DepositSwitchAltCreateRequest;
 import com.plaid.client.model.DepositSwitchAltCreateResponse;
@@ -66,12 +68,15 @@ import com.plaid.client.model.IdentityGetResponse;
 import com.plaid.client.model.IncomeVerificationCreateRequest;
 import com.plaid.client.model.IncomeVerificationCreateResponse;
 import com.plaid.client.model.IncomeVerificationDocumentsDownloadRequest;
+import com.plaid.client.model.IncomeVerificationPaystubGetRequest;
 import com.plaid.client.model.IncomeVerificationPaystubsGetRequest;
 import com.plaid.client.model.IncomeVerificationPaystubsGetResponse;
 import com.plaid.client.model.IncomeVerificationRefreshRequest;
 import com.plaid.client.model.IncomeVerificationRefreshResponse;
 import com.plaid.client.model.IncomeVerificationSummaryGetRequest;
 import com.plaid.client.model.IncomeVerificationSummaryGetResponse;
+import com.plaid.client.model.IncomeVerificationTaxformsGetRequest;
+import com.plaid.client.model.IncomeVerificationTaxformsGetResponse;
 import com.plaid.client.model.InstitutionsGetByIdRequest;
 import com.plaid.client.model.InstitutionsGetByIdResponse;
 import com.plaid.client.model.InstitutionsGetRequest;
@@ -150,6 +155,8 @@ import com.plaid.client.model.SandboxProcessorTokenCreateRequest;
 import com.plaid.client.model.SandboxProcessorTokenCreateResponse;
 import com.plaid.client.model.SandboxPublicTokenCreateRequest;
 import com.plaid.client.model.SandboxPublicTokenCreateResponse;
+import com.plaid.client.model.SandboxTransferSimulateRequest;
+import com.plaid.client.model.SandboxTransferSimulateResponse;
 import com.plaid.client.model.SignalDecisionReportRequest;
 import com.plaid.client.model.SignalDecisionReportResponse;
 import com.plaid.client.model.SignalEvaluateRequest;
@@ -160,6 +167,20 @@ import com.plaid.client.model.TransactionsGetRequest;
 import com.plaid.client.model.TransactionsGetResponse;
 import com.plaid.client.model.TransactionsRefreshRequest;
 import com.plaid.client.model.TransactionsRefreshResponse;
+import com.plaid.client.model.TransferAuthorizationCreateRequest;
+import com.plaid.client.model.TransferAuthorizationCreateResponse;
+import com.plaid.client.model.TransferCancelRequest;
+import com.plaid.client.model.TransferCancelResponse;
+import com.plaid.client.model.TransferCreateRequest;
+import com.plaid.client.model.TransferCreateResponse;
+import com.plaid.client.model.TransferEventListRequest;
+import com.plaid.client.model.TransferEventListResponse;
+import com.plaid.client.model.TransferEventSyncRequest;
+import com.plaid.client.model.TransferEventSyncResponse;
+import com.plaid.client.model.TransferGetRequest;
+import com.plaid.client.model.TransferGetResponse;
+import com.plaid.client.model.TransferListRequest;
+import com.plaid.client.model.TransferListResponse;
 import com.plaid.client.model.WebhookVerificationKeyGetRequest;
 import com.plaid.client.model.WebhookVerificationKeyGetResponse;
 
@@ -441,7 +462,7 @@ public interface PlaidApi {
 
   /**
    * Sync bank transfer events
-   * &#x60;/bank_transfer/event/sync&#x60; allows you to request up to the next 25 bank transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/bank_transfer/event/sync&#x60; endpoint to guarantee you have seen all bank transfer events. 
+   * &#x60;/bank_transfer/event/sync&#x60; allows you to request up to the next 25 bank transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/bank_transfer/event/sync&#x60; endpoint to guarantee you have seen all bank transfer events.
    * @param bankTransferEventSyncRequest  (required)
    * @return Call&lt;BankTransferEventSyncResponse&gt;
    * 
@@ -501,6 +522,22 @@ public interface PlaidApi {
   @POST("bank_transfer/migrate_account")
   Call<BankTransferMigrateAccountResponse> bankTransferMigrateAccount(
     @retrofit2.http.Body BankTransferMigrateAccountRequest bankTransferMigrateAccountRequest
+  );
+
+  /**
+   * Retrieve a sweep
+   * The &#x60;/bank_transfer/sweep/get&#x60; endpoint fetches information about the sweep corresponding to the given &#x60;sweep_id&#x60;.
+   * @param bankTransferSweepGetRequest  (required)
+   * @return Call&lt;BankTransferSweepGetResponse&gt;
+   * 
+   * @see <a href="/api/products#bank_transfersweepget">Retrieve a sweep Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("bank_transfer/sweep/get")
+  Call<BankTransferSweepGetResponse> bankTransferSweepGet(
+    @retrofit2.http.Body BankTransferSweepGetRequest bankTransferSweepGetRequest
   );
 
   /**
@@ -638,9 +675,11 @@ public interface PlaidApi {
    * &#x60;/income/verification/create&#x60; begins the income verification process by returning an &#x60;income_verification_id&#x60;. You can then provide the &#x60;income_verification_id&#x60; to &#x60;/link/token/create&#x60; under the &#x60;income_verification&#x60; parameter in order to create a Link instance that will prompt the user to go through the income verification flow. Plaid will fire an &#x60;INCOME&#x60; webhook once the user completes the Payroll Income flow, or when the uploaded documents in the Document Income flow have finished processing. 
    * @param incomeVerificationCreateRequest  (required)
    * @return Call&lt;IncomeVerificationCreateResponse&gt;
+   * @deprecated
    * 
    * @see <a href="/api/products/#incomeverificationcreate">Create an income verification instance Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -663,6 +702,22 @@ public interface PlaidApi {
   @POST("income/verification/documents/download")
   Call<ResponseBody> incomeVerificationDocumentsDownload(
     @retrofit2.http.Body IncomeVerificationDocumentsDownloadRequest incomeVerificationDocumentsDownloadRequest
+  );
+
+  /**
+   * (Deprecated) Retrieve information from a single paystub used for income verification
+   * 
+   * @param incomeVerificationPaystubGetRequest  (required)
+   * @return Call&lt;Void&gt;
+   * @deprecated
+   */
+  @Deprecated
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("income/verification/paystub/get")
+  Call<Void> incomeVerificationPaystubGet(
+    @retrofit2.http.Body IncomeVerificationPaystubGetRequest incomeVerificationPaystubGetRequest
   );
 
   /**
@@ -714,8 +769,24 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve information from the tax documents used for income verification
+   * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from taxforms that were used to verify an end user&#39;s. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
+   * @param incomeVerificationTaxformsGetRequest  (required)
+   * @return Call&lt;IncomeVerificationTaxformsGetResponse&gt;
+   * 
+   * @see <a href="/api/products#incomeverificationtaxformsget">Retrieve information from the tax documents used for income verification Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("income/verification/taxforms/get")
+  Call<IncomeVerificationTaxformsGetResponse> incomeVerificationTaxformsGet(
+    @retrofit2.http.Body IncomeVerificationTaxformsGetRequest incomeVerificationTaxformsGetRequest
+  );
+
+  /**
    * Get details of all supported institutions
-   * Returns a JSON response containing details on all financial institutions currently supported by Plaid. Because Plaid supports thousands of institutions, results are paginated.  If there is no overlap between an institution’s enabled products and a client’s enabled products, then the institution will be filtered out from the response. As a result, the number of institutions returned may not match the count specified in the call.  This data changes frequently. If you store it locally on your system, be sure to update it regularly.
+   * Returns a JSON response containing details on all financial institutions currently supported by Plaid. Because Plaid supports thousands of institutions, results are paginated.  If there is no overlap between an institution’s enabled products and a client’s enabled products, then the institution will be filtered out from the response. As a result, the number of institutions returned may not match the count specified in the call.
    * @param institutionsGetRequest  (required)
    * @return Call&lt;InstitutionsGetResponse&gt;
    * 
@@ -1330,6 +1401,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Simulate a transfer event in Sandbox
+   * Use the &#x60;/sandbox/transfer/simulate&#x60; endpoint to simulate a transfer event in the Sandbox environment.  Note that while an event will be simulated and will appear when using endpoints such as &#x60;/transfer/event/sync&#x60; or &#x60;/transfer/event/list&#x60;, no transactions will actually take place and funds will not move between accounts, even within the Sandbox.
+   * @param sandboxTransferSimulateRequest  (required)
+   * @return Call&lt;SandboxTransferSimulateResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#sandboxtransfersimulate">Simulate a transfer event in Sandbox Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/simulate")
+  Call<SandboxTransferSimulateResponse> sandboxTransferSimulate(
+    @retrofit2.http.Body SandboxTransferSimulateRequest sandboxTransferSimulateRequest
+  );
+
+  /**
    * Report whether you initiated an ACH transaction
    * After calling &#x60;/signal/evaluate&#x60;, call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated. This endpoint will return an &#x60;INVALID_REQUEST&#x60; error if called a second time with a different value for &#x60;initiated&#x60;.
    * @param signalDecisionReportRequest  (required)
@@ -1407,6 +1494,118 @@ public interface PlaidApi {
   @POST("transactions/refresh")
   Call<TransactionsRefreshResponse> transactionsRefresh(
     @retrofit2.http.Body TransactionsRefreshRequest transactionsRefreshRequest
+  );
+
+  /**
+   * Create a transfer authorization
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s sandbox environment the decisions will be returned as follows:    - To approve a transfer, create an Item in Link with the username &#x60;user_good&#x60; and password &#x60;pass_good&#x60;    - To decline a transfer with the rationale code &#x60;NSF&#x60;, create an Item in Link with the username &#x60;declined_nsf_good&#x60; and password &#x60;pass_good&#x60;    - To decline a transfer with the rationale code &#x60;RISK&#x60;, create an Item in Link with the username &#x60;declined_risk_good&#x60; and password &#x60;pass_good&#x60;    - To permit a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To permit a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).  All username/password combinations other than the ones listed above will result in a decision of permitted and rationale code &#x60;ERROR&#x60;.
+   * @param transferAuthorizationCreateRequest  (required)
+   * @return Call&lt;TransferAuthorizationCreateResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transferauthorizationcreate">Create a transfer authorization Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/authorization/create")
+  Call<TransferAuthorizationCreateResponse> transferAuthorizationCreate(
+    @retrofit2.http.Body TransferAuthorizationCreateRequest transferAuthorizationCreateRequest
+  );
+
+  /**
+   * Cancel a transfer
+   * Use the &#x60;/transfer/cancel&#x60; endpoint to cancel a transfer.  A transfer is eligible for cancelation if the &#x60;cancellable&#x60; property returned by &#x60;/transfer/get&#x60; is &#x60;true&#x60;.
+   * @param transferCancelRequest  (required)
+   * @return Call&lt;TransferCancelResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transfercancel">Cancel a transfer Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/cancel")
+  Call<TransferCancelResponse> transferCancel(
+    @retrofit2.http.Body TransferCancelRequest transferCancelRequest
+  );
+
+  /**
+   * Create a transfer
+   * Use the &#x60;/transfer/create&#x60; endpoint to initiate a new transfer.
+   * @param transferCreateRequest  (required)
+   * @return Call&lt;TransferCreateResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transfercreate">Create a transfer Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/create")
+  Call<TransferCreateResponse> transferCreate(
+    @retrofit2.http.Body TransferCreateRequest transferCreateRequest
+  );
+
+  /**
+   * List transfer events
+   * Use the &#x60;/transfer/event/list&#x60; endpoint to get a list of transfer events based on specified filter criteria.
+   * @param transferEventListRequest  (required)
+   * @return Call&lt;TransferEventListResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transfereventlist">List transfer events Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/event/list")
+  Call<TransferEventListResponse> transferEventList(
+    @retrofit2.http.Body TransferEventListRequest transferEventListRequest
+  );
+
+  /**
+   * Sync transfer events
+   * &#x60;/transfer/event/sync&#x60; allows you to request up to the next 25 transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/transfer/event/sync&#x60; endpoint to guarantee you have seen all transfer events.
+   * @param transferEventSyncRequest  (required)
+   * @return Call&lt;TransferEventSyncResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transfereventsync">Sync transfer events Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/event/sync")
+  Call<TransferEventSyncResponse> transferEventSync(
+    @retrofit2.http.Body TransferEventSyncRequest transferEventSyncRequest
+  );
+
+  /**
+   * Retrieve a transfer
+   * The &#x60;/transfer/get&#x60; fetches information about the transfer corresponding to the given &#x60;transfer_id&#x60;.
+   * @param transferGetRequest  (required)
+   * @return Call&lt;TransferGetResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transferget">Retrieve a transfer Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/get")
+  Call<TransferGetResponse> transferGet(
+    @retrofit2.http.Body TransferGetRequest transferGetRequest
+  );
+
+  /**
+   * List transfers
+   * Use the &#x60;/transfer/list&#x60; endpoint to see a list of all your transfers and their statuses. Results are paginated; use the &#x60;count&#x60; and &#x60;offset&#x60; query parameters to retrieve the desired transfers. 
+   * @param transferListRequest  (required)
+   * @return Call&lt;TransferListResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transferlist">List transfers Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/list")
+  Call<TransferListResponse> transferList(
+    @retrofit2.http.Body TransferListRequest transferListRequest
   );
 
   /**
