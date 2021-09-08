@@ -50,6 +50,8 @@ import com.plaid.client.model.BankTransferMigrateAccountRequest;
 import com.plaid.client.model.BankTransferMigrateAccountResponse;
 import com.plaid.client.model.BankTransferSweepGetRequest;
 import com.plaid.client.model.BankTransferSweepGetResponse;
+import com.plaid.client.model.BankTransferSweepListRequest;
+import com.plaid.client.model.BankTransferSweepListResponse;
 import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.DepositSwitchAltCreateRequest;
 import com.plaid.client.model.DepositSwitchAltCreateResponse;
@@ -69,8 +71,11 @@ import com.plaid.client.model.IncomeVerificationCreateRequest;
 import com.plaid.client.model.IncomeVerificationCreateResponse;
 import com.plaid.client.model.IncomeVerificationDocumentsDownloadRequest;
 import com.plaid.client.model.IncomeVerificationPaystubGetRequest;
+import com.plaid.client.model.IncomeVerificationPaystubGetResponse;
 import com.plaid.client.model.IncomeVerificationPaystubsGetRequest;
 import com.plaid.client.model.IncomeVerificationPaystubsGetResponse;
+import com.plaid.client.model.IncomeVerificationPrecheckRequest;
+import com.plaid.client.model.IncomeVerificationPrecheckResponse;
 import com.plaid.client.model.IncomeVerificationRefreshRequest;
 import com.plaid.client.model.IncomeVerificationRefreshResponse;
 import com.plaid.client.model.IncomeVerificationSummaryGetRequest;
@@ -117,6 +122,8 @@ import com.plaid.client.model.PaymentInitiationPaymentGetRequest;
 import com.plaid.client.model.PaymentInitiationPaymentGetResponse;
 import com.plaid.client.model.PaymentInitiationPaymentListRequest;
 import com.plaid.client.model.PaymentInitiationPaymentListResponse;
+import com.plaid.client.model.PaymentInitiationPaymentReverseRequest;
+import com.plaid.client.model.PaymentInitiationPaymentReverseResponse;
 import com.plaid.client.model.PaymentInitiationPaymentTokenCreateRequest;
 import com.plaid.client.model.PaymentInitiationPaymentTokenCreateResponse;
 import com.plaid.client.model.PaymentInitiationRecipientCreateRequest;
@@ -541,6 +548,22 @@ public interface PlaidApi {
   );
 
   /**
+   * List sweeps
+   * The &#x60;/bank_transfer/sweep/list&#x60; endpoint fetches information about the sweeps matching the given filters.
+   * @param bankTransferSweepListRequest  (required)
+   * @return Call&lt;BankTransferSweepListResponse&gt;
+   * 
+   * @see <a href="/api/products#bank_transfersweeplist">List sweeps Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("bank_transfer/sweep/list")
+  Call<BankTransferSweepListResponse> bankTransferSweepList(
+    @retrofit2.http.Body BankTransferSweepListRequest bankTransferSweepListRequest
+  );
+
+  /**
    * Get Categories
    * Send a request to the &#x60;/categories/get&#x60;  endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.
    * @param body  (required)
@@ -708,7 +731,7 @@ public interface PlaidApi {
    * (Deprecated) Retrieve information from a single paystub used for income verification
    * 
    * @param incomeVerificationPaystubGetRequest  (required)
-   * @return Call&lt;Void&gt;
+   * @return Call&lt;IncomeVerificationPaystubGetResponse&gt;
    * @deprecated
    */
   @Deprecated
@@ -716,7 +739,7 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("income/verification/paystub/get")
-  Call<Void> incomeVerificationPaystubGet(
+  Call<IncomeVerificationPaystubGetResponse> incomeVerificationPaystubGet(
     @retrofit2.http.Body IncomeVerificationPaystubGetRequest incomeVerificationPaystubGetRequest
   );
 
@@ -734,6 +757,20 @@ public interface PlaidApi {
   @POST("income/verification/paystubs/get")
   Call<IncomeVerificationPaystubsGetResponse> incomeVerificationPaystubsGet(
     @retrofit2.http.Body IncomeVerificationPaystubsGetRequest incomeVerificationPaystubsGetRequest
+  );
+
+  /**
+   * Check a user&#39;s eligibility for the income verification product
+   * &#x60;/income/verification/precheck&#x60; returns whether a given user is supportable by the income product
+   * @param incomeVerificationPrecheckRequest  (required)
+   * @return Call&lt;IncomeVerificationPrecheckResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("income/verification/precheck")
+  Call<IncomeVerificationPrecheckResponse> incomeVerificationPrecheck(
+    @retrofit2.http.Body IncomeVerificationPrecheckRequest incomeVerificationPrecheckRequest
   );
 
   /**
@@ -1096,6 +1133,22 @@ public interface PlaidApi {
   @POST("payment_initiation/payment/list")
   Call<PaymentInitiationPaymentListResponse> paymentInitiationPaymentList(
     @retrofit2.http.Body PaymentInitiationPaymentListRequest paymentInitiationPaymentListRequest
+  );
+
+  /**
+   * Reverse an existing payment
+   * Reverse a previously initiated payment.  A payment can only be reversed once and will be refunded to the original sender&#39;s account. 
+   * @param paymentInitiationPaymentReverseRequest  (required)
+   * @return Call&lt;PaymentInitiationPaymentReverseResponse&gt;
+   * 
+   * @see <a href="/api/products/#payment_initiationpaymentreverse">Reverse an existing payment Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("payment_initiation/payment/reverse")
+  Call<PaymentInitiationPaymentReverseResponse> paymentInitiationPaymentReverse(
+    @retrofit2.http.Body PaymentInitiationPaymentReverseRequest paymentInitiationPaymentReverseRequest
   );
 
   /**
