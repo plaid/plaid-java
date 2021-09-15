@@ -80,6 +80,10 @@ Later on in the process, your public key will be verified against one of several
 
 `gpg --send-keys <key identifier from above>`.
 
+## Bumping pom.xml
+
+After updating the CHANGELOG, make sure to also bump the pom.xml to the version that you're publishing.
+
 ## Publishing the new version
 
 `cd` to `plaid-java` and create a new branch. This is important because mvn tries to push using your branch and you most likely can't push to master directly.
