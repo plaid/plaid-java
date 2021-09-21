@@ -172,6 +172,8 @@ import com.plaid.client.model.SignalReturnReportRequest;
 import com.plaid.client.model.SignalReturnReportResponse;
 import com.plaid.client.model.TransactionsGetRequest;
 import com.plaid.client.model.TransactionsGetResponse;
+import com.plaid.client.model.TransactionsRecurringGetRequest;
+import com.plaid.client.model.TransactionsRecurringGetResponse;
 import com.plaid.client.model.TransactionsRefreshRequest;
 import com.plaid.client.model.TransactionsRefreshResponse;
 import com.plaid.client.model.TransferAuthorizationCreateRequest;
@@ -1531,6 +1533,20 @@ public interface PlaidApi {
   @POST("transactions/get")
   Call<TransactionsGetResponse> transactionsGet(
     @retrofit2.http.Body TransactionsGetRequest transactionsGetRequest
+  );
+
+  /**
+   * Get streams of recurring transactions
+   * The &#x60;/transactions/recurring/get&#x60; endpoint identifies and returns groups of transactions that occur on a regular basis for the inputted Item and accounts.  The product is currently in beta. To request access, contact transactions-feedback@plaid.com.
+   * @param transactionsRecurringGetRequest  (required)
+   * @return Call&lt;TransactionsRecurringGetResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transactions/recurring/get")
+  Call<TransactionsRecurringGetResponse> transactionsRecurringGet(
+    @retrofit2.http.Body TransactionsRecurringGetRequest transactionsRecurringGetRequest
   );
 
   /**
