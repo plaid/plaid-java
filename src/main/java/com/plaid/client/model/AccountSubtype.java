@@ -30,6 +30,8 @@ import com.google.gson.stream.JsonWriter;
 @JsonAdapter(AccountSubtype.Adapter.class)
 public enum AccountSubtype {
   
+  ALL("all"),
+  
   _401A("401a"),
   
   _401K("401k"),
