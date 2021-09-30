@@ -44,7 +44,7 @@
     <!-- Plaid generated properties -->
     <swagger-annotations-version>1.5.22</swagger-annotations-version>
     <oltu-version>1.0.1</oltu-version>
-    <gson-fire-version>1.8.3</gson-fire-version>
+    <gson-fire-version>1.8.5</gson-fire-version>
     <javax-annotation-version>1.3.2</javax-annotation-version>
   </properties>
 
@@ -94,7 +94,7 @@
             <format>html</format>
             <format>xml</format>
           </formats>
-          <check />
+          <check/>
         </configuration>
       </plugin>
 
