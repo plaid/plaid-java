@@ -63,6 +63,8 @@ import com.plaid.client.model.DepositSwitchTokenCreateRequest;
 import com.plaid.client.model.DepositSwitchTokenCreateResponse;
 import com.plaid.client.model.EmployersSearchRequest;
 import com.plaid.client.model.EmployersSearchResponse;
+import com.plaid.client.model.EmploymentVerificationGetRequest;
+import com.plaid.client.model.EmploymentVerificationGetResponse;
 import com.plaid.client.model.Error;
 import java.io.File;
 import com.plaid.client.model.IdentityGetRequest;
@@ -680,6 +682,20 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve a summary of an individual&#39;s employment information.
+   * &#x60;/employment/verification/get&#x60; returns a list of employments through a user payroll that was verified by an end user.
+   * @param employmentVerificationGetRequest  (required)
+   * @return Call&lt;EmploymentVerificationGetResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("employment/verification/get")
+  Call<EmploymentVerificationGetResponse> employmentVerificationGet(
+    @retrofit2.http.Body EmploymentVerificationGetRequest employmentVerificationGetRequest
+  );
+
+  /**
    * Retrieve identity data
    * The &#x60;/identity/get&#x60; endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses. Only name data is guaranteed to be returned; other fields will be empty arrays if not provided by the institution.  Note: This request may take some time to complete if identity was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.
    * @param identityGetRequest  (required)
@@ -715,7 +731,7 @@ public interface PlaidApi {
 
   /**
    * Download the original documents used for income verification
-   * &#x60;/income/verification/documents/download&#x60; provides the ability to download the source paystub PDF that the end user uploaded via Paystub Import.  The response to &#x60;/income/verification/documents/download&#x60; is a ZIP file in binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  For Payroll Income, the most recent file available for download with the payroll provider will also be available from this endpoint.
+   * &#x60;/income/verification/documents/download&#x60; provides the ability to download the source documents associated with the verification.  If Document Income was used, the documents will be those the user provided in Link. For Payroll Income, the most recent files available for download from the payroll provider will be available from this endpoint.  The response to &#x60;/income/verification/documents/download&#x60; is ZIP file in binary data. If a document_id is passed, a single document will be contained in this file. If not, the response will contain all documents associated with the verification.  The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.
    * @param incomeVerificationDocumentsDownloadRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -813,7 +829,7 @@ public interface PlaidApi {
    * @param incomeVerificationTaxformsGetRequest  (required)
    * @return Call&lt;IncomeVerificationTaxformsGetResponse&gt;
    * 
-   * @see <a href="/api/products#incomeverificationtaxformsget">Retrieve information from the tax documents used for income verification Documentation</a>
+   * @see <a href="/api/products/#incomeverificationtaxformsget">Retrieve information from the tax documents used for income verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
