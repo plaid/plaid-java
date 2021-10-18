@@ -131,7 +131,6 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       Arrays.asList(
         Products.ASSETS,
         Products.AUTH,
-        Products.BALANCE,
         Products.TRANSACTIONS,
         Products.CREDIT_DETAILS,
         Products.INCOME,
@@ -154,7 +153,6 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       Arrays.asList(
         Products.ASSETS,
         Products.AUTH,
-        Products.BALANCE,
         Products.TRANSACTIONS,
         Products.CREDIT_DETAILS,
         Products.INCOME,
