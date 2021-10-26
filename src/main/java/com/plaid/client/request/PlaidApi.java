@@ -686,6 +686,8 @@ public interface PlaidApi {
    * &#x60;/employment/verification/get&#x60; returns a list of employments through a user payroll that was verified by an end user.
    * @param employmentVerificationGetRequest  (required)
    * @return Call&lt;EmploymentVerificationGetResponse&gt;
+   * 
+   * @see <a href="/api/products/#employmentverificationget">Retrieve a summary of an individual&#39;s employment information. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -782,6 +784,8 @@ public interface PlaidApi {
    * &#x60;/income/verification/precheck&#x60; returns whether a given user is supportable by the income product
    * @param incomeVerificationPrecheckRequest  (required)
    * @return Call&lt;IncomeVerificationPrecheckResponse&gt;
+   * 
+   * @see <a href="/api/products/#incomeverificationprecheck">Check a user&#39;s eligibility for the income verification product Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1457,7 +1461,7 @@ public interface PlaidApi {
 
   /**
    * Create a test Item
-   * Use the &#x60;/sandbox/public_token/create&#x60;  endpoint to create a valid &#x60;public_token&#x60;  for an arbitrary institution ID, initial products, and test credentials. The created &#x60;public_token&#x60; maps to a new Sandbox Item. You can then call &#x60;/item/public_token/exchange&#x60; to exchange the &#x60;public_token&#x60; for an &#x60;access_token&#x60; and perform all API actions. &#x60;/sandbox/public_token/create&#x60; can also be used with the [&#x60;user_custom&#x60; test username](https://plaid.com/docs/sandbox/user-custom) to generate a test account with custom data.
+   * Use the &#x60;/sandbox/public_token/create&#x60; endpoint to create a valid &#x60;public_token&#x60;  for an arbitrary institution ID, initial products, and test credentials. The created &#x60;public_token&#x60; maps to a new Sandbox Item. You can then call &#x60;/item/public_token/exchange&#x60; to exchange the &#x60;public_token&#x60; for an &#x60;access_token&#x60; and perform all API actions. &#x60;/sandbox/public_token/create&#x60; can also be used with the [&#x60;user_custom&#x60; test username](https://plaid.com/docs/sandbox/user-custom) to generate a test account with custom data. &#x60;/sandbox/public_token/create&#x60; cannot be used with OAuth institutions.
    * @param sandboxPublicTokenCreateRequest  (required)
    * @return Call&lt;SandboxPublicTokenCreateResponse&gt;
    * 
