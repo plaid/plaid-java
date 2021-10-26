@@ -23,58 +23,23 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.time.LocalDate;
 
 /**
- * An object representing the status of the student loan
+ * Details about a certain reason as to why a document could potentially be fraudulent
  */
-@ApiModel(description = "An object representing the status of the student loan")
+@ApiModel(description = "Details about a certain reason as to why a document could potentially be fraudulent")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-10-26T21:49:31.513Z[GMT]")
-public class StudentLoanStatus {
-  public static final String SERIALIZED_NAME_END_DATE = "end_date";
-  @SerializedName(SERIALIZED_NAME_END_DATE)
-  private LocalDate endDate;
-
+public class FraudAttributes {
   /**
-   * The status type of the student loan
+   * Message indicating the reason as to why the verification failed
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
-    CANCELLED("cancelled"),
+    AMOUNT_MISMATCH("FRAUD_ATTRIBUTES_AMOUNT_MISMATCH"),
     
-    CHARGED_OFF("charged off"),
+    DATE_MISMATCH("FRAUD_ATTRIBUTES_DATE_MISMATCH"),
     
-    CLAIM("claim"),
-    
-    CONSOLIDATED("consolidated"),
-    
-    DEFERMENT("deferment"),
-    
-    DELINQUENT("delinquent"),
-    
-    DISCHARGED("discharged"),
-    
-    EXTENSION("extension"),
-    
-    FORBEARANCE("forbearance"),
-    
-    IN_GRACE("in grace"),
-    
-    IN_MILITARY("in military"),
-    
-    IN_SCHOOL("in school"),
-    
-    NOT_FULLY_DISBURSED("not fully disbursed"),
-    
-    OTHER("other"),
-    
-    PAID_IN_FULL("paid in full"),
-    
-    REFUNDED("refunded"),
-    
-    REPAYMENT("repayment"),
-    
-    TRANSFERRED("transferred");
+    UNKNOWN_ERROR("FRAUD_ATTRIBUTES_UNKNOWN_ERROR");
 
     private String value;
 
@@ -119,41 +84,18 @@ public class StudentLoanStatus {
   private TypeEnum type;
 
 
-  public StudentLoanStatus endDate(LocalDate endDate) {
-    
-    this.endDate = endDate;
-    return this;
-  }
-
-   /**
-   * The date until which the loan will be in its current status. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). 
-   * @return endDate
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(required = true, value = "The date until which the loan will be in its current status. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). ")
-
-  public LocalDate getEndDate() {
-    return endDate;
-  }
-
-
-  public void setEndDate(LocalDate endDate) {
-    this.endDate = endDate;
-  }
-
-
-  public StudentLoanStatus type(TypeEnum type) {
+  public FraudAttributes type(TypeEnum type) {
     
     this.type = type;
     return this;
   }
 
    /**
-   * The status type of the student loan
+   * Message indicating the reason as to why the verification failed
    * @return type
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(required = true, value = "The status type of the student loan")
+  @ApiModelProperty(required = true, value = "Message indicating the reason as to why the verification failed")
 
   public TypeEnum getType() {
     return type;
@@ -173,21 +115,19 @@ public class StudentLoanStatus {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    StudentLoanStatus studentLoanStatus = (StudentLoanStatus) o;
-    return Objects.equals(this.endDate, studentLoanStatus.endDate) &&
-        Objects.equals(this.type, studentLoanStatus.type);
+    FraudAttributes fraudAttributes = (FraudAttributes) o;
+    return Objects.equals(this.type, fraudAttributes.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(endDate, type);
+    return Objects.hash(type);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class StudentLoanStatus {\n");
-    sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
+    sb.append("class FraudAttributes {\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
