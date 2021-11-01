@@ -106,7 +106,6 @@ public class InvestmentsTransactionsGetTest
       assertNotNull(security.getSecurityId());
       assertNotNull(security.getName());
       assertNotNull(security.getType());
-      assertNotNull(security.getClosePrice());
       assertNotNull(security.getIsoCurrencyCode());
     }
   }
