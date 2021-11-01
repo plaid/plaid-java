@@ -178,6 +178,8 @@ import com.plaid.client.model.TransactionsRecurringGetRequest;
 import com.plaid.client.model.TransactionsRecurringGetResponse;
 import com.plaid.client.model.TransactionsRefreshRequest;
 import com.plaid.client.model.TransactionsRefreshResponse;
+import com.plaid.client.model.TransactionsSyncRequest;
+import com.plaid.client.model.TransactionsSyncResponse;
 import com.plaid.client.model.TransferAuthorizationCreateRequest;
 import com.plaid.client.model.TransferAuthorizationCreateResponse;
 import com.plaid.client.model.TransferCancelRequest;
@@ -829,7 +831,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve information from the tax documents used for income verification
-   * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from taxforms that were used to verify an end user&#39;s. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
+   * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from taxforms that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
    * @param incomeVerificationTaxformsGetRequest  (required)
    * @return Call&lt;IncomeVerificationTaxformsGetResponse&gt;
    * 
@@ -1583,6 +1585,22 @@ public interface PlaidApi {
   @POST("transactions/refresh")
   Call<TransactionsRefreshResponse> transactionsRefresh(
     @retrofit2.http.Body TransactionsRefreshRequest transactionsRefreshRequest
+  );
+
+  /**
+   * Get incremental transaction updates on an item
+   * The &#x60;/transactions/sync&#x60; endpoint returns item transactions as a set of delta updates. Subsequent calls to the endpoint using the cursor returned in the response will return new added, modified, and removed transactions since the last call to the endpoint  The product is currently in beta. To request access, contact transactions-feedback@plaid.com.
+   * @param transactionsSyncRequest  (required)
+   * @return Call&lt;TransactionsSyncResponse&gt;
+   * 
+   * @see <a href="/api/products/#transactionssync">Get incremental transaction updates on an item Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transactions/sync")
+  Call<TransactionsSyncResponse> transactionsSync(
+    @retrofit2.http.Body TransactionsSyncRequest transactionsSyncRequest
   );
 
   /**
