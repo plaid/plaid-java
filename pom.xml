@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>9.7.0-SNAPSHOT</version>
+  <version>9.7.0</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -20,7 +19,7 @@
     <connection>scm:git:git://github.com/plaid/plaid-java.git</connection>
     <developerConnection>scm:git:git@github.com:plaid/plaid-java.git</developerConnection>
     <url>http://github.com/plaid/plaid-java</url>
-    <tag>HEAD</tag>
+    <tag>plaid-java-9.7.0</tag>
   </scm>
 
   <organization>
