@@ -716,13 +716,13 @@ public interface PlaidApi {
   );
 
   /**
-   * Create an income verification instance
+   * (Deprecated) Create an income verification instance
    * &#x60;/income/verification/create&#x60; begins the income verification process by returning an &#x60;income_verification_id&#x60;. You can then provide the &#x60;income_verification_id&#x60; to &#x60;/link/token/create&#x60; under the &#x60;income_verification&#x60; parameter in order to create a Link instance that will prompt the user to go through the income verification flow. Plaid will fire an &#x60;INCOME&#x60; webhook once the user completes the Payroll Income flow, or when the uploaded documents in the Document Income flow have finished processing. 
    * @param incomeVerificationCreateRequest  (required)
    * @return Call&lt;IncomeVerificationCreateResponse&gt;
    * @deprecated
    * 
-   * @see <a href="/api/products/#incomeverificationcreate">Create an income verification instance Documentation</a>
+   * @see <a href="/api/products/#incomeverificationcreate">(Deprecated) Create an income verification instance Documentation</a>
    */
   @Deprecated
   @Headers({
@@ -814,12 +814,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve a summary of information derived from income verification
+   * (Deprecated) Retrieve a summary of information derived from income verification
    * &#x60;/income/verification/summary/get&#x60; returns a verification summary for the income that was verified for an end user. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
    * @param incomeVerificationSummaryGetRequest  (required)
    * @return Call&lt;IncomeVerificationSummaryGetResponse&gt;
    * 
-   * @see <a href="/api/products/#incomeverificationsummaryget">Retrieve a summary of information derived from income verification Documentation</a>
+   * @see <a href="/api/products/#incomeverificationsummaryget">(Deprecated) Retrieve a summary of information derived from income verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1511,7 +1511,7 @@ public interface PlaidApi {
 
   /**
    * Evaluate a planned ACH transaction
-   * Use &#x60;/signal/evaluate&#x60; to evaluate a planned ACH transaction to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause.
+   * Use &#x60;/signal/evaluate&#x60; to evaluate a planned ACH transaction to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If &#x60;/signal/evaluate&#x60; is called on the same transaction multiple times within a 24-hour period, cached results may be returned.
    * @param signalEvaluateRequest  (required)
    * @return Call&lt;SignalEvaluateResponse&gt;
    * 
