@@ -37,6 +37,8 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 
 For information about what has changed between versions and how to update your integration, head to the [version changelog][version-changelog].
 
+The plaid-java client library is typically updated on a biweekly basis. The canonical source for the latest version number is the [client library changelog](https://github.com/plaid/plaid-java/blob/master/CHANGELOG.md).
+
 ### Basic Usage
 
 ```java

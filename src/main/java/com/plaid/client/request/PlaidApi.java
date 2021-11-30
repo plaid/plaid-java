@@ -166,6 +166,8 @@ import com.plaid.client.model.SandboxPublicTokenCreateRequest;
 import com.plaid.client.model.SandboxPublicTokenCreateResponse;
 import com.plaid.client.model.SandboxTransferSimulateRequest;
 import com.plaid.client.model.SandboxTransferSimulateResponse;
+import com.plaid.client.model.SandboxTransferSweepSimulateRequest;
+import com.plaid.client.model.SandboxTransferSweepSimulateResponse;
 import com.plaid.client.model.SignalDecisionReportRequest;
 import com.plaid.client.model.SignalDecisionReportResponse;
 import com.plaid.client.model.SignalEvaluateRequest;
@@ -192,8 +194,22 @@ import com.plaid.client.model.TransferEventSyncRequest;
 import com.plaid.client.model.TransferEventSyncResponse;
 import com.plaid.client.model.TransferGetRequest;
 import com.plaid.client.model.TransferGetResponse;
+import com.plaid.client.model.TransferIntentCreateRequest;
+import com.plaid.client.model.TransferIntentCreateResponse;
+import com.plaid.client.model.TransferIntentGetRequest;
+import com.plaid.client.model.TransferIntentGetResponse;
 import com.plaid.client.model.TransferListRequest;
 import com.plaid.client.model.TransferListResponse;
+import com.plaid.client.model.TransferSweepGetRequest;
+import com.plaid.client.model.TransferSweepGetResponse;
+import com.plaid.client.model.TransferSweepListRequest;
+import com.plaid.client.model.TransferSweepListResponse;
+import com.plaid.client.model.WalletGetRequest;
+import com.plaid.client.model.WalletGetResponse;
+import com.plaid.client.model.WalletTransactionExecuteRequest;
+import com.plaid.client.model.WalletTransactionExecuteResponse;
+import com.plaid.client.model.WalletTransactionsListRequest;
+import com.plaid.client.model.WalletTransactionsListResponse;
 import com.plaid.client.model.WebhookVerificationKeyGetRequest;
 import com.plaid.client.model.WebhookVerificationKeyGetResponse;
 
@@ -395,7 +411,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve auth data
-   * The &#x60;/auth/get&#x60; endpoint returns the bank account and bank identification numbers (such as routing numbers, for US accounts) associated with an Item&#39;s checking and savings accounts, along with high-level account data and balances when available.  Note: This request may take some time to complete if &#x60;auth&#x60; was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.  Also note that &#x60;/auth/get&#x60; will not return data for any new accounts opened after the Item was created. To obtain data for new accounts, create a new Item.
+   * The &#x60;/auth/get&#x60; endpoint returns the bank account and bank identification numbers (such as routing numbers, for US accounts) associated with an Item&#39;s checking and savings accounts, along with high-level account data and balances when available.  Note: This request may take some time to complete if &#x60;auth&#x60; was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.  Also note that &#x60;/auth/get&#x60; will not return data for any new accounts opened after the Item was created. To obtain data for new accounts, create a new Item.  Versioning note: In API version 2017-03-08, the schema of the &#x60;numbers&#x60; object returned by this endpoint is substantially different. For details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2018-05-22).
    * @param authGetRequest  (required)
    * @return Call&lt;AuthGetResponse&gt;
    * 
@@ -571,7 +587,7 @@ public interface PlaidApi {
 
   /**
    * Get Categories
-   * Send a request to the &#x60;/categories/get&#x60;  endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.
+   * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.
    * @param body  (required)
    * @return Call&lt;CategoriesGetResponse&gt;
    * 
@@ -863,7 +879,7 @@ public interface PlaidApi {
 
   /**
    * Get details of an institution
-   * Returns a JSON response containing details on a specified financial institution currently supported by Plaid.
+   * Returns a JSON response containing details on a specified financial institution currently supported by Plaid.   Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; to authenticate to this endpoint. The &#x60;public_key&#x60; has been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
    * @param institutionsGetByIdRequest  (required)
    * @return Call&lt;InstitutionsGetByIdResponse&gt;
    * 
@@ -879,7 +895,7 @@ public interface PlaidApi {
 
   /**
    * Search institutions
-   * Returns a JSON response containing details for institutions that match the query parameters, up to a maximum of ten institutions per query.
+   * Returns a JSON response containing details for institutions that match the query parameters, up to a maximum of ten institutions per query.  Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; parameters to authenticate to this endpoint. The &#x60;public_key&#x60; parameter has since been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
    * @param institutionsSearchRequest  (required)
    * @return Call&lt;InstitutionsSearchResponse&gt;
    * 
@@ -1033,7 +1049,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60;  endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;  associated with the Item is no longer valid and cannot be used to access any data that was associated with the Item.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count. To increase your credential account in Development, contact Support.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.
+   * The &#x60;/item/remove&#x60;  endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;  associated with the Item is no longer valid and cannot be used to access any data that was associated with the Item.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count. To increase your credential account in Development, contact Support.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -1241,7 +1257,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Auth data
-   * The &#x60;/processor/auth/get&#x60; endpoint returns the bank account and bank identification number (such as the routing number, for US accounts), for a checking or savings account that&#39;s associated with a given &#x60;processor_token&#x60;. The endpoint also returns high-level account data and balances when available.
+   * The &#x60;/processor/auth/get&#x60; endpoint returns the bank account and bank identification number (such as the routing number, for US accounts), for a checking or savings account that&#39;&#39;s associated with a given &#x60;processor_token&#x60;. The endpoint also returns high-level account data and balances when available.   Versioning note: API versions 2019-05-29 and earlier use a different schema for the &#x60;numbers&#x60; object returned by this endpoint. For details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2020-09-14). 
    * @param processorAuthGetRequest  (required)
    * @return Call&lt;ProcessorAuthGetResponse&gt;
    * 
@@ -1385,7 +1401,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. Calling this endpoint triggers a Transactions &#x60;DEFAULT_UPDATE&#x60; webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. Calling this endpoint triggers a Transactions &#x60;DEFAULT_UPDATE&#x60; webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result. Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -1491,6 +1507,22 @@ public interface PlaidApi {
   @POST("sandbox/transfer/simulate")
   Call<SandboxTransferSimulateResponse> sandboxTransferSimulate(
     @retrofit2.http.Body SandboxTransferSimulateRequest sandboxTransferSimulateRequest
+  );
+
+  /**
+   * Simulate creating a sweep for a set of transfers
+   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment.
+   * @param sandboxTransferSweepSimulateRequest  (required)
+   * @return Call&lt;SandboxTransferSweepSimulateResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#sandboxtransfersweepsimulate">Simulate creating a sweep for a set of transfers Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/sweep/simulate")
+  Call<SandboxTransferSweepSimulateResponse> sandboxTransferSweepSimulate(
+    @retrofit2.http.Body SandboxTransferSweepSimulateRequest sandboxTransferSweepSimulateRequest
   );
 
   /**
@@ -1700,6 +1732,38 @@ public interface PlaidApi {
   );
 
   /**
+   * Create a transfer intent object to invoke the Transfer UI
+   * Use the &#x60;/transfer/intent/create&#x60; endpoint to generate a transfer intent object and invoke the Transfer UI.
+   * @param transferIntentCreateRequest  (required)
+   * @return Call&lt;TransferIntentCreateResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transferintentcreate">Create a transfer intent object to invoke the Transfer UI Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/intent/create")
+  Call<TransferIntentCreateResponse> transferIntentCreate(
+    @retrofit2.http.Body TransferIntentCreateRequest transferIntentCreateRequest
+  );
+
+  /**
+   * Retrieve more information about a transfer intent
+   * Use the &#x60;/transfer/intent/get&#x60; endpoint to retrieve more information about a transfer intent.
+   * @param transferIntentGetRequest  (required)
+   * @return Call&lt;TransferIntentGetResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transferintentget">Retrieve more information about a transfer intent Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/intent/get")
+  Call<TransferIntentGetResponse> transferIntentGet(
+    @retrofit2.http.Body TransferIntentGetRequest transferIntentGetRequest
+  );
+
+  /**
    * List transfers
    * Use the &#x60;/transfer/list&#x60; endpoint to see a list of all your transfers and their statuses. Results are paginated; use the &#x60;count&#x60; and &#x60;offset&#x60; query parameters to retrieve the desired transfers. 
    * @param transferListRequest  (required)
@@ -1713,6 +1777,86 @@ public interface PlaidApi {
   @POST("transfer/list")
   Call<TransferListResponse> transferList(
     @retrofit2.http.Body TransferListRequest transferListRequest
+  );
+
+  /**
+   * Retrieve a sweep
+   * The &#x60;/transfer/sweep/get&#x60; endpoint fetches a sweep corresponding to the given &#x60;sweep_id&#x60;.
+   * @param transferSweepGetRequest  (required)
+   * @return Call&lt;TransferSweepGetResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transfersweepget">Retrieve a sweep Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/sweep/get")
+  Call<TransferSweepGetResponse> transferSweepGet(
+    @retrofit2.http.Body TransferSweepGetRequest transferSweepGetRequest
+  );
+
+  /**
+   * List sweeps
+   * The &#x60;/transfer/sweep/list&#x60; endpoint fetches sweeps matching the given filters.
+   * @param transferSweepListRequest  (required)
+   * @return Call&lt;TransferSweepListResponse&gt;
+   * 
+   * @see <a href="/transfer/reference#transfersweeplist">List sweeps Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/sweep/list")
+  Call<TransferSweepListResponse> transferSweepList(
+    @retrofit2.http.Body TransferSweepListRequest transferSweepListRequest
+  );
+
+  /**
+   * Fetch an e-wallet
+   * Fetch an e-wallet. The response includes the current balance. 
+   * @param walletGetRequest  (required)
+   * @return Call&lt;WalletGetResponse&gt;
+   * 
+   * @see <a href="/api/products/#walletget">Fetch an e-wallet Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("wallet/get")
+  Call<WalletGetResponse> walletGet(
+    @retrofit2.http.Body WalletGetRequest walletGetRequest
+  );
+
+  /**
+   * Execute a transaction using an e-wallet
+   * Execute a transaction using the specified e-wallet. Specify the e-wallet to debit from, the counterparty to credit to, the idempotency key to prevent duplicate payouts, the amount and reference for the payout. The payouts are executed over the Faster Payment rails, where settlement usually only takes a few seconds. 
+   * @param walletTransactionExecuteRequest  (required)
+   * @return Call&lt;WalletTransactionExecuteResponse&gt;
+   * 
+   * @see <a href="/api/products/#wallettransactionexecute">Execute a transaction using an e-wallet Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("wallet/transaction/execute")
+  Call<WalletTransactionExecuteResponse> walletTransactionExecute(
+    @retrofit2.http.Body WalletTransactionExecuteRequest walletTransactionExecuteRequest
+  );
+
+  /**
+   * List e-wallet transactions
+   * This endpoint lists the latest transactions of the specified e-wallet. Transactions are returned in descending order by the &#x60;created_at&#x60; time. 
+   * @param walletTransactionsListRequest  (required)
+   * @return Call&lt;WalletTransactionsListResponse&gt;
+   * 
+   * @see <a href="/api/products/#wallettransactionslist">List e-wallet transactions Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("wallet/transactions/list")
+  Call<WalletTransactionsListResponse> walletTransactionsList(
+    @retrofit2.http.Body WalletTransactionsListRequest walletTransactionsListRequest
   );
 
   /**
