@@ -84,9 +84,13 @@ Later on in the process, your public key will be verified against one of several
 
 After updating the CHANGELOG, make sure to also bump the pom.xml to the version that you're publishing.
 
+This step should be done when staging the change/PR.
+
 ## Publishing the new version
 
-`cd` to `plaid-java` and create a new branch. This is important because mvn tries to push using your branch and you most likely can't push to master directly.
+After your PR is approved, merge it to master and pull master.
+
+`cd` to `plaid-java` and create a new temporary branch, just for the purpose of releasing. This is important because mvn tries to push using your branch and you most likely can't push to master directly.
 
 After you have your new branch, run the following on the new branch:
 
