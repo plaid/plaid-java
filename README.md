@@ -39,6 +39,31 @@ For information about what has changed between versions and how to update your i
 
 The plaid-java client library is typically updated on a biweekly basis. The canonical source for the latest version number is the [client library changelog](https://github.com/plaid/plaid-java/blob/master/CHANGELOG.md).
 
+## Data type differences from API and from previous versions
+
+### Dates
+Dates and date times in requests and responses, which are represented as strings in the API and in previous client library versions, are represented in this version of the library as Java `LocalDate` or `LocalDateTime` objects. 
+
+### Enums
+While the API represents enums using strings, and previous library versions used singletons, this current library uses enum types.
+
+Old:
+```
+LinkTokenCreateRequest request = new LinkTokenCreateRequest(
+   Collections.singletonList("auth"))
+  .withCountryCodes(Collections.singletonList("US"))
+...
+```
+
+Current:
+```
+LinkTokenCreateRequest request = new LinkTokenCreateRequest()
+  .products(Arrays.asList(Products.AUTH))
+  .countryCodes(Arrays.asList(CountryCode.US))
+  ...
+```
+
+
 ### Basic Usage
 
 ```java

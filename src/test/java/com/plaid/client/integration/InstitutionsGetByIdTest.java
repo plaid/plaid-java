@@ -98,7 +98,6 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertNotNull(institution.getStatus());
     assertNotNull(institution.getStatus().getTransactionsUpdates());
     assertNotNull(institution.getStatus().getAuth());
-    assertNotNull(institution.getStatus().getBalance());
     assertNotNull(institution.getStatus().getIdentity());
     assertIsFirstPlatypusBank(institution);
   }
