@@ -237,7 +237,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve accounts
-   * The &#x60;/accounts/get&#x60;  endpoint can be used to retrieve information for any linked Item. Note that some information is nullable. Plaid will only return active bank accounts, i.e. accounts that are not closed and are capable of carrying a balance.  This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, balances returned may not be up-to-date; for realtime balance information, use &#x60;/accounts/balance/get&#x60; instead.
+   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance.  This endpoint only returns accounts that were permissioned by the user when they initially created the Item. If a user creates a new account after the initial link, you can capture this event through the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/webhooks/#item-new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, balances returned may not be up-to-date; for realtime balance information, use &#x60;/accounts/balance/get&#x60; instead. Note that some information is nullable.
    * @param accountsGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
@@ -1510,12 +1510,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Simulate creating a sweep for a set of transfers
-   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment.
+   * Simulate creating a sweep
+   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment.  - All &#x60;posted&#x60; or &#x60;pending&#x60; Transfers with sweep_status &#x60;unswept&#x60; will become &#x60;swept&#x60; - All &#x60;reversed&#x60; Transfers with sweep_status &#x60;swept&#x60; will become &#x60;reverse_swept&#x60;
    * @param sandboxTransferSweepSimulateRequest  (required)
    * @return Call&lt;SandboxTransferSweepSimulateResponse&gt;
    * 
-   * @see <a href="/transfer/reference#sandboxtransfersweepsimulate">Simulate creating a sweep for a set of transfers Documentation</a>
+   * @see <a href="/transfer/reference#sandboxtransfersweepsimulate">Simulate creating a sweep Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
