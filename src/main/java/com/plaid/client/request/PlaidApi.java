@@ -164,6 +164,8 @@ import com.plaid.client.model.SandboxProcessorTokenCreateRequest;
 import com.plaid.client.model.SandboxProcessorTokenCreateResponse;
 import com.plaid.client.model.SandboxPublicTokenCreateRequest;
 import com.plaid.client.model.SandboxPublicTokenCreateResponse;
+import com.plaid.client.model.SandboxTransferRepaymentSimulateRequest;
+import com.plaid.client.model.SandboxTransferRepaymentSimulateResponse;
 import com.plaid.client.model.SandboxTransferSimulateRequest;
 import com.plaid.client.model.SandboxTransferSimulateResponse;
 import com.plaid.client.model.SandboxTransferSweepSimulateRequest;
@@ -200,6 +202,10 @@ import com.plaid.client.model.TransferIntentGetRequest;
 import com.plaid.client.model.TransferIntentGetResponse;
 import com.plaid.client.model.TransferListRequest;
 import com.plaid.client.model.TransferListResponse;
+import com.plaid.client.model.TransferRepaymentListRequest;
+import com.plaid.client.model.TransferRepaymentListResponse;
+import com.plaid.client.model.TransferRepaymentReturnListRequest;
+import com.plaid.client.model.TransferRepaymentReturnListResponse;
 import com.plaid.client.model.TransferSweepGetRequest;
 import com.plaid.client.model.TransferSweepGetResponse;
 import com.plaid.client.model.TransferSweepListRequest;
@@ -315,7 +321,7 @@ public interface PlaidApi {
 
   /**
    * Create an Asset Report
-   * The &#x60;/asset_report/create&#x60; endpoint initiates the process of creating an Asset Report, which can then be retrieved by passing the &#x60;asset_report_token&#x60; return value to the &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60; endpoints.  The Asset Report takes some time to be created and is not available immediately after calling &#x60;/asset_report/create&#x60;. When the Asset Report is ready to be retrieved using &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60;, Plaid will fire a &#x60;PRODUCT_READY&#x60; webhook. For full details of the webhook schema, see [Asset Report webhooks](https://plaid.com/docs/api/webhooks/#Assets-webhooks).  The &#x60;/asset_report/create&#x60; endpoint creates an Asset Report at a moment in time. Asset Reports are immutable. To get an updated Asset Report, use the &#x60;/asset_report/refresh&#x60; endpoint.
+   * The &#x60;/asset_report/create&#x60; endpoint initiates the process of creating an Asset Report, which can then be retrieved by passing the &#x60;asset_report_token&#x60; return value to the &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60; endpoints.  The Asset Report takes some time to be created and is not available immediately after calling &#x60;/asset_report/create&#x60;. When the Asset Report is ready to be retrieved using &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60;, Plaid will fire a &#x60;PRODUCT_READY&#x60; webhook. For full details of the webhook schema, see [Asset Report webhooks](https://plaid.com/docs/api/webhooks/#assets-webhooks).  The &#x60;/asset_report/create&#x60; endpoint creates an Asset Report at a moment in time. Asset Reports are immutable. To get an updated Asset Report, use the &#x60;/asset_report/refresh&#x60; endpoint.
    * @param assetReportCreateRequest  (required)
    * @return Call&lt;AssetReportCreateResponse&gt;
    * 
@@ -431,7 +437,7 @@ public interface PlaidApi {
    * @param bankTransferBalanceGetRequest  (required)
    * @return Call&lt;BankTransferBalanceGetResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transferbalanceget">Get balance of your Bank Transfer account Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transferbalanceget">Get balance of your Bank Transfer account Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -447,7 +453,7 @@ public interface PlaidApi {
    * @param bankTransferCancelRequest  (required)
    * @return Call&lt;BankTransferCancelResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transfercancel">Cancel a bank transfer Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transfercancel">Cancel a bank transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -463,7 +469,7 @@ public interface PlaidApi {
    * @param bankTransferCreateRequest  (required)
    * @return Call&lt;BankTransferCreateResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transfercreate">Create a bank transfer Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transfercreate">Create a bank transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -479,7 +485,7 @@ public interface PlaidApi {
    * @param bankTransferEventListRequest  (required)
    * @return Call&lt;BankTransferEventListResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transfereventlist">List bank transfer events Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transfereventlist">List bank transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -495,7 +501,7 @@ public interface PlaidApi {
    * @param bankTransferEventSyncRequest  (required)
    * @return Call&lt;BankTransferEventSyncResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transfereventsync">Sync bank transfer events Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transfereventsync">Sync bank transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -511,7 +517,7 @@ public interface PlaidApi {
    * @param bankTransferGetRequest  (required)
    * @return Call&lt;BankTransferGetResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transferget">Retrieve a bank transfer Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transferget">Retrieve a bank transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -527,7 +533,7 @@ public interface PlaidApi {
    * @param bankTransferListRequest  (required)
    * @return Call&lt;BankTransferListResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transferlist">List bank transfers Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transferlist">List bank transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -543,7 +549,7 @@ public interface PlaidApi {
    * @param bankTransferMigrateAccountRequest  (required)
    * @return Call&lt;BankTransferMigrateAccountResponse&gt;
    * 
-   * @see <a href="/api/products#bank_transfermigrate_account">Migrate account into Bank Transfers Documentation</a>
+   * @see <a href="/bank-transfers/reference#bank_transfermigrate_account">Migrate account into Bank Transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -625,7 +631,7 @@ public interface PlaidApi {
    * @param depositSwitchAltCreateRequest  (required)
    * @return Call&lt;DepositSwitchAltCreateResponse&gt;
    * 
-   * @see <a href="/api/products#deposit_switchaltcreate">Create a deposit switch without using Plaid Exchange Documentation</a>
+   * @see <a href="/deposit-switch/reference#deposit_switchaltcreate">Create a deposit switch without using Plaid Exchange Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -641,7 +647,7 @@ public interface PlaidApi {
    * @param depositSwitchCreateRequest  (required)
    * @return Call&lt;DepositSwitchCreateResponse&gt;
    * 
-   * @see <a href="/api/products#deposit_switchcreate">Create a deposit switch Documentation</a>
+   * @see <a href="/deposit-switch/reference#deposit_switchcreate">Create a deposit switch Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -657,7 +663,7 @@ public interface PlaidApi {
    * @param depositSwitchGetRequest  (required)
    * @return Call&lt;DepositSwitchGetResponse&gt;
    * 
-   * @see <a href="/api/products#deposit_switchget">Retrieve a deposit switch Documentation</a>
+   * @see <a href="/deposit-switch/reference#deposit_switchget">Retrieve a deposit switch Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -700,12 +706,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve a summary of an individual&#39;s employment information.
+   * Retrieve a summary of an individual&#39;s employment information
    * &#x60;/employment/verification/get&#x60; returns a list of employments through a user payroll that was verified by an end user.
    * @param employmentVerificationGetRequest  (required)
    * @return Call&lt;EmploymentVerificationGetResponse&gt;
    * 
-   * @see <a href="/api/products/#employmentverificationget">Retrieve a summary of an individual&#39;s employment information. Documentation</a>
+   * @see <a href="/api/products/#employmentverificationget">Retrieve a summary of an individual&#39;s employment information Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -751,7 +757,7 @@ public interface PlaidApi {
 
   /**
    * Download the original documents used for income verification
-   * &#x60;/income/verification/documents/download&#x60; provides the ability to download the source documents associated with the verification.  If Document Income was used, the documents will be those the user provided in Link. For Payroll Income, the most recent files available for download from the payroll provider will be available from this endpoint.  The response to &#x60;/income/verification/documents/download&#x60; is ZIP file in binary data. If a document_id is passed, a single document will be contained in this file. If not, the response will contain all documents associated with the verification.  The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.
+   * &#x60;/income/verification/documents/download&#x60; provides the ability to download the source documents associated with the verification.  If Document Income was used, the documents will be those the user provided in Link. For Payroll Income, the most recent files available for download from the payroll provider will be available from this endpoint.  The response to &#x60;/income/verification/documents/download&#x60; is a ZIP file in binary data. If a &#x60;document_id&#x60; is passed, a single document will be contained in this file. If not, the response will contain all documents associated with the verification.  The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.
    * @param incomeVerificationDocumentsDownloadRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -767,7 +773,7 @@ public interface PlaidApi {
 
   /**
    * (Deprecated) Retrieve information from a single paystub used for income verification
-   * 
+   * /income/verification/paystub/get returns information from a single paystub used for income verification
    * @param incomeVerificationPaystubGetRequest  (required)
    * @return Call&lt;IncomeVerificationPaystubGetResponse&gt;
    * @deprecated
@@ -798,12 +804,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Check a user&#39;s eligibility for the income verification product
-   * &#x60;/income/verification/precheck&#x60; returns whether a given user is supportable by the income product
+   * Check digital income verification eligibility and optimize conversion
+   * &#x60;/income/verification/precheck&#x60; is an optional endpoint that can be called before initializing a Link session for income verification. It evaluates whether a given user is supportable by digital income verification and returns a &#x60;precheck_id&#x60; that can be provided to &#x60;/link/token/create&#x60;. If the user is eligible for digital verification, providing the &#x60;precheck_id&#x60; in this way will generate a Link UI optimized for the end user and their specific employer. If the user cannot be confirmed as eligible, the &#x60;precheck_id&#x60; can still be provided to &#x60;/link/token/create&#x60; and the user can still use the income verification flow, but they may be required to manually upload a paystub to verify their income.  While all request fields are optional, providing either &#x60;employer&#x60; or &#x60;transactions_access_tokens&#x60; data will increase the chance of receiving a useful result.
    * @param incomeVerificationPrecheckRequest  (required)
    * @return Call&lt;IncomeVerificationPrecheckResponse&gt;
    * 
-   * @see <a href="/api/products/#incomeverificationprecheck">Check a user&#39;s eligibility for the income verification product Documentation</a>
+   * @see <a href="/api/products/#incomeverificationprecheck">Check digital income verification eligibility and optimize conversion Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -847,7 +853,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve information from the tax documents used for income verification
-   * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from taxforms that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
+   * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from forms that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
    * @param incomeVerificationTaxformsGetRequest  (required)
    * @return Call&lt;IncomeVerificationTaxformsGetResponse&gt;
    * 
@@ -1065,7 +1071,7 @@ public interface PlaidApi {
 
   /**
    * Update Webhook URL
-   * The POST &#x60;/item/webhook/update&#x60; allows you to update the webhook URL associated with an Item. This request triggers a [&#x60;WEBHOOK_UPDATE_ACKNOWLEDGED&#x60;](https://plaid.com/docs/api/webhooks/#item-webhook-url-updated) webhook to the newly specified webhook URL.
+   * The POST &#x60;/item/webhook/update&#x60; allows you to update the webhook URL associated with an Item. This request triggers a [&#x60;WEBHOOK_UPDATE_ACKNOWLEDGED&#x60;](https://plaid.com/docs/api/webhooks/#item-webhook-update-acknowledged) webhook to the newly specified webhook URL.
    * @param itemWebhookUpdateRequest  (required)
    * @return Call&lt;ItemWebhookUpdateResponse&gt;
    * 
@@ -1357,7 +1363,7 @@ public interface PlaidApi {
    * @param sandboxBankTransferFireWebhookRequest  (required)
    * @return Call&lt;SandboxBankTransferFireWebhookResponse&gt;
    * 
-   * @see <a href="/api/sandbox/#sandboxbank_transferfire_webhook">Manually fire a Bank Transfer webhook Documentation</a>
+   * @see <a href="/bank-transfers/reference/#sandboxbank_transferfire_webhook">Manually fire a Bank Transfer webhook Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1373,7 +1379,7 @@ public interface PlaidApi {
    * @param sandboxBankTransferSimulateRequest  (required)
    * @return Call&lt;SandboxBankTransferSimulateResponse&gt;
    * 
-   * @see <a href="/api/sandbox/#sandboxbank_transfersimulate">Simulate a bank transfer event in Sandbox Documentation</a>
+   * @see <a href="/bank-transfers/reference/#sandboxbank_transfersimulate">Simulate a bank transfer event in Sandbox Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1401,7 +1407,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. Calling this endpoint triggers a Transactions &#x60;DEFAULT_UPDATE&#x60; webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result. Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger a Transactions &#x60;DEFAULT_UPDATE&#x60; webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result. This endpoint can also trigger a &#x60;NEW_ACCOUNTS_AVAILABLE&#x60; webhook to be fired for a given Sandbox Item created with Account Select v2. Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -1449,7 +1455,7 @@ public interface PlaidApi {
 
   /**
    * Save the selected accounts when connecting to the Platypus Oauth institution
-   * 
+   * Save the selected accounts when connecting to the Platypus Oauth institution
    * @param sandboxOauthSelectAccountsRequest  (required)
    * @return Call&lt;Object&gt;
    */
@@ -1494,12 +1500,28 @@ public interface PlaidApi {
   );
 
   /**
+   * Trigger the creation of a repayment
+   * Use the &#x60;/sandbox/transfer/repayment/simulate&#x60; endpoint to trigger the creation of a repayment. As a side effect of calling this route, a repayment is created that includes all unreimbursed returns of guaranteed transfers. If there are no such returns, an 400 error is returned.
+   * @param sandboxTransferRepaymentSimulateRequest  (required)
+   * @return Call&lt;SandboxTransferRepaymentSimulateResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransferrepaymentsimulate">Trigger the creation of a repayment Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/repayment/simulate")
+  Call<SandboxTransferRepaymentSimulateResponse> sandboxTransferRepaymentSimulate(
+    @retrofit2.http.Body SandboxTransferRepaymentSimulateRequest sandboxTransferRepaymentSimulateRequest
+  );
+
+  /**
    * Simulate a transfer event in Sandbox
    * Use the &#x60;/sandbox/transfer/simulate&#x60; endpoint to simulate a transfer event in the Sandbox environment.  Note that while an event will be simulated and will appear when using endpoints such as &#x60;/transfer/event/sync&#x60; or &#x60;/transfer/event/list&#x60;, no transactions will actually take place and funds will not move between accounts, even within the Sandbox.
    * @param sandboxTransferSimulateRequest  (required)
    * @return Call&lt;SandboxTransferSimulateResponse&gt;
    * 
-   * @see <a href="/transfer/reference#sandboxtransfersimulate">Simulate a transfer event in Sandbox Documentation</a>
+   * @see <a href="/api/sandbox/#sandboxtransfersimulate">Simulate a transfer event in Sandbox Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1511,11 +1533,11 @@ public interface PlaidApi {
 
   /**
    * Simulate creating a sweep
-   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment.  - All &#x60;posted&#x60; or &#x60;pending&#x60; Transfers with sweep_status &#x60;unswept&#x60; will become &#x60;swept&#x60; - All &#x60;reversed&#x60; Transfers with sweep_status &#x60;swept&#x60; will become &#x60;reverse_swept&#x60;
+   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all &#x60;posted&#x60; or &#x60;pending&#x60; transfers with a sweep status of &#x60;unswept&#x60; will become &#x60;swept&#x60;, and all &#x60;reversed&#x60; transfers with a sweep status of &#x60;swept&#x60; will become &#x60;reverse_swept&#x60;.
    * @param sandboxTransferSweepSimulateRequest  (required)
    * @return Call&lt;SandboxTransferSweepSimulateResponse&gt;
    * 
-   * @see <a href="/transfer/reference#sandboxtransfersweepsimulate">Simulate creating a sweep Documentation</a>
+   * @see <a href="/api/sandbox/#sandboxtransfersweepsimulate">Simulate creating a sweep Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1620,12 +1642,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Get incremental transaction updates on an item
+   * Get incremental transaction updates on an Item
    * The &#x60;/transactions/sync&#x60; endpoint returns item transactions as a set of delta updates. Subsequent calls to the endpoint using the cursor returned in the response will return new added, modified, and removed transactions since the last call to the endpoint  The product is currently in beta. To request access, contact transactions-feedback@plaid.com.
    * @param transactionsSyncRequest  (required)
    * @return Call&lt;TransactionsSyncResponse&gt;
    * 
-   * @see <a href="/api/products/#transactionssync">Get incremental transaction updates on an item Documentation</a>
+   * @see <a href="/api/products/#transactionssync">Get incremental transaction updates on an Item Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1641,7 +1663,7 @@ public interface PlaidApi {
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transferauthorizationcreate">Create a transfer authorization Documentation</a>
+   * @see <a href="/api/products#transferauthorizationcreate">Create a transfer authorization Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1657,7 +1679,7 @@ public interface PlaidApi {
    * @param transferCancelRequest  (required)
    * @return Call&lt;TransferCancelResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transfercancel">Cancel a transfer Documentation</a>
+   * @see <a href="/api/products#transfercancel">Cancel a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1673,7 +1695,7 @@ public interface PlaidApi {
    * @param transferCreateRequest  (required)
    * @return Call&lt;TransferCreateResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transfercreate">Create a transfer Documentation</a>
+   * @see <a href="/api/products#transfercreate">Create a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1689,7 +1711,7 @@ public interface PlaidApi {
    * @param transferEventListRequest  (required)
    * @return Call&lt;TransferEventListResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transfereventlist">List transfer events Documentation</a>
+   * @see <a href="/api/products#transfereventlist">List transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1705,7 +1727,7 @@ public interface PlaidApi {
    * @param transferEventSyncRequest  (required)
    * @return Call&lt;TransferEventSyncResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transfereventsync">Sync transfer events Documentation</a>
+   * @see <a href="/api/products#transfereventsync">Sync transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1721,7 +1743,7 @@ public interface PlaidApi {
    * @param transferGetRequest  (required)
    * @return Call&lt;TransferGetResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transferget">Retrieve a transfer Documentation</a>
+   * @see <a href="/api/products#transferget">Retrieve a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1737,7 +1759,7 @@ public interface PlaidApi {
    * @param transferIntentCreateRequest  (required)
    * @return Call&lt;TransferIntentCreateResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transferintentcreate">Create a transfer intent object to invoke the Transfer UI Documentation</a>
+   * @see <a href="/api/products#transferintentcreate">Create a transfer intent object to invoke the Transfer UI Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1753,7 +1775,7 @@ public interface PlaidApi {
    * @param transferIntentGetRequest  (required)
    * @return Call&lt;TransferIntentGetResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transferintentget">Retrieve more information about a transfer intent Documentation</a>
+   * @see <a href="/api/products#transferintentget">Retrieve more information about a transfer intent Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1769,7 +1791,7 @@ public interface PlaidApi {
    * @param transferListRequest  (required)
    * @return Call&lt;TransferListResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transferlist">List transfers Documentation</a>
+   * @see <a href="/api/products#transferlist">List transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1780,12 +1802,44 @@ public interface PlaidApi {
   );
 
   /**
+   * Lists historical repayments
+   * The &#x60;/transfer/repayment/list&#x60; endpoint fetches repayments matching the given filters. Repayments are returned in reverse-chronological order (most recent first) starting at the given &#x60;start_time&#x60;.
+   * @param transferRepaymentListRequest  (required)
+   * @return Call&lt;TransferRepaymentListResponse&gt;
+   * 
+   * @see <a href="/api/products#transferrepaymentlist">Lists historical repayments Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/repayment/list")
+  Call<TransferRepaymentListResponse> transferRepaymentList(
+    @retrofit2.http.Body TransferRepaymentListRequest transferRepaymentListRequest
+  );
+
+  /**
+   * List the returns included in a repayment
+   * The &#x60;/transfer/repayment/return/list&#x60; endpoint retrieves the set of returns that were batched together into the specified repayment. The sum of amounts of returns retrieved by this request equals the amount of the repayment.
+   * @param transferRepaymentReturnListRequest  (required)
+   * @return Call&lt;TransferRepaymentReturnListResponse&gt;
+   * 
+   * @see <a href="/api/products#transferrepaymentreturnlist">List the returns included in a repayment Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/repayment/return/list")
+  Call<TransferRepaymentReturnListResponse> transferRepaymentReturnList(
+    @retrofit2.http.Body TransferRepaymentReturnListRequest transferRepaymentReturnListRequest
+  );
+
+  /**
    * Retrieve a sweep
    * The &#x60;/transfer/sweep/get&#x60; endpoint fetches a sweep corresponding to the given &#x60;sweep_id&#x60;.
    * @param transferSweepGetRequest  (required)
    * @return Call&lt;TransferSweepGetResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transfersweepget">Retrieve a sweep Documentation</a>
+   * @see <a href="/api/products#transfersweepget">Retrieve a sweep Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1801,7 +1855,7 @@ public interface PlaidApi {
    * @param transferSweepListRequest  (required)
    * @return Call&lt;TransferSweepListResponse&gt;
    * 
-   * @see <a href="/transfer/reference#transfersweeplist">List sweeps Documentation</a>
+   * @see <a href="/api/products#transfersweeplist">List sweeps Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"

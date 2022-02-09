@@ -3,12 +3,12 @@ package com.plaid.client.integration;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.plaid.client.model.AccountSubtype;
+import com.plaid.client.model.DepositoryAccountSubtype;
 import com.plaid.client.model.CountryCode;
 import com.plaid.client.model.DepositoryFilter;
 import com.plaid.client.model.LinkTokenAccountFilters;
 import com.plaid.client.model.LinkTokenCreateRequest;
-import com.plaid.client.model.LinkTokenCreateRequestAccountSubtypes;
+import com.plaid.client.model.LinkTokenCreateDepositoryFilter;
 import com.plaid.client.model.LinkTokenCreateRequestUser;
 import com.plaid.client.model.LinkTokenCreateResponse;
 import com.plaid.client.model.Products;
@@ -70,7 +70,7 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
 		// .emailAddressVerifiedTime(new Date().toString());
 
 		DepositoryFilter types = new DepositoryFilter()
-		.accountSubtypes(Arrays.asList(AccountSubtype.CHECKING));
+		.accountSubtypes(Arrays.asList(DepositoryAccountSubtype.CHECKING));
 
 		LinkTokenAccountFilters accountFilters = new LinkTokenAccountFilters()
 		.depository(types);

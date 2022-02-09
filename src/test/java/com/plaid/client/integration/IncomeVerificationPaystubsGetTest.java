@@ -21,41 +21,40 @@ public class IncomeVerificationPaystubsGetTest extends AbstractIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        // Disabled as income verification test setup is no longer working
-//        SandboxPublicTokenCreateRequest request = new SandboxPublicTokenCreateRequest()
-//                .institutionId(INCOME_INSTITUTION_ID)
-//                .initialProducts(Arrays.asList(Products.INCOME_VERIFICATION));
-//
-//        Response<SandboxPublicTokenCreateResponse> createResponse = client()
-//                .sandboxPublicTokenCreate(request)
-//                .execute();
-//
-//        assertSuccessResponse(createResponse);
-//
-//        ItemPublicTokenExchangeRequest exchangeRequest = new ItemPublicTokenExchangeRequest()
-//                .publicToken(createResponse.body().getPublicToken());
-//
-//        Response<ItemPublicTokenExchangeResponse> response = client()
-//                .itemPublicTokenExchange(exchangeRequest)
-//                .execute();
-//
-//        assertSuccessResponse(response);
-//
-//        this.accessToken = response.body().getAccessToken();
+       SandboxPublicTokenCreateRequest request = new SandboxPublicTokenCreateRequest()
+               .institutionId(INCOME_INSTITUTION_ID)
+               .initialProducts(Arrays.asList(Products.INCOME_VERIFICATION));
+
+       Response<SandboxPublicTokenCreateResponse> createResponse = client()
+               .sandboxPublicTokenCreate(request)
+               .execute();
+
+       assertSuccessResponse(createResponse);
+
+       ItemPublicTokenExchangeRequest exchangeRequest = new ItemPublicTokenExchangeRequest()
+               .publicToken(createResponse.body().getPublicToken());
+
+       Response<ItemPublicTokenExchangeResponse> response = client()
+               .itemPublicTokenExchange(exchangeRequest)
+               .execute();
+
+       assertSuccessResponse(response);
+
+       this.accessToken = response.body().getAccessToken();
     }
 
     @Test
-    @Ignore
+//     @Ignore
     public void testIncomeVerificationPaystubsGet() throws Exception {
-//        IncomeVerificationPaystubsGetRequest request = new IncomeVerificationPaystubsGetRequest()
-//                .accessToken(this.accessToken);
-//
-//        Response<IncomeVerificationPaystubsGetResponse> apiResponse = client().incomeVerificationPaystubsGet(request).execute();
-//
-//        IncomeVerificationPaystubsGetResponse paystubsResponse = apiResponse.body();
-//        assertNotNull(paystubsResponse);
-//        assertNull(paystubsResponse.getError());
-//        assertTrue(paystubsResponse.getPaystubs().size() > 0);
-//        assertTrue(paystubsResponse.getDocumentMetadata().size() > 0);
+       IncomeVerificationPaystubsGetRequest request = new IncomeVerificationPaystubsGetRequest()
+               .accessToken(this.accessToken);
+
+       Response<IncomeVerificationPaystubsGetResponse> apiResponse = client().incomeVerificationPaystubsGet(request).execute();
+
+       IncomeVerificationPaystubsGetResponse paystubsResponse = apiResponse.body();
+       assertNotNull(paystubsResponse);
+       assertNull(paystubsResponse.getError());
+       assertTrue(paystubsResponse.getPaystubs().size() > 0);
+       assertTrue(paystubsResponse.getDocumentMetadata().size() > 0);
     }
 }

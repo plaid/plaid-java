@@ -1,5 +1,129 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 10.0.0
+- Updating to OAS 2020-09-14_1.64.13
+
+## Breaking changes
+- Split `AccountSubtype` enums and objects into per-endpoint ones to more accurately represent allowed values.
+  - `DepositoryFilter`'s account subtypes uses `DepositoryAccountSubtypes`
+  - `CreditFilter`'s account subtypes uses `CreditAccountSubtypes`
+  - `LoanFilter`'s account subtypes uses `LoanAccountSubtypes`
+  - `InvestmentFilter`'s account subtypes uses `InvestmentAccountSubtypes`
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.64.13
+- Deprecate `idempotency_key` parameter in transfer/create
+
+### 2020-09-14_1.64.12
+- Removed the unused `required_product_access` and `optional_product_access` parameters from `RequestedScopes`
+
+### 2020-09-14_1.64.11
+- Fix some examples that were not consistent with their schemas
+- Add `adjustments` as an investments transaction type to make OpenAPI file consistent with values returned by the API
+- Clarify description field for `marital_status` to reflect possible values
+
+### 2020-09-14_1.64.10
+- Updated the external docs URL for Bank Transfers sandbox endpoints
+
+### 2020-09-14_1.64.9
+- De-anonymized the object filters under `LinkTokenCreateRequestAccountSubtypes`, as anonymous objects aren't compatible with the generated CLibs.
+- De-anonymized some misc. objects
+  - `PaymentInitiationMetadata/properties/maximum_payment_amount`
+  - `PaystubOverride/properties/employer`
+  - `PaystubOverride/properties/employee`
+  - `PaystubOverride/properties/employee/properties/address`
+  - `LiabilitiesDefaultUpdateWebhook/properties/account_ids_with_updated_liabilities`
+
+### 2020-09-14_1.64.8
+- Updated the description of the historical_balances array
+
+### 2020-09-14_1.64.7
+- Add new possible enums for income verification earnings breakdown canonical description
+
+### 2020-09-14_1.64.6
+- Hid a few product enum values that are deprecated or no longer valid for certain request fields. This affects the documentation only.
+
+### 2020-09-14_1.64.5
+- Make guarantee fields required in Transfer endpoints
+
+### 2020-09-14_1.64.4
+- Updated description for `failure_reason` field in Transfer endpoints
+
+### 2020-09-14_1.64.3
+- Make `repayment_id` required in `/transfer/repayment/return/list` endpoint
+
+### 2020-09-14_1.64.2
+- Update description for legal name field in `BankTransferUser` 
+
+### 2020-09-14_1.64.1
+- Update descriptions for `/transfer/repayment/list` and `/transfer/repayment/return/list` endpoints
+
+### 2020-09-14_1.64.0
+- Remove `scheme_automatic_downgrade` from `/payment_initiation/payment/create`
+
+### 2020-09-14_1.63.1
+- Update description for `/sandbox/transfer/sweep/simulate` endpoint
+
+### 2020-09-14_1.63.0
+- Refactor account subtype enums for greater specificity. This has no changes to the API but is a major semver change for Python, Node, Go, and Java client library interfaces to the AccountSubtype object within account filtering contexts in `/link/token/create`. The `AccountSubtype` namespace in this context is now prefixed with the AccountType. (Example for Node: Old: `AccountSubtype.checking` New: `DepositoryAccountSubtype.checking`)
+
+### 2020-09-14_1.62.7
+- Update description for `datetime` and `authorized_datetime` fields in Transactions endpoints
+
+### 2020-09-14_1.62.6
+- Make `sweep_id` / `sweep_amount` fields on Transfer Event nullable
+
+### 2020-09-14_1.62.6
+- Set `institution_status` to be nullable in `InstitutionsGetResponse`
+
+### 2020-09-14_1.62.5
+- Update external docs URLs for Transfer and Bank Transfer endpoints
+- Update description for `ach_return_code` field in Transfer endpoints
+
+### 2020-09-14_1.62.4
+- Add `join_date` to `/application/get` and `/item/application/list`
+- Remove `created_at` from `/application/get`
+
+### 2020-09-14_1.62.3
+- Updated various description fields for Income
+
+### 2020-09-14_1.62.2
+- Add `employment` as an available product in Product array.
+
+### 2020-09-14_1.62.1
+- Add `minItems` and `minLength` validation to various fields in `/institution/*` request schemas
+
+### 2020-09-14_1.62.0
+- Add guarantee_decision and guarantee_decision rationale fields to the transfer API
+- Add repayment-related resources to the transfer API
+
+### 2020-09-14_1.61.7
+- Remove `receiver_pending` and `receiver_posted` from bank transfer event types.
+- Remove `BankTransferReceiverDetails` from bank transfer event types.
+
+### 2020-09-14_1.61.6
+- Update description formatting for `sweep` and `amount` fields for sweep endpoints
+
+### 2020-09-14_1.61.5
+- Added `NEW_ACCOUNTS_AVAILABLE` webhook code as valid input to `/sandbox/item/fire_webhook`
+- Update description for `/sandbox/item/fire_webhook`
+
+### 2020-09-14_1.61.4
+- Set the `minimum` for the `count` and `offset` fields in `InstitutionsGetRequest`
+- Set `products`, `routing_numbers`, and `oauth` fields to be nullable in `InstitutionsGetRequestOptions`
+- Set `products` to be nullable in `InstitutionsSearchRequest`
+- Set `oauth`, `include_auth_metadata`, and `include_payment_initiation_metadata` fields to be nullable in `InstitutionsSearchRequestOptions`
+- Set `payment_id` field to be nullable in `InstitutionsSearchPaymentInitiationOptions`
+
+### 2020-09-14_1.61.3
+- Adds `DOCUMENT_TYPE_NONE` enum value for document metadata
+
+### 2020-09-14_1.61.2
+- Relax length restrictions on the `currency` field in the `Pay` schema
+
+### 2020-09-14_1.61.1
+- Use new payment statuses in `PaymentStatusUpdateWebhook`
+
 # 9.11.0
 - Updating to OAS 2020-09-14_1.61.0
 
@@ -96,23 +220,23 @@ This version represents a transition in how we maintain our external client libr
 - Remove all occurrences of `service()` attached to `client()` endpoint queries.
 - Endpoints that start with `get` are now ${Model}Get.
 
-## 8.5.0
+# 8.5.0
 - Add deposit switch support for `/link/token/create`
 
-## 8.4.0
+# 8.4.0
 - Add support for `options` to `/payment_initiation/payment/create`
 
-## 8.3.0
+# 8.3.0
 - Add `last_updated_datetime` to `/accounts/balance/get`
 
-## 8.2.0
+# 8.2.0
 - Add mortgage object to Liabilities
 - Add Standing Orders support to Payment Initiation
 
-## 8.1.0
+# 8.1.0
 - Add [Bank Transfers](https://plaid.com/docs/bank-transfers/) endpoints to the library
 
-## 8.0.0
+# 8.0.0
 
 - The library has been pinned to the '2020-09-14' API release. Visit the [docs](https://plaid.com/docs/api/versioning/) to see what changed.
 - the `/item/public_token/create` endpoint has been disabled in favor of the /link/token/create
@@ -124,7 +248,7 @@ This version represents a transition in how we maintain our external client libr
 - The `/institutions/get`, `/institutions/get_by_id`, and `/institutions/search` now require
     `country_codes` to be passed in.
 
-## 7.1.0
+# 7.1.0
 
 - Add support for Link Token get endpoint ([#239](https://github.com/plaid/plaid-java/pull/239))
   - `/link/token/get`

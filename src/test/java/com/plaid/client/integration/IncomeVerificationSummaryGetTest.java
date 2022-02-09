@@ -20,37 +20,37 @@ public class IncomeVerificationSummaryGetTest extends AbstractIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-//        SandboxPublicTokenCreateRequest request = new SandboxPublicTokenCreateRequest()
-//                .institutionId(INCOME_INSTITUTION_ID)
-//                .initialProducts(Arrays.asList(Products.INCOME_VERIFICATION));
-//
-//        Response<SandboxPublicTokenCreateResponse> createResponse = client()
-//                .sandboxPublicTokenCreate(request)
-//                .execute();
-//
-//        assertSuccessResponse(createResponse);
-//
-//        ItemPublicTokenExchangeRequest exchangeRequest = new ItemPublicTokenExchangeRequest()
-//                .publicToken(createResponse.body().getPublicToken());
-//
-//        Response<ItemPublicTokenExchangeResponse> response = client()
-//                .itemPublicTokenExchange(exchangeRequest)
-//                .execute();
-//
-//        assertSuccessResponse(response);
-//
-//        this.accessToken = response.body().getAccessToken();
+       SandboxPublicTokenCreateRequest request = new SandboxPublicTokenCreateRequest()
+               .institutionId(INCOME_INSTITUTION_ID)
+               .initialProducts(Arrays.asList(Products.INCOME_VERIFICATION));
+
+       Response<SandboxPublicTokenCreateResponse> createResponse = client()
+               .sandboxPublicTokenCreate(request)
+               .execute();
+
+       assertSuccessResponse(createResponse);
+
+       ItemPublicTokenExchangeRequest exchangeRequest = new ItemPublicTokenExchangeRequest()
+               .publicToken(createResponse.body().getPublicToken());
+
+       Response<ItemPublicTokenExchangeResponse> response = client()
+               .itemPublicTokenExchange(exchangeRequest)
+               .execute();
+
+       assertSuccessResponse(response);
+
+       this.accessToken = response.body().getAccessToken();
     }
 
     @Test
     public void testIncomeVerificationPaystubsGet() throws Exception {
-//        IncomeVerificationSummaryGetRequest request = new IncomeVerificationSummaryGetRequest()
-//                .accessToken(this.accessToken);
-//
-//        Response<IncomeVerificationSummaryGetResponse> apiResponse = client().incomeVerificationSummaryGet(request).execute();
-//
-//        IncomeVerificationSummaryGetResponse summaryResponse = apiResponse.body();
-//        assertNotNull(summaryResponse);
-//        assertNull(summaryResponse.getError());
+       IncomeVerificationSummaryGetRequest request = new IncomeVerificationSummaryGetRequest()
+               .accessToken(this.accessToken);
+
+       Response<IncomeVerificationSummaryGetResponse> apiResponse = client().incomeVerificationSummaryGet(request).execute();
+
+       IncomeVerificationSummaryGetResponse summaryResponse = apiResponse.body();
+       assertNotNull(summaryResponse);
+       assertNull(summaryResponse.getError());
     }
 }
