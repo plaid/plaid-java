@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.plaid.client.model.AccountFiltersResponse;
-import com.plaid.client.model.AccountSubtype;
+import com.plaid.client.model.DepositoryAccountSubtype;
 import com.plaid.client.model.CountryCode;
 import com.plaid.client.model.DepositoryFilter;
 import com.plaid.client.model.Error;
@@ -61,7 +61,7 @@ public class LinkTokenGetTest extends AbstractItemIntegrationTest {
     .clientUserId(clientUserId);
 
     DepositoryFilter types = new DepositoryFilter()
-    .accountSubtypes(Arrays.asList(AccountSubtype.SAVINGS));
+    .accountSubtypes(Arrays.asList(DepositoryAccountSubtype.SAVINGS));
 
     LinkTokenAccountFilters accountFilters = new LinkTokenAccountFilters()
     .depository(types);
@@ -103,7 +103,7 @@ public class LinkTokenGetTest extends AbstractItemIntegrationTest {
     // TODO: Fix when AccountFilters object is condensed.
 
     DepositoryFilter depositoryType = new DepositoryFilter()
-    .accountSubtypes(Arrays.asList(AccountSubtype.SAVINGS));
+    .accountSubtypes(Arrays.asList(DepositoryAccountSubtype.SAVINGS));
 
     AccountFiltersResponse filters = new AccountFiltersResponse()
     .depository(depositoryType);
