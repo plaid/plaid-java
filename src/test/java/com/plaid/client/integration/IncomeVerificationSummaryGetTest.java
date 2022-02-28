@@ -42,15 +42,4 @@ public class IncomeVerificationSummaryGetTest extends AbstractIntegrationTest {
        this.accessToken = response.body().getAccessToken();
     }
 
-    @Test
-    public void testIncomeVerificationPaystubsGet() throws Exception {
-       IncomeVerificationSummaryGetRequest request = new IncomeVerificationSummaryGetRequest()
-               .accessToken(this.accessToken);
-
-       Response<IncomeVerificationSummaryGetResponse> apiResponse = client().incomeVerificationSummaryGet(request).execute();
-
-       IncomeVerificationSummaryGetResponse summaryResponse = apiResponse.body();
-       assertNotNull(summaryResponse);
-       assertNull(summaryResponse.getError());
-    }
 }
