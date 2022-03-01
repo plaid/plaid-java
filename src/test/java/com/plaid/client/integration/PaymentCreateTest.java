@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 
 import com.plaid.client.integration.RecipientCreateTest;
 import com.plaid.client.model.PaymentAmount;
-import com.plaid.client.model.PaymentAmountCurrency;
 import com.plaid.client.model.PaymentInitiationPaymentCreateRequest;
 import com.plaid.client.model.PaymentInitiationPaymentCreateResponse;
 import com.plaid.client.model.PaymentInitiationPaymentCreateResponse;
@@ -30,7 +29,7 @@ public class PaymentCreateTest extends AbstractIntegrationTest {
     assertNotNull(recipientId);
 
     PaymentAmount amount = new PaymentAmount()
-      .currency(PaymentAmountCurrency.GBP)
+      .currency(PaymentAmount.CurrencyEnum.GBP)
       .value(999.99);
 
     PaymentInitiationPaymentCreateRequest paymentCreateRequest = new PaymentInitiationPaymentCreateRequest()

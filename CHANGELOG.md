@@ -1,5 +1,9 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 10.2.0
+- Updating to OAS 2020-09-14_1.78.2
+- Java library 10.1.0 was erroneously released as a `minor` version; 10.1.0 changes will be re-released as a `major` version shortly.
+
 # 10.1.0
 - Updating to OAS 2020-09-14_1.77.1
 

@@ -14,11 +14,6 @@ import com.plaid.client.model.AccountsGetRequest;
 import com.plaid.client.model.AccountsGetResponse;
 import com.plaid.client.model.ApplicationGetRequest;
 import com.plaid.client.model.ApplicationGetResponse;
-import com.plaid.client.model.AssetRelayCreateRequest;
-import com.plaid.client.model.AssetRelayCreateResponse;
-import com.plaid.client.model.AssetRelayGetRequest;
-import com.plaid.client.model.AssetRelayRemoveRequest;
-import com.plaid.client.model.AssetRelayRemoveResponse;
 import com.plaid.client.model.AssetReportAuditCopyCreateRequest;
 import com.plaid.client.model.AssetReportAuditCopyCreateResponse;
 import com.plaid.client.model.AssetReportAuditCopyGetRequest;
@@ -33,8 +28,6 @@ import com.plaid.client.model.AssetReportGetResponse;
 import com.plaid.client.model.AssetReportPDFGetRequest;
 import com.plaid.client.model.AssetReportRefreshRequest;
 import com.plaid.client.model.AssetReportRefreshResponse;
-import com.plaid.client.model.AssetReportRelayRefreshRequest;
-import com.plaid.client.model.AssetReportRelayRefreshResponse;
 import com.plaid.client.model.AssetReportRemoveRequest;
 import com.plaid.client.model.AssetReportRemoveResponse;
 import com.plaid.client.model.AuthGetRequest;
@@ -60,8 +53,6 @@ import com.plaid.client.model.BankTransferSweepGetResponse;
 import com.plaid.client.model.BankTransferSweepListRequest;
 import com.plaid.client.model.BankTransferSweepListResponse;
 import com.plaid.client.model.CategoriesGetResponse;
-import com.plaid.client.model.CreditBankIncomeGetRequest;
-import com.plaid.client.model.CreditBankIncomeGetResponse;
 import com.plaid.client.model.DepositSwitchAltCreateRequest;
 import com.plaid.client.model.DepositSwitchAltCreateResponse;
 import com.plaid.client.model.DepositSwitchCreateRequest;
@@ -81,12 +72,16 @@ import com.plaid.client.model.IdentityGetResponse;
 import com.plaid.client.model.IncomeVerificationCreateRequest;
 import com.plaid.client.model.IncomeVerificationCreateResponse;
 import com.plaid.client.model.IncomeVerificationDocumentsDownloadRequest;
+import com.plaid.client.model.IncomeVerificationPaystubGetRequest;
+import com.plaid.client.model.IncomeVerificationPaystubGetResponse;
 import com.plaid.client.model.IncomeVerificationPaystubsGetRequest;
 import com.plaid.client.model.IncomeVerificationPaystubsGetResponse;
 import com.plaid.client.model.IncomeVerificationPrecheckRequest;
 import com.plaid.client.model.IncomeVerificationPrecheckResponse;
 import com.plaid.client.model.IncomeVerificationRefreshRequest;
 import com.plaid.client.model.IncomeVerificationRefreshResponse;
+import com.plaid.client.model.IncomeVerificationSummaryGetRequest;
+import com.plaid.client.model.IncomeVerificationSummaryGetResponse;
 import com.plaid.client.model.IncomeVerificationTaxformsGetRequest;
 import com.plaid.client.model.IncomeVerificationTaxformsGetResponse;
 import com.plaid.client.model.InstitutionsGetByIdRequest;
@@ -123,14 +118,6 @@ import com.plaid.client.model.LinkTokenCreateRequest;
 import com.plaid.client.model.LinkTokenCreateResponse;
 import com.plaid.client.model.LinkTokenGetRequest;
 import com.plaid.client.model.LinkTokenGetResponse;
-import com.plaid.client.model.PaymentInitiationConsentCreateRequest;
-import com.plaid.client.model.PaymentInitiationConsentCreateResponse;
-import com.plaid.client.model.PaymentInitiationConsentGetRequest;
-import com.plaid.client.model.PaymentInitiationConsentGetResponse;
-import com.plaid.client.model.PaymentInitiationConsentPaymentExecuteRequest;
-import com.plaid.client.model.PaymentInitiationConsentPaymentExecuteResponse;
-import com.plaid.client.model.PaymentInitiationConsentRevokeRequest;
-import com.plaid.client.model.PaymentInitiationConsentRevokeResponse;
 import com.plaid.client.model.PaymentInitiationPaymentCreateRequest;
 import com.plaid.client.model.PaymentInitiationPaymentCreateResponse;
 import com.plaid.client.model.PaymentInitiationPaymentGetRequest;
@@ -189,8 +176,6 @@ import com.plaid.client.model.SignalEvaluateRequest;
 import com.plaid.client.model.SignalEvaluateResponse;
 import com.plaid.client.model.SignalReturnReportRequest;
 import com.plaid.client.model.SignalReturnReportResponse;
-import com.plaid.client.model.TransactionsEnhanceGetRequest;
-import com.plaid.client.model.TransactionsEnhanceGetResponse;
 import com.plaid.client.model.TransactionsGetRequest;
 import com.plaid.client.model.TransactionsGetResponse;
 import com.plaid.client.model.TransactionsRecurringGetRequest;
@@ -246,7 +231,7 @@ public interface PlaidApi {
    * @param accountsBalanceGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
-   * @see <a href="/api/products/balance/#accountsbalanceget">Retrieve real-time balance data Documentation</a>
+   * @see <a href="/api/products/#accountsbalanceget">Retrieve real-time balance data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -258,7 +243,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve accounts
-   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance. This endpoint only returns accounts that were permissioned by the user when they initially created the Item. If a user creates a new account after the initial link, you can capture this event through the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/items/#new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, balances returned may not be up-to-date; for realtime balance information, use &#x60;/accounts/balance/get&#x60; instead. Note that some information is nullable.
+   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance.  This endpoint only returns accounts that were permissioned by the user when they initially created the Item. If a user creates a new account after the initial link, you can capture this event through the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/webhooks/#item-new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, balances returned may not be up-to-date; for realtime balance information, use &#x60;/accounts/balance/get&#x60; instead. Note that some information is nullable.
    * @param accountsGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
@@ -287,60 +272,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create an &#x60;asset_relay_token&#x60; to share an Asset Report with a partner client
-   * Plaid can share an Asset Report directly with a participating third party on your behalf. The shared Asset Report is the exact same Asset Report originally created in &#x60;/asset_report/create&#x60;.  To grant access to an Asset Report to a third party, use the &#x60;/asset_report/relay/create&#x60; endpoint to create an &#x60;asset_relay_token&#x60; and then pass that token to the third party who needs access. Each third party has its own &#x60;secondary_client_id&#x60;, for example &#x60;ce5bd328dcd34123456&#x60;. You&#39;ll need to create a separate &#x60;asset_relay_token&#x60; for each third party to whom you want to grant access to the Report.
-   * @param assetRelayCreateRequest  (required)
-   * @return Call&lt;AssetRelayCreateResponse&gt;
-   * 
-   * @see <a href="/none/">Create an &#x60;asset_relay_token&#x60; to share an Asset Report with a partner client Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("asset_report/relay/create")
-  Call<AssetRelayCreateResponse> assetRelayCreate(
-    @retrofit2.http.Body AssetRelayCreateRequest assetRelayCreateRequest
-  );
-
-  /**
-   * Retrieve an Asset Report that was shared with you
-   * &#x60;/asset_report/relay/get&#x60; allows third parties to get an Asset Report that was shared with them, using an &#x60;asset_relay_token&#x60; that was created by the report owner.
-   * @param assetRelayGetRequest  (required)
-   * @return Call&lt;AssetReportGetResponse&gt;
-   * 
-   * @see <a href="/none/">Retrieve an Asset Report that was shared with you Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("asset_report/relay/get")
-  Call<AssetReportGetResponse> assetRelayGet(
-    @retrofit2.http.Body AssetRelayGetRequest assetRelayGetRequest
-  );
-
-  /**
-   * Remove Asset Report Relay Token
-   * The &#x60;/asset_report/relay/remove&#x60; endpoint allows you to invalidate an &#x60;asset_relay_token&#x60;, meaning the third party holding the token will no longer be able to use it to access the Asset Report to which the &#x60;asset_relay_token&#x60; gives access to. The Asset Report, Items associated with it, and other Asset Relay Tokens that provide access to the same Asset Report are not affected and will remain accessible after removing the given &#x60;asset_relay_token.
-   * @param assetRelayRemoveRequest  (required)
-   * @return Call&lt;AssetRelayRemoveResponse&gt;
-   * 
-   * @see <a href="/none/">Remove Asset Report Relay Token Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("asset_report/relay/remove")
-  Call<AssetRelayRemoveResponse> assetRelayRemove(
-    @retrofit2.http.Body AssetRelayRemoveRequest assetRelayRemoveRequest
-  );
-
-  /**
    * Create Asset Report Audit Copy
    * Plaid can provide an Audit Copy of any Asset Report directly to a participating third party on your behalf. For example, Plaid can supply an Audit Copy directly to Fannie Mae on your behalf if you participate in the Day 1 Certainty™ program. An Audit Copy contains the same underlying data as the Asset Report.  To grant access to an Audit Copy, use the &#x60;/asset_report/audit_copy/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the third party who needs access. Each third party has its own &#x60;auditor_id&#x60;, for example &#x60;fannie_mae&#x60;. You’ll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report.
    * @param assetReportAuditCopyCreateRequest  (required)
    * @return Call&lt;AssetReportAuditCopyCreateResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportaudit_copycreate">Create Asset Report Audit Copy Documentation</a>
+   * @see <a href="/api/products/#asset_reportaudit_copycreate">Create Asset Report Audit Copy Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -372,7 +309,7 @@ public interface PlaidApi {
    * @param assetReportAuditCopyRemoveRequest  (required)
    * @return Call&lt;AssetReportAuditCopyRemoveResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportaudit_copyremove">Remove Asset Report Audit Copy Documentation</a>
+   * @see <a href="/api/products/#asset_reportaudit_copyremove">Remove Asset Report Audit Copy Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -384,11 +321,11 @@ public interface PlaidApi {
 
   /**
    * Create an Asset Report
-   * The &#x60;/asset_report/create&#x60; endpoint initiates the process of creating an Asset Report, which can then be retrieved by passing the &#x60;asset_report_token&#x60; return value to the &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60; endpoints.  The Asset Report takes some time to be created and is not available immediately after calling &#x60;/asset_report/create&#x60;. When the Asset Report is ready to be retrieved using &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60;, Plaid will fire a &#x60;PRODUCT_READY&#x60; webhook. For full details of the webhook schema, see [Asset Report webhooks](https://plaid.com/docs/api/products/assets/#webhooks).  The &#x60;/asset_report/create&#x60; endpoint creates an Asset Report at a moment in time. Asset Reports are immutable. To get an updated Asset Report, use the &#x60;/asset_report/refresh&#x60; endpoint.
+   * The &#x60;/asset_report/create&#x60; endpoint initiates the process of creating an Asset Report, which can then be retrieved by passing the &#x60;asset_report_token&#x60; return value to the &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60; endpoints.  The Asset Report takes some time to be created and is not available immediately after calling &#x60;/asset_report/create&#x60;. When the Asset Report is ready to be retrieved using &#x60;/asset_report/get&#x60; or &#x60;/asset_report/pdf/get&#x60;, Plaid will fire a &#x60;PRODUCT_READY&#x60; webhook. For full details of the webhook schema, see [Asset Report webhooks](https://plaid.com/docs/api/webhooks/#assets-webhooks).  The &#x60;/asset_report/create&#x60; endpoint creates an Asset Report at a moment in time. Asset Reports are immutable. To get an updated Asset Report, use the &#x60;/asset_report/refresh&#x60; endpoint.
    * @param assetReportCreateRequest  (required)
    * @return Call&lt;AssetReportCreateResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportcreate">Create an Asset Report Documentation</a>
+   * @see <a href="/api/products/#asset_reportcreate">Create an Asset Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -400,11 +337,11 @@ public interface PlaidApi {
 
   /**
    * Filter Asset Report
-   * By default, an Asset Report will contain all of the accounts on a given Item. In some cases, you may not want the Asset Report to contain all accounts. For example, you might have the end user choose which accounts are relevant in Link using the Account Select view, which you can enable in the dashboard. Or, you might always exclude certain account types or subtypes, which you can identify by using the &#x60;/accounts/get&#x60; endpoint. To narrow an Asset Report to only a subset of accounts, use the &#x60;/asset_report/filter&#x60; endpoint.  To exclude certain Accounts from an Asset Report, first use the &#x60;/asset_report/create&#x60; endpoint to create the report, then send the &#x60;asset_report_token&#x60; along with a list of &#x60;account_ids&#x60; to exclude to the &#x60;/asset_report/filter&#x60; endpoint, to create a new Asset Report which contains only a subset of the original Asset Report&#39;s data.  Because Asset Reports are immutable, calling &#x60;/asset_report/filter&#x60; does not alter the original Asset Report in any way; rather, &#x60;/asset_report/filter&#x60; creates a new Asset Report with a new token and id. Asset Reports created via &#x60;/asset_report/filter&#x60; do not contain new Asset data, and are not billed.  Plaid will fire a [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook once generation of the filtered Asset Report has completed.
+   * By default, an Asset Report will contain all of the accounts on a given Item. In some cases, you may not want the Asset Report to contain all accounts. For example, you might have the end user choose which accounts are relevant in Link using the Account Select view, which you can enable in the dashboard. Or, you might always exclude certain account types or subtypes, which you can identify by using the &#x60;/accounts/get&#x60; endpoint. To narrow an Asset Report to only a subset of accounts, use the &#x60;/asset_report/filter&#x60; endpoint.  To exclude certain Accounts from an Asset Report, first use the &#x60;/asset_report/create&#x60; endpoint to create the report, then send the &#x60;asset_report_token&#x60; along with a list of &#x60;account_ids&#x60; to exclude to the &#x60;/asset_report/filter&#x60; endpoint, to create a new Asset Report which contains only a subset of the original Asset Report&#39;s data.  Because Asset Reports are immutable, calling &#x60;/asset_report/filter&#x60; does not alter the original Asset Report in any way; rather, &#x60;/asset_report/filter&#x60; creates a new Asset Report with a new token and id. Asset Reports created via &#x60;/asset_report/filter&#x60; do not contain new Asset data, and are not billed.  Plaid will fire a [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/webhooks) webhook once generation of the filtered Asset Report has completed.
    * @param assetReportFilterRequest  (required)
    * @return Call&lt;AssetReportFilterResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportfilter">Filter Asset Report Documentation</a>
+   * @see <a href="/api/products/#asset_reportfilter">Filter Asset Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -416,11 +353,11 @@ public interface PlaidApi {
 
   /**
    * Retrieve an Asset Report
-   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report.  To retrieve an Asset Report with Insights, call the &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.
+   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/webhooks) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report.  To retrieve an Asset Report with Insights, call the &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.
    * @param assetReportGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportget">Retrieve an Asset Report Documentation</a>
+   * @see <a href="/api/products/#asset_reportget">Retrieve an Asset Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -432,11 +369,11 @@ public interface PlaidApi {
 
   /**
    * Retrieve a PDF Asset Report
-   * The &#x60;/asset_report/pdf/get&#x60; endpoint retrieves the Asset Report in PDF format. Before calling &#x60;/asset_report/pdf/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  The response to &#x60;/asset_report/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
+   * The &#x60;/asset_report/pdf/get&#x60; endpoint retrieves the Asset Report in PDF format. Before calling &#x60;/asset_report/pdf/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/webhooks) webhook to fire, indicating that the Report is ready to be retrieved.  The response to &#x60;/asset_report/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
    * @param assetReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportpdfget">Retrieve a PDF Asset Report Documentation</a>
+   * @see <a href="/api/products/#asset_reportpdfget">Retrieve a PDF Asset Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -452,7 +389,7 @@ public interface PlaidApi {
    * @param assetReportRefreshRequest  (required)
    * @return Call&lt;AssetReportRefreshResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportrefresh">Refresh an Asset Report Documentation</a>
+   * @see <a href="/api/products/#asset_reportrefresh">Refresh an Asset Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -463,28 +400,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Refresh a Relay Token&#39;s Asset Report
-   * The &#x60;/asset_report/relay/refresh&#x60; endpoint allows third parties to refresh an Asset Report that was relayed to them, using an &#x60;asset_relay_token&#x60; that was created by the report owner. A new Asset Report will be created based on the old one, but with the most recent data available.
-   * @param assetReportRelayRefreshRequest  (required)
-   * @return Call&lt;AssetReportRelayRefreshResponse&gt;
-   * 
-   * @see <a href="/api/products/#asset_reportrelayrefresh">Refresh a Relay Token&#39;s Asset Report Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("asset_report/relay/refresh")
-  Call<AssetReportRelayRefreshResponse> assetReportRelayRefresh(
-    @retrofit2.http.Body AssetReportRelayRefreshRequest assetReportRelayRefreshRequest
-  );
-
-  /**
    * Delete an Asset Report
    * The &#x60;/item/remove&#x60; endpoint allows you to invalidate an &#x60;access_token&#x60;, meaning you will not be able to create new Asset Reports with it. Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove them specifically.  The &#x60;/asset_report/remove&#x60; endpoint allows you to remove an Asset Report. Removing an Asset Report invalidates its &#x60;asset_report_token&#x60;, meaning you will no longer be able to use it to access Report data or create new Audit Copies. Removing an Asset Report does not affect the underlying Items, but does invalidate any &#x60;audit_copy_tokens&#x60; associated with the Asset Report.
    * @param assetReportRemoveRequest  (required)
    * @return Call&lt;AssetReportRemoveResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#asset_reportremove">Delete an Asset Report Documentation</a>
+   * @see <a href="/api/products/#asset_reportremove">Delete an Asset Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -500,7 +421,7 @@ public interface PlaidApi {
    * @param authGetRequest  (required)
    * @return Call&lt;AuthGetResponse&gt;
    * 
-   * @see <a href="/api/products/auth/#authget">Retrieve auth data Documentation</a>
+   * @see <a href="/api/products/#authget">Retrieve auth data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -644,7 +565,7 @@ public interface PlaidApi {
    * @param bankTransferSweepGetRequest  (required)
    * @return Call&lt;BankTransferSweepGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#bank_transfersweepget">Retrieve a sweep Documentation</a>
+   * @see <a href="/api/products#bank_transfersweepget">Retrieve a sweep Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -660,7 +581,7 @@ public interface PlaidApi {
    * @param bankTransferSweepListRequest  (required)
    * @return Call&lt;BankTransferSweepListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#bank_transfersweeplist">List sweeps Documentation</a>
+   * @see <a href="/api/products#bank_transfersweeplist">List sweeps Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -676,7 +597,7 @@ public interface PlaidApi {
    * @param body  (required)
    * @return Call&lt;CategoriesGetResponse&gt;
    * 
-   * @see <a href="/api/products/transactions/#categoriesget">Get Categories Documentation</a>
+   * @see <a href="/api/products/#categoriesget">Get Categories Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -702,22 +623,6 @@ public interface PlaidApi {
   @POST("payment_initiation/payment/token/create")
   Call<PaymentInitiationPaymentTokenCreateResponse> createPaymentToken(
     @retrofit2.http.Body PaymentInitiationPaymentTokenCreateRequest paymentInitiationPaymentTokenCreateRequest
-  );
-
-  /**
-   * Get bank income report(s) for a user
-   * This endpoint gets the bank income report(s) for a specified user.
-   * @param creditBankIncomeGetRequest  (required)
-   * @return Call&lt;CreditBankIncomeGetResponse&gt;
-   * 
-   * @see <a href="/api/products/#creditbankincomeget">Get bank income report(s) for a user Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("credit/bank_income/get")
-  Call<CreditBankIncomeGetResponse> creditBankIncomeGet(
-    @retrofit2.http.Body CreditBankIncomeGetRequest creditBankIncomeGetRequest
   );
 
   /**
@@ -806,7 +711,7 @@ public interface PlaidApi {
    * @param employmentVerificationGetRequest  (required)
    * @return Call&lt;EmploymentVerificationGetResponse&gt;
    * 
-   * @see <a href="/api/products/income/#employmentverificationget">Retrieve a summary of an individual&#39;s employment information Documentation</a>
+   * @see <a href="/api/products/#employmentverificationget">Retrieve a summary of an individual&#39;s employment information Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -822,7 +727,7 @@ public interface PlaidApi {
    * @param identityGetRequest  (required)
    * @return Call&lt;IdentityGetResponse&gt;
    * 
-   * @see <a href="/api/products/identity/#identityget">Retrieve identity data Documentation</a>
+   * @see <a href="/api/products/#identityget">Retrieve identity data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -839,7 +744,7 @@ public interface PlaidApi {
    * @return Call&lt;IncomeVerificationCreateResponse&gt;
    * @deprecated
    * 
-   * @see <a href="/api/products/income/#incomeverificationcreate">(Deprecated) Create an income verification instance Documentation</a>
+   * @see <a href="/api/products/#incomeverificationcreate">(Deprecated) Create an income verification instance Documentation</a>
    */
   @Deprecated
   @Headers({
@@ -856,7 +761,7 @@ public interface PlaidApi {
    * @param incomeVerificationDocumentsDownloadRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/api/products/income/#incomeverificationdocumentsdownload">Download the original documents used for income verification Documentation</a>
+   * @see <a href="/api/products/#incomeverificationdocumentsdownload">Download the original documents used for income verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -867,12 +772,28 @@ public interface PlaidApi {
   );
 
   /**
+   * (Deprecated) Retrieve information from a single paystub used for income verification
+   * /income/verification/paystub/get returns information from a single paystub used for income verification
+   * @param incomeVerificationPaystubGetRequest  (required)
+   * @return Call&lt;IncomeVerificationPaystubGetResponse&gt;
+   * @deprecated
+   */
+  @Deprecated
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("income/verification/paystub/get")
+  Call<IncomeVerificationPaystubGetResponse> incomeVerificationPaystubGet(
+    @retrofit2.http.Body IncomeVerificationPaystubGetRequest incomeVerificationPaystubGetRequest
+  );
+
+  /**
    * Retrieve information from the paystubs used for income verification
    * &#x60;/income/verification/paystubs/get&#x60; returns the information collected from the paystubs that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
    * @param incomeVerificationPaystubsGetRequest  (required)
    * @return Call&lt;IncomeVerificationPaystubsGetResponse&gt;
    * 
-   * @see <a href="/api/products/income/#incomeverificationpaystubsget">Retrieve information from the paystubs used for income verification Documentation</a>
+   * @see <a href="/api/products/#incomeverificationpaystubsget">Retrieve information from the paystubs used for income verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -888,7 +809,7 @@ public interface PlaidApi {
    * @param incomeVerificationPrecheckRequest  (required)
    * @return Call&lt;IncomeVerificationPrecheckResponse&gt;
    * 
-   * @see <a href="/api/products/income/#incomeverificationprecheck">Check digital income verification eligibility and optimize conversion Documentation</a>
+   * @see <a href="/api/products/#incomeverificationprecheck">Check digital income verification eligibility and optimize conversion Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -904,7 +825,7 @@ public interface PlaidApi {
    * @param incomeVerificationRefreshRequest  (required)
    * @return Call&lt;IncomeVerificationRefreshResponse&gt;
    * 
-   * @see <a href="/api/products/income/#incomeverificationrefresh">Refresh an income verification Documentation</a>
+   * @see <a href="/api/products/#incomeverificationrefresh">Refresh an income verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -915,12 +836,28 @@ public interface PlaidApi {
   );
 
   /**
+   * (Deprecated) Retrieve a summary of information derived from income verification
+   * &#x60;/income/verification/summary/get&#x60; returns a verification summary for the income that was verified for an end user. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
+   * @param incomeVerificationSummaryGetRequest  (required)
+   * @return Call&lt;IncomeVerificationSummaryGetResponse&gt;
+   * 
+   * @see <a href="/api/products/#incomeverificationsummaryget">(Deprecated) Retrieve a summary of information derived from income verification Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("income/verification/summary/get")
+  Call<IncomeVerificationSummaryGetResponse> incomeVerificationSummaryGet(
+    @retrofit2.http.Body IncomeVerificationSummaryGetRequest incomeVerificationSummaryGetRequest
+  );
+
+  /**
    * Retrieve information from the tax documents used for income verification
    * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from forms that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
    * @param incomeVerificationTaxformsGetRequest  (required)
    * @return Call&lt;IncomeVerificationTaxformsGetResponse&gt;
    * 
-   * @see <a href="/api/products/income/#incomeverificationtaxformsget">Retrieve information from the tax documents used for income verification Documentation</a>
+   * @see <a href="/api/products/#incomeverificationtaxformsget">Retrieve information from the tax documents used for income verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -948,7 +885,7 @@ public interface PlaidApi {
 
   /**
    * Get details of an institution
-   * Returns a JSON response containing details on a specified financial institution currently supported by Plaid.  Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; to authenticate to this endpoint. The &#x60;public_key&#x60; has been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
+   * Returns a JSON response containing details on a specified financial institution currently supported by Plaid.   Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; to authenticate to this endpoint. The &#x60;public_key&#x60; has been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
    * @param institutionsGetByIdRequest  (required)
    * @return Call&lt;InstitutionsGetByIdResponse&gt;
    * 
@@ -984,7 +921,7 @@ public interface PlaidApi {
    * @param investmentsHoldingsGetRequest  (required)
    * @return Call&lt;InvestmentsHoldingsGetResponse&gt;
    * 
-   * @see <a href="/api/products/investments/#investmentsholdingsget">Get Investment holdings Documentation</a>
+   * @see <a href="/api/products/#investmentsholdingsget">Get Investment holdings Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1000,7 +937,7 @@ public interface PlaidApi {
    * @param investmentsTransactionsGetRequest  (required)
    * @return Call&lt;InvestmentsTransactionsGetResponse&gt;
    * 
-   * @see <a href="/api/products/investments/#investmentstransactionsget">Get investment transactions Documentation</a>
+   * @see <a href="/api/products/#investmentstransactionsget">Get investment transactions Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1102,7 +1039,7 @@ public interface PlaidApi {
 
   /**
    * Exchange public token for an access token
-   * Exchange a Link &#x60;public_token&#x60; for an API &#x60;access_token&#x60;. Link hands off the &#x60;public_token&#x60; client-side via the &#x60;onSuccess&#x60; callback once a user has successfully created an Item. The &#x60;public_token&#x60; is ephemeral and expires after 30 minutes. An &#x60;access_token&#x60; does not expire, but can be revoked by calling &#x60;/item/remove&#x60;.  The response also includes an &#x60;item_id&#x60; that should be stored with the &#x60;access_token&#x60;. The &#x60;item_id&#x60; is used to identify an Item in a webhook. The &#x60;item_id&#x60; can also be retrieved by making an &#x60;/item/get&#x60; request.
+   * Exchange a Link &#x60;public_token&#x60; for an API &#x60;access_token&#x60;. Link hands off the &#x60;public_token&#x60; client-side via the &#x60;onSuccess&#x60; callback once a user has successfully created an Item. The &#x60;public_token&#x60; is ephemeral and expires after 30 minutes.  The response also includes an &#x60;item_id&#x60; that should be stored with the &#x60;access_token&#x60;. The &#x60;item_id&#x60; is used to identify an Item in a webhook. The &#x60;item_id&#x60; can also be retrieved by making an &#x60;/item/get&#x60; request.
    * @param itemPublicTokenExchangeRequest  (required)
    * @return Call&lt;ItemPublicTokenExchangeResponse&gt;
    * 
@@ -1118,7 +1055,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count. To increase your credential account in Development, contact Support.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
+   * The &#x60;/item/remove&#x60;  endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;  associated with the Item is no longer valid and cannot be used to access any data that was associated with the Item.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count. To increase your credential account in Development, contact Support.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -1134,7 +1071,7 @@ public interface PlaidApi {
 
   /**
    * Update Webhook URL
-   * The POST &#x60;/item/webhook/update&#x60; allows you to update the webhook URL associated with an Item. This request triggers a [&#x60;WEBHOOK_UPDATE_ACKNOWLEDGED&#x60;](https://plaid.com/docs/api/items/#webhook_update_acknowledged) webhook to the newly specified webhook URL.
+   * The POST &#x60;/item/webhook/update&#x60; allows you to update the webhook URL associated with an Item. This request triggers a [&#x60;WEBHOOK_UPDATE_ACKNOWLEDGED&#x60;](https://plaid.com/docs/api/webhooks/#item-webhook-update-acknowledged) webhook to the newly specified webhook URL.
    * @param itemWebhookUpdateRequest  (required)
    * @return Call&lt;ItemWebhookUpdateResponse&gt;
    * 
@@ -1154,7 +1091,7 @@ public interface PlaidApi {
    * @param liabilitiesGetRequest  (required)
    * @return Call&lt;LiabilitiesGetResponse&gt;
    * 
-   * @see <a href="/api/products/liabilities/#liabilitiesget">Retrieve Liabilities data Documentation</a>
+   * @see <a href="/api/products/#liabilitiesget">Retrieve Liabilities data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1197,76 +1134,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create payment consent
-   * The &#x60;/payment_initiation/consent/create&#x60; endpoint is used to create a payment consent, which can be used to initiate payments on behalf of the user. Payment consents are created with &#x60;UNAUTHORISED&#x60; status by default and must be authorised by the user before payments can be initiated.  Consents can be limited in time and scope, and have constraints that describe limitations for payments.
-   * @param paymentInitiationConsentCreateRequest  (required)
-   * @return Call&lt;PaymentInitiationConsentCreateResponse&gt;
-   * 
-   * @see <a href="/api/products/#payment_initiationconsentcreate">Create payment consent Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("payment_initiation/consent/create")
-  Call<PaymentInitiationConsentCreateResponse> paymentInitiationConsentCreate(
-    @retrofit2.http.Body PaymentInitiationConsentCreateRequest paymentInitiationConsentCreateRequest
-  );
-
-  /**
-   * Get payment consent
-   * The &#x60;/payment_initiation/consent/get&#x60; endpoint can be used to check the status of a payment consent, as well as to receive basic information such as recipient and constraints.
-   * @param paymentInitiationConsentGetRequest  (required)
-   * @return Call&lt;PaymentInitiationConsentGetResponse&gt;
-   * 
-   * @see <a href="/api/products/#payment_initiationconsentget">Get payment consent Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("payment_initiation/consent/get")
-  Call<PaymentInitiationConsentGetResponse> paymentInitiationConsentGet(
-    @retrofit2.http.Body PaymentInitiationConsentGetRequest paymentInitiationConsentGetRequest
-  );
-
-  /**
-   * Execute a single payment using consent
-   * The &#x60;/payment_initiation/consent/payment/execute&#x60; endpoint can be used to execute payments using payment consent.
-   * @param paymentInitiationConsentPaymentExecuteRequest  (required)
-   * @return Call&lt;PaymentInitiationConsentPaymentExecuteResponse&gt;
-   * 
-   * @see <a href="/api/products/#payment_initiationconsentpaymentexecute">Execute a single payment using consent Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("payment_initiation/consent/payment/execute")
-  Call<PaymentInitiationConsentPaymentExecuteResponse> paymentInitiationConsentPaymentExecute(
-    @retrofit2.http.Body PaymentInitiationConsentPaymentExecuteRequest paymentInitiationConsentPaymentExecuteRequest
-  );
-
-  /**
-   * Revoke payment consent
-   * The &#x60;/payment_initiation/consent/revoke&#x60; endpoint can be used to revoke the payment consent. Once the consent is revoked, it is not possible to initiate payments using it.
-   * @param paymentInitiationConsentRevokeRequest  (required)
-   * @return Call&lt;PaymentInitiationConsentRevokeResponse&gt;
-   * 
-   * @see <a href="/api/products/#payment_initiationconsentrevoke">Revoke payment consent Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("payment_initiation/consent/revoke")
-  Call<PaymentInitiationConsentRevokeResponse> paymentInitiationConsentRevoke(
-    @retrofit2.http.Body PaymentInitiationConsentRevokeRequest paymentInitiationConsentRevokeRequest
-  );
-
-  /**
    * Create a payment
    * After creating a payment recipient, you can use the &#x60;/payment_initiation/payment/create&#x60; endpoint to create a payment to that recipient.  Payments can be one-time or standing order (recurring) and can be denominated in either EUR or GBP.  If making domestic GBP-denominated payments, your recipient must have been created with BACS numbers. In general, EUR-denominated payments will be sent via SEPA Credit Transfer and GBP-denominated payments will be sent via the Faster Payments network, but the payment network used will be determined by the institution. Payments sent via Faster Payments will typically arrive immediately, while payments sent via SEPA Credit Transfer will typically arrive in one business day.  Standing orders (recurring payments) must be denominated in GBP and can only be sent to recipients in the UK. Once created, standing order payments cannot be modified or canceled via the API. An end user can cancel or modify a standing order directly on their banking application or website, or by contacting the bank. Standing orders will follow the payment rules of the underlying rails (Faster Payments in UK). Payments can be sent Monday to Friday, excluding bank holidays. If the pre-arranged date falls on a weekend or bank holiday, the payment is made on the next working day. It is not possible to guarantee the exact time the payment will reach the recipient’s account, although at least 90% of standing order payments are sent by 6am.  In the Development environment, payments must be below 5 GBP / EUR. For details on any payment limits in Production, contact your Plaid Account Manager.
    * @param paymentInitiationPaymentCreateRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentCreateResponse&gt;
    * 
-   * @see <a href="/api/products/payment-initiation/#payment_initiationpaymentcreate">Create a payment Documentation</a>
+   * @see <a href="/api/products/#payment_initiationpaymentcreate">Create a payment Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1282,7 +1155,7 @@ public interface PlaidApi {
    * @param paymentInitiationPaymentGetRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentGetResponse&gt;
    * 
-   * @see <a href="/api/products/payment-initiation/#payment_initiationpaymentget">Get payment details Documentation</a>
+   * @see <a href="/api/products/#payment_initiationpaymentget">Get payment details Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1298,7 +1171,7 @@ public interface PlaidApi {
    * @param paymentInitiationPaymentListRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentListResponse&gt;
    * 
-   * @see <a href="/api/products/payment-initiation/#payment_initiationpaymentlist">List payments Documentation</a>
+   * @see <a href="/api/products/#payment_initiationpaymentlist">List payments Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1314,7 +1187,7 @@ public interface PlaidApi {
    * @param paymentInitiationPaymentReverseRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentReverseResponse&gt;
    * 
-   * @see <a href="/api/products/payment-initiation/#payment_initiationpaymentreverse">Reverse an existing payment Documentation</a>
+   * @see <a href="/api/products/#payment_initiationpaymentreverse">Reverse an existing payment Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1330,7 +1203,7 @@ public interface PlaidApi {
    * @param paymentInitiationRecipientCreateRequest  (required)
    * @return Call&lt;PaymentInitiationRecipientCreateResponse&gt;
    * 
-   * @see <a href="/api/products/payment-initiation/#payment_initiationrecipientcreate">Create payment recipient Documentation</a>
+   * @see <a href="/api/products/#payment_initiationrecipientcreate">Create payment recipient Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1346,7 +1219,7 @@ public interface PlaidApi {
    * @param paymentInitiationRecipientGetRequest  (required)
    * @return Call&lt;PaymentInitiationRecipientGetResponse&gt;
    * 
-   * @see <a href="/api/products/payment-initiation/#payment_initiationrecipientget">Get payment recipient Documentation</a>
+   * @see <a href="/api/products/#payment_initiationrecipientget">Get payment recipient Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1362,7 +1235,7 @@ public interface PlaidApi {
    * @param paymentInitiationRecipientListRequest  (required)
    * @return Call&lt;PaymentInitiationRecipientListResponse&gt;
    * 
-   * @see <a href="/api/products/payment-initiation/#payment_initiationrecipientlist">List payment recipients Documentation</a>
+   * @see <a href="/api/products/#payment_initiationrecipientlist">List payment recipients Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1390,7 +1263,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Auth data
-   * The &#x60;/processor/auth/get&#x60; endpoint returns the bank account and bank identification number (such as the routing number, for US accounts), for a checking or savings account that&#39;&#39;s associated with a given &#x60;processor_token&#x60;. The endpoint also returns high-level account data and balances when available.  Versioning note: API versions 2019-05-29 and earlier use a different schema for the &#x60;numbers&#x60; object returned by this endpoint. For details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2020-09-14). 
+   * The &#x60;/processor/auth/get&#x60; endpoint returns the bank account and bank identification number (such as the routing number, for US accounts), for a checking or savings account that&#39;&#39;s associated with a given &#x60;processor_token&#x60;. The endpoint also returns high-level account data and balances when available.   Versioning note: API versions 2019-05-29 and earlier use a different schema for the &#x60;numbers&#x60; object returned by this endpoint. For details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2020-09-14). 
    * @param processorAuthGetRequest  (required)
    * @return Call&lt;ProcessorAuthGetResponse&gt;
    * 
@@ -1454,7 +1327,7 @@ public interface PlaidApi {
 
   /**
    * Create Stripe bank account token
-   * Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/). Bank account tokens can also be revoked, using &#x60;/item/remove&#x60;.
+   * Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).
    * @param processorStripeBankAccountTokenCreateRequest  (required)
    * @return Call&lt;ProcessorStripeBankAccountTokenCreateResponse&gt;
    * 
@@ -1470,7 +1343,7 @@ public interface PlaidApi {
 
   /**
    * Create processor token
-   * Used to create a token suitable for sending to one of Plaid&#39;s partners to enable integrations. Note that Stripe partnerships use bank account tokens instead; see &#x60;/processor/stripe/bank_account_token/create&#x60; for creating tokens for use with Stripe integrations. Processor tokens can also be revoked, using &#x60;/item/remove&#x60;.
+   * Used to create a token suitable for sending to one of Plaid&#39;s partners to enable integrations. Note that Stripe partnerships use bank account tokens instead; see &#x60;/processor/stripe/bank_account_token/create&#x60; for creating tokens for use with Stripe integrations.
    * @param processorTokenCreateRequest  (required)
    * @return Call&lt;ProcessorTokenCreateResponse&gt;
    * 
@@ -1723,26 +1596,12 @@ public interface PlaidApi {
   );
 
   /**
-   * enhance locally-held transaction data
-   * The &#39;/beta/transactions/v1/enhance&#39; endpoint enriches raw transaction data provided directly by clients.  The product is currently in beta.
-   * @param transactionsEnhanceGetRequest  (required)
-   * @return Call&lt;TransactionsEnhanceGetResponse&gt;
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("beta/transactions/v1/enhance")
-  Call<TransactionsEnhanceGetResponse> transactionsEnhance(
-    @retrofit2.http.Body TransactionsEnhanceGetRequest transactionsEnhanceGetRequest
-  );
-
-  /**
    * Get transaction data
-   * The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
+   * The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products#investments) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/webhooks#transactions-initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/webhooks#transactions-historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
    * @param transactionsGetRequest  (required)
    * @return Call&lt;TransactionsGetResponse&gt;
    * 
-   * @see <a href="/api/products/transactions/#transactionsget">Get transaction data Documentation</a>
+   * @see <a href="/api/products/#transactionsget">Get transaction data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1768,11 +1627,11 @@ public interface PlaidApi {
 
   /**
    * Refresh transaction data
-   * &#x60;/transactions/refresh&#x60; is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur multiple times a day for any Transactions-enabled Item. If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60;.  Access to &#x60;/transactions/refresh&#x60; in Production is specific to certain pricing plans. If you cannot access &#x60;/transactions/refresh&#x60; in Production, [contact Sales](https://www.plaid.com/contact) for assistance.
+   * &#x60;/transactions/refresh&#x60; is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur multiple times a day for any Transactions-enabled Item. If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/webhooks#deleted-transactions-detected) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/webhooks#transactions-default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60;.  Access to &#x60;/transactions/refresh&#x60; in Production is specific to certain pricing plans. If you cannot access &#x60;/transactions/refresh&#x60; in Production, [contact Sales](https://www.plaid.com/contact) for assistance.
    * @param transactionsRefreshRequest  (required)
    * @return Call&lt;TransactionsRefreshResponse&gt;
    * 
-   * @see <a href="/api/products/transactions/#transactionsrefresh">Refresh transaction data Documentation</a>
+   * @see <a href="/api/products/#transactionsrefresh">Refresh transaction data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1788,7 +1647,7 @@ public interface PlaidApi {
    * @param transactionsSyncRequest  (required)
    * @return Call&lt;TransactionsSyncResponse&gt;
    * 
-   * @see <a href="/api/products/transactions/#transactionssync">Get incremental transaction updates on an Item Documentation</a>
+   * @see <a href="/api/products/#transactionssync">Get incremental transaction updates on an Item Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1804,7 +1663,7 @@ public interface PlaidApi {
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferauthorizationcreate">Create a transfer authorization Documentation</a>
+   * @see <a href="/api/products#transferauthorizationcreate">Create a transfer authorization Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1820,7 +1679,7 @@ public interface PlaidApi {
    * @param transferCancelRequest  (required)
    * @return Call&lt;TransferCancelResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfercancel">Cancel a transfer Documentation</a>
+   * @see <a href="/api/products#transfercancel">Cancel a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1836,7 +1695,7 @@ public interface PlaidApi {
    * @param transferCreateRequest  (required)
    * @return Call&lt;TransferCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfercreate">Create a transfer Documentation</a>
+   * @see <a href="/api/products#transfercreate">Create a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1852,7 +1711,7 @@ public interface PlaidApi {
    * @param transferEventListRequest  (required)
    * @return Call&lt;TransferEventListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfereventlist">List transfer events Documentation</a>
+   * @see <a href="/api/products#transfereventlist">List transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1868,7 +1727,7 @@ public interface PlaidApi {
    * @param transferEventSyncRequest  (required)
    * @return Call&lt;TransferEventSyncResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfereventsync">Sync transfer events Documentation</a>
+   * @see <a href="/api/products#transfereventsync">Sync transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1884,7 +1743,7 @@ public interface PlaidApi {
    * @param transferGetRequest  (required)
    * @return Call&lt;TransferGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferget">Retrieve a transfer Documentation</a>
+   * @see <a href="/api/products#transferget">Retrieve a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1900,7 +1759,7 @@ public interface PlaidApi {
    * @param transferIntentCreateRequest  (required)
    * @return Call&lt;TransferIntentCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferintentcreate">Create a transfer intent object to invoke the Transfer UI Documentation</a>
+   * @see <a href="/api/products#transferintentcreate">Create a transfer intent object to invoke the Transfer UI Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1916,7 +1775,7 @@ public interface PlaidApi {
    * @param transferIntentGetRequest  (required)
    * @return Call&lt;TransferIntentGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferintentget">Retrieve more information about a transfer intent Documentation</a>
+   * @see <a href="/api/products#transferintentget">Retrieve more information about a transfer intent Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1932,7 +1791,7 @@ public interface PlaidApi {
    * @param transferListRequest  (required)
    * @return Call&lt;TransferListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferlist">List transfers Documentation</a>
+   * @see <a href="/api/products#transferlist">List transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1948,7 +1807,7 @@ public interface PlaidApi {
    * @param transferRepaymentListRequest  (required)
    * @return Call&lt;TransferRepaymentListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrepaymentlist">Lists historical repayments Documentation</a>
+   * @see <a href="/api/products#transferrepaymentlist">Lists historical repayments Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1964,7 +1823,7 @@ public interface PlaidApi {
    * @param transferRepaymentReturnListRequest  (required)
    * @return Call&lt;TransferRepaymentReturnListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrepaymentreturnlist">List the returns included in a repayment Documentation</a>
+   * @see <a href="/api/products#transferrepaymentreturnlist">List the returns included in a repayment Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1980,7 +1839,7 @@ public interface PlaidApi {
    * @param transferSweepGetRequest  (required)
    * @return Call&lt;TransferSweepGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfersweepget">Retrieve a sweep Documentation</a>
+   * @see <a href="/api/products#transfersweepget">Retrieve a sweep Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1996,7 +1855,7 @@ public interface PlaidApi {
    * @param transferSweepListRequest  (required)
    * @return Call&lt;TransferSweepListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfersweeplist">List sweeps Documentation</a>
+   * @see <a href="/api/products#transfersweeplist">List sweeps Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
