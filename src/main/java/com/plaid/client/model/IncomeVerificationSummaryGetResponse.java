@@ -20,77 +20,84 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.plaid.client.model.Item;
-import com.plaid.client.model.ItemStatusNullable;
+import com.plaid.client.model.IncomeSummary;
+import com.plaid.client.model.PlaidError;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * ItemGetResponse defines the response schema for &#x60;/item/get&#x60; and &#x60;/item/webhook/update&#x60;
+ * IncomeVerificationSummaryGetResponse defines the response schema for &#x60;/income/verification/summary/get&#x60;.
  */
-@ApiModel(description = "ItemGetResponse defines the response schema for `/item/get` and `/item/webhook/update`")
+@ApiModel(description = "IncomeVerificationSummaryGetResponse defines the response schema for `/income/verification/summary/get`.")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-03-01T22:12:31.879Z[GMT]")
-public class ItemGetResponse {
-  public static final String SERIALIZED_NAME_ITEM = "item";
-  @SerializedName(SERIALIZED_NAME_ITEM)
-  private Item item;
+public class IncomeVerificationSummaryGetResponse {
+  public static final String SERIALIZED_NAME_INCOME_SUMMARIES = "income_summaries";
+  @SerializedName(SERIALIZED_NAME_INCOME_SUMMARIES)
+  private List<IncomeSummary> incomeSummaries = new ArrayList<>();
 
-  public static final String SERIALIZED_NAME_STATUS = "status";
-  @SerializedName(SERIALIZED_NAME_STATUS)
-  private ItemStatusNullable status = null;
+  public static final String SERIALIZED_NAME_ERROR = "error";
+  @SerializedName(SERIALIZED_NAME_ERROR)
+  private PlaidError error = null;
 
   public static final String SERIALIZED_NAME_REQUEST_ID = "request_id";
   @SerializedName(SERIALIZED_NAME_REQUEST_ID)
   private String requestId;
 
 
-  public ItemGetResponse item(Item item) {
+  public IncomeVerificationSummaryGetResponse incomeSummaries(List<IncomeSummary> incomeSummaries) {
     
-    this.item = item;
+    this.incomeSummaries = incomeSummaries;
+    return this;
+  }
+
+  public IncomeVerificationSummaryGetResponse addIncomeSummariesItem(IncomeSummary incomeSummariesItem) {
+    this.incomeSummaries.add(incomeSummariesItem);
     return this;
   }
 
    /**
-   * Get item
-   * @return item
+   * A list of income summaries.
+   * @return incomeSummaries
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "A list of income summaries.")
 
-  public Item getItem() {
-    return item;
+  public List<IncomeSummary> getIncomeSummaries() {
+    return incomeSummaries;
   }
 
 
-  public void setItem(Item item) {
-    this.item = item;
+  public void setIncomeSummaries(List<IncomeSummary> incomeSummaries) {
+    this.incomeSummaries = incomeSummaries;
   }
 
 
-  public ItemGetResponse status(ItemStatusNullable status) {
+  public IncomeVerificationSummaryGetResponse error(PlaidError error) {
     
-    this.status = status;
+    this.error = error;
     return this;
   }
 
    /**
-   * Get status
-   * @return status
+   * Get error
+   * @return error
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public ItemStatusNullable getStatus() {
-    return status;
+  public PlaidError getError() {
+    return error;
   }
 
 
-  public void setStatus(ItemStatusNullable status) {
-    this.status = status;
+  public void setError(PlaidError error) {
+    this.error = error;
   }
 
 
-  public ItemGetResponse requestId(String requestId) {
+  public IncomeVerificationSummaryGetResponse requestId(String requestId) {
     
     this.requestId = requestId;
     return this;
@@ -120,23 +127,23 @@ public class ItemGetResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ItemGetResponse itemGetResponse = (ItemGetResponse) o;
-    return Objects.equals(this.item, itemGetResponse.item) &&
-        Objects.equals(this.status, itemGetResponse.status) &&
-        Objects.equals(this.requestId, itemGetResponse.requestId);
+    IncomeVerificationSummaryGetResponse incomeVerificationSummaryGetResponse = (IncomeVerificationSummaryGetResponse) o;
+    return Objects.equals(this.incomeSummaries, incomeVerificationSummaryGetResponse.incomeSummaries) &&
+        Objects.equals(this.error, incomeVerificationSummaryGetResponse.error) &&
+        Objects.equals(this.requestId, incomeVerificationSummaryGetResponse.requestId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(item, status, requestId);
+    return Objects.hash(incomeSummaries, error, requestId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ItemGetResponse {\n");
-    sb.append("    item: ").append(toIndentedString(item)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("class IncomeVerificationSummaryGetResponse {\n");
+    sb.append("    incomeSummaries: ").append(toIndentedString(incomeSummaries)).append("\n");
+    sb.append("    error: ").append(toIndentedString(error)).append("\n");
     sb.append("    requestId: ").append(toIndentedString(requestId)).append("\n");
     sb.append("}");
     return sb.toString();
