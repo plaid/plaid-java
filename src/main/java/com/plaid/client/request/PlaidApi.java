@@ -197,6 +197,12 @@ import com.plaid.client.model.TransactionsRecurringGetRequest;
 import com.plaid.client.model.TransactionsRecurringGetResponse;
 import com.plaid.client.model.TransactionsRefreshRequest;
 import com.plaid.client.model.TransactionsRefreshResponse;
+import com.plaid.client.model.TransactionsRulesCreateRequest;
+import com.plaid.client.model.TransactionsRulesCreateResponse;
+import com.plaid.client.model.TransactionsRulesListRequest;
+import com.plaid.client.model.TransactionsRulesListResponse;
+import com.plaid.client.model.TransactionsRulesRemoveRequest;
+import com.plaid.client.model.TransactionsRulesRemoveResponse;
 import com.plaid.client.model.TransactionsSyncRequest;
 import com.plaid.client.model.TransactionsSyncResponse;
 import com.plaid.client.model.TransferAuthorizationCreateRequest;
@@ -225,6 +231,8 @@ import com.plaid.client.model.TransferSweepGetRequest;
 import com.plaid.client.model.TransferSweepGetResponse;
 import com.plaid.client.model.TransferSweepListRequest;
 import com.plaid.client.model.TransferSweepListResponse;
+import com.plaid.client.model.UserCreateRequest;
+import com.plaid.client.model.UserCreateResponse;
 import com.plaid.client.model.WalletGetRequest;
 import com.plaid.client.model.WalletGetResponse;
 import com.plaid.client.model.WalletTransactionExecuteRequest;
@@ -705,12 +713,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Get bank income report(s) for a user
-   * This endpoint gets the bank income report(s) for a specified user.
+   * Retrieve information from the bank accounts used for income verification
+   * &#x60;/credit/bank_income/get&#x60; returns the bank income report(s) for a specified user.
    * @param creditBankIncomeGetRequest  (required)
    * @return Call&lt;CreditBankIncomeGetResponse&gt;
    * 
-   * @see <a href="/api/products/#creditbankincomeget">Get bank income report(s) for a user Documentation</a>
+   * @see <a href="/api/products/income/#creditbank_incomeget">Retrieve information from the bank accounts used for income verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -818,7 +826,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve identity data
-   * The &#x60;/identity/get&#x60; endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses. Only name data is guaranteed to be returned; other fields will be empty arrays if not provided by the institution.  Note: This request may take some time to complete if identity was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.
+   * The &#x60;/identity/get&#x60; endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses. Only name data is guaranteed to be returned; other fields will be empty arrays if not provided by the institution.  This request may take some time to complete if identity was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.  Note: In API versions 2018-05-22 and earlier, the &#x60;owners&#x60; object is not returned, and instead identity information is returned in the top level &#x60;identity&#x60; object. For more details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2019-05-29).
    * @param identityGetRequest  (required)
    * @return Call&lt;IdentityGetResponse&gt;
    * 
@@ -1783,6 +1791,48 @@ public interface PlaidApi {
   );
 
   /**
+   * Create transaction category rule
+   * The &#x60;/transactions/rules/create&#x60; endpoint creates transaction categorization rules.  Rules will be applied on the Item&#39;s transactions returned in &#x60;/transactions/get&#x60; response.  The product is currently in beta. To request access, contact transactions-feedback@plaid.com.
+   * @param transactionsRulesCreateRequest  (required)
+   * @return Call&lt;TransactionsRulesCreateResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/transactions/rules/create")
+  Call<TransactionsRulesCreateResponse> transactionsRulesCreate(
+    @retrofit2.http.Body TransactionsRulesCreateRequest transactionsRulesCreateRequest
+  );
+
+  /**
+   * Return a list of rules created for the Item associated with the access token.
+   * The &#x60;/transactions/rules/list&#x60; returns a list of transaction rules created for the Item associated with the access token.
+   * @param transactionsRulesListRequest  (required)
+   * @return Call&lt;TransactionsRulesListResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/transactions/rules/list")
+  Call<TransactionsRulesListResponse> transactionsRulesList(
+    @retrofit2.http.Body TransactionsRulesListRequest transactionsRulesListRequest
+  );
+
+  /**
+   * Remove transaction rule
+   * The &#x60;/transactions/rules/remove&#x60; endpoint is used to remove a transaction rule.
+   * @param transactionsRulesRemoveRequest  (required)
+   * @return Call&lt;TransactionsRulesRemoveResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/transactions/rules/remove")
+  Call<TransactionsRulesRemoveResponse> transactionsRulesRemove(
+    @retrofit2.http.Body TransactionsRulesRemoveRequest transactionsRulesRemoveRequest
+  );
+
+  /**
    * Get incremental transaction updates on an Item
    * The &#x60;/transactions/sync&#x60; endpoint returns item transactions as a set of delta updates. Subsequent calls to the endpoint using the cursor returned in the response will return new added, modified, and removed transactions since the last call to the endpoint  The product is currently in beta. To request access, contact transactions-feedback@plaid.com.
    * @param transactionsSyncRequest  (required)
@@ -1800,7 +1850,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s sandbox environment the decisions will be returned as follows:    - To approve a transfer, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To permit a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To permit a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).  All username/password combinations other than the ones listed above will result in a decision of permitted and rationale code &#x60;ERROR&#x60;.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).      - To approve a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).      - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -2004,6 +2054,22 @@ public interface PlaidApi {
   @POST("transfer/sweep/list")
   Call<TransferSweepListResponse> transferSweepList(
     @retrofit2.http.Body TransferSweepListRequest transferSweepListRequest
+  );
+
+  /**
+   * Create user
+   * Note: As of February 2022, the &#x60;/user/create&#x60; endpoint is in beta. Unless you have been opted-in, you will not have access to this endpoint.
+   * @param userCreateRequest  (required)
+   * @return Call&lt;UserCreateResponse&gt;
+   * 
+   * @see <a href="/api/users/#usercreate">Create user Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/create")
+  Call<UserCreateResponse> userCreate(
+    @retrofit2.http.Body UserCreateRequest userCreateRequest
   );
 
   /**
