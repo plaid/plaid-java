@@ -95,7 +95,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
   )
     throws Exception {
     int NUM_RETRIES = 20;
-    int INTER_REQUEST_SLEEP = 1000; // millis
+    int INTER_REQUEST_SLEEP = 2000; // millis
     int attempt = 0;
     Response<AssetReportGetResponse> response;
     JSONObject errorResponse = new JSONObject();
