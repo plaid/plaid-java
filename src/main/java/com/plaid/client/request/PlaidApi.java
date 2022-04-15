@@ -62,6 +62,12 @@ import com.plaid.client.model.BankTransferSweepListResponse;
 import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.CreditBankIncomeGetRequest;
 import com.plaid.client.model.CreditBankIncomeGetResponse;
+import com.plaid.client.model.CreditEmploymentGetRequest;
+import com.plaid.client.model.CreditEmploymentGetResponse;
+import com.plaid.client.model.CreditPayrollIncomeGetRequest;
+import com.plaid.client.model.CreditPayrollIncomeGetResponse;
+import com.plaid.client.model.CreditPayrollIncomePrecheckRequest;
+import com.plaid.client.model.CreditPayrollIncomePrecheckResponse;
 import com.plaid.client.model.DepositSwitchAltCreateRequest;
 import com.plaid.client.model.DepositSwitchAltCreateResponse;
 import com.plaid.client.model.DepositSwitchCreateRequest;
@@ -177,6 +183,8 @@ import com.plaid.client.model.SandboxProcessorTokenCreateRequest;
 import com.plaid.client.model.SandboxProcessorTokenCreateResponse;
 import com.plaid.client.model.SandboxPublicTokenCreateRequest;
 import com.plaid.client.model.SandboxPublicTokenCreateResponse;
+import com.plaid.client.model.SandboxTransferFireWebhookRequest;
+import com.plaid.client.model.SandboxTransferFireWebhookResponse;
 import com.plaid.client.model.SandboxTransferRepaymentSimulateRequest;
 import com.plaid.client.model.SandboxTransferRepaymentSimulateResponse;
 import com.plaid.client.model.SandboxTransferSimulateRequest;
@@ -223,6 +231,8 @@ import com.plaid.client.model.TransferIntentGetRequest;
 import com.plaid.client.model.TransferIntentGetResponse;
 import com.plaid.client.model.TransferListRequest;
 import com.plaid.client.model.TransferListResponse;
+import com.plaid.client.model.TransferMigrateAccountRequest;
+import com.plaid.client.model.TransferMigrateAccountResponse;
 import com.plaid.client.model.TransferRepaymentListRequest;
 import com.plaid.client.model.TransferRepaymentListResponse;
 import com.plaid.client.model.TransferRepaymentReturnListRequest;
@@ -266,7 +276,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve accounts
-   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance. This endpoint only returns accounts that were permissioned by the user when they initially created the Item. If a user creates a new account after the initial link, you can capture this event through the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/items/#new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, balances returned may not be up-to-date; for realtime balance information, use &#x60;/accounts/balance/get&#x60; instead. Note that some information is nullable.
+   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance. For items that went through the updated account selection pane, this endpoint only returns accounts that were permissioned by the user when they initially created the Item. If a user creates a new account after the initial link, you can capture this event through the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/items/#new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, balances returned may not be up-to-date; for realtime balance information, use &#x60;/accounts/balance/get&#x60; instead. Note that some information is nullable.
    * @param accountsGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
@@ -729,6 +739,54 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve a summary of an individual&#39;s employment information
+   * &#x60;/credit/employment/get&#x60; returns a list of employments through a user payroll that was verified by an end user.
+   * @param creditEmploymentGetRequest  (required)
+   * @return Call&lt;CreditEmploymentGetResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#creditemploymentget">Retrieve a summary of an individual&#39;s employment information Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/employment/get")
+  Call<CreditEmploymentGetResponse> creditEmploymentGet(
+    @retrofit2.http.Body CreditEmploymentGetRequest creditEmploymentGetRequest
+  );
+
+  /**
+   * Retrieve a user&#39;s payroll information
+   * This endpoint gets payroll income information for a specific user, either as a result of the user connecting to their payroll provider or uploading a pay related document.
+   * @param creditPayrollIncomeGetRequest  (required)
+   * @return Call&lt;CreditPayrollIncomeGetResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#creditpayroll_incomeget">Retrieve a user&#39;s payroll information Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/payroll_income/get")
+  Call<CreditPayrollIncomeGetResponse> creditPayrollIncomeGet(
+    @retrofit2.http.Body CreditPayrollIncomeGetRequest creditPayrollIncomeGetRequest
+  );
+
+  /**
+   * Check income verification eligibility and optimize conversion
+   * &#x60;/credit/payroll_income/precheck&#x60; is an optional endpoint that can be called before initializing a Link session for income verification. It evaluates whether a given user is supportable by digital income verification. If the user is eligible for digital verification, that information will be associated with the user token, and in this way will generate a Link UI optimized for the end user and their specific employer. If the user cannot be confirmed as eligible, the user can still use the income verification flow, but they may be required to manually upload a paystub to verify their income.  While all request fields are optional, providing &#x60;employer&#x60; data will increase the chance of receiving a useful result.
+   * @param creditPayrollIncomePrecheckRequest  (required)
+   * @return Call&lt;CreditPayrollIncomePrecheckResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#creditpayroll_incomeprecheck">Check income verification eligibility and optimize conversion Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/payroll_income/precheck")
+  Call<CreditPayrollIncomePrecheckResponse> creditPayrollIncomePrecheck(
+    @retrofit2.http.Body CreditPayrollIncomePrecheckRequest creditPayrollIncomePrecheckRequest
+  );
+
+  /**
    * Create a deposit switch without using Plaid Exchange
    * This endpoint provides an alternative to &#x60;/deposit_switch/create&#x60; for customers who have not yet fully integrated with Plaid Exchange. Like &#x60;/deposit_switch/create&#x60;, it creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
    * @param depositSwitchAltCreateRequest  (required)
@@ -809,13 +867,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve a summary of an individual&#39;s employment information
-   * &#x60;/employment/verification/get&#x60; returns a list of employments through a user payroll that was verified by an end user.
+   * (Deprecated) Retrieve a summary of an individual&#39;s employment information
+   * &#x60;/employment/verification/get&#x60; returns a list of employments through a user payroll that was verified by an end user.  This endpoint has been deprecated; new integrations should use &#x60;/credit/employment/get&#x60; instead.
    * @param employmentVerificationGetRequest  (required)
    * @return Call&lt;EmploymentVerificationGetResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/income/#employmentverificationget">Retrieve a summary of an individual&#39;s employment information Documentation</a>
+   * @see <a href="/api/products/income/#employmentverificationget">(Deprecated) Retrieve a summary of an individual&#39;s employment information Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -859,13 +919,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Download the original documents used for income verification
+   * (Deprecated) Download the original documents used for income verification
    * &#x60;/income/verification/documents/download&#x60; provides the ability to download the source documents associated with the verification.  If Document Income was used, the documents will be those the user provided in Link. For Payroll Income, the most recent files available for download from the payroll provider will be available from this endpoint.  The response to &#x60;/income/verification/documents/download&#x60; is a ZIP file in binary data. If a &#x60;document_id&#x60; is passed, a single document will be contained in this file. If not, the response will contain all documents associated with the verification.  The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.
    * @param incomeVerificationDocumentsDownloadRequest  (required)
    * @return Call&lt;ResponseBody&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/income/#incomeverificationdocumentsdownload">Download the original documents used for income verification Documentation</a>
+   * @see <a href="/api/products/income/#incomeverificationdocumentsdownload">(Deprecated) Download the original documents used for income verification Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -875,13 +937,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve information from the paystubs used for income verification
-   * &#x60;/income/verification/paystubs/get&#x60; returns the information collected from the paystubs that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
+   * (Deprecated) Retrieve information from the paystubs used for income verification
+   * &#x60;/income/verification/paystubs/get&#x60; returns the information collected from the paystubs that were used to verify an end user&#39;&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.  This endpoint has been deprecated; new integrations should use &#x60;/credit/payroll_income/get&#x60; instead.
    * @param incomeVerificationPaystubsGetRequest  (required)
    * @return Call&lt;IncomeVerificationPaystubsGetResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/income/#incomeverificationpaystubsget">Retrieve information from the paystubs used for income verification Documentation</a>
+   * @see <a href="/api/products/income/#incomeverificationpaystubsget">(Deprecated) Retrieve information from the paystubs used for income verification Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -891,13 +955,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Check digital income verification eligibility and optimize conversion
-   * &#x60;/income/verification/precheck&#x60; is an optional endpoint that can be called before initializing a Link session for income verification. It evaluates whether a given user is supportable by digital income verification and returns a &#x60;precheck_id&#x60; that can be provided to &#x60;/link/token/create&#x60;. If the user is eligible for digital verification, providing the &#x60;precheck_id&#x60; in this way will generate a Link UI optimized for the end user and their specific employer. If the user cannot be confirmed as eligible, the &#x60;precheck_id&#x60; can still be provided to &#x60;/link/token/create&#x60; and the user can still use the income verification flow, but they may be required to manually upload a paystub to verify their income.  While all request fields are optional, providing either &#x60;employer&#x60; or &#x60;transactions_access_tokens&#x60; data will increase the chance of receiving a useful result.
+   * (Deprecated) Check digital income verification eligibility and optimize conversion
+   * &#x60;/income/verification/precheck&#x60; is an optional endpoint that can be called before initializing a Link session for income verification. It evaluates whether a given user is supportable by digital income verification and returns a &#x60;precheck_id&#x60; that can be provided to &#x60;/link/token/create&#x60;. If the user is eligible for digital verification, providing the &#x60;precheck_id&#x60; in this way will generate a Link UI optimized for the end user and their specific employer. If the user cannot be confirmed as eligible, the &#x60;precheck_id&#x60; can still be provided to &#x60;/link/token/create&#x60; and the user can still use the income verification flow, but they may be required to manually upload a paystub to verify their income.  While all request fields are optional, providing either &#x60;employer&#x60; or &#x60;transactions_access_tokens&#x60; data will increase the chance of receiving a useful result.  This endpoint has been deprecated; new integrations should use &#x60;/credit/payroll_income/precheck&#x60; instead.
    * @param incomeVerificationPrecheckRequest  (required)
    * @return Call&lt;IncomeVerificationPrecheckResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/income/#incomeverificationprecheck">Check digital income verification eligibility and optimize conversion Documentation</a>
+   * @see <a href="/api/products/income/#incomeverificationprecheck">(Deprecated) Check digital income verification eligibility and optimize conversion Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -907,13 +973,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Refresh an income verification
+   * (Deprecated) Refresh an income verification
    * &#x60;/income/verification/refresh&#x60; refreshes a given income verification.
    * @param incomeVerificationRefreshRequest  (required)
    * @return Call&lt;IncomeVerificationRefreshResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/income/#incomeverificationrefresh">Refresh an income verification Documentation</a>
+   * @see <a href="/api/products/income/#incomeverificationrefresh">(Deprecated) Refresh an income verification Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -923,13 +991,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve information from the tax documents used for income verification
-   * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from forms that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.
+   * (Deprecated) Retrieve information from the tax documents used for income verification
+   * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from forms that were used to verify an end user&#39;&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.  This endpoint has been deprecated; new integrations should use &#x60;/credit/payroll_income/get&#x60; instead.
    * @param incomeVerificationTaxformsGetRequest  (required)
    * @return Call&lt;IncomeVerificationTaxformsGetResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/income/#incomeverificationtaxformsget">Retrieve information from the tax documents used for income verification Documentation</a>
+   * @see <a href="/api/products/income/#incomeverificationtaxformsget">(Deprecated) Retrieve information from the tax documents used for income verification Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -1542,7 +1612,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger a Transactions &#x60;DEFAULT_UPDATE&#x60; webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result. This endpoint can also trigger a &#x60;NEW_ACCOUNTS_AVAILABLE&#x60; webhook to be fired for a given Sandbox Item created with Account Select v2. Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks: &#x60;DEFAULT_UPDATE&#x60;: Transactions update webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;AUTH_DATA_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item created with Auth as an enabled product.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development&#39;
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -1632,6 +1702,22 @@ public interface PlaidApi {
   @POST("sandbox/public_token/create")
   Call<SandboxPublicTokenCreateResponse> sandboxPublicTokenCreate(
     @retrofit2.http.Body SandboxPublicTokenCreateRequest sandboxPublicTokenCreateRequest
+  );
+
+  /**
+   * Manually fire a Transfer webhook
+   * Use the &#x60;/sandbox/transfer/fire_webhook&#x60; endpoint to manually trigger a Transfer webhook in the Sandbox environment.
+   * @param sandboxTransferFireWebhookRequest  (required)
+   * @return Call&lt;SandboxTransferFireWebhookResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransferfire_webhook">Manually fire a Transfer webhook Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/fire_webhook")
+  Call<SandboxTransferFireWebhookResponse> sandboxTransferFireWebhook(
+    @retrofit2.http.Body SandboxTransferFireWebhookRequest sandboxTransferFireWebhookRequest
   );
 
   /**
@@ -1850,7 +1936,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).      - To approve a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).      - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -1993,6 +2079,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Migrate account into Transfers
+   * As an alternative to adding Items via Link, you can also use the &#x60;/transfer/migrate_account&#x60; endpoint to migrate known account and routing numbers to Plaid Items.  Note that Items created in this way are not compatible with endpoints for other products, such as &#x60;/accounts/balance/get&#x60;, and can only be used with Transfer endpoints.  If you require access to other endpoints, create the Item through Link instead.  Access to &#x60;/transfer/migrate_account&#x60; is not enabled by default; to obtain access, contact your Plaid Account Manager.
+   * @param transferMigrateAccountRequest  (required)
+   * @return Call&lt;TransferMigrateAccountResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transfermigrateaccount">Migrate account into Transfers Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/migrate_account")
+  Call<TransferMigrateAccountResponse> transferMigrateAccount(
+    @retrofit2.http.Body TransferMigrateAccountRequest transferMigrateAccountRequest
+  );
+
+  /**
    * Lists historical repayments
    * The &#x60;/transfer/repayment/list&#x60; endpoint fetches repayments matching the given filters. Repayments are returned in reverse-chronological order (most recent first) starting at the given &#x60;start_time&#x60;.
    * @param transferRepaymentListRequest  (required)
@@ -2058,11 +2160,11 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * Note: As of February 2022, the &#x60;/user/create&#x60; endpoint is in beta. Unless you have been opted-in, you will not have access to this endpoint.
+   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.
    * @param userCreateRequest  (required)
    * @return Call&lt;UserCreateResponse&gt;
    * 
-   * @see <a href="/api/users/#usercreate">Create user Documentation</a>
+   * @see <a href="/api/products/income/#usercreate">Create user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
