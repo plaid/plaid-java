@@ -42,7 +42,26 @@ The plaid-java client library is typically updated on a monthly basis. The canon
 ## Data type differences from API and from previous versions
 
 ### Dates
-Dates and date times in requests and responses, which are represented as strings in the API and in previous client library versions, are represented in this version of the library as Java `LocalDate` or `LocalDateTime` objects. 
+Dates and datetimes in requests, which are represented as strings in the API and in previous client library versions, are represented in this version of the Java client library as `LocalDate` or `OffsetDateTime` objects. 
+
+Time zone information is required for request fields that accept datetimes. Failing to include time zone information (or specifying a string, instead of an `OffsetDateTime` object) will result in an error.
+
+If the API reference documentation for a request field specifies `format: date`, the following is acceptable:
+
+```java
+import java.time.LocalDate;
+
+LocalDate myDate = LocalDate.parse("2019-12-06");
+```
+
+If the API reference documentation for a request field specifies `format: date-time`, the following is acceptable:
+
+
+```java
+import java.time.OffsetDateTime;
+
+OffsetDateTime myDateTime = OffsetDateTime.parse("2019-12-06T22:35:49+00:00");
+```
 
 ### Enums
 While the API represents enums using strings, and previous library versions used singletons, this current library uses enum types.
