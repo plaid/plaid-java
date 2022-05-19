@@ -148,7 +148,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       FIRST_PLATYPUS_BANK_INSTITUTION_ID,
       institution.getInstitutionId()
     );
-    assertEquals("First Platypus Bank", institution.getName());
+    assertTrue(institution.getName().contains("First Platypus Bank"));
     assertEquals(
       Arrays.asList(
         Products.ASSETS,
