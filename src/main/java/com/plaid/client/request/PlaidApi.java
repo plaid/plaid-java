@@ -63,6 +63,8 @@ import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.CreateEntityScreeningRequest;
 import com.plaid.client.model.CreateEntityWatchlistScreeningReviewRequest;
 import com.plaid.client.model.CreateIndividualWatchlistScreeningReviewRequest;
+import com.plaid.client.model.CreditAuditCopyTokenCreateRequest;
+import com.plaid.client.model.CreditAuditCopyTokenCreateResponse;
 import com.plaid.client.model.CreditBankIncomeGetRequest;
 import com.plaid.client.model.CreditBankIncomeGetResponse;
 import com.plaid.client.model.CreditBankIncomeRefreshRequest;
@@ -294,6 +296,8 @@ import com.plaid.client.model.WalletCreateRequest;
 import com.plaid.client.model.WalletCreateResponse;
 import com.plaid.client.model.WalletGetRequest;
 import com.plaid.client.model.WalletGetResponse;
+import com.plaid.client.model.WalletListRequest;
+import com.plaid.client.model.WalletListResponse;
 import com.plaid.client.model.WalletTransactionExecuteRequest;
 import com.plaid.client.model.WalletTransactionExecuteResponse;
 import com.plaid.client.model.WalletTransactionGetRequest;
@@ -777,6 +781,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Create Asset or Income Report Audit Copy Token
+   * Plaid can provide an Audit Copy token of an Asset Report and/or Income Report directly to a participating third party on your behalf. For example, Plaid can supply an Audit Copy token directly to Fannie Mae on your behalf if you participate in the Day 1 Certainty™ program. An Audit Copy token contains the same underlying data as the Asset Report and/or Income Report (result of /credit/payroll_income/get).  To grant access to an Audit Copy token, use the &#x60;/credit/audit_copy_token/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the third party who needs access. Each third party has its own &#x60;auditor_id&#x60;, for example &#x60;fannie_mae&#x60;. You’ll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report.
+   * @param creditAuditCopyTokenCreateRequest  (required)
+   * @return Call&lt;CreditAuditCopyTokenCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#creditaudit_copy_tokencreate">Create Asset or Income Report Audit Copy Token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/audit_copy_token/create")
+  Call<CreditAuditCopyTokenCreateResponse> creditAuditCopyTokenCreate(
+    @retrofit2.http.Body CreditAuditCopyTokenCreateRequest creditAuditCopyTokenCreateRequest
+  );
+
+  /**
    * Retrieve information from the bank accounts used for income verification
    * &#x60;/credit/bank_income/get&#x60; returns the bank income report(s) for a specified user.
    * @param creditBankIncomeGetRequest  (required)
@@ -1020,7 +1040,7 @@ public interface PlaidApi {
 
   /**
    * Create a new identity verification
-   * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; field. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If you don&#39;t know whether the associated user already has an active Identity Verification, you can specify &#x60;\&quot;idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with an &#x60;200 OK&#x60; HTTP status code. 
+   * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; field. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If you don&#39;t know whether the associated user already has an active Identity Verification, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with an &#x60;200 OK&#x60; HTTP status code. 
    * @param identityVerificationCreateRequest  (required)
    * @return Call&lt;IdentityVerification&gt;
    * 
@@ -1936,7 +1956,7 @@ public interface PlaidApi {
 
   /**
    * Simulate creating a sweep
-   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all &#x60;posted&#x60; or &#x60;pending&#x60; transfers with a sweep status of &#x60;unswept&#x60; will become &#x60;swept&#x60;, and all &#x60;reversed&#x60; transfers with a sweep status of &#x60;swept&#x60; will become &#x60;reverse_swept&#x60;.
+   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all &#x60;posted&#x60; or &#x60;pending&#x60; transfers with a sweep status of &#x60;unswept&#x60; will become &#x60;swept&#x60;, and all &#x60;returned&#x60; transfers with a sweep status of &#x60;swept&#x60; will become &#x60;return_swept&#x60;.
    * @param sandboxTransferSweepSimulateRequest  (required)
    * @return Call&lt;SandboxTransferSweepSimulateResponse&gt;
    * 
@@ -2407,6 +2427,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Fetch a list of e-wallets
+   * This endpoint lists all e-wallets in descending order of creation.
+   * @param walletListRequest  (required)
+   * @return Call&lt;WalletListResponse&gt;
+   * 
+   * @see <a href="/api/products/#walletlist">Fetch a list of e-wallets Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("wallet/list")
+  Call<WalletListResponse> walletList(
+    @retrofit2.http.Body WalletListRequest walletListRequest
+  );
+
+  /**
    * Execute a transaction using an e-wallet
    * Execute a transaction using the specified e-wallet. Specify the e-wallet to debit from, the counterparty to credit to, the idempotency key to prevent duplicate payouts, the amount and reference for the payout. The payouts are executed over the Faster Payment rails, where settlement usually only takes a few seconds.
    * @param walletTransactionExecuteRequest  (required)
@@ -2652,7 +2688,7 @@ public interface PlaidApi {
    * @param listWatchlistScreeningIndividualHistoryRequest  (required)
    * @return Call&lt;PaginatedIndividualWatchlistScreeningList&gt;
    * 
-   * @see <a href="/api/products/monitor/#watchlist_screeninghistorylist">List history for individual watchlist screenings Documentation</a>
+   * @see <a href="/api/products/monitor/#watchlist_screeningindividualhistorylist">List history for individual watchlist screenings Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
