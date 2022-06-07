@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import com.google.gson.Gson;
 import com.plaid.client.ApiClient;
+import com.plaid.client.Environment;
 import com.plaid.client.model.Error;
 import com.plaid.client.model.Item;
 import com.plaid.client.request.PlaidApi;
@@ -60,7 +61,7 @@ public abstract class AbstractIntegrationTest {
     apiKeys.put("secret", plaidSecret);
     apiKeys.put("plaidVersion", "2020-09-14");
     apiClient = new ApiClient(apiKeys);
-    apiClient.setPlaidAdapter(ApiClient.Sandbox);
+    apiClient.setPlaidAdapter(Environment.SANDBOX);
 
     plaidClient = apiClient.createService(PlaidApi.class);
   }

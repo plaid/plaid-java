@@ -15,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import com.plaid.client.auth.HttpBasicAuth;
 import com.plaid.client.auth.HttpBearerAuth;
+import com.plaid.client.request.PlaidApi;
 import com.plaid.client.auth.ApiKeyAuth;
 
 import java.io.IOException;
@@ -114,6 +115,16 @@ public class ApiClient {
       addAuthorization(authName, auth);
     }
   }
+  
+  /**
+   * Helper constructor for creating an ApiClient and setting the environment
+   * @param apiKeys
+   * @param environment
+   */
+  public ApiClient(Map<String, String> apiKeys, Environment environment) {
+	this(apiKeys);
+	this.setPlaidAdapter(environment);
+  }
 
   /**
    * Basic constructor for single auth name
@@ -157,17 +168,18 @@ public class ApiClient {
       .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
   }
-  public void setPlaidAdapter(String baseUrl) {
+  public void setPlaidAdapter(Environment environment) {
     json = new JSON();
-
-    List<String> PLAID_ENVS = Arrays.asList("https://sandbox.plaid.com", "https://production.plaid.com", "https://development.plaid.com");
-
-    if(!PLAID_ENVS.contains(baseUrl)) {
-      System.out.println("baseUrl not found in PLAID_ENVS, must be one of the following: https://sandbox.plaid.com, https://production.plaid.com, https://development.plaid.com");
-    }
-
-    if (!baseUrl.endsWith("/"))
-      baseUrl = baseUrl + "/";
+    
+    String baseUrl = environment.toString();
+//    final List<String> PLAID_ENVS = Arrays.asList("https://sandbox.plaid.com", "https://production.plaid.com", "https://development.plaid.com");
+//    
+//    if(!PLAID_ENVS.contains(baseUrl)) {
+//      System.out.println("baseUrl not found in PLAID_ENVS, must be one of the following: https://sandbox.plaid.com, https://production.plaid.com, https://development.plaid.com");
+//    }
+//
+//    if (!baseUrl.endsWith("/"))
+//      baseUrl = baseUrl + "/";
 
     adapterBuilder = new Retrofit
       .Builder()
@@ -182,6 +194,10 @@ public class ApiClient {
     } else {
         return adapterBuilder.client(okBuilder.build()).build().create(serviceClass);
     }
+  }
+  
+  public PlaidApi newPlaidApi() {
+	return createService(PlaidApi.class);
   }
 
   public ApiClient setDateFormat(DateFormat dateFormat) {
