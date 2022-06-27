@@ -1158,7 +1158,7 @@ public interface PlaidApi {
 
   /**
    * (Deprecated) Retrieve information from the paystubs used for income verification
-   * &#x60;/income/verification/paystubs/get&#x60; returns the information collected from the paystubs that were used to verify an end user&#39;&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.  This endpoint has been deprecated; new integrations should use &#x60;/credit/payroll_income/get&#x60; instead.
+   * &#x60;/income/verification/paystubs/get&#x60; returns the information collected from the paystubs that were used to verify an end user&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.  This endpoint has been deprecated; new integrations should use &#x60;/credit/payroll_income/get&#x60; instead.
    * @param incomeVerificationPaystubsGetRequest  (required)
    * @return Call&lt;IncomeVerificationPaystubsGetResponse&gt;
    * @deprecated
@@ -1500,7 +1500,7 @@ public interface PlaidApi {
    * @param paymentInitiationConsentCreateRequest  (required)
    * @return Call&lt;PaymentInitiationConsentCreateResponse&gt;
    * 
-   * @see <a href="/api/products/#payment_initiationconsentcreate">Create payment consent Documentation</a>
+   * @see <a href="/api/products/payment-initiation/#payment_initiationconsentcreate">Create payment consent Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1516,7 +1516,7 @@ public interface PlaidApi {
    * @param paymentInitiationConsentGetRequest  (required)
    * @return Call&lt;PaymentInitiationConsentGetResponse&gt;
    * 
-   * @see <a href="/api/products/#payment_initiationconsentget">Get payment consent Documentation</a>
+   * @see <a href="/api/products/payment-initiation/#payment_initiationconsentget">Get payment consent Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1532,7 +1532,7 @@ public interface PlaidApi {
    * @param paymentInitiationConsentPaymentExecuteRequest  (required)
    * @return Call&lt;PaymentInitiationConsentPaymentExecuteResponse&gt;
    * 
-   * @see <a href="/api/products/#payment_initiationconsentpaymentexecute">Execute a single payment using consent Documentation</a>
+   * @see <a href="/api/products/payment-initiation/#payment_initiationconsentpaymentexecute">Execute a single payment using consent Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1548,7 +1548,7 @@ public interface PlaidApi {
    * @param paymentInitiationConsentRevokeRequest  (required)
    * @return Call&lt;PaymentInitiationConsentRevokeResponse&gt;
    * 
-   * @see <a href="/api/products/#payment_initiationconsentrevoke">Revoke payment consent Documentation</a>
+   * @see <a href="/api/products/payment-initiation/#payment_initiationconsentrevoke">Revoke payment consent Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2322,7 +2322,7 @@ public interface PlaidApi {
    * @param transferMigrateAccountRequest  (required)
    * @return Call&lt;TransferMigrateAccountResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfermigrateaccount">Migrate account into Transfers Documentation</a>
+   * @see <a href="/api/products/transfer/#transfermigrate_account">Migrate account into Transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2398,7 +2398,7 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.
+   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.  If you call the endpoint multiple times with the same client_user_id, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given client_user_id.
    * @param userCreateRequest  (required)
    * @return Call&lt;UserCreateResponse&gt;
    * 
