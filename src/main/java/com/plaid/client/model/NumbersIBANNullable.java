@@ -15,48 +15,14 @@ package com.plaid.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 
 /**
- * The employer on the paystub.
+ * International Bank Account Number (IBAN).
  */
-@ApiModel(description = "The employer on the paystub.")
+@ApiModel(description = "International Bank Account Number (IBAN).")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
-public class PaystubOverrideEmployer {
-  public static final String SERIALIZED_NAME_NAME = "name";
-  @SerializedName(SERIALIZED_NAME_NAME)
-  private String name;
-
-
-  public PaystubOverrideEmployer name(String name) {
-    
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * The name of the employer.
-   * @return name
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "The name of the employer.")
-
-  public String getName() {
-    return name;
-  }
-
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
+public class NumbersIBANNullable {
 
   @Override
   public boolean equals(Object o) {
@@ -66,20 +32,18 @@ public class PaystubOverrideEmployer {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PaystubOverrideEmployer paystubOverrideEmployer = (PaystubOverrideEmployer) o;
-    return Objects.equals(this.name, paystubOverrideEmployer.name);
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash();
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PaystubOverrideEmployer {\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("class NumbersIBANNullable {\n");
     sb.append("}");
     return sb.toString();
   }

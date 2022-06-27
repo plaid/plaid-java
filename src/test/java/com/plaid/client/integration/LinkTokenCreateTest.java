@@ -9,6 +9,7 @@ import com.plaid.client.model.DepositoryFilter;
 import com.plaid.client.model.LinkTokenAccountFilters;
 import com.plaid.client.model.LinkTokenCreateRequest;
 import com.plaid.client.model.LinkTokenCreateDepositoryFilter;
+import com.plaid.client.model.LinkTokenCreateRequestAuth;
 import com.plaid.client.model.LinkTokenCreateRequestUser;
 import com.plaid.client.model.LinkTokenCreateResponse;
 import com.plaid.client.model.Products;
@@ -66,8 +67,6 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
 			.legalName("legal name")
 			.phoneNumber("4155558888")
 			.emailAddress("email@address.com");
-		// .phoneNumberVerifiedTime(new Date().toString());
-		// .emailAddressVerifiedTime(new Date().toString());
 
 		DepositoryFilter types = new DepositoryFilter()
 		.accountSubtypes(Arrays.asList(DepositoryAccountSubtype.CHECKING));
@@ -84,6 +83,48 @@ public class LinkTokenCreateTest extends AbstractItemIntegrationTest {
 			.webhook("https://example.com/webhook")
 			.linkCustomizationName("default")
 			.accountFilters(accountFilters);
+
+		Response<LinkTokenCreateResponse> response = client()
+			.linkTokenCreate(request)
+			.execute();
+
+		assertSuccessResponse(response);
+		assertNotNull(response.body().getLinkToken());
+		assertTrue(response.body().getExpiration().isAfter(OffsetDateTime.now()));
+	}
+
+	@Test
+	public void testSuccess_auth() throws Exception {
+		String clientUserId = Long.toString((new Date()).getTime());
+
+		LinkTokenCreateRequestUser user = new LinkTokenCreateRequestUser()
+			.clientUserId(clientUserId)
+			.legalName("legal name")
+			.phoneNumber("4155558888")
+			.emailAddress("email@address.com");
+
+		DepositoryFilter types = new DepositoryFilter()
+		.accountSubtypes(Arrays.asList(DepositoryAccountSubtype.CHECKING));
+
+		LinkTokenAccountFilters accountFilters = new LinkTokenAccountFilters()
+		.depository(types);
+
+		LinkTokenCreateRequestAuth auth = new LinkTokenCreateRequestAuth()
+			.automatedMicrodepositsEnabled(true)
+			.instantMatchEnabled(true)
+			.sameDayMicrodepositsEnabled(true)
+			.authTypeSelectEnabled(true);
+
+		LinkTokenCreateRequest request = new LinkTokenCreateRequest()
+			.user(user)
+			.clientName("very nice client name")
+			.products(Arrays.asList(Products.AUTH))
+			.countryCodes(Arrays.asList(CountryCode.US))
+			.language("en")
+			.webhook("https://example.com/webhook")
+			.linkCustomizationName("default")
+			.accountFilters(accountFilters)
+			.auth(auth);
 
 		Response<LinkTokenCreateResponse> response = client()
 			.linkTokenCreate(request)
