@@ -65,6 +65,8 @@ import com.plaid.client.model.CreateEntityWatchlistScreeningReviewRequest;
 import com.plaid.client.model.CreateIndividualWatchlistScreeningReviewRequest;
 import com.plaid.client.model.CreditAuditCopyTokenCreateRequest;
 import com.plaid.client.model.CreditAuditCopyTokenCreateResponse;
+import com.plaid.client.model.CreditAuditCopyTokenRemoveRequest;
+import com.plaid.client.model.CreditAuditCopyTokenRemoveResponse;
 import com.plaid.client.model.CreditBankIncomeGetRequest;
 import com.plaid.client.model.CreditBankIncomeGetResponse;
 import com.plaid.client.model.CreditBankIncomeRefreshRequest;
@@ -908,6 +910,22 @@ public interface PlaidApi {
   @POST("credit/relay/create")
   Call<CreditRelayCreateResponse> creditRelayCreate(
     @retrofit2.http.Body CreditRelayCreateRequest creditRelayCreateRequest
+  );
+
+  /**
+   * Remove an Audit Copy token
+   * The &#x60;/credit/audit_copy_token/remove&#x60; endpoint allows you to remove an Audit Copy. Removing an Audit Copy invalidates the &#x60;audit_copy_token&#x60; associated with it, meaning both you and any third parties holding the token will no longer be able to use it to access Report data. Items associated with the Report data and other Audit Copies of it are not affected and will remain accessible after removing the given Audit Copy.
+   * @param creditAuditCopyTokenRemoveRequest  (required)
+   * @return Call&lt;CreditAuditCopyTokenRemoveResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#creditaudit_copy_tokenremove">Remove an Audit Copy token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/audit_copy_token/remove")
+  Call<CreditAuditCopyTokenRemoveResponse> creditReportAuditCopyRemove(
+    @retrofit2.http.Body CreditAuditCopyTokenRemoveRequest creditAuditCopyTokenRemoveRequest
   );
 
   /**
