@@ -1,5 +1,27 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 11.7.0
+- Updating to OAS 2020-09-14_1.136.0
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.136.0
+- Add `products` in `asset_report/create` endpoint.
+
+### 2020-09-14_1.135.0
+- Convert ProductAccess and AccountProductAccess to optional.Map
+
+### 2020-09-14_1.134.0
+- Rename `merchant_website` and `merchant_logo_url` in `/beta/transactions/v1/enhance` to `website` and `logo_url`
+
+### 2020-09-14_1.133.0
+- Update `/credit/payroll_income/get` response to have a `pull_id` instead of an `income_report_token` and add `pull_id` to `/credit/employment/get` response
+
+### 2020-09-14_1.132.1
+- Made several fields nullable for `/signal/evaluate`
+
+### 2020-09-14_1.132.0
+- Add `/credit/audit_copy_token/remove` to invalidate Audit Copy tokens
+
 # 11.6.0
 - Updating to OAS 2020-09-14_1.131.3
 

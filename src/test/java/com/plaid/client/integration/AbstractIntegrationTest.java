@@ -61,6 +61,7 @@ public abstract class AbstractIntegrationTest {
     apiKeys.put("plaidVersion", "2020-09-14");
     apiClient = new ApiClient(apiKeys);
     apiClient.setPlaidAdapter(ApiClient.Sandbox);
+    apiClient.setTimeout(61);
 
     plaidClient = apiClient.createService(PlaidApi.class);
   }
