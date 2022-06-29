@@ -32,7 +32,7 @@ import java.time.OffsetDateTime;
  * Represents an event in the Transfers API.
  */
 @ApiModel(description = "Represents an event in the Transfers API.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransferEvent {
   public static final String SERIALIZED_NAME_EVENT_ID = "event_id";
   @SerializedName(SERIALIZED_NAME_EVENT_ID)

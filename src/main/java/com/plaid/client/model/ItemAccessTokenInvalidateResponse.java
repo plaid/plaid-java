@@ -28,7 +28,7 @@ import java.io.IOException;
  * ItemAccessTokenInvalidateResponse defines the response schema for &#x60;/item/access_token/invalidate&#x60;
  */
 @ApiModel(description = "ItemAccessTokenInvalidateResponse defines the response schema for `/item/access_token/invalidate`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class ItemAccessTokenInvalidateResponse {
   public static final String SERIALIZED_NAME_NEW_ACCESS_TOKEN = "new_access_token";
   @SerializedName(SERIALIZED_NAME_NEW_ACCESS_TOKEN)

@@ -28,7 +28,7 @@ import java.io.IOException;
  * Fired when an Item was not verified via automated micro-deposits after seven days since the automated micro-deposit was made.
  */
 @ApiModel(description = "Fired when an Item was not verified via automated micro-deposits after seven days since the automated micro-deposit was made.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class VerificationExpiredWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

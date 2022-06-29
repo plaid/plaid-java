@@ -29,7 +29,7 @@ import java.io.IOException;
  * Request schema for &#39;/identity_verification/create&#39;
  */
 @ApiModel(description = "Request schema for '/identity_verification/create'")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class IdentityVerificationCreateRequest {
   public static final String SERIALIZED_NAME_IS_SHAREABLE = "is_shareable";
   @SerializedName(SERIALIZED_NAME_IS_SHAREABLE)

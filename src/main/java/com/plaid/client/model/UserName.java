@@ -28,7 +28,7 @@ import java.io.IOException;
  * The full name provided by the user. If the user has not submitted their name, this field will be null. Otherwise, both fields are guaranteed to be filled.
  */
 @ApiModel(description = "The full name provided by the user. If the user has not submitted their name, this field will be null. Otherwise, both fields are guaranteed to be filled.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class UserName {
   public static final String SERIALIZED_NAME_GIVEN_NAME = "given_name";
   @SerializedName(SERIALIZED_NAME_GIVEN_NAME)

@@ -29,7 +29,7 @@ import java.io.IOException;
  * Fired when an Item&#39;s webhook is updated. This will be sent to the newly specified webhook.
  */
 @ApiModel(description = "Fired when an Item's webhook is updated. This will be sent to the newly specified webhook.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class WebhookUpdateAcknowledgedWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

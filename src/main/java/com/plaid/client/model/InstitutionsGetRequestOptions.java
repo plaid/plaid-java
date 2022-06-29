@@ -31,7 +31,7 @@ import java.util.List;
  * An optional object to filter &#x60;/institutions/get&#x60; results.
  */
 @ApiModel(description = "An optional object to filter `/institutions/get` results.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class InstitutionsGetRequestOptions {
   public static final String SERIALIZED_NAME_PRODUCTS = "products";
   @SerializedName(SERIALIZED_NAME_PRODUCTS)

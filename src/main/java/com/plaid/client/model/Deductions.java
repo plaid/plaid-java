@@ -33,7 +33,7 @@ import java.util.List;
  * An object with the deduction information found on a paystub.
  */
 @ApiModel(description = "An object with the deduction information found on a paystub.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class Deductions {
   public static final String SERIALIZED_NAME_SUBTOTALS = "subtotals";
   @SerializedName(SERIALIZED_NAME_SUBTOTALS)

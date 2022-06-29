@@ -31,7 +31,7 @@ import java.util.List;
  * Metadata specifically related to valid Payment Initiation standing order configurations for the institution.
  */
 @ApiModel(description = "Metadata specifically related to valid Payment Initiation standing order configurations for the institution.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PaymentInitiationStandingOrderMetadata {
   public static final String SERIALIZED_NAME_SUPPORTS_STANDING_ORDER_END_DATE = "supports_standing_order_end_date";
   @SerializedName(SERIALIZED_NAME_SUPPORTS_STANDING_ORDER_END_DATE)

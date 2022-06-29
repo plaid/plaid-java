@@ -31,7 +31,7 @@ import java.util.List;
  * Specify payroll data on the account.
  */
 @ApiModel(description = "Specify payroll data on the account.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class IncomeOverride {
   public static final String SERIALIZED_NAME_PAYSTUBS = "paystubs";
   @SerializedName(SERIALIZED_NAME_PAYSTUBS)

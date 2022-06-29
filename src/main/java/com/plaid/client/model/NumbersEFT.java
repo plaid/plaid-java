@@ -28,7 +28,7 @@ import java.io.IOException;
  * Identifying information for transferring money to or from a Canadian bank account via EFT.
  */
 @ApiModel(description = "Identifying information for transferring money to or from a Canadian bank account via EFT.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class NumbersEFT {
   public static final String SERIALIZED_NAME_ACCOUNT_ID = "account_id";
   @SerializedName(SERIALIZED_NAME_ACCOUNT_ID)

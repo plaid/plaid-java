@@ -33,7 +33,7 @@ import java.util.List;
  * IncomeVerificationPaystubsGetResponse defines the response schema for &#x60;/income/verification/paystubs/get&#x60;.
  */
 @ApiModel(description = "IncomeVerificationPaystubsGetResponse defines the response schema for `/income/verification/paystubs/get`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class IncomeVerificationPaystubsGetResponse {
   public static final String SERIALIZED_NAME_DOCUMENT_METADATA = "document_metadata";
   @SerializedName(SERIALIZED_NAME_DOCUMENT_METADATA)

@@ -28,7 +28,7 @@ import java.io.IOException;
  * AssetReportAuditCopyGetRequest defines the request schema for &#x60;/asset_report/audit_copy/get&#x60;
  */
 @ApiModel(description = "AssetReportAuditCopyGetRequest defines the request schema for `/asset_report/audit_copy/get`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class AssetReportAuditCopyGetRequest {
   public static final String SERIALIZED_NAME_CLIENT_ID = "client_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_ID)

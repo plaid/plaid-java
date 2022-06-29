@@ -28,7 +28,7 @@ import java.io.IOException;
  * An optional object to configure &#x60;/item/import&#x60; request.
  */
 @ApiModel(description = "An optional object to configure `/item/import` request.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class ItemImportRequestOptions {
   public static final String SERIALIZED_NAME_WEBHOOK = "webhook";
   @SerializedName(SERIALIZED_NAME_WEBHOOK)

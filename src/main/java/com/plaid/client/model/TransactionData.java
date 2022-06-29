@@ -29,7 +29,7 @@ import java.time.LocalDate;
  * Information about the matched direct deposit transaction used to verify a user&#39;s payroll information.
  */
 @ApiModel(description = "Information about the matched direct deposit transaction used to verify a user's payroll information.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransactionData {
   public static final String SERIALIZED_NAME_DESCRIPTION = "description";
   @SerializedName(SERIALIZED_NAME_DESCRIPTION)

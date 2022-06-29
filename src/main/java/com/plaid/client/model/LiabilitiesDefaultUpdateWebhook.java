@@ -33,7 +33,7 @@ import java.util.Map;
  * The webhook of type &#x60;LIABILITIES&#x60; and code &#x60;DEFAULT_UPDATE&#x60; will be fired when new or updated liabilities have been detected on a liabilities item.
  */
 @ApiModel(description = "The webhook of type `LIABILITIES` and code `DEFAULT_UPDATE` will be fired when new or updated liabilities have been detected on a liabilities item.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class LiabilitiesDefaultUpdateWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

@@ -28,7 +28,7 @@ import java.io.IOException;
  * AssetReportRelayRemoveResponse defines the response schema for &#x60;/asset_report/relay/remove&#x60;
  */
 @ApiModel(description = "AssetReportRelayRemoveResponse defines the response schema for `/asset_report/relay/remove`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class AssetReportRelayRemoveResponse {
   public static final String SERIALIZED_NAME_REMOVED = "removed";
   @SerializedName(SERIALIZED_NAME_REMOVED)

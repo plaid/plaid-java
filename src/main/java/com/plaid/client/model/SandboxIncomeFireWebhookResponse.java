@@ -28,7 +28,7 @@ import java.io.IOException;
  * SandboxIncomeFireWebhookResponse defines the response schema for &#x60;/sandbox/income/fire_webhook&#x60;
  */
 @ApiModel(description = "SandboxIncomeFireWebhookResponse defines the response schema for `/sandbox/income/fire_webhook`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class SandboxIncomeFireWebhookResponse {
   public static final String SERIALIZED_NAME_REQUEST_ID = "request_id";
   @SerializedName(SERIALIZED_NAME_REQUEST_ID)

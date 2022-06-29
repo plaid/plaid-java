@@ -33,7 +33,7 @@ import java.util.List;
  * Specifies options for initializing Link for use with the Income (beta) product. This field is required if &#x60;income_verification&#x60; is included in the &#x60;products&#x60; array.
  */
 @ApiModel(description = "Specifies options for initializing Link for use with the Income (beta) product. This field is required if `income_verification` is included in the `products` array.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class LinkTokenCreateRequestIncomeVerification {
   public static final String SERIALIZED_NAME_INCOME_VERIFICATION_ID = "income_verification_id";
   @SerializedName(SERIALIZED_NAME_INCOME_VERIFICATION_ID)

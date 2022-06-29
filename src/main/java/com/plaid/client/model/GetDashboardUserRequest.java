@@ -28,7 +28,7 @@ import java.io.IOException;
  * Request input for fetching a dashboard user
  */
 @ApiModel(description = "Request input for fetching a dashboard user")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class GetDashboardUserRequest {
   public static final String SERIALIZED_NAME_DASHBOARD_USER_ID = "dashboard_user_id";
   @SerializedName(SERIALIZED_NAME_DASHBOARD_USER_ID)

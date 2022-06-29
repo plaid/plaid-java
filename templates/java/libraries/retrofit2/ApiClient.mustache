@@ -254,6 +254,15 @@ public class ApiClient {
       .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
   }
 
+  {{! This function added by Plaid }}
+  /**
+   * Helper to set a specific timeout for read and connect
+   * @param overrideTimeout timeout in seconds
+   */
+  public void setTimeout(int overrideTimeout) {
+    okBuilder.readTimeout(overrideTimeout, TimeUnit.SECONDS).connectTimeout(overrideTimeout, TimeUnit.SECONDS);
+  }
+
   public <S> S createService(Class<S> serviceClass) {
     if (okHttpClient != null) {
         return adapterBuilder.client(okHttpClient).build().create(serviceClass);

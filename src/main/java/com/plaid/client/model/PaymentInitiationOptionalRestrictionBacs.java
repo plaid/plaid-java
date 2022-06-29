@@ -29,7 +29,7 @@ import java.io.IOException;
  * An optional object used to restrict the accounts used for payments. If provided, the end user will be able to send payments only from the specified bank account.
  */
 @ApiModel(description = "An optional object used to restrict the accounts used for payments. If provided, the end user will be able to send payments only from the specified bank account.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PaymentInitiationOptionalRestrictionBacs {
   public static final String SERIALIZED_NAME_ACCOUNT = "account";
   @SerializedName(SERIALIZED_NAME_ACCOUNT)

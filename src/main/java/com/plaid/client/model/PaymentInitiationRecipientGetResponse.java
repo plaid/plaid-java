@@ -32,7 +32,7 @@ import java.io.IOException;
  * PaymentInitiationRecipientGetResponse defines the response schema for &#x60;/payment_initiation/recipient/get&#x60;
  */
 @ApiModel(description = "PaymentInitiationRecipientGetResponse defines the response schema for `/payment_initiation/recipient/get`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PaymentInitiationRecipientGetResponse {
   public static final String SERIALIZED_NAME_RECIPIENT_ID = "recipient_id";
   @SerializedName(SERIALIZED_NAME_RECIPIENT_ID)

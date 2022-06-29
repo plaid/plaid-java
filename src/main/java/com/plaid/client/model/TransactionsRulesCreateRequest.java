@@ -29,7 +29,7 @@ import java.io.IOException;
  * TransactionsRulesCreateRequest defines the request schema for &#x60;beta/transactions/rules/v1/create&#x60;
  */
 @ApiModel(description = "TransactionsRulesCreateRequest defines the request schema for `beta/transactions/rules/v1/create`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransactionsRulesCreateRequest {
   public static final String SERIALIZED_NAME_CLIENT_ID = "client_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_ID)

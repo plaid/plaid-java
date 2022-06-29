@@ -28,7 +28,7 @@ import java.io.IOException;
  * Request input for listing entity watchlist screening programs
  */
 @ApiModel(description = "Request input for listing entity watchlist screening programs")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class ListWatchlistScreeningEntityProgramsRequest {
   public static final String SERIALIZED_NAME_SECRET = "secret";
   @SerializedName(SERIALIZED_NAME_SECRET)

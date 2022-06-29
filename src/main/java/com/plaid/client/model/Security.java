@@ -29,7 +29,7 @@ import java.time.LocalDate;
  * Contains details about a security
  */
 @ApiModel(description = "Contains details about a security")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class Security {
   public static final String SERIALIZED_NAME_SECURITY_ID = "security_id";
   @SerializedName(SERIALIZED_NAME_SECURITY_ID)

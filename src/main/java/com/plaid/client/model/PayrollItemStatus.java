@@ -28,7 +28,7 @@ import java.io.IOException;
  * Details about the status of the payroll item.
  */
 @ApiModel(description = "Details about the status of the payroll item.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PayrollItemStatus {
   public static final String SERIALIZED_NAME_PROCESSING_STATUS = "processing_status";
   @SerializedName(SERIALIZED_NAME_PROCESSING_STATUS)

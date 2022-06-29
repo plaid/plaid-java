@@ -50,7 +50,7 @@ public class ApiClient {
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 Request requestWithUserAgent = originalRequest.newBuilder()
-                        .header("User-Agent", "Plaid Java v11.6.0")
+                        .header("User-Agent", "Plaid Java v11.5.0")
                         .header("Plaid-Version", "2020-09-14")
                         .build();
                 return chain.proceed(requestWithUserAgent);
@@ -174,6 +174,14 @@ public class ApiClient {
       .baseUrl(baseUrl)
       .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
+  }
+
+  /**
+   * Helper to set a specific timeout for read and connect
+   * @param overrideTimeout timeout in seconds
+   */
+  public void setTimeout(int overrideTimeout) {
+    okBuilder.readTimeout(overrideTimeout, TimeUnit.SECONDS).connectTimeout(overrideTimeout, TimeUnit.SECONDS);
   }
 
   public <S> S createService(Class<S> serviceClass) {

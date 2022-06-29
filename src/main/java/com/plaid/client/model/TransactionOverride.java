@@ -29,7 +29,7 @@ import java.time.LocalDate;
  * Data to populate as test transaction data. If not specified, random transactions will be generated instead.
  */
 @ApiModel(description = "Data to populate as test transaction data. If not specified, random transactions will be generated instead.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransactionOverride {
   public static final String SERIALIZED_NAME_DATE_TRANSACTED = "date_transacted";
   @SerializedName(SERIALIZED_NAME_DATE_TRANSACTED)

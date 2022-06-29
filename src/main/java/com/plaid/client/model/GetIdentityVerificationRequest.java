@@ -28,7 +28,7 @@ import java.io.IOException;
  * Request input for fetching an identity verification
  */
 @ApiModel(description = "Request input for fetching an identity verification")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class GetIdentityVerificationRequest {
   public static final String SERIALIZED_NAME_IDENTITY_VERIFICATION_ID = "identity_verification_id";
   @SerializedName(SERIALIZED_NAME_IDENTITY_VERIFICATION_ID)

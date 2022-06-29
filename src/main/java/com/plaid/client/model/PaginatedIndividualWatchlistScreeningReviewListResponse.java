@@ -31,7 +31,7 @@ import java.util.List;
  * Paginated list of screening reviews
  */
 @ApiModel(description = "Paginated list of screening reviews")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PaginatedIndividualWatchlistScreeningReviewListResponse {
   public static final String SERIALIZED_NAME_WATCHLIST_SCREENING_REVIEWS = "watchlist_screening_reviews";
   @SerializedName(SERIALIZED_NAME_WATCHLIST_SCREENING_REVIEWS)

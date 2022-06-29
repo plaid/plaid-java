@@ -34,7 +34,7 @@ import java.util.List;
  * An object specifying the arguments originally provided to the &#x60;/link/token/create&#x60; call.
  */
 @ApiModel(description = "An object specifying the arguments originally provided to the `/link/token/create` call.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class LinkTokenGetMetadataResponse {
   public static final String SERIALIZED_NAME_INITIAL_PRODUCTS = "initial_products";
   @SerializedName(SERIALIZED_NAME_INITIAL_PRODUCTS)

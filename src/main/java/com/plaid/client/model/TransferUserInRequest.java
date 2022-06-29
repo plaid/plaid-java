@@ -29,7 +29,7 @@ import java.io.IOException;
  * The legal name and other information for the account holder.
  */
 @ApiModel(description = "The legal name and other information for the account holder.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransferUserInRequest {
   public static final String SERIALIZED_NAME_LEGAL_NAME = "legal_name";
   @SerializedName(SERIALIZED_NAME_LEGAL_NAME)

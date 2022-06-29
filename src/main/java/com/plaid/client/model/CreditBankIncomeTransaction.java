@@ -30,7 +30,7 @@ import java.time.LocalDate;
  * The transactions data for the end user&#39;s income source(s).
  */
 @ApiModel(description = "The transactions data for the end user's income source(s).")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class CreditBankIncomeTransaction {
   public static final String SERIALIZED_NAME_AMOUNT = "amount";
   @SerializedName(SERIALIZED_NAME_AMOUNT)

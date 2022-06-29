@@ -28,7 +28,7 @@ import java.io.IOException;
  * An object representing the rate at which an individual is paid.
  */
 @ApiModel(description = "An object representing the rate at which an individual is paid.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PayrollIncomeRateOfPay {
   public static final String SERIALIZED_NAME_PAY_RATE = "pay_rate";
   @SerializedName(SERIALIZED_NAME_PAY_RATE)

@@ -28,7 +28,7 @@ import java.io.IOException;
  * Fired when new transfer events are available. Receiving this webhook indicates you should fetch the new events from &#x60;/transfer/event/sync&#x60;.
  */
 @ApiModel(description = "Fired when new transfer events are available. Receiving this webhook indicates you should fetch the new events from `/transfer/event/sync`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransferEventsUpdateWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

@@ -28,7 +28,7 @@ import java.io.IOException;
  * Specifies optional parameters for &#x60;/institutions/get_by_id&#x60;. If provided, must not be &#x60;null&#x60;.
  */
 @ApiModel(description = "Specifies optional parameters for `/institutions/get_by_id`. If provided, must not be `null`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class InstitutionsGetByIdRequestOptions {
   public static final String SERIALIZED_NAME_INCLUDE_OPTIONAL_METADATA = "include_optional_metadata";
   @SerializedName(SERIALIZED_NAME_INCLUDE_OPTIONAL_METADATA)

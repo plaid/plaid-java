@@ -28,7 +28,7 @@ import java.io.IOException;
  * Defines the response schema for &#x60;/transfer/migrate_account&#x60;
  */
 @ApiModel(description = "Defines the response schema for `/transfer/migrate_account`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransferMigrateAccountResponse {
   public static final String SERIALIZED_NAME_ACCESS_TOKEN = "access_token";
   @SerializedName(SERIALIZED_NAME_ACCESS_TOKEN)

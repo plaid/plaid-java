@@ -29,7 +29,7 @@ import java.io.IOException;
  * Fired when the Secondary Client successfully retrieves an Asset Report by calling &#x60;asset_report/relay/get&#x60;.
  */
 @ApiModel(description = "Fired when the Secondary Client successfully retrieves an Asset Report by calling `asset_report/relay/get`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class AssetsRelayWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

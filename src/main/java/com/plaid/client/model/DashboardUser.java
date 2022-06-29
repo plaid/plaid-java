@@ -29,7 +29,7 @@ import java.io.IOException;
  * Account information associated with a team member with access to the Plaid dashboard.
  */
 @ApiModel(description = "Account information associated with a team member with access to the Plaid dashboard.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class DashboardUser {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

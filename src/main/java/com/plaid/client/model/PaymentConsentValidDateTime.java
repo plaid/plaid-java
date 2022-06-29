@@ -29,7 +29,7 @@ import java.time.OffsetDateTime;
  * Life span for the payment consent. After the &#x60;to&#x60; date the payment consent expires and can no longer be used for payment initiation.
  */
 @ApiModel(description = "Life span for the payment consent. After the `to` date the payment consent expires and can no longer be used for payment initiation.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PaymentConsentValidDateTime {
   public static final String SERIALIZED_NAME_FROM = "from";
   @SerializedName(SERIALIZED_NAME_FROM)

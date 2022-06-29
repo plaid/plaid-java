@@ -28,7 +28,7 @@ import java.io.IOException;
  * Specifies options for initializing Link for use with the Auth product. This field can be used to enable or disable extended Auth flows for the resulting Link session. Omitting any field will result in a default that can be configured by your account manager.
  */
 @ApiModel(description = "Specifies options for initializing Link for use with the Auth product. This field can be used to enable or disable extended Auth flows for the resulting Link session. Omitting any field will result in a default that can be configured by your account manager.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class LinkTokenCreateRequestAuth {
   public static final String SERIALIZED_NAME_AUTH_TYPE_SELECT_ENABLED = "auth_type_select_enabled";
   @SerializedName(SERIALIZED_NAME_AUTH_TYPE_SELECT_ENABLED)

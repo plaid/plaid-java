@@ -29,7 +29,7 @@ import java.time.OffsetDateTime;
  * An optional object to filter &#x60;/processor/balance/get&#x60; results.
  */
 @ApiModel(description = "An optional object to filter `/processor/balance/get` results.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class ProcessorBalanceGetRequestOptions {
   public static final String SERIALIZED_NAME_MIN_LAST_UPDATED_DATETIME = "min_last_updated_datetime";
   @SerializedName(SERIALIZED_NAME_MIN_LAST_UPDATED_DATETIME)

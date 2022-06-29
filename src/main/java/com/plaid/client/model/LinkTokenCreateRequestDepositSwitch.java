@@ -28,7 +28,7 @@ import java.io.IOException;
  * Specifies options for initializing Link for use with the Deposit Switch (beta) product. This field is required if &#x60;deposit_switch&#x60; is included in the &#x60;products&#x60; array.
  */
 @ApiModel(description = "Specifies options for initializing Link for use with the Deposit Switch (beta) product. This field is required if `deposit_switch` is included in the `products` array.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class LinkTokenCreateRequestDepositSwitch {
   public static final String SERIALIZED_NAME_DEPOSIT_SWITCH_ID = "deposit_switch_id";
   @SerializedName(SERIALIZED_NAME_DEPOSIT_SWITCH_ID)

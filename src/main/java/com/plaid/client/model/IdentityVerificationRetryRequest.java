@@ -30,7 +30,7 @@ import java.io.IOException;
  * Request input for retrying an identity verification attempt
  */
 @ApiModel(description = "Request input for retrying an identity verification attempt")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class IdentityVerificationRetryRequest {
   public static final String SERIALIZED_NAME_CLIENT_USER_ID = "client_user_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_USER_ID)

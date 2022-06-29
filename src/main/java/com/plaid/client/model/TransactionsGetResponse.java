@@ -33,7 +33,7 @@ import java.util.List;
  * TransactionsGetResponse defines the response schema for &#x60;/transactions/get&#x60;
  */
 @ApiModel(description = "TransactionsGetResponse defines the response schema for `/transactions/get`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransactionsGetResponse {
   public static final String SERIALIZED_NAME_ACCOUNTS = "accounts";
   @SerializedName(SERIALIZED_NAME_ACCOUNTS)

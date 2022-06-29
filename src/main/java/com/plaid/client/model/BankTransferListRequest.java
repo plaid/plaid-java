@@ -30,7 +30,7 @@ import java.time.OffsetDateTime;
  * Defines the request schema for &#x60;/bank_transfer/list&#x60;
  */
 @ApiModel(description = "Defines the request schema for `/bank_transfer/list`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class BankTransferListRequest {
   public static final String SERIALIZED_NAME_CLIENT_ID = "client_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_ID)

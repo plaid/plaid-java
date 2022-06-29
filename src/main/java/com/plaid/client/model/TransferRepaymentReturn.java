@@ -28,7 +28,7 @@ import java.io.IOException;
  * Represents a return on a Guaranteed ACH transfer that is included in the specified repayment.
  */
 @ApiModel(description = "Represents a return on a Guaranteed ACH transfer that is included in the specified repayment.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransferRepaymentReturn {
   public static final String SERIALIZED_NAME_TRANSFER_ID = "transfer_id";
   @SerializedName(SERIALIZED_NAME_TRANSFER_ID)

@@ -31,7 +31,7 @@ import java.util.List;
  * Defines the response schema for &#x60;/transfer/repayments/list&#x60;
  */
 @ApiModel(description = "Defines the response schema for `/transfer/repayments/list`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class TransferRepaymentListResponse {
   public static final String SERIALIZED_NAME_REPAYMENTS = "repayments";
   @SerializedName(SERIALIZED_NAME_REPAYMENTS)

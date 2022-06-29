@@ -28,7 +28,7 @@ import java.io.IOException;
  * SandboxPublicTokenCreateResponse defines the response schema for &#x60;/sandbox/public_token/create&#x60;
  */
 @ApiModel(description = "SandboxPublicTokenCreateResponse defines the response schema for `/sandbox/public_token/create`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class SandboxPublicTokenCreateResponse {
   public static final String SERIALIZED_NAME_PUBLIC_TOKEN = "public_token";
   @SerializedName(SERIALIZED_NAME_PUBLIC_TOKEN)

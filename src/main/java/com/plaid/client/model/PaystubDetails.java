@@ -30,7 +30,7 @@ import java.time.LocalDate;
  * An object representing details that can be found on the paystub.
  */
 @ApiModel(description = "An object representing details that can be found on the paystub.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PaystubDetails {
   public static final String SERIALIZED_NAME_PAY_PERIOD_START_DATE = "pay_period_start_date";
   @SerializedName(SERIALIZED_NAME_PAY_PERIOD_START_DATE)

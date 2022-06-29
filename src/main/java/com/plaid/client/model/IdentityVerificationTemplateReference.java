@@ -29,7 +29,7 @@ import java.math.BigDecimal;
  * The resource ID and version number of the template configuring the behavior of a given identity verification.
  */
 @ApiModel(description = "The resource ID and version number of the template configuring the behavior of a given identity verification.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class IdentityVerificationTemplateReference {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

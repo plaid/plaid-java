@@ -29,7 +29,7 @@ import java.io.IOException;
  * Data extracted from a user-submitted document.
  */
 @ApiModel(description = "Data extracted from a user-submitted document.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PhysicalDocumentExtractedData {
   public static final String SERIALIZED_NAME_ID_NUMBER = "id_number";
   @SerializedName(SERIALIZED_NAME_ID_NUMBER)

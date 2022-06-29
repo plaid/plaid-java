@@ -28,7 +28,7 @@ import java.io.IOException;
  * Fired when the status of an identity verification has been updated, which can be triggered via the dashboard or the API.
  */
 @ApiModel(description = "Fired when the status of an identity verification has been updated, which can be triggered via the dashboard or the API.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class IdentityVerificationStatusUpdatedWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

@@ -34,7 +34,7 @@ import java.util.List;
  * An object containing identifying numbers used for making electronic transfers to and from the &#x60;accounts&#x60;. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by any &#x60;accounts&#x60; for which data has been requested, the array for that type will be empty.
  */
 @ApiModel(description = "An object containing identifying numbers used for making electronic transfers to and from the `accounts`. The identifying number type (ACH, EFT, IBAN, or BACS) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by any `accounts` for which data has been requested, the array for that type will be empty.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class AuthGetNumbers {
   public static final String SERIALIZED_NAME_ACH = "ach";
   @SerializedName(SERIALIZED_NAME_ACH)

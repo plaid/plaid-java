@@ -30,7 +30,7 @@ import java.time.LocalDate;
  * Information about the student&#39;s eligibility in the Public Service Loan Forgiveness program. This is only returned if the institution is Fedloan (&#x60;ins_116527&#x60;). 
  */
 @ApiModel(description = "Information about the student's eligibility in the Public Service Loan Forgiveness program. This is only returned if the institution is Fedloan (`ins_116527`). ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PSLFStatus {
   public static final String SERIALIZED_NAME_ESTIMATED_ELIGIBILITY_DATE = "estimated_eligibility_date";
   @SerializedName(SERIALIZED_NAME_ESTIMATED_ELIGIBILITY_DATE)

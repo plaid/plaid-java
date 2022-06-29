@@ -30,7 +30,7 @@ import java.util.List;
  * Enumerates the account subtypes that the application wishes for the user to be able to select from. For more details refer to Plaid documentation on account filters.
  */
 @ApiModel(description = "Enumerates the account subtypes that the application wishes for the user to be able to select from. For more details refer to Plaid documentation on account filters.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class AccountFilter {
   public static final String SERIALIZED_NAME_DEPOSITORY = "depository";
   @SerializedName(SERIALIZED_NAME_DEPOSITORY)

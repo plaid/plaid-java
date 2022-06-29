@@ -31,7 +31,7 @@ import java.util.List;
  * A filter to apply to &#x60;investment&#x60;-type accounts (or &#x60;brokerage&#x60;-type accounts for API versions 2018-05-22 and earlier).
  */
 @ApiModel(description = "A filter to apply to `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier).")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class LinkTokenCreateInvestmentFilter {
   public static final String SERIALIZED_NAME_ACCOUNT_SUBTYPES = "account_subtypes";
   @SerializedName(SERIALIZED_NAME_ACCOUNT_SUBTYPES)

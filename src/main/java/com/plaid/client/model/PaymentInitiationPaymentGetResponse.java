@@ -39,7 +39,7 @@ import java.util.List;
  * PaymentInitiationPaymentGetResponse defines the response schema for &#x60;/payment_initation/payment/get&#x60;
  */
 @ApiModel(description = "PaymentInitiationPaymentGetResponse defines the response schema for `/payment_initation/payment/get`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-27T21:50:33.471815Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-06-29T22:27:17.580916Z[Etc/UTC]")
 public class PaymentInitiationPaymentGetResponse {
   public static final String SERIALIZED_NAME_PAYMENT_ID = "payment_id";
   @SerializedName(SERIALIZED_NAME_PAYMENT_ID)
