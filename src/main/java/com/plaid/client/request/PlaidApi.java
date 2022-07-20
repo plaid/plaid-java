@@ -107,6 +107,8 @@ import com.plaid.client.model.GetWatchlistScreeningEntityProgramRequest;
 import com.plaid.client.model.GetWatchlistScreeningIndividualProgramRequest;
 import com.plaid.client.model.IdentityGetRequest;
 import com.plaid.client.model.IdentityGetResponse;
+import com.plaid.client.model.IdentityMatchRequest;
+import com.plaid.client.model.IdentityMatchResponse;
 import com.plaid.client.model.IdentityVerificationCreateRequest;
 import com.plaid.client.model.IdentityVerificationResponse;
 import com.plaid.client.model.IdentityVerificationRetryRequest;
@@ -202,6 +204,12 @@ import com.plaid.client.model.PaymentInitiationRecipientGetRequest;
 import com.plaid.client.model.PaymentInitiationRecipientGetResponse;
 import com.plaid.client.model.PaymentInitiationRecipientListRequest;
 import com.plaid.client.model.PaymentInitiationRecipientListResponse;
+import com.plaid.client.model.PaymentProfileCreateRequest;
+import com.plaid.client.model.PaymentProfileCreateResponse;
+import com.plaid.client.model.PaymentProfileGetRequest;
+import com.plaid.client.model.PaymentProfileGetResponse;
+import com.plaid.client.model.PaymentProfileRemoveRequest;
+import com.plaid.client.model.PaymentProfileRemoveResponse;
 import com.plaid.client.model.ProcessorApexProcessorTokenCreateRequest;
 import com.plaid.client.model.ProcessorAuthGetRequest;
 import com.plaid.client.model.ProcessorAuthGetResponse;
@@ -950,7 +958,7 @@ public interface PlaidApi {
    * @param getDashboardUserRequest  (required)
    * @return Call&lt;DashboardUserResponse&gt;
    * 
-   * @see <a href="/api/products/monitor/dashboard_userget">Retrieve a dashboard user Documentation</a>
+   * @see <a href="/api/products/monitor/#dashboard_userget">Retrieve a dashboard user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1072,6 +1080,22 @@ public interface PlaidApi {
   @POST("identity/get")
   Call<IdentityGetResponse> identityGet(
     @retrofit2.http.Body IdentityGetRequest identityGetRequest
+  );
+
+  /**
+   * Retrieve identity match score
+   * The &#x60;/identity/match&#x60; endpoint generates a match score, which indicates how well the provided identity data matches the identity information on file with the account holder&#39;s financial institution.  This request may take some time to complete if Identity was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.
+   * @param identityMatchRequest  (required)
+   * @return Call&lt;IdentityMatchResponse&gt;
+   * 
+   * @see <a href="/api/products/identity/#identitymatch">Retrieve identity match score Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("identity/match")
+  Call<IdentityMatchResponse> identityMatch(
+    @retrofit2.http.Body IdentityMatchRequest identityMatchRequest
   );
 
   /**
@@ -1686,6 +1710,54 @@ public interface PlaidApi {
   @POST("payment_initiation/recipient/list")
   Call<PaymentInitiationRecipientListResponse> paymentInitiationRecipientList(
     @retrofit2.http.Body PaymentInitiationRecipientListRequest paymentInitiationRecipientListRequest
+  );
+
+  /**
+   * Create payment profile
+   * Use &#x60;/payment_profile/create&#x60; endpoint to create a new payment profile, the return value is a Payment Profile ID. Attach it to the link token create request and the link workflow will then \&quot;activate\&quot; this Payment Profile if the linkage is successful. It can then be used to create Transfers using &#x60;/transfer/authorization/create&#x60; and /transfer/create&#x60;.
+   * @param paymentProfileCreateRequest  (required)
+   * @return Call&lt;PaymentProfileCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#payment_profilecreate">Create payment profile Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("payment_profile/create")
+  Call<PaymentProfileCreateResponse> paymentProfileCreate(
+    @retrofit2.http.Body PaymentProfileCreateRequest paymentProfileCreateRequest
+  );
+
+  /**
+   * Get payment profile
+   * Use the &#x60;/payment_profile/get&#x60; endpoint to get the status of a given Payment Profile.
+   * @param paymentProfileGetRequest  (required)
+   * @return Call&lt;PaymentProfileGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#payment_profileget">Get payment profile Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("payment_profile/get")
+  Call<PaymentProfileGetResponse> paymentProfileGet(
+    @retrofit2.http.Body PaymentProfileGetRequest paymentProfileGetRequest
+  );
+
+  /**
+   * Remove payment profile
+   * Use the &#x60;/payment_profile/remove&#x60; endpoint to remove a given Payment Profile. Once it’s removed, it can no longer be used to create transfers.
+   * @param paymentProfileRemoveRequest  (required)
+   * @return Call&lt;PaymentProfileRemoveResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#payment_profileremove">Remove payment profile Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("payment_profile/remove")
+  Call<PaymentProfileRemoveResponse> paymentProfileRemove(
+    @retrofit2.http.Body PaymentProfileRemoveRequest paymentProfileRemoveRequest
   );
 
   /**
@@ -2416,7 +2488,7 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.  If you call the endpoint multiple times with the same client_user_id, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given client_user_id.
+   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.
    * @param userCreateRequest  (required)
    * @return Call&lt;UserCreateResponse&gt;
    * 
