@@ -31,7 +31,7 @@ import java.time.LocalDate;
  * A transaction within an investment account.
  */
 @ApiModel(description = "A transaction within an investment account.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class InvestmentTransaction {
   public static final String SERIALIZED_NAME_INVESTMENT_TRANSACTION_ID = "investment_transaction_id";
   @SerializedName(SERIALIZED_NAME_INVESTMENT_TRANSACTION_ID)

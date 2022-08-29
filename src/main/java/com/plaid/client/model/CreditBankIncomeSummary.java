@@ -33,7 +33,7 @@ import java.util.List;
  * Summary for bank income across all income sources and items (max history of 730 days).
  */
 @ApiModel(description = "Summary for bank income across all income sources and items (max history of 730 days).")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditBankIncomeSummary {
   public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "total_amount";
   @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)

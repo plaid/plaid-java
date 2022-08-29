@@ -28,7 +28,7 @@ import java.io.IOException;
  * International Bank Account Number for a Wallet Transaction
  */
 @ApiModel(description = "International Bank Account Number for a Wallet Transaction")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class WalletTransactionCounterpartyInternational {
   public static final String SERIALIZED_NAME_IBAN = "iban";
   @SerializedName(SERIALIZED_NAME_IBAN)

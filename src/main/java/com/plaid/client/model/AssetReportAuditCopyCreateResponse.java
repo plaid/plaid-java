@@ -28,7 +28,7 @@ import java.io.IOException;
  * AssetReportAuditCopyCreateResponse defines the response schema for &#x60;/asset_report/audit_copy/get&#x60;
  */
 @ApiModel(description = "AssetReportAuditCopyCreateResponse defines the response schema for `/asset_report/audit_copy/get`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class AssetReportAuditCopyCreateResponse {
   public static final String SERIALIZED_NAME_AUDIT_COPY_TOKEN = "audit_copy_token";
   @SerializedName(SERIALIZED_NAME_AUDIT_COPY_TOKEN)

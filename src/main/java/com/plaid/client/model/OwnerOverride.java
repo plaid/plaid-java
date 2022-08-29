@@ -33,7 +33,7 @@ import java.util.List;
  * Data about the owner or owners of an account. Any fields not specified will be filled in with default Sandbox information.
  */
 @ApiModel(description = "Data about the owner or owners of an account. Any fields not specified will be filled in with default Sandbox information.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class OwnerOverride {
   public static final String SERIALIZED_NAME_NAMES = "names";
   @SerializedName(SERIALIZED_NAME_NAMES)

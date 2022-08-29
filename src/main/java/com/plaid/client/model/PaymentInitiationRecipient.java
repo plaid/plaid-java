@@ -30,7 +30,7 @@ import java.io.IOException;
  * PaymentInitiationRecipient defines a payment initiation recipient
  */
 @ApiModel(description = "PaymentInitiationRecipient defines a payment initiation recipient")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class PaymentInitiationRecipient {
   public static final String SERIALIZED_NAME_RECIPIENT_ID = "recipient_id";
   @SerializedName(SERIALIZED_NAME_RECIPIENT_ID)

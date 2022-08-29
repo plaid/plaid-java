@@ -29,7 +29,7 @@ import java.io.IOException;
  * Request input for creating an individual watchlist screening
  */
 @ApiModel(description = "Request input for creating an individual watchlist screening")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class WatchlistScreeningCreateRequest {
   public static final String SERIALIZED_NAME_SEARCH_TERMS = "search_terms";
   @SerializedName(SERIALIZED_NAME_SEARCH_TERMS)

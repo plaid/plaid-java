@@ -33,7 +33,7 @@ import java.util.List;
  * Data returned from the financial institution about the owner or owners of an account. Only the &#x60;names&#x60; array must be non-empty.
  */
 @ApiModel(description = "Data returned from the financial institution about the owner or owners of an account. Only the `names` array must be non-empty.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class Owner {
   public static final String SERIALIZED_NAME_NAMES = "names";
   @SerializedName(SERIALIZED_NAME_NAMES)

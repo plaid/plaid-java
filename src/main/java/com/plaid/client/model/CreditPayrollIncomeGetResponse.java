@@ -32,7 +32,7 @@ import java.util.List;
  * Defines the response body for &#x60;/credit/payroll_income/get&#x60;.
  */
 @ApiModel(description = "Defines the response body for `/credit/payroll_income/get`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditPayrollIncomeGetResponse {
   public static final String SERIALIZED_NAME_ITEMS = "items";
   @SerializedName(SERIALIZED_NAME_ITEMS)

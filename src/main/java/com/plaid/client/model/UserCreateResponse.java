@@ -28,7 +28,7 @@ import java.io.IOException;
  * UserCreateResponse defines the response schema for &#x60;/user/create&#x60;
  */
 @ApiModel(description = "UserCreateResponse defines the response schema for `/user/create`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class UserCreateResponse {
   public static final String SERIALIZED_NAME_USER_TOKEN = "user_token";
   @SerializedName(SERIALIZED_NAME_USER_TOKEN)

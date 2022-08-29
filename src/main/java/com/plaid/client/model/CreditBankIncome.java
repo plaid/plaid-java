@@ -34,7 +34,7 @@ import java.util.List;
  * The report of the Bank Income data for an end user.
  */
 @ApiModel(description = "The report of the Bank Income data for an end user.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditBankIncome {
   public static final String SERIALIZED_NAME_BANK_INCOME_ID = "bank_income_id";
   @SerializedName(SERIALIZED_NAME_BANK_INCOME_ID)

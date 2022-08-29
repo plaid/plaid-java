@@ -29,7 +29,7 @@ import java.io.IOException;
  * The &#x60;USER_PERMISSION_REVOKED&#x60; webhook is fired when an end user has used either the [my.plaid.com portal](https://my.plaid.com) or the financial institution’s consent portal to revoke the permission that they previously granted to access an Item. Once access to an Item has been revoked, it cannot be restored. If the user subsequently returns to your application, a new Item must be created for the user.
  */
 @ApiModel(description = "The `USER_PERMISSION_REVOKED` webhook is fired when an end user has used either the [my.plaid.com portal](https://my.plaid.com) or the financial institution’s consent portal to revoke the permission that they previously granted to access an Item. Once access to an Item has been revoked, it cannot be restored. If the user subsequently returns to your application, a new Item must be created for the user.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class UserPermissionRevokedWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

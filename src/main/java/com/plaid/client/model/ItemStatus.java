@@ -31,7 +31,7 @@ import java.io.IOException;
  * An object with information about the status of the Item.
  */
 @ApiModel(description = "An object with information about the status of the Item.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class ItemStatus {
   public static final String SERIALIZED_NAME_INVESTMENTS = "investments";
   @SerializedName(SERIALIZED_NAME_INVESTMENTS)

@@ -29,7 +29,7 @@ import java.io.IOException;
  * CreditRelayGetRequest defines the request schema for &#x60;/credit/relay/get&#x60;
  */
 @ApiModel(description = "CreditRelayGetRequest defines the request schema for `/credit/relay/get`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditRelayGetRequest {
   public static final String SERIALIZED_NAME_CLIENT_ID = "client_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_ID)

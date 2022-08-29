@@ -28,7 +28,7 @@ import java.io.IOException;
  * SandboxItemSetVerificationStatusRequest defines the request schema for &#x60;/sandbox/item/set_verification_status&#x60;
  */
 @ApiModel(description = "SandboxItemSetVerificationStatusRequest defines the request schema for `/sandbox/item/set_verification_status`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class SandboxItemSetVerificationStatusRequest {
   public static final String SERIALIZED_NAME_CLIENT_ID = "client_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_ID)

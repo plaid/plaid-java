@@ -28,7 +28,7 @@ import java.io.IOException;
  * CreditRelayCreateResponse defines the response schema for &#x60;/credit/relay/create&#x60;
  */
 @ApiModel(description = "CreditRelayCreateResponse defines the response schema for `/credit/relay/create`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditRelayCreateResponse {
   public static final String SERIALIZED_NAME_RELAY_TOKEN = "relay_token";
   @SerializedName(SERIALIZED_NAME_RELAY_TOKEN)

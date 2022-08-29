@@ -31,7 +31,7 @@ import java.util.List;
  * Defines the response schema for &#x60;/bank_transfer/event/list&#x60;
  */
 @ApiModel(description = "Defines the response schema for `/bank_transfer/event/list`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class BankTransferEventListResponse {
   public static final String SERIALIZED_NAME_BANK_TRANSFER_EVENTS = "bank_transfer_events";
   @SerializedName(SERIALIZED_NAME_BANK_TRANSFER_EVENTS)

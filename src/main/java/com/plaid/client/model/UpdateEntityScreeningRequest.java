@@ -33,7 +33,7 @@ import java.util.List;
  * Request input for editing an entity watchlist screening
  */
 @ApiModel(description = "Request input for editing an entity watchlist screening")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class UpdateEntityScreeningRequest {
   public static final String SERIALIZED_NAME_ENTITY_WATCHLIST_SCREENING_ID = "entity_watchlist_screening_id";
   @SerializedName(SERIALIZED_NAME_ENTITY_WATCHLIST_SCREENING_ID)

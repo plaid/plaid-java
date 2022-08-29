@@ -29,7 +29,7 @@ import java.io.IOException;
  * TransactionsRulesCreateResponse defines the response schema for &#x60;/beta/transactions/rules/v1/create&#x60;
  */
 @ApiModel(description = "TransactionsRulesCreateResponse defines the response schema for `/beta/transactions/rules/v1/create`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class TransactionsRulesCreateResponse {
   public static final String SERIALIZED_NAME_RULE = "rule";
   @SerializedName(SERIALIZED_NAME_RULE)

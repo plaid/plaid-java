@@ -28,7 +28,7 @@ import java.io.IOException;
  * DepositSwitchCreateResponse defines the response schema for &#x60;/deposit_switch/create&#x60;
  */
 @ApiModel(description = "DepositSwitchCreateResponse defines the response schema for `/deposit_switch/create`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class DepositSwitchCreateResponse {
   public static final String SERIALIZED_NAME_DEPOSIT_SWITCH_ID = "deposit_switch_id";
   @SerializedName(SERIALIZED_NAME_DEPOSIT_SWITCH_ID)

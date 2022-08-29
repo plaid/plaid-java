@@ -29,7 +29,7 @@ import java.io.IOException;
  * Defines the response schema for &#x60;/credit/payroll_income/precheck&#x60;.
  */
 @ApiModel(description = "Defines the response schema for `/credit/payroll_income/precheck`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditPayrollIncomePrecheckResponse {
   public static final String SERIALIZED_NAME_REQUEST_ID = "request_id";
   @SerializedName(SERIALIZED_NAME_REQUEST_ID)

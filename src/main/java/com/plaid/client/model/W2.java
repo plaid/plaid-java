@@ -34,7 +34,7 @@ import java.util.List;
  * W2 is an object that represents income data taken from a W2 tax document.
  */
 @ApiModel(description = "W2 is an object that represents income data taken from a W2 tax document.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class W2 {
   public static final String SERIALIZED_NAME_EMPLOYER = "employer";
   @SerializedName(SERIALIZED_NAME_EMPLOYER)

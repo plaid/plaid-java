@@ -33,7 +33,7 @@ import java.io.IOException;
  * The outcome of the &#x60;kyc_check&#x60; step.
  */
 @ApiModel(description = "The outcome of the `kyc_check` step.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class KYCCheckDetails {
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)

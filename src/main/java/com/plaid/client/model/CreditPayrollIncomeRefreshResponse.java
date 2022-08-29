@@ -28,7 +28,7 @@ import java.io.IOException;
  * CreditPayrollIncomeRefreshResponse defines the response schema for &#x60;/credit/payroll_income/refresh&#x60;
  */
 @ApiModel(description = "CreditPayrollIncomeRefreshResponse defines the response schema for `/credit/payroll_income/refresh`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditPayrollIncomeRefreshResponse {
   public static final String SERIALIZED_NAME_REQUEST_ID = "request_id";
   @SerializedName(SERIALIZED_NAME_REQUEST_ID)

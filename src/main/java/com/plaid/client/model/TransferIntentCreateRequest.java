@@ -34,7 +34,7 @@ import java.util.Map;
  * Defines the request schema for &#x60;/transfer/intent/create&#x60;
  */
 @ApiModel(description = "Defines the request schema for `/transfer/intent/create`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class TransferIntentCreateRequest {
   public static final String SERIALIZED_NAME_CLIENT_ID = "client_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_ID)

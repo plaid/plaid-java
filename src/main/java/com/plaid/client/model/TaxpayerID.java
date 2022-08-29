@@ -28,7 +28,7 @@ import java.io.IOException;
  * Taxpayer ID of the individual receiving the paystub.
  */
 @ApiModel(description = "Taxpayer ID of the individual receiving the paystub.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class TaxpayerID {
   public static final String SERIALIZED_NAME_ID_TYPE = "id_type";
   @SerializedName(SERIALIZED_NAME_ID_TYPE)

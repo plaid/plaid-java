@@ -31,7 +31,7 @@ import java.util.List;
  * A filter to apply to &#x60;credit&#x60;-type accounts
  */
 @ApiModel(description = "A filter to apply to `credit`-type accounts")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class LinkTokenCreateCreditFilter {
   public static final String SERIALIZED_NAME_ACCOUNT_SUBTYPES = "account_subtypes";
   @SerializedName(SERIALIZED_NAME_ACCOUNT_SUBTYPES)

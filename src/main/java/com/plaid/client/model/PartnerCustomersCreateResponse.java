@@ -29,7 +29,7 @@ import java.io.IOException;
  * Response schema for &#x60;/partner/v1/customers/create&#x60;.
  */
 @ApiModel(description = "Response schema for `/partner/v1/customers/create`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class PartnerCustomersCreateResponse {
   public static final String SERIALIZED_NAME_END_CUSTOMER = "end_customer";
   @SerializedName(SERIALIZED_NAME_END_CUSTOMER)

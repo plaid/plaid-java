@@ -30,7 +30,7 @@ import java.io.IOException;
  * Analyzed URLs for the associated hit
  */
 @ApiModel(description = "Analyzed URLs for the associated hit")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class EntityScreeningHitUrlsItems {
   public static final String SERIALIZED_NAME_ANALYSIS = "analysis";
   @SerializedName(SERIALIZED_NAME_ANALYSIS)

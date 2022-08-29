@@ -30,7 +30,7 @@ import java.io.IOException;
  * An object representing the e-wallet account numbers
  */
 @ApiModel(description = "An object representing the e-wallet account numbers")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class WalletNumbers {
   public static final String SERIALIZED_NAME_BACS = "bacs";
   @SerializedName(SERIALIZED_NAME_BACS)
