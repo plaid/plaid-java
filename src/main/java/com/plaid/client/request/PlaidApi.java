@@ -23,6 +23,8 @@ import com.plaid.client.model.AssetReportCreateRequest;
 import com.plaid.client.model.AssetReportCreateResponse;
 import com.plaid.client.model.AssetReportFilterRequest;
 import com.plaid.client.model.AssetReportFilterResponse;
+import com.plaid.client.model.AssetReportFreddieGetRequest;
+import com.plaid.client.model.AssetReportFreddieGetResponse;
 import com.plaid.client.model.AssetReportGetRequest;
 import com.plaid.client.model.AssetReportGetResponse;
 import com.plaid.client.model.AssetReportPDFGetRequest;
@@ -60,9 +62,6 @@ import com.plaid.client.model.BankTransferSweepGetResponse;
 import com.plaid.client.model.BankTransferSweepListRequest;
 import com.plaid.client.model.BankTransferSweepListResponse;
 import com.plaid.client.model.CategoriesGetResponse;
-import com.plaid.client.model.CreateEntityScreeningRequest;
-import com.plaid.client.model.CreateEntityWatchlistScreeningReviewRequest;
-import com.plaid.client.model.CreateIndividualWatchlistScreeningReviewRequest;
 import com.plaid.client.model.CreditAuditCopyTokenCreateRequest;
 import com.plaid.client.model.CreditAuditCopyTokenCreateResponse;
 import com.plaid.client.model.CreditAuditCopyTokenRemoveRequest;
@@ -87,7 +86,10 @@ import com.plaid.client.model.CreditRelayRefreshRequest;
 import com.plaid.client.model.CreditRelayRefreshResponse;
 import com.plaid.client.model.CreditRelayRemoveRequest;
 import com.plaid.client.model.CreditRelayRemoveResponse;
-import com.plaid.client.model.DashboardUserResponse;
+import com.plaid.client.model.DashboardUserGetRequest;
+import com.plaid.client.model.DashboardUserGetResponse;
+import com.plaid.client.model.DashboardUserListRequest;
+import com.plaid.client.model.DashboardUserListResponse;
 import com.plaid.client.model.DepositSwitchAltCreateRequest;
 import com.plaid.client.model.DepositSwitchAltCreateResponse;
 import com.plaid.client.model.DepositSwitchCreateRequest;
@@ -100,24 +102,20 @@ import com.plaid.client.model.EmployersSearchRequest;
 import com.plaid.client.model.EmployersSearchResponse;
 import com.plaid.client.model.EmploymentVerificationGetRequest;
 import com.plaid.client.model.EmploymentVerificationGetResponse;
-import com.plaid.client.model.EntityWatchlistProgramResponse;
-import com.plaid.client.model.EntityWatchlistScreeningResponse;
-import com.plaid.client.model.EntityWatchlistScreeningReviewResponse;
 import com.plaid.client.model.Error;
 import java.io.File;
-import com.plaid.client.model.GetDashboardUserRequest;
-import com.plaid.client.model.GetEntityWatchlistScreeningRequest;
-import com.plaid.client.model.GetIdentityVerificationRequest;
-import com.plaid.client.model.GetIndividualWatchlistScreeningRequest;
-import com.plaid.client.model.GetWatchlistScreeningEntityProgramRequest;
-import com.plaid.client.model.GetWatchlistScreeningIndividualProgramRequest;
 import com.plaid.client.model.IdentityGetRequest;
 import com.plaid.client.model.IdentityGetResponse;
 import com.plaid.client.model.IdentityMatchRequest;
 import com.plaid.client.model.IdentityMatchResponse;
 import com.plaid.client.model.IdentityVerificationCreateRequest;
-import com.plaid.client.model.IdentityVerificationResponse;
+import com.plaid.client.model.IdentityVerificationCreateResponse;
+import com.plaid.client.model.IdentityVerificationGetRequest;
+import com.plaid.client.model.IdentityVerificationGetResponse;
+import com.plaid.client.model.IdentityVerificationListRequest;
+import com.plaid.client.model.IdentityVerificationListResponse;
 import com.plaid.client.model.IdentityVerificationRetryRequest;
+import com.plaid.client.model.IdentityVerificationRetryResponse;
 import com.plaid.client.model.IncomeVerificationCreateRequest;
 import com.plaid.client.model.IncomeVerificationCreateResponse;
 import com.plaid.client.model.IncomeVerificationDocumentsDownloadRequest;
@@ -129,7 +127,6 @@ import com.plaid.client.model.IncomeVerificationRefreshRequest;
 import com.plaid.client.model.IncomeVerificationRefreshResponse;
 import com.plaid.client.model.IncomeVerificationTaxformsGetRequest;
 import com.plaid.client.model.IncomeVerificationTaxformsGetResponse;
-import com.plaid.client.model.IndividualWatchlistProgramResponse;
 import com.plaid.client.model.InstitutionsGetByIdRequest;
 import com.plaid.client.model.InstitutionsGetByIdResponse;
 import com.plaid.client.model.InstitutionsGetRequest;
@@ -160,32 +157,14 @@ import com.plaid.client.model.ItemWebhookUpdateRequest;
 import com.plaid.client.model.ItemWebhookUpdateResponse;
 import com.plaid.client.model.LiabilitiesGetRequest;
 import com.plaid.client.model.LiabilitiesGetResponse;
+import com.plaid.client.model.LinkDeliveryCreateRequest;
+import com.plaid.client.model.LinkDeliveryCreateResponse;
+import com.plaid.client.model.LinkDeliveryGetRequest;
+import com.plaid.client.model.LinkDeliveryGetResponse;
 import com.plaid.client.model.LinkTokenCreateRequest;
 import com.plaid.client.model.LinkTokenCreateResponse;
 import com.plaid.client.model.LinkTokenGetRequest;
 import com.plaid.client.model.LinkTokenGetResponse;
-import com.plaid.client.model.ListDashboardUserRequest;
-import com.plaid.client.model.ListEntityWatchlistScreeningRequest;
-import com.plaid.client.model.ListIdentityVerificationRequest;
-import com.plaid.client.model.ListIndividualWatchlistScreeningRequest;
-import com.plaid.client.model.ListWatchlistScreeningEntityHistoryRequest;
-import com.plaid.client.model.ListWatchlistScreeningEntityHitRequest;
-import com.plaid.client.model.ListWatchlistScreeningEntityProgramsRequest;
-import com.plaid.client.model.ListWatchlistScreeningEntityReviewsRequest;
-import com.plaid.client.model.ListWatchlistScreeningIndividualHistoryRequest;
-import com.plaid.client.model.ListWatchlistScreeningIndividualHitRequest;
-import com.plaid.client.model.ListWatchlistScreeningIndividualProgramsRequest;
-import com.plaid.client.model.ListWatchlistScreeningIndividualReviewsRequest;
-import com.plaid.client.model.PaginatedDashboardUserListResponse;
-import com.plaid.client.model.PaginatedEntityWatchlistProgramListResponse;
-import com.plaid.client.model.PaginatedEntityWatchlistScreeningHitListResponse;
-import com.plaid.client.model.PaginatedEntityWatchlistScreeningListResponse;
-import com.plaid.client.model.PaginatedEntityWatchlistScreeningReviewListResponse;
-import com.plaid.client.model.PaginatedIdentityVerificationListResponse;
-import com.plaid.client.model.PaginatedIndividualWatchlistProgramListResponse;
-import com.plaid.client.model.PaginatedIndividualWatchlistScreeningHitListResponse;
-import com.plaid.client.model.PaginatedIndividualWatchlistScreeningListResponse;
-import com.plaid.client.model.PaginatedIndividualWatchlistScreeningReviewListResponse;
 import com.plaid.client.model.PartnerCustomersCreateRequest;
 import com.plaid.client.model.PartnerCustomersCreateResponse;
 import com.plaid.client.model.PaymentInitiationConsentCreateRequest;
@@ -308,8 +287,6 @@ import com.plaid.client.model.TransferSweepGetRequest;
 import com.plaid.client.model.TransferSweepGetResponse;
 import com.plaid.client.model.TransferSweepListRequest;
 import com.plaid.client.model.TransferSweepListResponse;
-import com.plaid.client.model.UpdateEntityScreeningRequest;
-import com.plaid.client.model.UpdateIndividualScreeningRequest;
 import com.plaid.client.model.UserCreateRequest;
 import com.plaid.client.model.UserCreateResponse;
 import com.plaid.client.model.WalletCreateRequest;
@@ -324,9 +301,46 @@ import com.plaid.client.model.WalletTransactionGetRequest;
 import com.plaid.client.model.WalletTransactionGetResponse;
 import com.plaid.client.model.WalletTransactionsListRequest;
 import com.plaid.client.model.WalletTransactionsListResponse;
-import com.plaid.client.model.WatchlistScreeningCreateRequest;
-import com.plaid.client.model.WatchlistScreeningIndividualResponse;
-import com.plaid.client.model.WatchlistScreeningReviewResponse;
+import com.plaid.client.model.WatchlistScreeningEntityCreateRequest;
+import com.plaid.client.model.WatchlistScreeningEntityCreateResponse;
+import com.plaid.client.model.WatchlistScreeningEntityGetRequest;
+import com.plaid.client.model.WatchlistScreeningEntityGetResponse;
+import com.plaid.client.model.WatchlistScreeningEntityHistoryListRequest;
+import com.plaid.client.model.WatchlistScreeningEntityHistoryListResponse;
+import com.plaid.client.model.WatchlistScreeningEntityHitListRequest;
+import com.plaid.client.model.WatchlistScreeningEntityHitListResponse;
+import com.plaid.client.model.WatchlistScreeningEntityListRequest;
+import com.plaid.client.model.WatchlistScreeningEntityListResponse;
+import com.plaid.client.model.WatchlistScreeningEntityProgramGetRequest;
+import com.plaid.client.model.WatchlistScreeningEntityProgramGetResponse;
+import com.plaid.client.model.WatchlistScreeningEntityProgramListRequest;
+import com.plaid.client.model.WatchlistScreeningEntityProgramListResponse;
+import com.plaid.client.model.WatchlistScreeningEntityReviewCreateRequest;
+import com.plaid.client.model.WatchlistScreeningEntityReviewCreateResponse;
+import com.plaid.client.model.WatchlistScreeningEntityReviewListRequest;
+import com.plaid.client.model.WatchlistScreeningEntityReviewListResponse;
+import com.plaid.client.model.WatchlistScreeningEntityUpdateRequest;
+import com.plaid.client.model.WatchlistScreeningEntityUpdateResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualCreateRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualCreateResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualGetRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualGetResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualHistoryListRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualHistoryListResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualHitListRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualHitListResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualListRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualListResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualProgramGetRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualProgramGetResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualProgramListRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualProgramListResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualReviewCreateRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualReviewCreateResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualReviewListRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualReviewListResponse;
+import com.plaid.client.model.WatchlistScreeningIndividualUpdateRequest;
+import com.plaid.client.model.WatchlistScreeningIndividualUpdateResponse;
 import com.plaid.client.model.WebhookVerificationKeyGetRequest;
 import com.plaid.client.model.WebhookVerificationKeyGetResponse;
 
@@ -801,6 +815,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve an Asset Report with Freddie Mac format. Only Freddie Mac can use this endpoint.
+   * The &#x60;credit/asset_report/freddie_mac/get&#x60; endpoint retrieves the Asset Report in Freddie Mac&#39;s JSON format.
+   * @param assetReportFreddieGetRequest  (required)
+   * @return Call&lt;AssetReportFreddieGetResponse&gt;
+   * 
+   * @see <a href="/none/">Retrieve an Asset Report with Freddie Mac format. Only Freddie Mac can use this endpoint. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/asset_report/freddie_mac/get")
+  Call<AssetReportFreddieGetResponse> creditAssetReportFreddieMacGet(
+    @retrofit2.http.Body AssetReportFreddieGetRequest assetReportFreddieGetRequest
+  );
+
+  /**
    * Create Asset or Income Report Audit Copy Token
    * Plaid can provide an Audit Copy token of an Asset Report and/or Income Report directly to a participating third party on your behalf. For example, Plaid can supply an Audit Copy token directly to Fannie Mae on your behalf if you participate in the Day 1 Certainty™ program. An Audit Copy token contains the same underlying data as the Asset Report and/or Income Report (result of /credit/payroll_income/get).  To grant access to an Audit Copy token, use the &#x60;/credit/audit_copy_token/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the third party who needs access. Each third party has its own &#x60;auditor_id&#x60;, for example &#x60;fannie_mae&#x60;. You’ll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report.
    * @param creditAuditCopyTokenCreateRequest  (required)
@@ -898,7 +928,7 @@ public interface PlaidApi {
 
   /**
    * Check income verification eligibility and optimize conversion
-   * &#x60;/credit/payroll_income/precheck&#x60; is an optional endpoint that can be called before initializing a Link session for income verification. It evaluates whether a given user is supportable by digital income verification. If the user is eligible for digital verification, that information will be associated with the user token, and in this way will generate a Link UI optimized for the end user and their specific employer. If the user cannot be confirmed as eligible, the user can still use the income verification flow, but they may be required to manually upload a paystub to verify their income.  While all request fields are optional, providing &#x60;employer&#x60; data will increase the chance of receiving a useful result.
+   * &#x60;/credit/payroll_income/precheck&#x60; is an optional endpoint that can be called before initializing a Link session for income verification. It evaluates whether a given user is supportable by digital income verification. If the user is eligible for digital verification, that information will be associated with the user token, and in this way will generate a Link UI optimized for the end user and their specific employer. If the user cannot be confirmed as eligible, the user can still use the income verification flow, but they may be required to manually upload a paystub to verify their income.  While all request fields are optional, providing &#x60;employer&#x60; data will increase the chance of receiving a useful result.  When testing in Sandbox, you can control the results by providing special test values in the &#x60;employer&#x60; field. &#x60;employer_good&#x60; and &#x60;employer_bad&#x60; will result in &#x60;HIGH&#x60; and &#x60;LOW&#x60; confidence values, respectively. &#x60;employer_multi&#x60; will result in a &#x60;HIGH&#x60; confidence with multiple payroll options. Any other value for &#x60;employer&#x60; in Sandbox will result in &#x60;UNKNOWN&#x60; confidence.
    * @param creditPayrollIncomePrecheckRequest  (required)
    * @return Call&lt;CreditPayrollIncomePrecheckResponse&gt;
    * 
@@ -1009,26 +1039,10 @@ public interface PlaidApi {
   );
 
   /**
-   * List dashboard users
-   * List all dashboard users associated with your account.
-   * @param listDashboardUserRequest  (required)
-   * @return Call&lt;PaginatedDashboardUserListResponse&gt;
-   * 
-   * @see <a href="/api/products/monitor/#dashboard_userlist">List dashboard users Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("dashboard_user/list")
-  Call<PaginatedDashboardUserListResponse> dashboardUserList(
-    @retrofit2.http.Body ListDashboardUserRequest listDashboardUserRequest
-  );
-
-  /**
    * Retrieve a dashboard user
    * Retrieve information about a dashboard user.
-   * @param getDashboardUserRequest  (required)
-   * @return Call&lt;DashboardUserResponse&gt;
+   * @param dashboardUserGetRequest  (required)
+   * @return Call&lt;DashboardUserGetResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#dashboard_userget">Retrieve a dashboard user Documentation</a>
    */
@@ -1036,8 +1050,24 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("dashboard_user/get")
-  Call<DashboardUserResponse> dashobardUserGet(
-    @retrofit2.http.Body GetDashboardUserRequest getDashboardUserRequest
+  Call<DashboardUserGetResponse> dashboardUserGet(
+    @retrofit2.http.Body DashboardUserGetRequest dashboardUserGetRequest
+  );
+
+  /**
+   * List dashboard users
+   * List all dashboard users associated with your account.
+   * @param dashboardUserListRequest  (required)
+   * @return Call&lt;DashboardUserListResponse&gt;
+   * 
+   * @see <a href="/api/products/monitor/#dashboard_userlist">List dashboard users Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("dashboard_user/list")
+  Call<DashboardUserListResponse> dashboardUserList(
+    @retrofit2.http.Body DashboardUserListRequest dashboardUserListRequest
   );
 
   /**
@@ -1174,7 +1204,7 @@ public interface PlaidApi {
    * Create a new identity verification
    * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; field. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If you don&#39;t know whether the associated user already has an active Identity Verification, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with an &#x60;200 OK&#x60; HTTP status code. 
    * @param identityVerificationCreateRequest  (required)
-   * @return Call&lt;IdentityVerificationResponse&gt;
+   * @return Call&lt;IdentityVerificationCreateResponse&gt;
    * 
    * @see <a href="/api/products/identity-verification/#identity_verificationcreate">Create a new identity verification Documentation</a>
    */
@@ -1182,15 +1212,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("identity_verification/create")
-  Call<IdentityVerificationResponse> identityVerificationCreate(
+  Call<IdentityVerificationCreateResponse> identityVerificationCreate(
     @retrofit2.http.Body IdentityVerificationCreateRequest identityVerificationCreateRequest
   );
 
   /**
    * Retrieve Identity Verification
    * Retrieve a previously created identity verification
-   * @param getIdentityVerificationRequest  (required)
-   * @return Call&lt;IdentityVerificationResponse&gt;
+   * @param identityVerificationGetRequest  (required)
+   * @return Call&lt;IdentityVerificationGetResponse&gt;
    * 
    * @see <a href="/api/products/identity-verification/#identity_verificationget">Retrieve Identity Verification Documentation</a>
    */
@@ -1198,15 +1228,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("identity_verification/get")
-  Call<IdentityVerificationResponse> identityVerificationGet(
-    @retrofit2.http.Body GetIdentityVerificationRequest getIdentityVerificationRequest
+  Call<IdentityVerificationGetResponse> identityVerificationGet(
+    @retrofit2.http.Body IdentityVerificationGetRequest identityVerificationGetRequest
   );
 
   /**
    * List Identity Verifications
    * Filter and list Identity Verifications created by your account
-   * @param listIdentityVerificationRequest  (required)
-   * @return Call&lt;PaginatedIdentityVerificationListResponse&gt;
+   * @param identityVerificationListRequest  (required)
+   * @return Call&lt;IdentityVerificationListResponse&gt;
    * 
    * @see <a href="/api/products/identity-verification/#identity_verificationlist">List Identity Verifications Documentation</a>
    */
@@ -1214,15 +1244,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("identity_verification/list")
-  Call<PaginatedIdentityVerificationListResponse> identityVerificationList(
-    @retrofit2.http.Body ListIdentityVerificationRequest listIdentityVerificationRequest
+  Call<IdentityVerificationListResponse> identityVerificationList(
+    @retrofit2.http.Body IdentityVerificationListRequest identityVerificationListRequest
   );
 
   /**
    * Retry an Identity Verification
    * Allow a customer to retry their identity verification
    * @param identityVerificationRetryRequest  (required)
-   * @return Call&lt;IdentityVerificationResponse&gt;
+   * @return Call&lt;IdentityVerificationRetryResponse&gt;
    * 
    * @see <a href="/api/products/identity-verification/#identity_verificationretry">Retry an Identity Verification Documentation</a>
    */
@@ -1230,7 +1260,7 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("identity_verification/retry")
-  Call<IdentityVerificationResponse> identityVerificationRetry(
+  Call<IdentityVerificationRetryResponse> identityVerificationRetry(
     @retrofit2.http.Body IdentityVerificationRetryRequest identityVerificationRetryRequest
   );
 
@@ -1577,6 +1607,38 @@ public interface PlaidApi {
   );
 
   /**
+   * Create link delivery session
+   * Use the &#x60;/link_delivery/create&#x60; endpoint to create a Link Delivery session.
+   * @param linkDeliveryCreateRequest  (required)
+   * @return Call&lt;LinkDeliveryCreateResponse&gt;
+   * 
+   * @see <a href="/api/link_delivery/#create">Create link delivery session Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("link_delivery/create")
+  Call<LinkDeliveryCreateResponse> linkDeliveryCreate(
+    @retrofit2.http.Body LinkDeliveryCreateRequest linkDeliveryCreateRequest
+  );
+
+  /**
+   * Get link delivery session
+   * Use the &#x60;/link_delivery/get&#x60; endpoint to get the status of a Link Delivery session.
+   * @param linkDeliveryGetRequest  (required)
+   * @return Call&lt;LinkDeliveryGetResponse&gt;
+   * 
+   * @see <a href="/api/link_delivery/#get">Get link delivery session Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("link_delivery/get")
+  Call<LinkDeliveryGetResponse> linkDeliveryGet(
+    @retrofit2.http.Body LinkDeliveryGetRequest linkDeliveryGetRequest
+  );
+
+  /**
    * Create Link Token
    * The &#x60;/link/token/create&#x60; endpoint creates a &#x60;link_token&#x60;, which is required as a parameter when initializing Link. Once Link has been initialized, it returns a &#x60;public_token&#x60;, which can then be exchanged for an &#x60;access_token&#x60; via &#x60;/item/public_token/exchange&#x60; as part of the main Link flow.  A &#x60;link_token&#x60; generated by &#x60;/link/token/create&#x60; is also used to initialize other Link flows, such as the update mode flow for tokens with expired credentials, or the Payment Initiation (Europe) flow.
    * @param linkTokenCreateRequest  (required)
@@ -1736,7 +1798,7 @@ public interface PlaidApi {
 
   /**
    * Reverse an existing payment
-   * Reverse a previously initiated payment.  A payment can only be reversed once and will be refunded to the original sender&#39;s account. 
+   * Reverse a previously settled payment from a Plaid virtual account.  The original payment must be in a settled state to be refunded and only full payment refunds are currently supported. To power partial refunds, use &#x60;/wallet/transaction/execute&#x60;, where you can specify the exact amount for a payout to an end user.  A payment can only be reversed once and will be refunded back to the same source account that initiated the payment. The original payment must have been initiated to a Plaid virtual account. The refund will be initiated from the same virtual account that the payment was paid into. 
    * @param paymentInitiationPaymentReverseRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentReverseResponse&gt;
    * 
@@ -1752,7 +1814,7 @@ public interface PlaidApi {
 
   /**
    * Create payment recipient
-   * Create a payment recipient for payment initiation.  The recipient must be in Europe, within a country that is a member of the Single Euro Payment Area (SEPA).  For a standing order (recurring) payment, the recipient must be in the UK.  The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same &#x60;recipient_id&#x60;. 
+   * Create a payment recipient for payment initiation.  The recipient must be in Europe, within a country that is a member of the Single Euro Payment Area (SEPA).  For a standing order (recurring) payment, the recipient must be in the UK.  It is recommended to use &#x60;bacs&#x60; in the UK and &#x60;iban&#x60; in EU.  The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same &#x60;recipient_id&#x60;. 
    * @param paymentInitiationRecipientCreateRequest  (required)
    * @return Call&lt;PaymentInitiationRecipientCreateResponse&gt;
    * 
@@ -1800,7 +1862,7 @@ public interface PlaidApi {
 
   /**
    * Create payment profile
-   * Use &#x60;/payment_profile/create&#x60; endpoint to create a new payment profile, the return value is a Payment Profile ID. Attach it to the link token create request and the link workflow will then \&quot;activate\&quot; this Payment Profile if the linkage is successful. It can then be used to create Transfers using &#x60;/transfer/authorization/create&#x60; and /transfer/create&#x60;.
+   * Use &#x60;/payment_profile/create&#x60; endpoint to create a new payment profile, identified by a Payment Profile ID. To initiate the account linking experience, call &#x60;/link/token/create&#x60; and provide the Payment Profile ID in the &#x60;transfer.payment_profile_id&#x60; field. You can then use the Payment Profile ID when creating transfers using &#x60;/transfer/authorization/create&#x60; and &#x60;/transfer/create&#x60;.
    * @param paymentProfileCreateRequest  (required)
    * @return Call&lt;PaymentProfileCreateResponse&gt;
    * 
@@ -1816,7 +1878,7 @@ public interface PlaidApi {
 
   /**
    * Get payment profile
-   * Use the &#x60;/payment_profile/get&#x60; endpoint to get the status of a given Payment Profile.
+   * Use &#x60;/payment_profile/get&#x60; endpoint to get the status of a given Payment Profile.
    * @param paymentProfileGetRequest  (required)
    * @return Call&lt;PaymentProfileGetResponse&gt;
    * 
@@ -2350,7 +2412,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.  For guaranteed ACH customers, the following fields are required : &#x60;user.phone_number&#x60; (optional if &#x60;email_address&#x60; provided), &#x60;user.email_address&#x60; (optional if &#x60;phone_number&#x60; provided), &#x60;device.ip_address&#x60;, &#x60;device.user_agent&#x60;, and &#x60;user_present&#x60;.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.  For [Guarantee](https://www.plaid.com/docs//transfer/guarantee/), the following fields are required : &#x60;user.phone_number&#x60; (optional if &#x60;email_address&#x60; provided), &#x60;user.email_address&#x60; (optional if &#x60;phone_number&#x60; provided), &#x60;device.ip_address&#x60;, &#x60;device.user_agent&#x60;, and &#x60;user_present&#x60;.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -2366,7 +2428,7 @@ public interface PlaidApi {
 
   /**
    * Cancel a transfer
-   * Use the &#x60;/transfer/cancel&#x60; endpoint to cancel a transfer.  A transfer is eligible for cancelation if the &#x60;cancellable&#x60; property returned by &#x60;/transfer/get&#x60; is &#x60;true&#x60;.
+   * Use the &#x60;/transfer/cancel&#x60; endpoint to cancel a transfer.  A transfer is eligible for cancellation if the &#x60;cancellable&#x60; property returned by &#x60;/transfer/get&#x60; is &#x60;true&#x60;.
    * @param transferCancelRequest  (required)
    * @return Call&lt;TransferCancelResponse&gt;
    * 
@@ -2574,7 +2636,7 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.
+   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.  Ensure that you store the &#x60;user_token&#x60; along with your user&#39;s identifier in your database, as it is not possible to retrieve a previously created &#x60;user_token&#x60;.
    * @param userCreateRequest  (required)
    * @return Call&lt;UserCreateResponse&gt;
    * 
@@ -2594,7 +2656,7 @@ public interface PlaidApi {
    * @param walletCreateRequest  (required)
    * @return Call&lt;WalletCreateResponse&gt;
    * 
-   * @see <a href="/api/products/#walletcreate">Create an e-wallet Documentation</a>
+   * @see <a href="/api/products/virtual-accounts/#walletcreate">Create an e-wallet Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2610,7 +2672,7 @@ public interface PlaidApi {
    * @param walletGetRequest  (required)
    * @return Call&lt;WalletGetResponse&gt;
    * 
-   * @see <a href="/api/products/#walletget">Fetch an e-wallet Documentation</a>
+   * @see <a href="/api/products/virtual-accounts/#walletget">Fetch an e-wallet Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2626,7 +2688,7 @@ public interface PlaidApi {
    * @param walletListRequest  (required)
    * @return Call&lt;WalletListResponse&gt;
    * 
-   * @see <a href="/api/products/#walletlist">Fetch a list of e-wallets Documentation</a>
+   * @see <a href="/api/products/virtual-accounts/#walletlist">Fetch a list of e-wallets Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2638,11 +2700,11 @@ public interface PlaidApi {
 
   /**
    * Execute a transaction using an e-wallet
-   * Execute a transaction using the specified e-wallet. Specify the e-wallet to debit from, the counterparty to credit to, the idempotency key to prevent duplicate payouts, the amount and reference for the payout. The payouts are executed over the Faster Payment rails, where settlement usually only takes a few seconds.
+   * Execute a transaction using the specified e-wallet. Specify the e-wallet to debit from, the counterparty to credit to, the idempotency key to prevent duplicate transactions, the amount and reference for the transaction. Transactions will settle in seconds to several days, depending on the underlying payment rail.
    * @param walletTransactionExecuteRequest  (required)
    * @return Call&lt;WalletTransactionExecuteResponse&gt;
    * 
-   * @see <a href="/api/products/#wallettransactionexecute">Execute a transaction using an e-wallet Documentation</a>
+   * @see <a href="/api/products/virtual-accounts/#wallettransactionexecute">Execute a transaction using an e-wallet Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2653,12 +2715,12 @@ public interface PlaidApi {
   );
 
   /**
-   * 
+   * Fetch an e-wallet transaction
    * Fetch a specific e-wallet transaction
    * @param walletTransactionGetRequest  (required)
    * @return Call&lt;WalletTransactionGetResponse&gt;
    * 
-   * @see <a href="/api/products/#wallettransactionget"> Documentation</a>
+   * @see <a href="/api/products/virtual-accounts/#wallettransactionget">Fetch an e-wallet transaction Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2674,7 +2736,7 @@ public interface PlaidApi {
    * @param walletTransactionsListRequest  (required)
    * @return Call&lt;WalletTransactionsListResponse&gt;
    * 
-   * @see <a href="/api/products/#wallettransactionslist">List e-wallet transactions Documentation</a>
+   * @see <a href="/api/products/virtual-accounts/#wallettransactionslist">List e-wallet transactions Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2687,8 +2749,8 @@ public interface PlaidApi {
   /**
    * Create a watchlist screening for an entity
    * Create a new entity watchlist screening to check your customer against watchlists defined in the associated entity watchlist program. If your associated program has ongoing screening enabled, this is the profile information that will be used to monitor your customer over time.
-   * @param createEntityScreeningRequest  (required)
-   * @return Call&lt;EntityWatchlistScreeningResponse&gt;
+   * @param watchlistScreeningEntityCreateRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityCreateResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentitycreate">Create a watchlist screening for an entity Documentation</a>
    */
@@ -2696,15 +2758,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/create")
-  Call<EntityWatchlistScreeningResponse> watchlistScreeningEntityCreate(
-    @retrofit2.http.Body CreateEntityScreeningRequest createEntityScreeningRequest
+  Call<WatchlistScreeningEntityCreateResponse> watchlistScreeningEntityCreate(
+    @retrofit2.http.Body WatchlistScreeningEntityCreateRequest watchlistScreeningEntityCreateRequest
   );
 
   /**
    * Get an entity screening
    * Retrieve an entity watchlist screening.
-   * @param getEntityWatchlistScreeningRequest  (required)
-   * @return Call&lt;EntityWatchlistScreeningResponse&gt;
+   * @param watchlistScreeningEntityGetRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityGetResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityget">Get an entity screening Documentation</a>
    */
@@ -2712,15 +2774,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/get")
-  Call<EntityWatchlistScreeningResponse> watchlistScreeningEntityGet(
-    @retrofit2.http.Body GetEntityWatchlistScreeningRequest getEntityWatchlistScreeningRequest
+  Call<WatchlistScreeningEntityGetResponse> watchlistScreeningEntityGet(
+    @retrofit2.http.Body WatchlistScreeningEntityGetRequest watchlistScreeningEntityGetRequest
   );
 
   /**
    * List history for entity watchlist screenings
    * List all changes to the entity watchlist screening in reverse-chronological order. If the watchlist screening has not been edited, no history will be returned.
-   * @param listWatchlistScreeningEntityHistoryRequest  (required)
-   * @return Call&lt;PaginatedEntityWatchlistScreeningListResponse&gt;
+   * @param watchlistScreeningEntityHistoryListRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityHistoryListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityhistorylist">List history for entity watchlist screenings Documentation</a>
    */
@@ -2728,15 +2790,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/history/list")
-  Call<PaginatedEntityWatchlistScreeningListResponse> watchlistScreeningEntityHistoryList(
-    @retrofit2.http.Body ListWatchlistScreeningEntityHistoryRequest listWatchlistScreeningEntityHistoryRequest
+  Call<WatchlistScreeningEntityHistoryListResponse> watchlistScreeningEntityHistoryList(
+    @retrofit2.http.Body WatchlistScreeningEntityHistoryListRequest watchlistScreeningEntityHistoryListRequest
   );
 
   /**
    * List hits for entity watchlist screenings
    * List all hits for the entity watchlist screening.
-   * @param listWatchlistScreeningEntityHitRequest  (required)
-   * @return Call&lt;PaginatedEntityWatchlistScreeningHitListResponse&gt;
+   * @param watchlistScreeningEntityHitListRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityHitListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityhitlist">List hits for entity watchlist screenings Documentation</a>
    */
@@ -2744,15 +2806,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/hit/list")
-  Call<PaginatedEntityWatchlistScreeningHitListResponse> watchlistScreeningEntityHitsList(
-    @retrofit2.http.Body ListWatchlistScreeningEntityHitRequest listWatchlistScreeningEntityHitRequest
+  Call<WatchlistScreeningEntityHitListResponse> watchlistScreeningEntityHitList(
+    @retrofit2.http.Body WatchlistScreeningEntityHitListRequest watchlistScreeningEntityHitListRequest
   );
 
   /**
    * List entity watchlist screenings
    * List all entity screenings.
-   * @param listEntityWatchlistScreeningRequest  (required)
-   * @return Call&lt;PaginatedEntityWatchlistScreeningListResponse&gt;
+   * @param watchlistScreeningEntityListRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentitylist">List entity watchlist screenings Documentation</a>
    */
@@ -2760,15 +2822,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/list")
-  Call<PaginatedEntityWatchlistScreeningListResponse> watchlistScreeningEntityList(
-    @retrofit2.http.Body ListEntityWatchlistScreeningRequest listEntityWatchlistScreeningRequest
+  Call<WatchlistScreeningEntityListResponse> watchlistScreeningEntityList(
+    @retrofit2.http.Body WatchlistScreeningEntityListRequest watchlistScreeningEntityListRequest
   );
 
   /**
    * Get entity watchlist screening program
    * Get an entity watchlist screening program
-   * @param getWatchlistScreeningEntityProgramRequest  (required)
-   * @return Call&lt;EntityWatchlistProgramResponse&gt;
+   * @param watchlistScreeningEntityProgramGetRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityProgramGetResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityprogramget">Get entity watchlist screening program Documentation</a>
    */
@@ -2776,15 +2838,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/program/get")
-  Call<EntityWatchlistProgramResponse> watchlistScreeningEntityProgramGet(
-    @retrofit2.http.Body GetWatchlistScreeningEntityProgramRequest getWatchlistScreeningEntityProgramRequest
+  Call<WatchlistScreeningEntityProgramGetResponse> watchlistScreeningEntityProgramGet(
+    @retrofit2.http.Body WatchlistScreeningEntityProgramGetRequest watchlistScreeningEntityProgramGetRequest
   );
 
   /**
    * List entity watchlist screening programs
    * List all entity watchlist screening programs
-   * @param listWatchlistScreeningEntityProgramsRequest  (required)
-   * @return Call&lt;PaginatedEntityWatchlistProgramListResponse&gt;
+   * @param watchlistScreeningEntityProgramListRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityProgramListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityprogramlist">List entity watchlist screening programs Documentation</a>
    */
@@ -2792,15 +2854,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/program/list")
-  Call<PaginatedEntityWatchlistProgramListResponse> watchlistScreeningEntityProgramList(
-    @retrofit2.http.Body ListWatchlistScreeningEntityProgramsRequest listWatchlistScreeningEntityProgramsRequest
+  Call<WatchlistScreeningEntityProgramListResponse> watchlistScreeningEntityProgramList(
+    @retrofit2.http.Body WatchlistScreeningEntityProgramListRequest watchlistScreeningEntityProgramListRequest
   );
 
   /**
    * Create a review for an entity watchlist screening
    * Create a review for an entity watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
-   * @param createEntityWatchlistScreeningReviewRequest  (required)
-   * @return Call&lt;EntityWatchlistScreeningReviewResponse&gt;
+   * @param watchlistScreeningEntityReviewCreateRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityReviewCreateResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityreviewcreate">Create a review for an entity watchlist screening Documentation</a>
    */
@@ -2808,15 +2870,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/review/create")
-  Call<EntityWatchlistScreeningReviewResponse> watchlistScreeningEntityReviewCreate(
-    @retrofit2.http.Body CreateEntityWatchlistScreeningReviewRequest createEntityWatchlistScreeningReviewRequest
+  Call<WatchlistScreeningEntityReviewCreateResponse> watchlistScreeningEntityReviewCreate(
+    @retrofit2.http.Body WatchlistScreeningEntityReviewCreateRequest watchlistScreeningEntityReviewCreateRequest
   );
 
   /**
    * List reviews for entity watchlist screenings
    * List all reviews for a particular entity watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
-   * @param listWatchlistScreeningEntityReviewsRequest  (required)
-   * @return Call&lt;PaginatedEntityWatchlistScreeningReviewListResponse&gt;
+   * @param watchlistScreeningEntityReviewListRequest  (required)
+   * @return Call&lt;WatchlistScreeningEntityReviewListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityreviewlist">List reviews for entity watchlist screenings Documentation</a>
    */
@@ -2824,15 +2886,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/review/list")
-  Call<PaginatedEntityWatchlistScreeningReviewListResponse> watchlistScreeningEntityReviewList(
-    @retrofit2.http.Body ListWatchlistScreeningEntityReviewsRequest listWatchlistScreeningEntityReviewsRequest
+  Call<WatchlistScreeningEntityReviewListResponse> watchlistScreeningEntityReviewList(
+    @retrofit2.http.Body WatchlistScreeningEntityReviewListRequest watchlistScreeningEntityReviewListRequest
   );
 
   /**
    * Update an entity screening
    * Update an entity watchlist screening.
-   * @param updateEntityScreeningRequest The entity screening was successfully updated. (required)
-   * @return Call&lt;EntityWatchlistScreeningResponse&gt;
+   * @param watchlistScreeningEntityUpdateRequest The entity screening was successfully updated. (required)
+   * @return Call&lt;WatchlistScreeningEntityUpdateResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningentityupdate">Update an entity screening Documentation</a>
    */
@@ -2840,15 +2902,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/entity/update")
-  Call<EntityWatchlistScreeningResponse> watchlistScreeningEntityUpdate(
-    @retrofit2.http.Body UpdateEntityScreeningRequest updateEntityScreeningRequest
+  Call<WatchlistScreeningEntityUpdateResponse> watchlistScreeningEntityUpdate(
+    @retrofit2.http.Body WatchlistScreeningEntityUpdateRequest watchlistScreeningEntityUpdateRequest
   );
 
   /**
    * Create a watchlist screening for a person
    * Create a new Watchlist Screening to check your customer against watchlists defined in the associated Watchlist Program. If your associated program has ongoing screening enabled, this is the profile information that will be used to monitor your customer over time.
-   * @param watchlistScreeningCreateRequest  (required)
-   * @return Call&lt;WatchlistScreeningIndividualResponse&gt;
+   * @param watchlistScreeningIndividualCreateRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualCreateResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualcreate">Create a watchlist screening for a person Documentation</a>
    */
@@ -2856,15 +2918,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/create")
-  Call<WatchlistScreeningIndividualResponse> watchlistScreeningIndividualCreate(
-    @retrofit2.http.Body WatchlistScreeningCreateRequest watchlistScreeningCreateRequest
+  Call<WatchlistScreeningIndividualCreateResponse> watchlistScreeningIndividualCreate(
+    @retrofit2.http.Body WatchlistScreeningIndividualCreateRequest watchlistScreeningIndividualCreateRequest
   );
 
   /**
    * Retrieve an individual watchlist screening
    * Retrieve a previously created individual watchlist screening
-   * @param getIndividualWatchlistScreeningRequest  (required)
-   * @return Call&lt;WatchlistScreeningIndividualResponse&gt;
+   * @param watchlistScreeningIndividualGetRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualGetResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualget">Retrieve an individual watchlist screening Documentation</a>
    */
@@ -2872,15 +2934,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/get")
-  Call<WatchlistScreeningIndividualResponse> watchlistScreeningIndividualGet(
-    @retrofit2.http.Body GetIndividualWatchlistScreeningRequest getIndividualWatchlistScreeningRequest
+  Call<WatchlistScreeningIndividualGetResponse> watchlistScreeningIndividualGet(
+    @retrofit2.http.Body WatchlistScreeningIndividualGetRequest watchlistScreeningIndividualGetRequest
   );
 
   /**
    * List history for individual watchlist screenings
    * List all changes to the individual watchlist screening in reverse-chronological order. If the watchlist screening has not been edited, no history will be returned.
-   * @param listWatchlistScreeningIndividualHistoryRequest  (required)
-   * @return Call&lt;PaginatedIndividualWatchlistScreeningListResponse&gt;
+   * @param watchlistScreeningIndividualHistoryListRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualHistoryListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualhistorylist">List history for individual watchlist screenings Documentation</a>
    */
@@ -2888,15 +2950,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/history/list")
-  Call<PaginatedIndividualWatchlistScreeningListResponse> watchlistScreeningIndividualHistoryList(
-    @retrofit2.http.Body ListWatchlistScreeningIndividualHistoryRequest listWatchlistScreeningIndividualHistoryRequest
+  Call<WatchlistScreeningIndividualHistoryListResponse> watchlistScreeningIndividualHistoryList(
+    @retrofit2.http.Body WatchlistScreeningIndividualHistoryListRequest watchlistScreeningIndividualHistoryListRequest
   );
 
   /**
    * List hits for individual watchlist screening
    * List all hits found by Plaid for a particular individual watchlist screening.
-   * @param listWatchlistScreeningIndividualHitRequest  (required)
-   * @return Call&lt;PaginatedIndividualWatchlistScreeningHitListResponse&gt;
+   * @param watchlistScreeningIndividualHitListRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualHitListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualhitlist">List hits for individual watchlist screening Documentation</a>
    */
@@ -2904,15 +2966,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/hit/list")
-  Call<PaginatedIndividualWatchlistScreeningHitListResponse> watchlistScreeningIndividualHitList(
-    @retrofit2.http.Body ListWatchlistScreeningIndividualHitRequest listWatchlistScreeningIndividualHitRequest
+  Call<WatchlistScreeningIndividualHitListResponse> watchlistScreeningIndividualHitList(
+    @retrofit2.http.Body WatchlistScreeningIndividualHitListRequest watchlistScreeningIndividualHitListRequest
   );
 
   /**
    * List Individual Watchlist Screenings
    * List previously created watchlist screenings for individuals
-   * @param listIndividualWatchlistScreeningRequest  (required)
-   * @return Call&lt;PaginatedIndividualWatchlistScreeningListResponse&gt;
+   * @param watchlistScreeningIndividualListRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividuallist">List Individual Watchlist Screenings Documentation</a>
    */
@@ -2920,15 +2982,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/list")
-  Call<PaginatedIndividualWatchlistScreeningListResponse> watchlistScreeningIndividualList(
-    @retrofit2.http.Body ListIndividualWatchlistScreeningRequest listIndividualWatchlistScreeningRequest
+  Call<WatchlistScreeningIndividualListResponse> watchlistScreeningIndividualList(
+    @retrofit2.http.Body WatchlistScreeningIndividualListRequest watchlistScreeningIndividualListRequest
   );
 
   /**
    * Get individual watchlist screening program
    * Get an individual watchlist screening program
-   * @param getWatchlistScreeningIndividualProgramRequest  (required)
-   * @return Call&lt;IndividualWatchlistProgramResponse&gt;
+   * @param watchlistScreeningIndividualProgramGetRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualProgramGetResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualprogramget">Get individual watchlist screening program Documentation</a>
    */
@@ -2936,15 +2998,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/program/get")
-  Call<IndividualWatchlistProgramResponse> watchlistScreeningIndividualProgramGet(
-    @retrofit2.http.Body GetWatchlistScreeningIndividualProgramRequest getWatchlistScreeningIndividualProgramRequest
+  Call<WatchlistScreeningIndividualProgramGetResponse> watchlistScreeningIndividualProgramGet(
+    @retrofit2.http.Body WatchlistScreeningIndividualProgramGetRequest watchlistScreeningIndividualProgramGetRequest
   );
 
   /**
    * List individual watchlist screening programs
    * List all individual watchlist screening programs
-   * @param listWatchlistScreeningIndividualProgramsRequest  (required)
-   * @return Call&lt;PaginatedIndividualWatchlistProgramListResponse&gt;
+   * @param watchlistScreeningIndividualProgramListRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualProgramListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualprogramlist">List individual watchlist screening programs Documentation</a>
    */
@@ -2952,15 +3014,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/program/list")
-  Call<PaginatedIndividualWatchlistProgramListResponse> watchlistScreeningIndividualProgramList(
-    @retrofit2.http.Body ListWatchlistScreeningIndividualProgramsRequest listWatchlistScreeningIndividualProgramsRequest
+  Call<WatchlistScreeningIndividualProgramListResponse> watchlistScreeningIndividualProgramList(
+    @retrofit2.http.Body WatchlistScreeningIndividualProgramListRequest watchlistScreeningIndividualProgramListRequest
   );
 
   /**
    * Create a review for an individual watchlist screening
    * Create a review for the individual watchlist screening. Reviews are compliance reports created by users in your organization regarding the relevance of potential hits found by Plaid.
-   * @param createIndividualWatchlistScreeningReviewRequest  (required)
-   * @return Call&lt;WatchlistScreeningReviewResponse&gt;
+   * @param watchlistScreeningIndividualReviewCreateRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualReviewCreateResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualreviewcreate">Create a review for an individual watchlist screening Documentation</a>
    */
@@ -2968,15 +3030,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/review/create")
-  Call<WatchlistScreeningReviewResponse> watchlistScreeningIndividualReviewCreate(
-    @retrofit2.http.Body CreateIndividualWatchlistScreeningReviewRequest createIndividualWatchlistScreeningReviewRequest
+  Call<WatchlistScreeningIndividualReviewCreateResponse> watchlistScreeningIndividualReviewCreate(
+    @retrofit2.http.Body WatchlistScreeningIndividualReviewCreateRequest watchlistScreeningIndividualReviewCreateRequest
   );
 
   /**
    * List reviews for individual watchlist screenings
    * List all reviews for the individual watchlist screening.
-   * @param listWatchlistScreeningIndividualReviewsRequest  (required)
-   * @return Call&lt;PaginatedIndividualWatchlistScreeningReviewListResponse&gt;
+   * @param watchlistScreeningIndividualReviewListRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualReviewListResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualreviewlist">List reviews for individual watchlist screenings Documentation</a>
    */
@@ -2984,15 +3046,15 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/review/list")
-  Call<PaginatedIndividualWatchlistScreeningReviewListResponse> watchlistScreeningIndividualReviewsList(
-    @retrofit2.http.Body ListWatchlistScreeningIndividualReviewsRequest listWatchlistScreeningIndividualReviewsRequest
+  Call<WatchlistScreeningIndividualReviewListResponse> watchlistScreeningIndividualReviewList(
+    @retrofit2.http.Body WatchlistScreeningIndividualReviewListRequest watchlistScreeningIndividualReviewListRequest
   );
 
   /**
    * Update individual watchlist screening
    * Update a specific individual watchlist screening. This endpoint can be used to add additional customer information, correct outdated information, add a reference id, assign the individual to a reviewer, and update which program it is associated with. Please note that you may not update &#x60;search_terms&#x60; and &#x60;status&#x60; at the same time since editing &#x60;search_terms&#x60; may trigger an automatic &#x60;status&#x60; change.
-   * @param updateIndividualScreeningRequest  (required)
-   * @return Call&lt;WatchlistScreeningIndividualResponse&gt;
+   * @param watchlistScreeningIndividualUpdateRequest  (required)
+   * @return Call&lt;WatchlistScreeningIndividualUpdateResponse&gt;
    * 
    * @see <a href="/api/products/monitor/#watchlist_screeningindividualupdate">Update individual watchlist screening Documentation</a>
    */
@@ -3000,8 +3062,8 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("watchlist_screening/individual/update")
-  Call<WatchlistScreeningIndividualResponse> watchlistScreeningIndividualUpdate(
-    @retrofit2.http.Body UpdateIndividualScreeningRequest updateIndividualScreeningRequest
+  Call<WatchlistScreeningIndividualUpdateResponse> watchlistScreeningIndividualUpdate(
+    @retrofit2.http.Body WatchlistScreeningIndividualUpdateRequest watchlistScreeningIndividualUpdateRequest
   );
 
   /**
