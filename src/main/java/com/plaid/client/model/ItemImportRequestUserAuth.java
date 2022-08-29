@@ -28,7 +28,7 @@ import java.io.IOException;
  * Object of user ID and auth token pair, permitting Plaid to aggregate a user’s accounts
  */
 @ApiModel(description = "Object of user ID and auth token pair, permitting Plaid to aggregate a user’s accounts")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class ItemImportRequestUserAuth {
   public static final String SERIALIZED_NAME_USER_ID = "user_id";
   @SerializedName(SERIALIZED_NAME_USER_ID)

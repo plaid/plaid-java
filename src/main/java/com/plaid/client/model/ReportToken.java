@@ -29,7 +29,7 @@ import java.io.IOException;
  * ReportToken is a representation of a token that has a &#x60;report_type&#x60; field that can be one of &#x60;assets&#x60; or &#x60;income&#x60; and a &#x60;token&#x60; field which is the associated token with the &#x60;report_type&#x60;. The &#x60;token&#x60; can be an Asset Report token or Income Report token.
  */
 @ApiModel(description = "ReportToken is a representation of a token that has a `report_type` field that can be one of `assets` or `income` and a `token` field which is the associated token with the `report_type`. The `token` can be an Asset Report token or Income Report token.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class ReportToken {
   public static final String SERIALIZED_NAME_REPORT_TYPE = "report_type";
   @SerializedName(SERIALIZED_NAME_REPORT_TYPE)

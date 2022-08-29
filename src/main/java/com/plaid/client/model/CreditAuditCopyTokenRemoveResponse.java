@@ -28,7 +28,7 @@ import java.io.IOException;
  * CreditAuditCopyTokenRemoveResponse defines the response schema for &#x60;/credit/audit_copy_token/remove&#x60;
  */
 @ApiModel(description = "CreditAuditCopyTokenRemoveResponse defines the response schema for `/credit/audit_copy_token/remove`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class CreditAuditCopyTokenRemoveResponse {
   public static final String SERIALIZED_NAME_REMOVED = "removed";
   @SerializedName(SERIALIZED_NAME_REMOVED)

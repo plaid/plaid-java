@@ -31,7 +31,7 @@ import java.util.List;
  * PaymentInitiationRecipientListResponse defines the response schema for &#x60;/payment_initiation/recipient/list&#x60;
  */
 @ApiModel(description = "PaymentInitiationRecipientListResponse defines the response schema for `/payment_initiation/recipient/list`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class PaymentInitiationRecipientListResponse {
   public static final String SERIALIZED_NAME_RECIPIENTS = "recipients";
   @SerializedName(SERIALIZED_NAME_RECIPIENTS)

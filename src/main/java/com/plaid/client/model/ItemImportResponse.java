@@ -28,7 +28,7 @@ import java.io.IOException;
  * ItemImportResponse defines the response schema for &#x60;/item/import&#x60;
  */
 @ApiModel(description = "ItemImportResponse defines the response schema for `/item/import`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class ItemImportResponse {
   public static final String SERIALIZED_NAME_ACCESS_TOKEN = "access_token";
   @SerializedName(SERIALIZED_NAME_ACCESS_TOKEN)

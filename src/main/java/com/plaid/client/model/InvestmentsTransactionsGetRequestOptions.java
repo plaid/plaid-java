@@ -30,7 +30,7 @@ import java.util.List;
  * An optional object to filter &#x60;/investments/transactions/get&#x60; results. If provided, must be non-&#x60;null&#x60;.
  */
 @ApiModel(description = "An optional object to filter `/investments/transactions/get` results. If provided, must be non-`null`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class InvestmentsTransactionsGetRequestOptions {
   public static final String SERIALIZED_NAME_ACCOUNT_IDS = "account_ids";
   @SerializedName(SERIALIZED_NAME_ACCOUNT_IDS)

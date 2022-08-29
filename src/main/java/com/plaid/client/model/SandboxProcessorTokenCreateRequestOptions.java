@@ -28,7 +28,7 @@ import java.io.IOException;
  * An optional set of options to be used when configuring the Item. If specified, must not be &#x60;null&#x60;.
  */
 @ApiModel(description = "An optional set of options to be used when configuring the Item. If specified, must not be `null`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class SandboxProcessorTokenCreateRequestOptions {
   public static final String SERIALIZED_NAME_OVERRIDE_USERNAME = "override_username";
   @SerializedName(SERIALIZED_NAME_OVERRIDE_USERNAME)

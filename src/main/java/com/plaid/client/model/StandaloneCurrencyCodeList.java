@@ -28,7 +28,7 @@ import java.io.IOException;
  * The following currency codes are supported by Plaid.
  */
 @ApiModel(description = "The following currency codes are supported by Plaid.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class StandaloneCurrencyCodeList {
   public static final String SERIALIZED_NAME_ISO_CURRENCY_CODE = "iso_currency_code";
   @SerializedName(SERIALIZED_NAME_ISO_CURRENCY_CODE)

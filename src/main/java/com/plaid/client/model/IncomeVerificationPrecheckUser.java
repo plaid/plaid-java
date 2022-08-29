@@ -29,7 +29,7 @@ import java.io.IOException;
  * Information about the user whose eligibility is being evaluated.
  */
 @ApiModel(description = "Information about the user whose eligibility is being evaluated.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class IncomeVerificationPrecheckUser {
   public static final String SERIALIZED_NAME_FIRST_NAME = "first_name";
   @SerializedName(SERIALIZED_NAME_FIRST_NAME)

@@ -31,7 +31,7 @@ import java.io.IOException;
  * High level descriptions of how the associated document was processed. If a document fails verification, the details in the &#x60;analysis&#x60; object should help clarify why the document was rejected.
  */
 @ApiModel(description = "High level descriptions of how the associated document was processed. If a document fails verification, the details in the `analysis` object should help clarify why the document was rejected.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class DocumentAnalysis {
   public static final String SERIALIZED_NAME_AUTHENTICITY = "authenticity";
   @SerializedName(SERIALIZED_NAME_AUTHENTICITY)

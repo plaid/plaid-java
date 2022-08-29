@@ -33,7 +33,7 @@ import java.math.BigDecimal;
  * Images, extracted data, and analysis from a user&#39;s identity document
  */
 @ApiModel(description = "Images, extracted data, and analysis from a user's identity document")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class DocumentaryVerificationDocument {
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)

@@ -29,7 +29,7 @@ import java.time.OffsetDateTime;
  * Information about the last webhook fired for the Item.
  */
 @ApiModel(description = "Information about the last webhook fired for the Item.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class ItemStatusLastWebhook {
   public static final String SERIALIZED_NAME_SENT_AT = "sent_at";
   @SerializedName(SERIALIZED_NAME_SENT_AT)

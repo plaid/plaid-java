@@ -31,7 +31,7 @@ import java.util.List;
  * Paginated list of Plaid sessions.
  */
 @ApiModel(description = "Paginated list of Plaid sessions.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class PaginatedIdentityVerificationListResponse {
   public static final String SERIALIZED_NAME_IDENTITY_VERIFICATIONS = "identity_verifications";
   @SerializedName(SERIALIZED_NAME_IDENTITY_VERIFICATIONS)

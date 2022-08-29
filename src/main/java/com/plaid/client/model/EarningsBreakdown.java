@@ -30,7 +30,7 @@ import java.math.BigDecimal;
  * An object representing the earnings line items for the pay period.
  */
 @ApiModel(description = "An object representing the earnings line items for the pay period.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class EarningsBreakdown {
   public static final String SERIALIZED_NAME_CANONICAL_DESCRIPTION = "canonical_description";
   @SerializedName(SERIALIZED_NAME_CANONICAL_DESCRIPTION)

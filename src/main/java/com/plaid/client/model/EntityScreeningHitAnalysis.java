@@ -30,7 +30,7 @@ import java.math.BigDecimal;
  * Analysis information describing why a screening hit matched the provided entity information
  */
 @ApiModel(description = "Analysis information describing why a screening hit matched the provided entity information")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class EntityScreeningHitAnalysis {
   public static final String SERIALIZED_NAME_DOCUMENTS = "documents";
   @SerializedName(SERIALIZED_NAME_DOCUMENTS)

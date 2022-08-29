@@ -30,7 +30,7 @@ import java.util.List;
  * Fired when an Item&#39;s recurring transactions data is updated. After receipt of this webhook, the updated data can be fetched from &#x60;/transactions/recurring/get&#x60;.
  */
 @ApiModel(description = "Fired when an Item's recurring transactions data is updated. After receipt of this webhook, the updated data can be fetched from `/transactions/recurring/get`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class RecurringTransactionsUpdateWebhook {
   public static final String SERIALIZED_NAME_WEBHOOK_TYPE = "webhook_type";
   @SerializedName(SERIALIZED_NAME_WEBHOOK_TYPE)

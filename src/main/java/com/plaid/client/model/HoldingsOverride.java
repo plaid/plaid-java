@@ -30,7 +30,7 @@ import java.time.LocalDate;
  * Specify the holdings on the account.
  */
 @ApiModel(description = "Specify the holdings on the account.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class HoldingsOverride {
   public static final String SERIALIZED_NAME_INSTITUTION_PRICE = "institution_price";
   @SerializedName(SERIALIZED_NAME_INSTITUTION_PRICE)

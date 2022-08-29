@@ -30,7 +30,7 @@ import java.io.IOException;
  * Risk scoring details broken down by risk category.
  */
 @ApiModel(description = "Risk scoring details broken down by risk category.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class SignalScores {
   public static final String SERIALIZED_NAME_CUSTOMER_INITIATED_RETURN_RISK = "customer_initiated_return_risk";
   @SerializedName(SERIALIZED_NAME_CUSTOMER_INITIATED_RETURN_RISK)

@@ -34,7 +34,7 @@ import java.util.Set;
  * A program that configures the active lists, search parameters, and other behavior for initial and ongoing screening of entities.
  */
 @ApiModel(description = "A program that configures the active lists, search parameters, and other behavior for initial and ongoing screening of entities.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class EntityWatchlistProgram {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

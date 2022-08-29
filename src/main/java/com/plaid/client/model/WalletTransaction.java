@@ -32,7 +32,7 @@ import java.time.OffsetDateTime;
  * The transaction details
  */
 @ApiModel(description = "The transaction details")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class WalletTransaction {
   public static final String SERIALIZED_NAME_TRANSACTION_ID = "transaction_id";
   @SerializedName(SERIALIZED_NAME_TRANSACTION_ID)

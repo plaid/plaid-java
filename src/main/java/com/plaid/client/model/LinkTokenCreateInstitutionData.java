@@ -28,7 +28,7 @@ import java.io.IOException;
  * A map containing data used to highlight institutions in Link.
  */
 @ApiModel(description = "A map containing data used to highlight institutions in Link.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class LinkTokenCreateInstitutionData {
   public static final String SERIALIZED_NAME_ROUTING_NUMBER = "routing_number";
   @SerializedName(SERIALIZED_NAME_ROUTING_NUMBER)

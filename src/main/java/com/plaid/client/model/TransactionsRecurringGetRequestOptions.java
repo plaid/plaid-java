@@ -28,7 +28,7 @@ import java.io.IOException;
  * An optional object to be used with the request. If specified, &#x60;options&#x60; must not be &#x60;null&#x60;.
  */
 @ApiModel(description = "An optional object to be used with the request. If specified, `options` must not be `null`.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class TransactionsRecurringGetRequestOptions {
   public static final String SERIALIZED_NAME_INCLUDE_PERSONAL_FINANCE_CATEGORY = "include_personal_finance_category";
   @SerializedName(SERIALIZED_NAME_INCLUDE_PERSONAL_FINANCE_CATEGORY)

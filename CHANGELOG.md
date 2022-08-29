@@ -1,5 +1,9 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 11.9.1
+
+- Updated the okhttp3 library version from 3.14.9 to 4.9.2
+
 # 11.9.0
 - Updating to OAS 2020-09-14_1.161.5
 

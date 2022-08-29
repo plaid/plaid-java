@@ -29,7 +29,7 @@ import java.io.IOException;
  * PaymentInitiationConsentPaymentExecuteResponse defines the response schema for &#x60;/payment_initiation/consent/payment/execute&#x60;
  */
 @ApiModel(description = "PaymentInitiationConsentPaymentExecuteResponse defines the response schema for `/payment_initiation/consent/payment/execute`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class PaymentInitiationConsentPaymentExecuteResponse {
   public static final String SERIALIZED_NAME_PAYMENT_ID = "payment_id";
   @SerializedName(SERIALIZED_NAME_PAYMENT_ID)

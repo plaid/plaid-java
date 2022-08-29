@@ -41,7 +41,7 @@ import java.util.List;
  * An object representing data extracted from the end user&#39;s paystub.
  */
 @ApiModel(description = "An object representing data extracted from the end user's paystub.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class Paystub {
   public static final String SERIALIZED_NAME_DEDUCTIONS = "deductions";
   @SerializedName(SERIALIZED_NAME_DEDUCTIONS)

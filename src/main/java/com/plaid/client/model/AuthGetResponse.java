@@ -33,7 +33,7 @@ import java.util.List;
  * AuthGetResponse defines the response schema for &#x60;/auth/get&#x60;
  */
 @ApiModel(description = "AuthGetResponse defines the response schema for `/auth/get`")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class AuthGetResponse {
   public static final String SERIALIZED_NAME_ACCOUNTS = "accounts";
   @SerializedName(SERIALIZED_NAME_ACCOUNTS)

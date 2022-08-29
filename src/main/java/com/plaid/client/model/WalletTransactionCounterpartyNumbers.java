@@ -30,7 +30,7 @@ import java.io.IOException;
  * The counterparty&#39;s bank account numbers. Exactly one of IBAN or BACS data is required.
  */
 @ApiModel(description = "The counterparty's bank account numbers. Exactly one of IBAN or BACS data is required.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class WalletTransactionCounterpartyNumbers {
   public static final String SERIALIZED_NAME_BACS = "bacs";
   @SerializedName(SERIALIZED_NAME_BACS)

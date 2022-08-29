@@ -29,7 +29,7 @@ import java.io.IOException;
  * An optional object to filter &#x60;/asset_report/refresh&#x60; results. If provided, cannot be &#x60;null&#x60;. If not specified, the &#x60;options&#x60; from the original call to &#x60;/asset_report/create&#x60; will be used.
  */
 @ApiModel(description = "An optional object to filter `/asset_report/refresh` results. If provided, cannot be `null`. If not specified, the `options` from the original call to `/asset_report/create` will be used.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-03T20:38:07.102590Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-08-29T20:00:26.713837Z[Etc/UTC]")
 public class AssetReportRefreshRequestOptions {
   public static final String SERIALIZED_NAME_CLIENT_REPORT_ID = "client_report_id";
   @SerializedName(SERIALIZED_NAME_CLIENT_REPORT_ID)
