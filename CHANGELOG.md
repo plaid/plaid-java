@@ -1,8 +1,68 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
-# 11.9.1
+# 11.10.0
+- Updating to OAS 2020-09-14_1.164.8
 
-- Updated the okhttp3 library version from 3.14.9 to 4.9.2
+## OpenAPI Schema Changes
+### 2020-09-14_1.164.8
+
+- Add documentation for credit categories in the `/asset_report/get` endpoint
+
+### 2020-09-14_1.164.7
+
+- Remove redundant parameters from the `/transfer/create` endpoint from docs and mark them as deprecated
+
+### 2020-09-14_1.164.6
+
+- Add the following new currencies for the `/payment_initiation` API route group: PLN, SEK, DKK, NOK, CHF, CZK
+
+### 2020-09-14_1.164.5
+
+- Update description for `/payment_initiation/payment/reverse` to indicate that this endpoint only works with virtual accounts
+- Update description for `/wallet/transaction/execute` to indicate that settlement will take seconds to days
+
+### 2020-09-14_1.164.4
+
+- Remove verification fields from `/credit/payroll_income/get` and `/income/verification/paystubs/get`
+
+### 2020-09-14_1.164.3
+
+- Remove pull_id field from `/credit/payroll_income/get`
+
+### 2020-09-14_1.164.2
+
+- Update external documentation links for the `/wallet/` API route group
+- Update `/payment_initiation/payment/reverse` description to cover which payments are eligible for refunds
+- Update `/payment_initiation/payment/create` reference field description to indicate that references should be unique and will be adjusted automatically
+- Update `PaymentInitiationPaymentStatus` description to indicate that payments may take seconds to days to settle depending on the payment rail used
+- Update `WalletTransactionStatus` description to indicate that transactions may take seconds to days to settle depending on the payment rail used
+
+### 2020-09-14_1.164.1
+
+- Make `is_savings_or_money_market_account` field in `SignalEvaluateCoreAttributes` nullable
+
+### 2020-09-14_1.164.0
+
+- Add new endpoint `/credit/asset_report/freddie_mac`
+
+### 2020-09-14_1.163.0
+
+- Add `/link_delivery/create` endpoint
+- Add `/link_delivery/get` endpoint
+
+### 2020-09-14_1.162.2
+
+- Fix minimum and maximum values in `/signal/evaluate` scores
+
+### 2020-09-14_1.162.1
+
+- Make holdings `institution_price_as_of` non-nullable
+
+### 2020-09-14_1.162.0
+
+- Add `WalletTransactionStatusUpdateWebhook` object
+- Update `WalletTransactionStatus` to include an additional `SETTLED` enum
+- Update `PaymentInitiationPaymentStatus` to include an additional `PAYMENT_STATUS_SETTLED` enum
 
 # 11.9.0
 - Updating to OAS 2020-09-14_1.161.5
