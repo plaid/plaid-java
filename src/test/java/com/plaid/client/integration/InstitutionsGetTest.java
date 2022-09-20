@@ -22,7 +22,7 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
   public void testSuccess() throws Exception {
     InstitutionsGetRequest request = new InstitutionsGetRequest()
       .count(3)
-      .offset(1)
+      .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US));
     Response<InstitutionsGetResponse> response = client()
       .institutionsGet(request)
@@ -41,7 +41,7 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
     InstitutionsGetRequest request = new InstitutionsGetRequest()
       .count(3)
-      .offset(0)
+      .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
@@ -62,7 +62,7 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
     InstitutionsGetRequest request = new InstitutionsGetRequest()
       .count(3)
-      .offset(0)
+      .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
@@ -83,7 +83,7 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
     InstitutionsGetRequest request = new InstitutionsGetRequest()
       .count(3)
-      .offset(0)
+      .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
@@ -100,7 +100,7 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
   public void testSuccessWithCountryCodes() throws Exception {
     InstitutionsGetRequest request = new InstitutionsGetRequest()
       .count(3)
-      .offset(0)
+      .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US));
 
     Response<InstitutionsGetResponse> response = client()
@@ -153,7 +153,7 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
 
     assertSuccessResponse(response);
     // TODO: reenable this after institution fix for oauth filtering
-    // List<Institution> institutions = response.body().getInstitutions();
+    List<Institution> institutions = response.body().getInstitutions();
     // for (int i = 0; i < institutions.size(); i++) {
     //   assertFalse(institutions.get(i).getOauth());
     // }
