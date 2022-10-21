@@ -8,7 +8,8 @@ import com.plaid.client.model.AssetReport;
 import com.plaid.client.model.AssetReportCreateResponse;
 import com.plaid.client.model.AssetReportGetRequest;
 import com.plaid.client.model.AssetReportGetResponse;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Products;
 import com.plaid.client.request.PlaidApi;
 import java.io.IOException;
@@ -99,7 +100,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     int attempt = 0;
     Response<AssetReportGetResponse> response;
     JSONObject errorResponse = new JSONObject();
-    Error error = new Error();
+    PlaidError error = new PlaidError();
 
     do {
       AssetReportGetRequest assetReportGetRequest = new AssetReportGetRequest()
@@ -109,7 +110,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
 
       try {
         Gson gson = new Gson();
-        error = gson.fromJson(response.errorBody().string(), Error.class);
+        error = gson.fromJson(response.errorBody().string(), PlaidError.class);
       } catch (Exception e) {
         // Dont' want to throw here.
       }
@@ -119,7 +120,7 @@ public class AssetReportGetTest extends AbstractItemIntegrationTest {
     } while (
       !response.isSuccessful() &&
       response.errorBody() != null &&
-      error.getErrorType().equals(Error.ErrorTypeEnum.ASSET_REPORT_ERROR) &&
+      error.getErrorType().equals(PlaidErrorType.ASSET_REPORT_ERROR) &&
       attempt < NUM_RETRIES
     );
     if (!response.isSuccessful()) {

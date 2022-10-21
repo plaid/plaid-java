@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import com.google.gson.Gson;
 import com.plaid.client.ApiClient;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Item;
 import com.plaid.client.request.PlaidApi;
 import java.io.IOException;
@@ -80,7 +81,7 @@ public abstract class AbstractIntegrationTest {
 
   void assertErrorResponse(
     Response response,
-    Error.ErrorTypeEnum expectedErrorType,
+    PlaidErrorType expectedErrorType,
     String expectedErrorCode
   )
     throws Exception {
@@ -89,7 +90,7 @@ public abstract class AbstractIntegrationTest {
 
     try {
       Gson gson = new Gson();
-      Error error = gson.fromJson(response.errorBody().string(), Error.class);
+      PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
       assertNotNull(error);
       assertNotNull(error.getRequestId());
       assertEquals(expectedErrorType, error.getErrorType());
@@ -97,7 +98,7 @@ public abstract class AbstractIntegrationTest {
     } catch (Exception e) {
       throw new Exception(
         String.format(
-          "Failed converting from API Response Error Body to Error %f",
+          "Failed converting from API Response PlaidError Body to PlaidError %f",
           response.errorBody().string()
         )
       );
