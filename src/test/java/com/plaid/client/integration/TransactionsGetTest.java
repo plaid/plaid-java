@@ -8,7 +8,8 @@ import static org.junit.Assert.assertTrue;
 import com.google.gson.Gson;
 import com.plaid.client.model.AccountsGetRequest;
 import com.plaid.client.model.AccountsGetResponse;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.ItemPublicTokenExchangeRequest;
 import com.plaid.client.model.ItemPublicTokenExchangeResponse;
 import com.plaid.client.model.Products;
@@ -80,7 +81,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
         try {
           assertErrorResponse(
             apiResponse,
-            Error.ErrorTypeEnum.ITEM_ERROR,
+            PlaidErrorType.ITEM_ERROR,
             "PRODUCT_NOT_READY"
           );
           Thread.sleep(3000);
@@ -149,7 +150,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
         try {
           assertErrorResponse(
             apiResponse,
-            Error.ErrorTypeEnum.ITEM_ERROR,
+            PlaidErrorType.ITEM_ERROR,
             "PRODUCT_NOT_READY"
           );
           Thread.sleep(3000);
@@ -175,7 +176,7 @@ public class TransactionsGetTest extends AbstractIntegrationTest {
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }

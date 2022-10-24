@@ -2,7 +2,7 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.assertTrue;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
 import com.plaid.client.model.Products;
 import com.plaid.client.model.SandboxItemResetLoginRequest;
 import com.plaid.client.model.SandboxItemResetLoginResponse;

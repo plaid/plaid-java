@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import com.plaid.client.model.AccountIdentity;
 import com.plaid.client.model.Address;
 import com.plaid.client.model.Email;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
 import com.plaid.client.model.WatchlistScreeningRequestSearchTerms;
 import com.plaid.client.model.WatchlistScreeningIndividualCreateRequest;
 import com.plaid.client.model.WatchlistScreeningIndividualCreateResponse;

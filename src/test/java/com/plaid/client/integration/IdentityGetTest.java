@@ -6,7 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import com.plaid.client.model.AccountIdentity;
 import com.plaid.client.model.Address;
 import com.plaid.client.model.Email;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.IdentityGetRequest;
 import com.plaid.client.model.IdentityGetResponse;
 import com.plaid.client.model.Owner;
@@ -91,7 +92,7 @@ public class IdentityGetTest extends AbstractItemIntegrationTest {
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }

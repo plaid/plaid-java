@@ -2,7 +2,8 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.*;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.ProcessorApexProcessorTokenCreateRequest;
 import com.plaid.client.model.ProcessorTokenCreateResponse;
 import com.plaid.client.model.Products;
@@ -40,7 +41,7 @@ public class ItemApexProcessorTokenCreateTest
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
+      PlaidErrorType.INVALID_REQUEST,
       "INVALID_FIELD"
     );
   }

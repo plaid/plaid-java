@@ -1,6 +1,7 @@
 package com.plaid.client.integration;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Products;
 import com.plaid.client.model.TransactionsRefreshRequest;
 import com.plaid.client.model.TransactionsRefreshResponse;
@@ -43,7 +44,7 @@ public class TransactionsRefreshTest extends AbstractItemIntegrationTest {
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }

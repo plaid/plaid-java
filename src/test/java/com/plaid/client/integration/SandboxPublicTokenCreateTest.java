@@ -2,7 +2,7 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
 import com.plaid.client.model.ItemPublicTokenExchangeRequest;
 import com.plaid.client.model.ItemPublicTokenExchangeResponse;
 import com.plaid.client.model.Products;
