@@ -97,7 +97,7 @@ import com.plaid.client.model.EmployersSearchRequest;
 import com.plaid.client.model.EmployersSearchResponse;
 import com.plaid.client.model.EmploymentVerificationGetRequest;
 import com.plaid.client.model.EmploymentVerificationGetResponse;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.FDXNotification;
 import java.io.File;
 import com.plaid.client.model.IdentityGetRequest;
 import com.plaid.client.model.IdentityGetResponse;
@@ -156,12 +156,16 @@ import com.plaid.client.model.LinkDeliveryCreateRequest;
 import com.plaid.client.model.LinkDeliveryCreateResponse;
 import com.plaid.client.model.LinkDeliveryGetRequest;
 import com.plaid.client.model.LinkDeliveryGetResponse;
+import com.plaid.client.model.LinkOAuthCorrelationIdExchangeRequest;
+import com.plaid.client.model.LinkOAuthCorrelationIdExchangeResponse;
 import com.plaid.client.model.LinkTokenCreateRequest;
 import com.plaid.client.model.LinkTokenCreateResponse;
 import com.plaid.client.model.LinkTokenGetRequest;
 import com.plaid.client.model.LinkTokenGetResponse;
 import com.plaid.client.model.PartnerCustomerCreateRequest;
 import com.plaid.client.model.PartnerCustomerCreateResponse;
+import com.plaid.client.model.PartnerCustomerEnableRequest;
+import com.plaid.client.model.PartnerCustomerEnableResponse;
 import com.plaid.client.model.PartnerCustomerGetRequest;
 import com.plaid.client.model.PartnerCustomerGetResponse;
 import com.plaid.client.model.PaymentInitiationConsentCreateRequest;
@@ -194,6 +198,7 @@ import com.plaid.client.model.PaymentProfileGetRequest;
 import com.plaid.client.model.PaymentProfileGetResponse;
 import com.plaid.client.model.PaymentProfileRemoveRequest;
 import com.plaid.client.model.PaymentProfileRemoveResponse;
+import com.plaid.client.model.PlaidError;
 import com.plaid.client.model.ProcessorApexProcessorTokenCreateRequest;
 import com.plaid.client.model.ProcessorAuthGetRequest;
 import com.plaid.client.model.ProcessorAuthGetResponse;
@@ -220,6 +225,8 @@ import com.plaid.client.model.SandboxItemResetLoginResponse;
 import com.plaid.client.model.SandboxItemSetVerificationStatusRequest;
 import com.plaid.client.model.SandboxItemSetVerificationStatusResponse;
 import com.plaid.client.model.SandboxOauthSelectAccountsRequest;
+import com.plaid.client.model.SandboxPaymentProfileResetLoginRequest;
+import com.plaid.client.model.SandboxPaymentProfileResetLoginResponse;
 import com.plaid.client.model.SandboxProcessorTokenCreateRequest;
 import com.plaid.client.model.SandboxProcessorTokenCreateResponse;
 import com.plaid.client.model.SandboxPublicTokenCreateRequest;
@@ -349,7 +356,7 @@ import java.util.Map;
 public interface PlaidApi {
   /**
    * Retrieve real-time balance data
-   * The &#x60;/accounts/balance/get&#x60; endpoint returns the real-time balance for each of an Item&#39;s accounts. While other endpoints may return a balance object, only &#x60;/accounts/balance/get&#x60; forces the available and current balance fields to be refreshed rather than cached. This endpoint can be used for existing Items that were added via any of Plaid’s other products. This endpoint can be used as long as Link has been initialized with any other product, &#x60;balance&#x60; itself is not a product that can be used to initialize Link.
+   * The &#x60;/accounts/balance/get&#x60; endpoint returns the real-time balance for each of an Item&#39;s accounts. While other endpoints may return a balance object, only &#x60;/accounts/balance/get&#x60; forces the available and current balance fields to be refreshed rather than cached. This endpoint can be used for existing Items that were added via any of Plaid’s other products. This endpoint can be used as long as Link has been initialized with any other product, &#x60;balance&#x60; itself is not a product that can be used to initialize Link. As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints; if you encounter errors, you may find it necessary to adjust your timeout period when making requests.
    * @param accountsBalanceGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
@@ -765,7 +772,7 @@ public interface PlaidApi {
 
   /**
    * Create Asset or Income Report Audit Copy Token
-   * Plaid can provide an Audit Copy token of an Asset Report and/or Income Report directly to a participating third party on your behalf. For example, Plaid can supply an Audit Copy token directly to Fannie Mae on your behalf if you participate in the Day 1 Certainty™ program. An Audit Copy token contains the same underlying data as the Asset Report and/or Income Report (result of /credit/payroll_income/get).  To grant access to an Audit Copy token, use the &#x60;/credit/audit_copy_token/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the third party who needs access. Each third party has its own &#x60;auditor_id&#x60;, for example &#x60;fannie_mae&#x60;. You’ll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report.
+   * Plaid can create an Audit Copy token of an Asset Report and/or Income Report to share with participating Government Sponsored Entity (GSE). If you participate in the Day 1 Certainty™ program, Plaid can supply an Audit Copy token directly to Fannie Mae on your behalf. An Audit Copy token contains the same underlying data as the Asset Report and/or Income Report (result of /credit/payroll_income/get).  Use the &#x60;/credit/audit_copy_token/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the GSE who needs access.
    * @param creditAuditCopyTokenCreateRequest  (required)
    * @return Call&lt;CreditAuditCopyTokenCreateResponse&gt;
    * 
@@ -972,12 +979,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve Link Sessions For Your User
-   * This endpoint can be used for your end users after they complete the Link flow. This endpoint returns a list of Link sessions that your user completed, where each session includes the results from the Link flow.   These results include details about the Item that was created and some product related metadata(for e.g. whether the user finished the bank income verification step).
+   * Retrieve Link sessions for your user
+   * This endpoint can be used for your end users after they complete the Link flow. This endpoint returns a list of Link sessions that your user completed, where each session includes the results from the Link flow.  These results include details about the Item that was created and some product related metadata (showing, for example, whether the user finished the bank income verification step).
    * @param creditSessionsGetRequest  (required)
    * @return Call&lt;CreditSessionsGetResponse&gt;
    * 
-   * @see <a href="/api/products/income/#creditsessionsget">Retrieve Link Sessions For Your User Documentation</a>
+   * @see <a href="/api/products/income/#creditsessionsget">Retrieve Link sessions for your user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1118,6 +1125,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Webhook receiver for fdx notifications
+   * A generic webhook receiver endpoint for FDX Event Notifications
+   * @param fdXNotification  (required)
+   * @return Call&lt;Void&gt;
+   * 
+   * @see <a href="/api/fdx/notifications/#post">Webhook receiver for fdx notifications Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("fdx/notifications")
+  Call<Void> fdxNotifications(
+    @retrofit2.http.Body FDXNotification fdXNotification
+  );
+
+  /**
    * Retrieve identity data
    * The &#x60;/identity/get&#x60; endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses. Only name data is guaranteed to be returned; other fields will be empty arrays if not provided by the institution.  This request may take some time to complete if identity was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.  Note: In API versions 2018-05-22 and earlier, the &#x60;owners&#x60; object is not returned, and instead identity information is returned in the top level &#x60;identity&#x60; object. For more details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2019-05-29).
    * @param identityGetRequest  (required)
@@ -1167,7 +1190,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Identity Verification
-   * Retrieve a previously created identity verification
+   * Retrieve a previously created identity verification.
    * @param identityVerificationGetRequest  (required)
    * @return Call&lt;IdentityVerificationGetResponse&gt;
    * 
@@ -1588,6 +1611,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Exchange the Link Correlation Id for a Link Token
+   * Exchange an OAuth &#x60;link_correlation_id&#x60; for the corresponding &#x60;link_token&#x60;. The &#x60;link_correlation_id&#x60; is only available for &#39;payment_initiation&#39; products and is provided to the client via the OAuth &#x60;redirect_uri&#x60; as a query parameter. The &#x60;link_correlation_id&#x60; is ephemeral and expires in a brief period, after which it can no longer be exchanged for the &#39;link_token&#39;.
+   * @param linkOAuthCorrelationIdExchangeRequest  (required)
+   * @return Call&lt;LinkOAuthCorrelationIdExchangeResponse&gt;
+   * 
+   * @see <a href="/api/oauth/#linkcorrelationid">Exchange the Link Correlation Id for a Link Token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("link/oauth/correlation_id/exchange")
+  Call<LinkOAuthCorrelationIdExchangeResponse> linkOauthCorrelationIdExchange(
+    @retrofit2.http.Body LinkOAuthCorrelationIdExchangeRequest linkOAuthCorrelationIdExchangeRequest
+  );
+
+  /**
    * Create Link Token
    * The &#x60;/link/token/create&#x60; endpoint creates a &#x60;link_token&#x60;, which is required as a parameter when initializing Link. Once Link has been initialized, it returns a &#x60;public_token&#x60;, which can then be exchanged for an &#x60;access_token&#x60; via &#x60;/item/public_token/exchange&#x60; as part of the main Link flow.  A &#x60;link_token&#x60; generated by &#x60;/link/token/create&#x60; is also used to initialize other Link flows, such as the update mode flow for tokens with expired credentials, or the Payment Initiation (Europe) flow.
    * @param linkTokenCreateRequest  (required)
@@ -1625,7 +1664,7 @@ public interface PlaidApi {
    * @param partnerCustomerCreateRequest  (required)
    * @return Call&lt;PartnerCustomerCreateResponse&gt;
    * 
-   * @see <a href="/api/processors/#partnercustomercreate">Creates a new end customer for a Plaid reseller. Documentation</a>
+   * @see <a href="/api/partner/#partnercustomercreate">Creates a new end customer for a Plaid reseller. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1636,12 +1675,28 @@ public interface PlaidApi {
   );
 
   /**
+   * Enables a Plaid reseller&#39;s end customer in the Production environment.
+   * The &#x60;/partner/customer/enable&#x60; endpoint is used by reseller partners to enable an end customer in the Production environment.
+   * @param partnerCustomerEnableRequest  (required)
+   * @return Call&lt;PartnerCustomerEnableResponse&gt;
+   * 
+   * @see <a href="/api/partner/#partnercustomerenable">Enables a Plaid reseller&#39;s end customer in the Production environment. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("partner/customer/enable")
+  Call<PartnerCustomerEnableResponse> partnerCustomerEnable(
+    @retrofit2.http.Body PartnerCustomerEnableRequest partnerCustomerEnableRequest
+  );
+
+  /**
    * Returns a Plaid reseller&#39;s end customer.
    * The &#x60;/partner/customer/get&#x60; endpoint is used by reseller partners to retrieve data about a single end customer.
    * @param partnerCustomerGetRequest  (required)
    * @return Call&lt;PartnerCustomerGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#partnercustomerget">Returns a Plaid reseller&#39;s end customer. Documentation</a>
+   * @see <a href="/api/partner/#partnercustomerget">Returns a Plaid reseller&#39;s end customer. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1829,7 +1884,7 @@ public interface PlaidApi {
 
   /**
    * Create payment profile
-   * Use &#x60;/payment_profile/create&#x60; endpoint to create a new payment profile, identified by a Payment Profile ID. To initiate the account linking experience, call &#x60;/link/token/create&#x60; and provide the Payment Profile ID in the &#x60;transfer.payment_profile_id&#x60; field. You can then use the Payment Profile ID when creating transfers using &#x60;/transfer/authorization/create&#x60; and &#x60;/transfer/create&#x60;.
+   * Use &#x60;/payment_profile/create&#x60; endpoint to create a new payment profile. To initiate the account linking experience, call &#x60;/link/token/create&#x60; and provide the &#x60;payment_profile_token&#x60; in the &#x60;transfer.payment_profile_token&#x60; field. You can then use the &#x60;payment_profile_token&#x60; when creating transfers using &#x60;/transfer/authorization/create&#x60; and &#x60;/transfer/create&#x60;.
    * @param paymentProfileCreateRequest  (required)
    * @return Call&lt;PaymentProfileCreateResponse&gt;
    * 
@@ -1957,7 +2012,7 @@ public interface PlaidApi {
 
   /**
    * Create Stripe bank account token
-   *  Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).   Note that the Stripe bank account token is a one-time use token. To store bank account information for later use, you can use a Stripe customer object and create an associated bank account from the token, or you can use a Stripe Custom account and create an associated external bank account from the token. This bank account information should work indefinitely, unless the user&#39;s bank account information changes or they revoke Plaid&#39;s permissions to access their account. Stripe bank account information cannot be modified once the bank account token has been created. If you ever need to change the bank account details used by Stripe for a specific customer, have the user go through Link again and create a new bank account token from the new &#x60;access_token&#x60;.    Bank account tokens can also be revoked, using &#x60;/item/remove&#x60;.&#39;
+   *  Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).  Note that the Stripe bank account token is a one-time use token. To store bank account information for later use, you can use a Stripe customer object and create an associated bank account from the token, or you can use a Stripe Custom account and create an associated external bank account from the token. This bank account information should work indefinitely, unless the user&#39;s bank account information changes or they revoke Plaid&#39;s permissions to access their account. Stripe bank account information cannot be modified once the bank account token has been created. If you ever need to change the bank account details used by Stripe for a specific customer, have the user go through Link again and create a new bank account token from the new &#x60;access_token&#x60;.  Bank account tokens can also be revoked, using &#x60;/item/remove&#x60;.&#39;
    * @param processorStripeBankAccountTokenCreateRequest  (required)
    * @return Call&lt;ProcessorStripeBankAccountTokenCreateResponse&gt;
    * 
@@ -2095,6 +2150,22 @@ public interface PlaidApi {
   @POST("sandbox/oauth/select_accounts")
   Call<Object> sandboxOauthSelectAccounts(
     @retrofit2.http.Body SandboxOauthSelectAccountsRequest sandboxOauthSelectAccountsRequest
+  );
+
+  /**
+   * Reset the login of a Payment Profile
+   * &#x60;/sandbox/payment_profile/reset_login/&#x60; forces a Payment Profile into a state where the login is no longer valid. This makes it easy to test update mode for Payment Profile in the Sandbox environment.   After calling &#x60;/sandbox/payment_profile/reset_login&#x60;, calls to the &#x60;/transfer/authorization/create&#x60; with the Payment Profile will result in a decision_rationale &#x60;PAYMENT_PROFILE_LOGIN_REQUIRED&#x60;&#x60;. You can then use update mode for Payment Profile to restore it into a good state.   In order to invoke this endpoint, you must first [create a Payment Profile](https://plaid.com/docs/transfer/add-to-app/#create-a-payment-profile-optional) and [go through the Link flow](https://plaid.com/docs/transfer/add-to-app/#create-a-link-token).
+   * @param sandboxPaymentProfileResetLoginRequest  (required)
+   * @return Call&lt;SandboxPaymentProfileResetLoginResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxpaymentprofilereset_login">Reset the login of a Payment Profile Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/payment_profile/reset_login")
+  Call<SandboxPaymentProfileResetLoginResponse> sandboxPaymentProfileResetLogin(
+    @retrofit2.http.Body SandboxPaymentProfileResetLoginRequest sandboxPaymentProfileResetLoginRequest
   );
 
   /**
@@ -2305,7 +2376,7 @@ public interface PlaidApi {
 
   /**
    * Refresh transaction data
-   * &#x60;/transactions/refresh&#x60; is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur multiple times a day for any Transactions-enabled Item. If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60;.  Access to &#x60;/transactions/refresh&#x60; in Production is specific to certain pricing plans. If you cannot access &#x60;/transactions/refresh&#x60; in Production, [contact Sales](https://www.plaid.com/contact) for assistance.
+   * &#x60;/transactions/refresh&#x60; is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur multiple times a day for any Transactions-enabled Item. If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UDPATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/transactions/sync&#x60; and &#x60;/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;.  Access to &#x60;/transactions/refresh&#x60; in Production is specific to certain pricing plans. If you cannot access &#x60;/transactions/refresh&#x60; in Production, [contact Sales](https://www.plaid.com/contact) for assistance.
    * @param transactionsRefreshRequest  (required)
    * @return Call&lt;TransactionsRefreshResponse&gt;
    * 
@@ -2379,7 +2450,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.  For [Guarantee](https://www.plaid.com/docs//transfer/guarantee/), the following fields are required : &#x60;idempotency_key&#x60;, &#x60;user.phone_number&#x60; (optional if &#x60;email_address&#x60; provided), &#x60;user.email_address&#x60; (optional if &#x60;phone_number&#x60; provided), &#x60;device.ip_address&#x60;, &#x60;device.user_agent&#x60;, and &#x60;user_present&#x60;.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.  &#x60;device.ip_address&#x60;, &#x60;device.user_agent&#x60; are required fields.  For [Guarantee](https://www.plaid.com/docs//transfer/guarantee/), the following fields are required : &#x60;idempotency_key&#x60;, &#x60;user.phone_number&#x60; (optional if &#x60;email_address&#x60; provided), &#x60;user.email_address&#x60; (optional if &#x60;phone_number&#x60; provided), &#x60;device.ip_address&#x60;, &#x60;device.user_agent&#x60;, and &#x60;user_present&#x60;.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 

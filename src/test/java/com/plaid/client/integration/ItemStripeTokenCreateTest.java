@@ -2,7 +2,8 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.*;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.ProcessorStripeBankAccountTokenCreateRequest;
 import com.plaid.client.model.ProcessorStripeBankAccountTokenCreateResponse;
 import com.plaid.client.model.Products;
@@ -38,7 +39,7 @@ public class ItemStripeTokenCreateTest extends AbstractItemIntegrationTest {
     // know the exact error code to expect.
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
+      PlaidErrorType.INVALID_REQUEST,
       "INVALID_FIELD"
     );
   }

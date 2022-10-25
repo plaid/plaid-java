@@ -10,7 +10,8 @@ import com.plaid.client.model.AccountBase;
 import com.plaid.client.model.AccountType;
 import com.plaid.client.model.AccountsGetRequest;
 import com.plaid.client.model.AccountsGetResponse;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.InvestmentTransaction;
 import com.plaid.client.model.InvestmentsTransactionsGetRequest;
 import com.plaid.client.model.InvestmentsTransactionsGetRequestOptions;
@@ -73,7 +74,7 @@ public class InvestmentsTransactionsGetTest
         break;
       } else {
         Gson gson = new Gson();
-        Error error = gson.fromJson(response.errorBody().string(), Error.class);
+        PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
         assertEquals(error.getErrorCode(), "PRODUCT_NOT_READY");
         Thread.sleep(3000);
       }
@@ -162,7 +163,7 @@ public class InvestmentsTransactionsGetTest
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }

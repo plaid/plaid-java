@@ -6,7 +6,8 @@ import com.google.gson.Gson;
 import com.plaid.client.model.BankTransferCancelRequest;
 import com.plaid.client.model.BankTransferCancelResponse;
 import com.plaid.client.model.BankTransferFailure;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.SandboxBankTransferSimulateRequest;
 import com.plaid.client.model.SandboxBankTransferSimulateResponse;
 import retrofit2.Response;
@@ -33,13 +34,13 @@ public class BankTransferCancelFailureTest extends AbstractBankTransferTest {
       .execute();
 
     Gson gson = new Gson();
-    Error error = gson.fromJson(
+    PlaidError error = gson.fromJson(
       cancelResponse.errorBody().string(),
-      Error.class
+      PlaidError.class
     );
     assertNotNull(error);
     assertNotNull(error.getRequestId());
-    assertEquals(Error.ErrorTypeEnum.BANK_TRANSFER_ERROR, error.getErrorType());
+    assertEquals(PlaidErrorType.BANK_TRANSFER_ERROR, error.getErrorType());
     assertEquals("BANK_TRANSFER_NOT_CANCELLABLE", error.getErrorCode());
   }
 }
