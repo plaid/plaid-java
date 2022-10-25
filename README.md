@@ -129,7 +129,7 @@ plaidClient()
 // Decoding an unsuccessful response
 try {
   Gson gson = new Gson();
-  Error error = gson.fromJson(response.errorBody().string(), Error.class);
+  PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
 } catch (Exception e) {
   throw new Exception(
     String.format(

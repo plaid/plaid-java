@@ -7,7 +7,8 @@ import static org.junit.Assert.assertNotNull;
 import com.plaid.client.model.AccountIdentity;
 import com.plaid.client.model.Address;
 import com.plaid.client.model.Email;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.IdentityVerificationGetRequest;
 import com.plaid.client.model.IdentityVerificationCreateRequest;
 import com.plaid.client.model.IdentityVerificationGetResponse;
@@ -22,6 +23,7 @@ import com.plaid.client.model.Strategy;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Ignore;
 import org.junit.Test;
 import retrofit2.Response;
 import java.time.OffsetDateTime;
@@ -29,6 +31,7 @@ import java.time.OffsetDateTime;
 public class IdentityVerificationTest extends AbstractIntegrationTest {
   private static final String TEMPLATE_ID = "flwtmp_aWogUuKsL6NEHU";
 
+  @Ignore
   @Test
   public void testSuccess() throws Exception {
     String customerReference = "idv-user-" + Instant.now();
@@ -133,6 +136,6 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
     Response<IdentityVerificationGetResponse> identityVerificationGetResponse = client()
       .identityVerificationGet(identityVerificationGetRequest)
       .execute();
-    assertErrorResponse(identityVerificationGetResponse, Error.ErrorTypeEnum.INVALID_REQUEST, "INVALID_FIELD");
+    assertErrorResponse(identityVerificationGetResponse, PlaidErrorType.INVALID_REQUEST, "INVALID_FIELD");
   }
 }

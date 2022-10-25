@@ -2,7 +2,8 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.WebhookVerificationKeyGetRequest;
 import com.plaid.client.model.WebhookVerificationKeyGetResponse;
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class WebhookVerificationKeyGetTest extends AbstractIntegrationTest {
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_WEBHOOK_VERIFICATION_KEY_ID"
     );
   }

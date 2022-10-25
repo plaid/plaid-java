@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import com.plaid.client.model.AccountBase;
 import com.plaid.client.model.AccountType;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Holding;
 import com.plaid.client.model.InvestmentHoldingsGetRequestOptions;
 import com.plaid.client.model.InvestmentsHoldingsGetRequest;
@@ -117,7 +118,7 @@ public class InvestmentsHoldingsGetTest extends AbstractItemIntegrationTest {
       .execute();
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }
