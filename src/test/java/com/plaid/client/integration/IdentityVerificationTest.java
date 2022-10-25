@@ -7,7 +7,8 @@ import static org.junit.Assert.assertNotNull;
 import com.plaid.client.model.AccountIdentity;
 import com.plaid.client.model.Address;
 import com.plaid.client.model.Email;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.IdentityVerificationGetRequest;
 import com.plaid.client.model.IdentityVerificationCreateRequest;
 import com.plaid.client.model.IdentityVerificationGetResponse;
@@ -133,6 +134,6 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
     Response<IdentityVerificationGetResponse> identityVerificationGetResponse = client()
       .identityVerificationGet(identityVerificationGetRequest)
       .execute();
-    assertErrorResponse(identityVerificationGetResponse, Error.ErrorTypeEnum.INVALID_REQUEST, "INVALID_FIELD");
+    assertErrorResponse(identityVerificationGetResponse, PlaidErrorType.INVALID_REQUEST, "INVALID_FIELD");
   }
 }

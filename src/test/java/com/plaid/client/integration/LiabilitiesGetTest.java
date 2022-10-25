@@ -6,7 +6,8 @@ import com.plaid.client.model.APR;
 import com.plaid.client.model.AccountBase;
 import com.plaid.client.model.AccountSubtype;
 import com.plaid.client.model.CreditCardLiability;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.LiabilitiesGetRequest;
 import com.plaid.client.model.LiabilitiesGetRequestOptions;
 import com.plaid.client.model.LiabilitiesGetResponse;
@@ -180,7 +181,7 @@ public class LiabilitiesGetTest extends AbstractItemIntegrationTest {
       .execute();
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }

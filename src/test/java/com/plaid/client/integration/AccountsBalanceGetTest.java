@@ -11,7 +11,8 @@ import com.plaid.client.model.AccountType;
 import com.plaid.client.model.AccountsBalanceGetRequest;
 import com.plaid.client.model.AccountsBalanceGetRequestOptions;
 import com.plaid.client.model.AccountsGetResponse;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Item;
 import com.plaid.client.model.ItemStatus;
 import com.plaid.client.model.Products;
@@ -156,7 +157,7 @@ public class AccountsBalanceGetTest extends AbstractItemIntegrationTest {
       .execute();
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
+      PlaidErrorType.INVALID_REQUEST,
       "INVALID_FIELD"
     );
   }
@@ -171,7 +172,7 @@ public class AccountsBalanceGetTest extends AbstractItemIntegrationTest {
       .execute();
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }

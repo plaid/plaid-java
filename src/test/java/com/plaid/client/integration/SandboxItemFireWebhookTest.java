@@ -2,7 +2,7 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.assertTrue;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
 import com.plaid.client.model.ItemWebhookUpdateRequest;
 import com.plaid.client.model.ItemWebhookUpdateResponse;
 import com.plaid.client.model.Products;

@@ -3,7 +3,8 @@ package com.plaid.client.integration;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.ItemAccessTokenInvalidateRequest;
 import com.plaid.client.model.ItemAccessTokenInvalidateResponse;
 import com.plaid.client.model.Products;
@@ -52,7 +53,7 @@ public class ItemAccessTokenInvalidateTest extends AbstractItemIntegrationTest {
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }

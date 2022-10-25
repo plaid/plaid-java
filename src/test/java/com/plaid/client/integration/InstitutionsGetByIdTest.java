@@ -3,7 +3,8 @@ package com.plaid.client.integration;
 import static org.junit.Assert.*;
 
 import com.plaid.client.model.CountryCode;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Institution;
 import com.plaid.client.model.InstitutionsGetByIdRequest;
 import com.plaid.client.model.InstitutionsGetByIdRequestOptions;
@@ -177,7 +178,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       .execute();
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_INSTITUTION"
     );
   }

@@ -7,7 +7,8 @@ import com.plaid.client.model.AccountFiltersResponse;
 import com.plaid.client.model.DepositoryAccountSubtype;
 import com.plaid.client.model.CountryCode;
 import com.plaid.client.model.DepositoryFilter;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.LinkTokenAccountFilters;
 import com.plaid.client.model.LinkTokenCreateRequest;
 import com.plaid.client.model.LinkTokenCreateRequestUser;
@@ -47,7 +48,7 @@ public class LinkTokenGetTest extends AbstractItemIntegrationTest {
 
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
+      PlaidErrorType.INVALID_REQUEST,
       "INVALID_FIELD"
     );
   }
