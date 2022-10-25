@@ -2,7 +2,8 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.assertEquals;
 
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Item;
 import com.plaid.client.model.ItemWebhookUpdateRequest;
 import com.plaid.client.model.ItemWebhookUpdateResponse;
@@ -54,7 +55,7 @@ public class ItemWebhookUpdateTest extends AbstractItemIntegrationTest {
 
     assertErrorResponse(
       webhookResponse,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
+      PlaidErrorType.INVALID_REQUEST,
       "INVALID_FIELD"
     );
   }

@@ -3,7 +3,8 @@ package com.plaid.client.integration;
 import static org.junit.Assert.*;
 
 import com.plaid.client.model.CountryCode;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.InstitutionsSearchRequest;
 import com.plaid.client.model.InstitutionsSearchResponse;
 import com.plaid.client.model.Products;
@@ -25,6 +26,6 @@ public class PlaidClientTest extends AbstractIntegrationTest {
       .institutionsSearch(request)
       .execute();
 
-    assertErrorResponse(response, Error.ErrorTypeEnum.INVALID_REQUEST, "INVALID_FIELD");
+    assertErrorResponse(response, PlaidErrorType.INVALID_REQUEST, "INVALID_FIELD");
   }
 }

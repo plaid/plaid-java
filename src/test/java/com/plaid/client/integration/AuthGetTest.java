@@ -10,7 +10,8 @@ import com.plaid.client.model.AuthGetNumbers;
 import com.plaid.client.model.AuthGetRequest;
 import com.plaid.client.model.AuthGetRequestOptions;
 import com.plaid.client.model.AuthGetResponse;
-import com.plaid.client.model.Error;
+import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.NumbersACH;
 import com.plaid.client.model.NumbersBACS;
 import com.plaid.client.model.NumbersEFT;
@@ -120,7 +121,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
       .execute();
     assertErrorResponse(
       response,
-      Error.ErrorTypeEnum.INVALID_INPUT,
+      PlaidErrorType.INVALID_INPUT,
       "INVALID_ACCESS_TOKEN"
     );
   }
@@ -139,7 +140,7 @@ public class AuthGetTest extends AbstractItemIntegrationTest {
       .execute();
     assertErrorResponse(
       authResponse,
-      Error.ErrorTypeEnum.INVALID_REQUEST,
+      PlaidErrorType.INVALID_REQUEST,
       "INVALID_FIELD"
     );
   }
