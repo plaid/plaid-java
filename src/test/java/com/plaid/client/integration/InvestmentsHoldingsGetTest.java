@@ -31,6 +31,7 @@ public class InvestmentsHoldingsGetTest extends AbstractItemIntegrationTest {
     return TARTAN_BANK_INSTITUTION_ID;
   }
 
+  @Ignore
   @Test
   public void testInvestmentsHoldingsGetSuccess() throws Exception {
     InvestmentsHoldingsGetRequest request = new InvestmentsHoldingsGetRequest()
