@@ -118,8 +118,6 @@ import com.plaid.client.model.IncomeVerificationPaystubsGetRequest;
 import com.plaid.client.model.IncomeVerificationPaystubsGetResponse;
 import com.plaid.client.model.IncomeVerificationPrecheckRequest;
 import com.plaid.client.model.IncomeVerificationPrecheckResponse;
-import com.plaid.client.model.IncomeVerificationRefreshRequest;
-import com.plaid.client.model.IncomeVerificationRefreshResponse;
 import com.plaid.client.model.IncomeVerificationTaxformsGetRequest;
 import com.plaid.client.model.IncomeVerificationTaxformsGetResponse;
 import com.plaid.client.model.InstitutionsGetByIdRequest;
@@ -168,6 +166,8 @@ import com.plaid.client.model.PartnerCustomerEnableRequest;
 import com.plaid.client.model.PartnerCustomerEnableResponse;
 import com.plaid.client.model.PartnerCustomerGetRequest;
 import com.plaid.client.model.PartnerCustomerGetResponse;
+import com.plaid.client.model.PartnerCustomerRemoveRequest;
+import com.plaid.client.model.PartnerCustomerRemoveResponse;
 import com.plaid.client.model.PaymentInitiationConsentCreateRequest;
 import com.plaid.client.model.PaymentInitiationConsentCreateResponse;
 import com.plaid.client.model.PaymentInitiationConsentGetRequest;
@@ -239,6 +239,12 @@ import com.plaid.client.model.SandboxTransferSimulateRequest;
 import com.plaid.client.model.SandboxTransferSimulateResponse;
 import com.plaid.client.model.SandboxTransferSweepSimulateRequest;
 import com.plaid.client.model.SandboxTransferSweepSimulateResponse;
+import com.plaid.client.model.SandboxTransferTestClockAdvanceRequest;
+import com.plaid.client.model.SandboxTransferTestClockAdvanceResponse;
+import com.plaid.client.model.SandboxTransferTestClockCreateRequest;
+import com.plaid.client.model.SandboxTransferTestClockCreateResponse;
+import com.plaid.client.model.SandboxTransferTestClockGetRequest;
+import com.plaid.client.model.SandboxTransferTestClockGetResponse;
 import com.plaid.client.model.SignalDecisionReportRequest;
 import com.plaid.client.model.SignalDecisionReportResponse;
 import com.plaid.client.model.SignalEvaluateRequest;
@@ -249,6 +255,8 @@ import com.plaid.client.model.SignalReturnReportRequest;
 import com.plaid.client.model.SignalReturnReportResponse;
 import com.plaid.client.model.TransactionsEnhanceGetRequest;
 import com.plaid.client.model.TransactionsEnhanceGetResponse;
+import com.plaid.client.model.TransactionsEnrichGetRequest;
+import com.plaid.client.model.TransactionsEnrichGetResponse;
 import com.plaid.client.model.TransactionsGetRequest;
 import com.plaid.client.model.TransactionsGetResponse;
 import com.plaid.client.model.TransactionsRecurringGetRequest;
@@ -283,6 +291,28 @@ import com.plaid.client.model.TransferListRequest;
 import com.plaid.client.model.TransferListResponse;
 import com.plaid.client.model.TransferMigrateAccountRequest;
 import com.plaid.client.model.TransferMigrateAccountResponse;
+import com.plaid.client.model.TransferOriginatorCreateRequest;
+import com.plaid.client.model.TransferOriginatorCreateResponse;
+import com.plaid.client.model.TransferOriginatorGetRequest;
+import com.plaid.client.model.TransferOriginatorGetResponse;
+import com.plaid.client.model.TransferOriginatorListRequest;
+import com.plaid.client.model.TransferOriginatorListResponse;
+import com.plaid.client.model.TransferQuestionnaireCreateRequest;
+import com.plaid.client.model.TransferQuestionnaireCreateResponse;
+import com.plaid.client.model.TransferRecurringCancelRequest;
+import com.plaid.client.model.TransferRecurringCancelResponse;
+import com.plaid.client.model.TransferRecurringCreateRequest;
+import com.plaid.client.model.TransferRecurringCreateResponse;
+import com.plaid.client.model.TransferRecurringGetRequest;
+import com.plaid.client.model.TransferRecurringGetResponse;
+import com.plaid.client.model.TransferRecurringListRequest;
+import com.plaid.client.model.TransferRecurringListResponse;
+import com.plaid.client.model.TransferRefundCancelRequest;
+import com.plaid.client.model.TransferRefundCancelResponse;
+import com.plaid.client.model.TransferRefundCreateRequest;
+import com.plaid.client.model.TransferRefundCreateResponse;
+import com.plaid.client.model.TransferRefundGetRequest;
+import com.plaid.client.model.TransferRefundGetResponse;
 import com.plaid.client.model.TransferRepaymentListRequest;
 import com.plaid.client.model.TransferRepaymentListResponse;
 import com.plaid.client.model.TransferRepaymentReturnListRequest;
@@ -303,8 +333,9 @@ import com.plaid.client.model.WalletTransactionExecuteRequest;
 import com.plaid.client.model.WalletTransactionExecuteResponse;
 import com.plaid.client.model.WalletTransactionGetRequest;
 import com.plaid.client.model.WalletTransactionGetResponse;
+import com.plaid.client.model.WalletTransactionListRequest;
+import com.plaid.client.model.WalletTransactionListResponse;
 import com.plaid.client.model.WalletTransactionsListRequest;
-import com.plaid.client.model.WalletTransactionsListResponse;
 import com.plaid.client.model.WatchlistScreeningEntityCreateRequest;
 import com.plaid.client.model.WatchlistScreeningEntityCreateResponse;
 import com.plaid.client.model.WatchlistScreeningEntityGetRequest;
@@ -1309,24 +1340,6 @@ public interface PlaidApi {
   );
 
   /**
-   * (Deprecated) Refresh an income verification
-   * &#x60;/income/verification/refresh&#x60; refreshes a given income verification.
-   * @param incomeVerificationRefreshRequest  (required)
-   * @return Call&lt;IncomeVerificationRefreshResponse&gt;
-   * @deprecated
-   * 
-   * @see <a href="/api/products/income/#incomeverificationrefresh">(Deprecated) Refresh an income verification Documentation</a>
-   */
-  @Deprecated
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("income/verification/refresh")
-  Call<IncomeVerificationRefreshResponse> incomeVerificationRefresh(
-    @retrofit2.http.Body IncomeVerificationRefreshRequest incomeVerificationRefreshRequest
-  );
-
-  /**
    * (Deprecated) Retrieve information from the tax documents used for income verification
    * &#x60;/income/verification/taxforms/get&#x60; returns the information collected from forms that were used to verify an end user&#39;&#39;s income. It can be called once the status of the verification has been set to &#x60;VERIFICATION_STATUS_PROCESSING_COMPLETE&#x60;, as reported by the &#x60;INCOME: verification_status&#x60; webhook. Attempting to call the endpoint before verification has been completed will result in an error.  This endpoint has been deprecated; new integrations should use &#x60;/credit/payroll_income/get&#x60; instead.
    * @param incomeVerificationTaxformsGetRequest  (required)
@@ -1704,6 +1717,22 @@ public interface PlaidApi {
   @POST("partner/customer/get")
   Call<PartnerCustomerGetResponse> partnerCustomerGet(
     @retrofit2.http.Body PartnerCustomerGetRequest partnerCustomerGetRequest
+  );
+
+  /**
+   * Removes a Plaid reseller&#39;s end customer.
+   * The &#x60;/partner/customer/remove&#x60; endpoint is used by reseller partners to remove an end customer. Removing an end customer will remove it from view in the Plaid Dashboard and deactivate its API keys. This endpoint can only be used to remove an end customer that has not yet been enabled in Production.
+   * @param partnerCustomerRemoveRequest  (required)
+   * @return Call&lt;PartnerCustomerRemoveResponse&gt;
+   * 
+   * @see <a href="/api/partner/#partnercustomerremove">Removes a Plaid reseller&#39;s end customer. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("partner/customer/remove")
+  Call<PartnerCustomerRemoveResponse> partnerCustomerRemove(
+    @retrofit2.http.Body PartnerCustomerRemoveRequest partnerCustomerRemoveRequest
   );
 
   /**
@@ -2092,7 +2121,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Transactions update webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;AUTH_DATA_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item created with Auth as an enabled product.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Transactions update webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;AUTH_DATA_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item created with Auth as an enabled product.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -2154,7 +2183,7 @@ public interface PlaidApi {
 
   /**
    * Reset the login of a Payment Profile
-   * &#x60;/sandbox/payment_profile/reset_login/&#x60; forces a Payment Profile into a state where the login is no longer valid. This makes it easy to test update mode for Payment Profile in the Sandbox environment.   After calling &#x60;/sandbox/payment_profile/reset_login&#x60;, calls to the &#x60;/transfer/authorization/create&#x60; with the Payment Profile will result in a decision_rationale &#x60;PAYMENT_PROFILE_LOGIN_REQUIRED&#x60;&#x60;. You can then use update mode for Payment Profile to restore it into a good state.   In order to invoke this endpoint, you must first [create a Payment Profile](https://plaid.com/docs/transfer/add-to-app/#create-a-payment-profile-optional) and [go through the Link flow](https://plaid.com/docs/transfer/add-to-app/#create-a-link-token).
+   * &#x60;/sandbox/payment_profile/reset_login/&#x60; forces a Payment Profile into a state where the login is no longer valid. This makes it easy to test update mode for Payment Profile in the Sandbox environment.   After calling &#x60;/sandbox/payment_profile/reset_login&#x60;, calls to the &#x60;/transfer/authorization/create&#x60; with the Payment Profile will result in a &#x60;decision_rationale&#x60; &#x60;PAYMENT_PROFILE_LOGIN_REQUIRED&#x60;. You can then use update mode for Payment Profile to restore it into a good state.   In order to invoke this endpoint, you must first [create a Payment Profile](https://plaid.com/docs/transfer/add-to-app/#create-a-payment-profile-optional) and [go through the Link flow](https://plaid.com/docs/transfer/add-to-app/#create-a-link-token).
    * @param sandboxPaymentProfileResetLoginRequest  (required)
    * @return Call&lt;SandboxPaymentProfileResetLoginResponse&gt;
    * 
@@ -2265,12 +2294,60 @@ public interface PlaidApi {
   );
 
   /**
+   * Advance a test clock
+   * Use the &#x60;/sandbox/transfer/test_clock/advance&#x60; endpoint to advance a &#x60;test_clock&#x60; in the Sandbox environment.   A test clock object represents an independent timeline and has a &#x60;frozen_timestamp&#x60; field indicating the current timestamp of the timeline. A test clock can be advanced by incrementing &#x60;frozen_timestamp&#x60;, but may never go back to a lower &#x60;frozen_timestamp&#x60;.  If a test clock is advanced from T1 to T2, we will simulate the changes that ought to occur during the period of (T1, T2].  For instance, a client creates a weekly recurring transfer with a test clock set at t. When the client advances the test clock by setting &#x60;frozen_timestamp&#x60; &#x3D; t + 15 days, 2 new originations should be created, along with the webhook events. The timestamps of the objects and webhook events created/updated in step 2 should also fall in (T1, T2] time range.  The advancement of the test clock from its current &#x60;frozen_timestamp&#x60; should be limited such that there are no more than 20 originations resulted from the advance operation on each &#x60;recurring_transfer&#x60; associated with this &#x60;test_clock&#x60;.  For instance, if the recurring transfer associated with this test clock originates once every 4 weeks, you can advance the &#x60;frozen_timestamp&#x60; up to 80 weeks on each advance call.
+   * @param sandboxTransferTestClockAdvanceRequest  (required)
+   * @return Call&lt;SandboxTransferTestClockAdvanceResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransfertestclockadvance">Advance a test clock Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/test_clock/advance")
+  Call<SandboxTransferTestClockAdvanceResponse> sandboxTransferTestClockAdvance(
+    @retrofit2.http.Body SandboxTransferTestClockAdvanceRequest sandboxTransferTestClockAdvanceRequest
+  );
+
+  /**
+   * Create a test clock
+   * Use the &#x60;/sandbox/transfer/test_clock/create&#x60; endpoint to create a &#x60;test_clock&#x60; in the Sandbox environment.   A test clock object represents an independent timeline and has a &#x60;frozen_timestamp&#x60; field indicating the current timestamp of the timeline. Test clock allows clients to easily test and integrate with recurring transfer product in sandbox environment.  A test clock can be associated with up to 5 recurring transfers.
+   * @param sandboxTransferTestClockCreateRequest  (required)
+   * @return Call&lt;SandboxTransferTestClockCreateResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransfertestclockcreate">Create a test clock Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/test_clock/create")
+  Call<SandboxTransferTestClockCreateResponse> sandboxTransferTestClockCreate(
+    @retrofit2.http.Body SandboxTransferTestClockCreateRequest sandboxTransferTestClockCreateRequest
+  );
+
+  /**
+   * Get a test clock
+   * Use the &#x60;/sandbox/transfer/test_clock/get&#x60; endpoint to get a &#x60;test_clock&#x60; in the Sandbox environment.
+   * @param sandboxTransferTestClockGetRequest  (required)
+   * @return Call&lt;SandboxTransferTestClockGetResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransfertestclockget">Get a test clock Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/test_clock/get")
+  Call<SandboxTransferTestClockGetResponse> sandboxTransferTestClockGet(
+    @retrofit2.http.Body SandboxTransferTestClockGetRequest sandboxTransferTestClockGetRequest
+  );
+
+  /**
    * Report whether you initiated an ACH transaction
-   * After calling &#x60;/signal/evaluate&#x60;, call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated. This endpoint will return an &#x60;INVALID_REQUEST&#x60; error if called a second time with a different value for &#x60;initiated&#x60;.
+   * After calling &#x60;/signal/evaluate&#x60;, call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated. This endpoint will return an [&#x60;INVALID_FIELD&#x60;](/docs/errors/invalid-request/#invalid_field) error if called a second time with a different value for &#x60;initiated&#x60;.
    * @param signalDecisionReportRequest  (required)
    * @return Call&lt;SignalDecisionReportResponse&gt;
    * 
-   * @see <a href="/signal/reference#signaldecisionreport">Report whether you initiated an ACH transaction Documentation</a>
+   * @see <a href="/api/products/signal#signaldecisionreport">Report whether you initiated an ACH transaction Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2282,11 +2359,11 @@ public interface PlaidApi {
 
   /**
    * Evaluate a planned ACH transaction
-   * Use &#x60;/signal/evaluate&#x60; to evaluate a planned ACH transaction to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If &#x60;/signal/evaluate&#x60; is called on the same transaction multiple times within a 24-hour period, cached results may be returned.
+   * Use &#x60;/signal/evaluate&#x60; to evaluate a planned ACH transaction to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If &#x60;/signal/evaluate&#x60; is called on the same transaction multiple times within a 24-hour period, cached results may be returned. For more information please refer to our error documentation on [item errors](/docs/errors/item/) and [Link in Update Mode](/docs/link/update-mode/).  Note: This request may take some time to complete if Signal is being added to an existing Item. This is because Plaid must communicate directly with the institution when retrieving the data for the first time.
    * @param signalEvaluateRequest  (required)
    * @return Call&lt;SignalEvaluateResponse&gt;
    * 
-   * @see <a href="/signal/reference#signalevaluate">Evaluate a planned ACH transaction Documentation</a>
+   * @see <a href="/api/products/signal#signalevaluate">Evaluate a planned ACH transaction Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2297,12 +2374,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Prepare the Signal product before calling &#x60;/signal/evaluate&#x60;
-   * Call &#x60;/signal/prepare&#x60; with Plaid-linked bank account information at least 10 seconds before calling &#x60;/signal/evaluate&#x60; or as soon as an end-user enters the ACH deposit flow in your application.
+   * Opt-in an Item to Signal
+   * When Link is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score.  If you are using other Plaid products after Link, e.g. Identity or Assets, call &#x60;/signal/prepare&#x60; after those product calls are complete.  Example flow: Link is initialized with Auth, call &#x60;/auth/get&#x60; for the account &amp; routing number, call &#x60;/identity/get&#x60; to retrieve bank ownership details, call &#x60;/signal/prepare&#x60; to begin Signal data collection, then call &#x60;/signal/evaluate&#x60; for a Signal score. For more information please see [Recommendations for initializing Link with specific product combinations](/docs/link/best-practices/#recommendations-for-initializing-link-with-specific-product-combinations).
    * @param signalPrepareRequest  (required)
    * @return Call&lt;SignalPrepareResponse&gt;
    * 
-   * @see <a href="/signal/reference#signalprepare">Prepare the Signal product before calling &#x60;/signal/evaluate&#x60; Documentation</a>
+   * @see <a href="/api/products/signal#signalprepare">Opt-in an Item to Signal Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2318,7 +2395,7 @@ public interface PlaidApi {
    * @param signalReturnReportRequest  (required)
    * @return Call&lt;SignalReturnReportResponse&gt;
    * 
-   * @see <a href="/signal/reference#signalreturnreport">Report a return for an ACH transaction Documentation</a>
+   * @see <a href="/api/products/signal#signalreturnreport">Report a return for an ACH transaction Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2343,6 +2420,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Enrich locally-held transaction data
+   * The &#39;/transactions/enrich&#39; endpoint enriches raw transaction data generated by your own banking products or retrieved from other non-Plaid sources.  The product is currently in beta. To request access, contact transactions-feedback@plaid.com
+   * @param transactionsEnrichGetRequest  (required)
+   * @return Call&lt;TransactionsEnrichGetResponse&gt;
+   * 
+   * @see <a href="/api/products/enrich/#transactionsenrich">Enrich locally-held transaction data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transactions/enrich")
+  Call<TransactionsEnrichGetResponse> transactionsEnrich(
+    @retrofit2.http.Body TransactionsEnrichGetRequest transactionsEnrichGetRequest
+  );
+
+  /**
    * Get transaction data
    * The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
    * @param transactionsGetRequest  (required)
@@ -2360,7 +2453,7 @@ public interface PlaidApi {
 
   /**
    * Fetch recurring transaction streams
-   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is not included by default as part of Transactions. To request access to this endpoint and learn more about pricing, contact your Plaid account manager.  Note that unlike &#x60;/transactions/get&#x60;, &#x60;/transactions/recurring/get&#x60; will not initialize an Item with Transactions. The Item must already have been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;, or after Link, by calling &#x60;/transactions/get&#x60;) before calling this endpoint. Data is available to &#x60;/transactions/recurring/get&#x60; approximately 5 seconds after the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook has fired (about 1-2 minutes after initialization).  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Since recurring streams do not change often, it will typically not be necessary to call this endpoint more than once per day.
+   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is not included by default as part of Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  Note that unlike &#x60;/transactions/get&#x60;, &#x60;/transactions/recurring/get&#x60; will not initialize an Item with Transactions. The Item must already have been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;, or after Link, by calling &#x60;/transactions/get&#x60;) before calling this endpoint. Data is available to &#x60;/transactions/recurring/get&#x60; approximately 5 seconds after the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook has fired (about 1-2 minutes after initialization).  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Since recurring streams do not change often, it will typically not be necessary to call this endpoint more than once per day.
    * @param transactionsRecurringGetRequest  (required)
    * @return Call&lt;TransactionsRecurringGetResponse&gt;
    * 
@@ -2434,7 +2527,7 @@ public interface PlaidApi {
 
   /**
    * Get incremental transaction updates on an Item
-   * This endpoint replaces &#x60;/transactions/get&#x60; and its associated webhooks for most common use-cases.  The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates.  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates.  Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  Note that for newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
+   * This endpoint replaces &#x60;/transactions/get&#x60; and its associated webhooks for most common use-cases.  The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates.  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.   When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails when retrieving a paginated update, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.   Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  Note that for newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
    * @param transactionsSyncRequest  (required)
    * @return Call&lt;TransactionsSyncResponse&gt;
    * 
@@ -2530,7 +2623,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve a transfer
-   * The &#x60;/transfer/get&#x60; fetches information about the transfer corresponding to the given &#x60;transfer_id&#x60;.
+   * The &#x60;/transfer/get&#x60; endpoint fetches information about the transfer corresponding to the given &#x60;transfer_id&#x60;.
    * @param transferGetRequest  (required)
    * @return Call&lt;TransferGetResponse&gt;
    * 
@@ -2606,6 +2699,182 @@ public interface PlaidApi {
   @POST("transfer/migrate_account")
   Call<TransferMigrateAccountResponse> transferMigrateAccount(
     @retrofit2.http.Body TransferMigrateAccountRequest transferMigrateAccountRequest
+  );
+
+  /**
+   * Create a new originator
+   * Use the &#x60;/transfer/originator/create&#x60; endpoint to create a new originator and return an &#x60;originator_client_id&#x60;.
+   * @param transferOriginatorCreateRequest  (required)
+   * @return Call&lt;TransferOriginatorCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferoriginatorcreate">Create a new originator Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/originator/create")
+  Call<TransferOriginatorCreateResponse> transferOriginatorCreate(
+    @retrofit2.http.Body TransferOriginatorCreateRequest transferOriginatorCreateRequest
+  );
+
+  /**
+   * Get status of an originator&#39;s onboarding
+   * The &#x60;/transfer/originator/get&#x60; endpoint gets status updates for an originator&#39;s onboarding process. This information is also available via the Transfer page on the Plaid dashboard.
+   * @param transferOriginatorGetRequest  (required)
+   * @return Call&lt;TransferOriginatorGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferoriginatorget">Get status of an originator&#39;s onboarding Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/originator/get")
+  Call<TransferOriginatorGetResponse> transferOriginatorGet(
+    @retrofit2.http.Body TransferOriginatorGetRequest transferOriginatorGetRequest
+  );
+
+  /**
+   * Get status of all originators&#39; onboarding
+   * The &#x60;/transfer/originator/list&#x60; endpoint gets status updates for all of your originators&#39; onboarding. This information is also available via the Plaid dashboard.
+   * @param transferOriginatorListRequest  (required)
+   * @return Call&lt;TransferOriginatorListResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferoriginatorlist">Get status of all originators&#39; onboarding Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/originator/list")
+  Call<TransferOriginatorListResponse> transferOriginatorList(
+    @retrofit2.http.Body TransferOriginatorListRequest transferOriginatorListRequest
+  );
+
+  /**
+   * Generate a Plaid-hosted onboarding UI URL.
+   * The &#x60;/transfer/questionnaire/create&#x60; endpoint generates a Plaid-hosted onboarding UI URL. Redirect the originator to this URL to provide their due diligence information and agree to Plaid’s terms for ACH money movement.
+   * @param transferQuestionnaireCreateRequest  (required)
+   * @return Call&lt;TransferQuestionnaireCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferquestionnairecreate">Generate a Plaid-hosted onboarding UI URL. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/questionnaire/create")
+  Call<TransferQuestionnaireCreateResponse> transferQuestionnaireCreate(
+    @retrofit2.http.Body TransferQuestionnaireCreateRequest transferQuestionnaireCreateRequest
+  );
+
+  /**
+   * Cancel a recurring transfer.
+   * Use the &#x60;/transfer/recurring/cancel&#x60; endpoint to cancel a recurring transfer.  Scheduled transfer that hasn&#39;t been submitted to bank will be cancelled.
+   * @param transferRecurringCancelRequest  (required)
+   * @return Call&lt;TransferRecurringCancelResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferrecurringcancel">Cancel a recurring transfer. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/recurring/cancel")
+  Call<TransferRecurringCancelResponse> transferRecurringCancel(
+    @retrofit2.http.Body TransferRecurringCancelRequest transferRecurringCancelRequest
+  );
+
+  /**
+   * Create a recurring transfer
+   * Use the &#x60;/transfer/recurring/create&#x60; endpoint to initiate a new recurring transfer.
+   * @param transferRecurringCreateRequest  (required)
+   * @return Call&lt;TransferRecurringCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferrecurringcreate">Create a recurring transfer Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/recurring/create")
+  Call<TransferRecurringCreateResponse> transferRecurringCreate(
+    @retrofit2.http.Body TransferRecurringCreateRequest transferRecurringCreateRequest
+  );
+
+  /**
+   * Retrieve a recurring transfer
+   * The &#x60;/transfer/recurring/get&#x60; fetches information about the recurring transfer corresponding to the given &#x60;recurring_transfer_id&#x60;.
+   * @param transferRecurringGetRequest  (required)
+   * @return Call&lt;TransferRecurringGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferrecurringget">Retrieve a recurring transfer Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/recurring/get")
+  Call<TransferRecurringGetResponse> transferRecurringGet(
+    @retrofit2.http.Body TransferRecurringGetRequest transferRecurringGetRequest
+  );
+
+  /**
+   * List recurring transfers
+   * Use the &#x60;/transfer/recurring/list&#x60; endpoint to see a list of all your recurring transfers and their statuses. Results are paginated; use the &#x60;count&#x60; and &#x60;offset&#x60; query parameters to retrieve the desired recurring transfers. 
+   * @param transferRecurringListRequest  (required)
+   * @return Call&lt;TransferRecurringListResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferrecurringlist">List recurring transfers Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/recurring/list")
+  Call<TransferRecurringListResponse> transferRecurringList(
+    @retrofit2.http.Body TransferRecurringListRequest transferRecurringListRequest
+  );
+
+  /**
+   * Cancel a refund
+   * Use the &#x60;/transfer/refund/cancel&#x60; endpoint to cancel a refund.  A refund is eligible for cancellation if it has not yet been submitted to the payment network.
+   * @param transferRefundCancelRequest  (required)
+   * @return Call&lt;TransferRefundCancelResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferrefundcancel">Cancel a refund Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/refund/cancel")
+  Call<TransferRefundCancelResponse> transferRefundCancel(
+    @retrofit2.http.Body TransferRefundCancelRequest transferRefundCancelRequest
+  );
+
+  /**
+   * Create a refund
+   * Use the &#x60;/transfer/refund/create&#x60; endpoint to create a refund for a transfer. A transfer can be refunded if the transfer was initiated in the past 180 days.  Processing of the refund will not occur until at least 3 business days following the transfer&#39;s settlement date, plus any hold/settlement delays. This 3-day window helps better protect your business from regular ACH returns. Consumer initiated returns (unauthorized returns) could still happen for about 60 days from the settlement date. If the original transfer is canceled, returned or failed, all pending refunds will automatically be canceled. Processed refunds cannot be revoked.
+   * @param transferRefundCreateRequest  (required)
+   * @return Call&lt;TransferRefundCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferrefundcreate">Create a refund Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/refund/create")
+  Call<TransferRefundCreateResponse> transferRefundCreate(
+    @retrofit2.http.Body TransferRefundCreateRequest transferRefundCreateRequest
+  );
+
+  /**
+   * Retrieve a refund
+   * The &#x60;/transfer/refund/get&#x60; endpoint fetches information about the refund corresponding to the given &#x60;refund_id&#x60;.
+   * @param transferRefundGetRequest  (required)
+   * @return Call&lt;TransferRefundGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferrefundget">Retrieve a refund Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/refund/get")
+  Call<TransferRefundGetResponse> transferRefundGet(
+    @retrofit2.http.Body TransferRefundGetRequest transferRefundGetRequest
   );
 
   /**
@@ -2771,16 +3040,32 @@ public interface PlaidApi {
   /**
    * List e-wallet transactions
    * This endpoint lists the latest transactions of the specified e-wallet. Transactions are returned in descending order by the &#x60;created_at&#x60; time.
-   * @param walletTransactionsListRequest  (required)
-   * @return Call&lt;WalletTransactionsListResponse&gt;
+   * @param walletTransactionListRequest  (required)
+   * @return Call&lt;WalletTransactionListResponse&gt;
    * 
-   * @see <a href="/api/products/virtual-accounts/#wallettransactionslist">List e-wallet transactions Documentation</a>
+   * @see <a href="/api/products/virtual-accounts/#wallettransactionlist">List e-wallet transactions Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("wallet/transaction/list")
+  Call<WalletTransactionListResponse> walletTransactionList(
+    @retrofit2.http.Body WalletTransactionListRequest walletTransactionListRequest
+  );
+
+  /**
+   * List e-wallet transactions
+   * This endpoint lists the latest transactions of the specified e-wallet. Transactions are returned in descending order by the &#x60;created_at&#x60; time.
+   * @param walletTransactionsListRequest  (required)
+   * @return Call&lt;WalletTransactionListResponse&gt;
+   * 
+   * @see <a href="/api/products/virtual-accounts/#wallettransactionlist">List e-wallet transactions Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
   })
   @POST("wallet/transactions/list")
-  Call<WalletTransactionsListResponse> walletTransactionsList(
+  Call<WalletTransactionListResponse> walletTransactionsList(
     @retrofit2.http.Body WalletTransactionsListRequest walletTransactionsListRequest
   );
 

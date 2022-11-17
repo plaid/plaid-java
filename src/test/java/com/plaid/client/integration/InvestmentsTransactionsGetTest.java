@@ -56,6 +56,7 @@ public class InvestmentsTransactionsGetTest
     endDate = LocalDate.now();
   }
 
+  @Ignore
   @Test
   public void testSuccess() throws Exception {
     InvestmentsTransactionsGetRequestOptions options = new InvestmentsTransactionsGetRequestOptions()
@@ -111,6 +112,7 @@ public class InvestmentsTransactionsGetTest
     }
   }
 
+  @Ignore
   @Test
   public void testFullyLoadedRequest() throws Exception {
     // get some account info
