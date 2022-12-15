@@ -245,6 +245,8 @@ import com.plaid.client.model.SandboxTransferTestClockCreateRequest;
 import com.plaid.client.model.SandboxTransferTestClockCreateResponse;
 import com.plaid.client.model.SandboxTransferTestClockGetRequest;
 import com.plaid.client.model.SandboxTransferTestClockGetResponse;
+import com.plaid.client.model.SandboxTransferTestClockListRequest;
+import com.plaid.client.model.SandboxTransferTestClockListResponse;
 import com.plaid.client.model.SignalDecisionReportRequest;
 import com.plaid.client.model.SignalDecisionReportResponse;
 import com.plaid.client.model.SignalEvaluateRequest;
@@ -275,6 +277,8 @@ import com.plaid.client.model.TransferAuthorizationCreateRequest;
 import com.plaid.client.model.TransferAuthorizationCreateResponse;
 import com.plaid.client.model.TransferCancelRequest;
 import com.plaid.client.model.TransferCancelResponse;
+import com.plaid.client.model.TransferCapabilitiesGetRequest;
+import com.plaid.client.model.TransferCapabilitiesGetResponse;
 import com.plaid.client.model.TransferCreateRequest;
 import com.plaid.client.model.TransferCreateResponse;
 import com.plaid.client.model.TransferEventListRequest;
@@ -930,12 +934,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a &#x60;relay_token&#x60; to share an Asset Report with a partner client
-   * Plaid can share an Asset Report directly with a participating third party on your behalf. The shared Asset Report is the exact same Asset Report originally created in &#x60;/asset_report/create&#x60;.  To grant access to an Asset Report to a third party, use the &#x60;/credit/relay/create&#x60; endpoint to create a &#x60;relay_token&#x60; and then pass that token to the third party who needs access. Each third party has its own &#x60;secondary_client_id&#x60;, for example &#x60;ce5bd328dcd34123456&#x60;. You&#39;ll need to create a separate &#x60;relay_token&#x60; for each third party to whom you want to grant access to the Report.
+   * Create a relay token to share an Asset Report with a partner client (beta)
+   * Plaid can share an Asset Report directly with a participating third party on your behalf. The shared Asset Report is the exact same Asset Report originally created in &#x60;/asset_report/create&#x60;.  To grant a third party access to an Asset Report, use the &#x60;/credit/relay/create&#x60; endpoint to create a &#x60;relay_token&#x60; and then pass that token to your third party. Each third party has its own &#x60;secondary_client_id&#x60;; for example, &#x60;ce5bd328dcd34123456&#x60;. You&#39;ll need to create a separate &#x60;relay_token&#x60; for each third party that needs access to the report on your behalf.
    * @param creditRelayCreateRequest  (required)
    * @return Call&lt;CreditRelayCreateResponse&gt;
    * 
-   * @see <a href="/none/">Create a &#x60;relay_token&#x60; to share an Asset Report with a partner client Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelaycreate">Create a relay token to share an Asset Report with a partner client (beta) Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -946,12 +950,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve the reports associated with a Relay token that was shared with you
-   * &#x60;/credit/relay/get&#x60; allows third parties to get a report that was shared with them, using an &#x60;relay_token&#x60; that was created by the report owner.
+   * Retrieve the reports associated with a relay token that was shared with you (beta)
+   * &#x60;/credit/relay/get&#x60; allows third parties to receive a report that was shared with them, using a &#x60;relay_token&#x60; that was created by the report owner.
    * @param creditRelayGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
-   * @see <a href="/none/">Retrieve the reports associated with a Relay token that was shared with you Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelayget">Retrieve the reports associated with a relay token that was shared with you (beta) Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -962,12 +966,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Refresh a report of a Relay Token
-   * The &#x60;/credit/relay/refresh&#x60; endpoint allows third parties to refresh an report that was relayed to them, using a &#x60;relay_token&#x60; that was created by the report owner. A new report will be created based on the old one, but with the most recent data available.
+   * Refresh a report of a relay token (beta)
+   * The &#x60;/credit/relay/refresh&#x60; endpoint allows third parties to refresh a report that was relayed to them, using a &#x60;relay_token&#x60; that was created by the report owner. A new report will be created with the original report parameters, but with the most recent data available based on the &#x60;days_requested&#x60; value of the original report.
    * @param creditRelayRefreshRequest  (required)
    * @return Call&lt;CreditRelayRefreshResponse&gt;
    * 
-   * @see <a href="/api/products/#creditrelayrefresh">Refresh a report of a Relay Token Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelayrefresh">Refresh a report of a relay token (beta) Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -978,12 +982,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Remove Credit Relay Token
-   * The &#x60;/credit/relay/remove&#x60; endpoint allows you to invalidate a &#x60;relay_token&#x60;, meaning the third party holding the token will no longer be able to use it to access the reports to which the &#x60;relay_token&#x60; gives access to. The report, items associated with it, and other Relay tokens that provide access to the same report are not affected and will remain accessible after removing the given &#x60;relay_token.
+   * Remove relay token (beta)
+   * The &#x60;/credit/relay/remove&#x60; endpoint allows you to invalidate a &#x60;relay_token&#x60;. The third party holding the token will no longer be able to access or refresh the reports which the &#x60;relay_token&#x60; gives access to. The original report, associated Items, and other relay tokens that provide access to the same report are not affected and will remain accessible after removing the given &#x60;relay_token&#x60;.
    * @param creditRelayRemoveRequest  (required)
    * @return Call&lt;CreditRelayRemoveResponse&gt;
    * 
-   * @see <a href="/none/">Remove Credit Relay Token Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelayremove">Remove relay token (beta) Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1801,7 +1805,7 @@ public interface PlaidApi {
 
   /**
    * Create a payment
-   * After creating a payment recipient, you can use the &#x60;/payment_initiation/payment/create&#x60; endpoint to create a payment to that recipient.  Payments can be one-time or standing order (recurring) and can be denominated in either EUR or GBP.  If making domestic GBP-denominated payments, your recipient must have been created with BACS numbers. In general, EUR-denominated payments will be sent via SEPA Credit Transfer and GBP-denominated payments will be sent via the Faster Payments network, but the payment network used will be determined by the institution. Payments sent via Faster Payments will typically arrive immediately, while payments sent via SEPA Credit Transfer will typically arrive in one business day.  Standing orders (recurring payments) must be denominated in GBP and can only be sent to recipients in the UK. Once created, standing order payments cannot be modified or canceled via the API. An end user can cancel or modify a standing order directly on their banking application or website, or by contacting the bank. Standing orders will follow the payment rules of the underlying rails (Faster Payments in UK). Payments can be sent Monday to Friday, excluding bank holidays. If the pre-arranged date falls on a weekend or bank holiday, the payment is made on the next working day. It is not possible to guarantee the exact time the payment will reach the recipient’s account, although at least 90% of standing order payments are sent by 6am.  In the Development environment, payments must be below 5 GBP / EUR. For details on any payment limits in Production, contact your Plaid Account Manager.
+   * After creating a payment recipient, you can use the &#x60;/payment_initiation/payment/create&#x60; endpoint to create a payment to that recipient.  Payments can be one-time or standing order (recurring) and can be denominated in either EUR, GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency).  If making domestic GBP-denominated payments, your recipient must have been created with BACS numbers. In general, EUR-denominated payments will be sent via SEPA Credit Transfer, GBP-denominated payments will be sent via the Faster Payments network and for non-Eurozone markets typically via the local payment scheme, but the payment network used will be determined by the institution. Payments sent via Faster Payments will typically arrive immediately, while payments sent via SEPA Credit Transfer or other local payment schemes will typically arrive in one business day.  Standing orders (recurring payments) must be denominated in GBP and can only be sent to recipients in the UK. Once created, standing order payments cannot be modified or canceled via the API. An end user can cancel or modify a standing order directly on their banking application or website, or by contacting the bank. Standing orders will follow the payment rules of the underlying rails (Faster Payments in UK). Payments can be sent Monday to Friday, excluding bank holidays. If the pre-arranged date falls on a weekend or bank holiday, the payment is made on the next working day. It is not possible to guarantee the exact time the payment will reach the recipient’s account, although at least 90% of standing order payments are sent by 6am.  In the Development environment, payments must be below 5 GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency). For details on any payment limits in Production, contact your Plaid Account Manager.
    * @param paymentInitiationPaymentCreateRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentCreateResponse&gt;
    * 
@@ -1849,7 +1853,7 @@ public interface PlaidApi {
 
   /**
    * Reverse an existing payment
-   * Reverse a previously settled payment from a Plaid virtual account.  The original payment must be in a settled state to be refunded and only full payment refunds are currently supported. To power partial refunds, use &#x60;/wallet/transaction/execute&#x60;, where you can specify the exact amount for a payout to an end user.  A payment can only be reversed once and will be refunded back to the same source account that initiated the payment. The original payment must have been initiated to a Plaid virtual account. The refund will be initiated from the same virtual account that the payment was paid into. 
+   * Reverse a settled payment from a Plaid virtual account.  The original payment must be in a settled state to be refunded. To refund partially, specify the amount as part of the request. If the amount is not specified, the refund amount will be equal to all of the remaining payment amount that has not been refunded yet. If the remaining amount is less than one unit of currency (e.g. 1 GBP or 1 EUR), the refund will fail.  The refund will go back to the source account that initiated the payment. The original payment must have been initiated to a Plaid virtual account so that this account can be used to initiate the refund. 
    * @param paymentInitiationPaymentReverseRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentReverseResponse&gt;
    * 
@@ -1865,7 +1869,7 @@ public interface PlaidApi {
 
   /**
    * Create payment recipient
-   * Create a payment recipient for payment initiation.  The recipient must be in Europe, within a country that is a member of the Single Euro Payment Area (SEPA).  For a standing order (recurring) payment, the recipient must be in the UK.  It is recommended to use &#x60;bacs&#x60; in the UK and &#x60;iban&#x60; in EU.  The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same &#x60;recipient_id&#x60;. 
+   * Create a payment recipient for payment initiation.  The recipient must be in Europe, within a country that is a member of the Single Euro Payment Area (SEPA) or a non-Eurozone country [supported](https://plaid.com/global) by Plaid. For a standing order (recurring) payment, the recipient must be in the UK.  It is recommended to use &#x60;bacs&#x60; in the UK and &#x60;iban&#x60; in EU.  The endpoint is idempotent: if a developer has already made a request with the same payment details, Plaid will return the same &#x60;recipient_id&#x60;. 
    * @param paymentInitiationRecipientCreateRequest  (required)
    * @return Call&lt;PaymentInitiationRecipientCreateResponse&gt;
    * 
@@ -2295,7 +2299,7 @@ public interface PlaidApi {
 
   /**
    * Advance a test clock
-   * Use the &#x60;/sandbox/transfer/test_clock/advance&#x60; endpoint to advance a &#x60;test_clock&#x60; in the Sandbox environment.   A test clock object represents an independent timeline and has a &#x60;frozen_timestamp&#x60; field indicating the current timestamp of the timeline. A test clock can be advanced by incrementing &#x60;frozen_timestamp&#x60;, but may never go back to a lower &#x60;frozen_timestamp&#x60;.  If a test clock is advanced from T1 to T2, we will simulate the changes that ought to occur during the period of (T1, T2].  For instance, a client creates a weekly recurring transfer with a test clock set at t. When the client advances the test clock by setting &#x60;frozen_timestamp&#x60; &#x3D; t + 15 days, 2 new originations should be created, along with the webhook events. The timestamps of the objects and webhook events created/updated in step 2 should also fall in (T1, T2] time range.  The advancement of the test clock from its current &#x60;frozen_timestamp&#x60; should be limited such that there are no more than 20 originations resulted from the advance operation on each &#x60;recurring_transfer&#x60; associated with this &#x60;test_clock&#x60;.  For instance, if the recurring transfer associated with this test clock originates once every 4 weeks, you can advance the &#x60;frozen_timestamp&#x60; up to 80 weeks on each advance call.
+   * Use the &#x60;/sandbox/transfer/test_clock/advance&#x60; endpoint to advance a &#x60;test_clock&#x60; in the Sandbox environment.  A test clock object represents an independent timeline and has a &#x60;virtual_time&#x60; field indicating the current timestamp of the timeline. A test clock can be advanced by incrementing &#x60;virtual_time&#x60;, but may never go back to a lower &#x60;virtual_time&#x60;.  If a test clock is advanced, we will simulate the changes that ought to occur during the time that elapsed. For instance, a client creates a weekly recurring transfer with a test clock set at t. When the client advances the test clock by setting &#x60;virtual_time&#x60; &#x3D; t + 15 days, 2 new originations should be created, along with the webhook events.  The advancement of the test clock from its current &#x60;virtual_time&#x60; should be limited such that there are no more than 20 originations resulting from the advance operation on each &#x60;recurring_transfer&#x60; associated with the &#x60;test_clock&#x60;. For instance, if the recurring transfer associated with this test clock originates once every 4 weeks, you can advance the &#x60;virtual_time&#x60; up to 80 weeks on each API call.
    * @param sandboxTransferTestClockAdvanceRequest  (required)
    * @return Call&lt;SandboxTransferTestClockAdvanceResponse&gt;
    * 
@@ -2311,7 +2315,7 @@ public interface PlaidApi {
 
   /**
    * Create a test clock
-   * Use the &#x60;/sandbox/transfer/test_clock/create&#x60; endpoint to create a &#x60;test_clock&#x60; in the Sandbox environment.   A test clock object represents an independent timeline and has a &#x60;frozen_timestamp&#x60; field indicating the current timestamp of the timeline. Test clock allows clients to easily test and integrate with recurring transfer product in sandbox environment.  A test clock can be associated with up to 5 recurring transfers.
+   * Use the &#x60;/sandbox/transfer/test_clock/create&#x60; endpoint to create a &#x60;test_clock&#x60; in the Sandbox environment.  A test clock object represents an independent timeline and has a &#x60;virtual_time&#x60; field indicating the current timestamp of the timeline. Test clocks are used for testing recurring transfers in Sandbox.  A test clock can be associated with up to 5 recurring transfers.
    * @param sandboxTransferTestClockCreateRequest  (required)
    * @return Call&lt;SandboxTransferTestClockCreateResponse&gt;
    * 
@@ -2339,6 +2343,22 @@ public interface PlaidApi {
   @POST("sandbox/transfer/test_clock/get")
   Call<SandboxTransferTestClockGetResponse> sandboxTransferTestClockGet(
     @retrofit2.http.Body SandboxTransferTestClockGetRequest sandboxTransferTestClockGetRequest
+  );
+
+  /**
+   * List test clocks
+   * Use the &#x60;/sandbox/transfer/test_clock/list&#x60; endpoint to see a list of all your test clocks in the Sandbox environment, by ascending &#x60;virtual_time&#x60;. Results are paginated; use the &#x60;count&#x60; and &#x60;offset&#x60; query parameters to retrieve the desired test clocks.
+   * @param sandboxTransferTestClockListRequest  (required)
+   * @return Call&lt;SandboxTransferTestClockListResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransfertestclocklist">List test clocks Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/test_clock/list")
+  Call<SandboxTransferTestClockListResponse> sandboxTransferTestClockList(
+    @retrofit2.http.Body SandboxTransferTestClockListRequest sandboxTransferTestClockListRequest
   );
 
   /**
@@ -2407,7 +2427,7 @@ public interface PlaidApi {
 
   /**
    * enhance locally-held transaction data
-   * The &#39;/beta/transactions/v1/enhance&#39; endpoint enriches raw transaction data provided directly by clients.  The product is currently in beta.
+   * The &#x60;/beta/transactions/v1/enhance&#x60; endpoint enriches raw transaction data provided directly by clients.  The product is currently in beta.
    * @param transactionsEnhanceGetRequest  (required)
    * @return Call&lt;TransactionsEnhanceGetResponse&gt;
    */
@@ -2421,7 +2441,7 @@ public interface PlaidApi {
 
   /**
    * Enrich locally-held transaction data
-   * The &#39;/transactions/enrich&#39; endpoint enriches raw transaction data generated by your own banking products or retrieved from other non-Plaid sources.  The product is currently in beta. To request access, contact transactions-feedback@plaid.com
+   * The &#x60;/transactions/enrich&#x60; endpoint enriches raw transaction data generated by your own banking products or retrieved from other non-Plaid sources.  The product is currently in beta. To request access, contact enrich-feedback@plaid.com
    * @param transactionsEnrichGetRequest  (required)
    * @return Call&lt;TransactionsEnrichGetResponse&gt;
    * 
@@ -2453,7 +2473,7 @@ public interface PlaidApi {
 
   /**
    * Fetch recurring transaction streams
-   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is not included by default as part of Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  Note that unlike &#x60;/transactions/get&#x60;, &#x60;/transactions/recurring/get&#x60; will not initialize an Item with Transactions. The Item must already have been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;, or after Link, by calling &#x60;/transactions/get&#x60;) before calling this endpoint. Data is available to &#x60;/transactions/recurring/get&#x60; approximately 5 seconds after the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook has fired (about 1-2 minutes after initialization).  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Since recurring streams do not change often, it will typically not be necessary to call this endpoint more than once per day.
+   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is not included by default as part of Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on an Item that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/transactions/get&#x60;). After the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook has fired, call &#x60;/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook.  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.
    * @param transactionsRecurringGetRequest  (required)
    * @return Call&lt;TransactionsRecurringGetResponse&gt;
    * 
@@ -2527,7 +2547,7 @@ public interface PlaidApi {
 
   /**
    * Get incremental transaction updates on an Item
-   * This endpoint replaces &#x60;/transactions/get&#x60; and its associated webhooks for most common use-cases.  The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates.  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.   When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails when retrieving a paginated update, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.   Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  Note that for newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
+   * This endpoint replaces &#x60;/transactions/get&#x60; and its associated webhooks for most common use-cases.  The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates.  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails when retrieving a paginated update, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  Note that for newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
    * @param transactionsSyncRequest  (required)
    * @return Call&lt;TransactionsSyncResponse&gt;
    * 
@@ -2571,6 +2591,22 @@ public interface PlaidApi {
   @POST("transfer/cancel")
   Call<TransferCancelResponse> transferCancel(
     @retrofit2.http.Body TransferCancelRequest transferCancelRequest
+  );
+
+  /**
+   * Get RTP eligibility information of a transfer
+   * Use the &#x60;/transfer/capabilities/get&#x60; endpoint to determine the RTP eligibility information of a transfer.
+   * @param transferCapabilitiesGetRequest  (required)
+   * @return Call&lt;TransferCapabilitiesGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transfercapabilitiesget">Get RTP eligibility information of a transfer Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/capabilities/get")
+  Call<TransferCapabilitiesGetResponse> transferCapabilitiesGet(
+    @retrofit2.http.Body TransferCapabilitiesGetRequest transferCapabilitiesGetRequest
   );
 
   /**
