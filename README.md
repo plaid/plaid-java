@@ -18,7 +18,7 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>9.0.0</version>
+  <version>13.2.0</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 
 | API version                                         | plaid-java release    |
 | --------------------------------------------------- | --------------------- |
-| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x`, `9.x.x`      |
+| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x` and higher    |
 | [`2019-05-29`][api-version-2019-05-29]              | `7.x.x`               |
 | [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
 | `2017-03-08`                                        | `2.x.x`               |
