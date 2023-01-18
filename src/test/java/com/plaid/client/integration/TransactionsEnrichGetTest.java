@@ -26,27 +26,27 @@ public class TransactionsEnrichGetTest extends AbstractIntegrationTest {
         .isoCurrencyCode("USD")
         .amount(123.00)
         .location(
-          new ClientProvidedTransactionLocation().city("Philadelphia").region("PA")
+          new ClientProvidedTransactionLocation().city("Ipswich").region("MA")
         )
-        .description("DDA PURCHASE *XXXX XXXXXXXX FAMILY DOLLAR"),
+        .description("TST *JETTIES BAGELS"),
       new ClientProvidedTransaction()
         .id("2")
         .direction(EnrichTransactionDirection.OUTFLOW)
         .isoCurrencyCode("USD")
         .amount(123.00)
-        .description("PURCHASE JUNIATA SUPE PHILADELPHIA PA CARDXXXX"),
+        .description("AMAZON.COM*MJ3LO9AN2"),
       new ClientProvidedTransaction()
         .id("3")
         .direction(EnrichTransactionDirection.OUTFLOW)
         .isoCurrencyCode("USD")
         .amount(123.00)
-        .description("DEBIT CARD PURCHASE"),
+        .description("GOOGLE *FRESHBOOKS"),
       new ClientProvidedTransaction()
         .id("4")
         .direction(EnrichTransactionDirection.INFLOW)
         .isoCurrencyCode("USD")
         .amount(123.00)
-        .description("DIRECT DEP* UBER.COM")
+        .description("EARNIN TRANSFER")
     );
 
     TransactionsEnrichGetRequest transactionsEnrichRequest = new TransactionsEnrichGetRequest()

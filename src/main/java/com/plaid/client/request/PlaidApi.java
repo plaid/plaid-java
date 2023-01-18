@@ -59,6 +59,8 @@ import com.plaid.client.model.CreditAuditCopyTokenCreateRequest;
 import com.plaid.client.model.CreditAuditCopyTokenCreateResponse;
 import com.plaid.client.model.CreditAuditCopyTokenRemoveRequest;
 import com.plaid.client.model.CreditAuditCopyTokenRemoveResponse;
+import com.plaid.client.model.CreditAuditCopyTokenUpdateRequest;
+import com.plaid.client.model.CreditAuditCopyTokenUpdateResponse;
 import com.plaid.client.model.CreditBankIncomeGetRequest;
 import com.plaid.client.model.CreditBankIncomeGetResponse;
 import com.plaid.client.model.CreditBankIncomePDFGetRequest;
@@ -66,6 +68,8 @@ import com.plaid.client.model.CreditBankIncomeRefreshRequest;
 import com.plaid.client.model.CreditBankIncomeRefreshResponse;
 import com.plaid.client.model.CreditEmploymentGetRequest;
 import com.plaid.client.model.CreditEmploymentGetResponse;
+import com.plaid.client.model.CreditFreddieMacReportsGetRequest;
+import com.plaid.client.model.CreditFreddieMacReportsGetResponse;
 import com.plaid.client.model.CreditPayrollIncomeGetRequest;
 import com.plaid.client.model.CreditPayrollIncomeGetResponse;
 import com.plaid.client.model.CreditPayrollIncomePrecheckRequest;
@@ -132,6 +136,8 @@ import com.plaid.client.model.InvestmentsTransactionsGetRequest;
 import com.plaid.client.model.InvestmentsTransactionsGetResponse;
 import com.plaid.client.model.ItemAccessTokenInvalidateRequest;
 import com.plaid.client.model.ItemAccessTokenInvalidateResponse;
+import com.plaid.client.model.ItemActivityListRequest;
+import com.plaid.client.model.ItemActivityListResponse;
 import com.plaid.client.model.ItemApplicationListRequest;
 import com.plaid.client.model.ItemApplicationListResponse;
 import com.plaid.client.model.ItemApplicationScopesUpdateRequest;
@@ -166,6 +172,8 @@ import com.plaid.client.model.PartnerCustomerEnableRequest;
 import com.plaid.client.model.PartnerCustomerEnableResponse;
 import com.plaid.client.model.PartnerCustomerGetRequest;
 import com.plaid.client.model.PartnerCustomerGetResponse;
+import com.plaid.client.model.PartnerCustomerOAuthInstitutionsGetRequest;
+import com.plaid.client.model.PartnerCustomerOAuthInstitutionsGetResponse;
 import com.plaid.client.model.PartnerCustomerRemoveRequest;
 import com.plaid.client.model.PartnerCustomerRemoveResponse;
 import com.plaid.client.model.PaymentInitiationConsentCreateRequest;
@@ -645,11 +653,11 @@ public interface PlaidApi {
 
   /**
    * List bank transfer events
-   * Use the &#x60;/bank_transfer/event/list&#x60; endpoint to get a list of bank transfer events based on specified filter criteria.
+   * Use the &#x60;/bank_transfer/event/list&#x60; endpoint to get a list of ACH or bank transfer events based on specified filter criteria.
    * @param bankTransferEventListRequest  (required)
    * @return Call&lt;BankTransferEventListResponse&gt;
    * 
-   * @see <a href="/bank-transfers/reference#bank_transfereventlist">List bank transfer events Documentation</a>
+   * @see <a href="/api/products/auth#bank_transfereventlist">List bank transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -661,11 +669,11 @@ public interface PlaidApi {
 
   /**
    * Sync bank transfer events
-   * &#x60;/bank_transfer/event/sync&#x60; allows you to request up to the next 25 bank transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/bank_transfer/event/sync&#x60; endpoint to guarantee you have seen all bank transfer events.
+   * &#x60;/bank_transfer/event/sync&#x60; allows you to request up to the next 25 bank transfer events that happened after a specific &#x60;event_id&#x60;. When using Auth with micro-deposit verification enabled, this endpoint can be used to fetch status updates on ACH micro-deposits. For more details, see [micro-deposit events](https://www.plaid.com/docs/auth/coverage/microdeposit-events/).
    * @param bankTransferEventSyncRequest  (required)
    * @return Call&lt;BankTransferEventSyncResponse&gt;
    * 
-   * @see <a href="/bank-transfers/reference#bank_transfereventsync">Sync bank transfer events Documentation</a>
+   * @see <a href="/api/products/auth/#bank_transfereventsync">Sync bank transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -822,6 +830,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Update an Audit Copy Token
+   * The &#x60;/credit/audit_copy_token/update&#x60; endpoint updates the Audit Copy Token by adding the report tokens in the &#x60;report_tokens&#x60; field to the &#x60;audit_copy_token&#x60;. If the Audit Copy Token already contains a report of a certain type, it will be replaced with the token provided in the &#x60;report_tokens&#x60; field.
+   * @param creditAuditCopyTokenUpdateRequest  (required)
+   * @return Call&lt;CreditAuditCopyTokenUpdateResponse&gt;
+   * 
+   * @see <a href="/none/">Update an Audit Copy Token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/audit_copy_token/update")
+  Call<CreditAuditCopyTokenUpdateResponse> creditAuditCopyTokenUpdate(
+    @retrofit2.http.Body CreditAuditCopyTokenUpdateRequest creditAuditCopyTokenUpdateRequest
+  );
+
+  /**
    * Retrieve information from the bank accounts used for income verification
    * &#x60;/credit/bank_income/get&#x60; returns the bank income report(s) for a specified user.
    * @param creditBankIncomeGetRequest  (required)
@@ -883,6 +907,22 @@ public interface PlaidApi {
   @POST("credit/employment/get")
   Call<CreditEmploymentGetResponse> creditEmploymentGet(
     @retrofit2.http.Body CreditEmploymentGetRequest creditEmploymentGetRequest
+  );
+
+  /**
+   * Retrieve an Asset Report with Freddie Mac format (aka VOA - Verification Of Assets), and a Verification Of Employment (VOE) report if this one is available. Only Freddie Mac can use this endpoint.
+   * The &#x60;credit/asset_report/freddie_mac/get&#x60; endpoint retrieves the Verification of Assets and Verification of Employment reports.
+   * @param creditFreddieMacReportsGetRequest  (required)
+   * @return Call&lt;CreditFreddieMacReportsGetResponse&gt;
+   * 
+   * @see <a href="/none/">Retrieve an Asset Report with Freddie Mac format (aka VOA - Verification Of Assets), and a Verification Of Employment (VOE) report if this one is available. Only Freddie Mac can use this endpoint. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/freddie_mac/reports/get")
+  Call<CreditFreddieMacReportsGetResponse> creditFreddieMacReportsGet(
+    @retrofit2.http.Body CreditFreddieMacReportsGetRequest creditFreddieMacReportsGetRequest
   );
 
   /**
@@ -1427,7 +1467,7 @@ public interface PlaidApi {
 
   /**
    * Get investment transactions
-   * The &#x60;/investments/transactions/get&#x60; endpoint allows developers to retrieve up to 24 months of user-authorized transaction data for investment accounts.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Due to the potentially large number of investment transactions associated with an Item, results are paginated. Manipulate the count and offset parameters in conjunction with the &#x60;total_investment_transactions&#x60; response body field to fetch all available investment transactions.
+   * The &#x60;/investments/transactions/get&#x60; endpoint allows developers to retrieve up to 24 months of user-authorized transaction data for investment accounts.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Due to the potentially large number of investment transactions associated with an Item, results are paginated. Manipulate the count and offset parameters in conjunction with the &#x60;total_investment_transactions&#x60; response body field to fetch all available investment transactions.  Note that Investments does not have a webhook to indicate when initial transaction data has loaded. Instead, if transactions data is not ready when &#x60;/investments/transactions/get&#x60; is first called, Plaid will wait for the data. For this reason, calling &#x60;/investments/transactions/get&#x60; immediately after Link may take up to one to two minutes to return.
    * @param investmentsTransactionsGetRequest  (required)
    * @return Call&lt;InvestmentsTransactionsGetResponse&gt;
    * 
@@ -1455,6 +1495,20 @@ public interface PlaidApi {
   @POST("item/access_token/invalidate")
   Call<ItemAccessTokenInvalidateResponse> itemAccessTokenInvalidate(
     @retrofit2.http.Body ItemAccessTokenInvalidateRequest itemAccessTokenInvalidateRequest
+  );
+
+  /**
+   * List a historical log of user consent events
+   * List a historical log of user consent events
+   * @param itemActivityListRequest  (required)
+   * @return Call&lt;ItemActivityListResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("item/activity/list")
+  Call<ItemActivityListResponse> itemActivityList(
+    @retrofit2.http.Body ItemActivityListRequest itemActivityListRequest
   );
 
   /**
@@ -1721,6 +1775,22 @@ public interface PlaidApi {
   @POST("partner/customer/get")
   Call<PartnerCustomerGetResponse> partnerCustomerGet(
     @retrofit2.http.Body PartnerCustomerGetRequest partnerCustomerGetRequest
+  );
+
+  /**
+   * Returns OAuth-institution registration information for a given end customer.
+   * The &#x60;/partner/customer/oauth_institutions/get&#x60; endpoint is used by reseller partners to retrieve OAuth-institution registration information about a single end customer.
+   * @param partnerCustomerOAuthInstitutionsGetRequest  (required)
+   * @return Call&lt;PartnerCustomerOAuthInstitutionsGetResponse&gt;
+   * 
+   * @see <a href="/api/partner/#partnercustomeroauth_institutionsget">Returns OAuth-institution registration information for a given end customer. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("partner/customer/oauth_institutions/get")
+  Call<PartnerCustomerOAuthInstitutionsGetResponse> partnerCustomerOauthInstitutionsGet(
+    @retrofit2.http.Body PartnerCustomerOAuthInstitutionsGetRequest partnerCustomerOAuthInstitutionsGetRequest
   );
 
   /**
@@ -2643,7 +2713,7 @@ public interface PlaidApi {
 
   /**
    * Sync transfer events
-   * &#x60;/transfer/event/sync&#x60; allows you to request up to the next 25 transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/transfer/event/sync&#x60; endpoint to guarantee you have seen all transfer events.
+   * &#x60;/transfer/event/sync&#x60; allows you to request up to the next 25 transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/transfer/event/sync&#x60; endpoint to guarantee you have seen all transfer events. When using Auth with micro-deposit verification enabled, this endpoint can be used to fetch status updates on ACH micro-deposits. For more details, see [micro-deposit events](https://www.plaid.com/docs/auth/coverage/microdeposit-events/).
    * @param transferEventSyncRequest  (required)
    * @return Call&lt;TransferEventSyncResponse&gt;
    * 
