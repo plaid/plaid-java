@@ -24,13 +24,13 @@ Plaid-java is available at [Maven Central](https://search.maven.org/#search%7Cga
 
 ### Versioning
 
-As of `9.0.0`, the library is generated from the OpenAPI spec. Previous versions were written manually and should still mostly work. [Here's](https://github.com/plaid/plaid-java/releases/tag/plaid-java-8.5.0) a link to `8.5.0`, the latest pre-generated version.
+As of `9.0.0`, the library is generated from the OpenAPI spec. Previous versions were written manually and should still mostly work, but may not support newer functionality. [Here's](https://github.com/plaid/plaid-java/releases/tag/plaid-java-8.5.0) a link to `8.5.0`, the latest pre-generated version.
 
 Each major version of `plaid-java` targets a specific version of the Plaid API:
 
 | API version                                         | plaid-java release    |
 | --------------------------------------------------- | --------------------- |
-| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x`, `9.x.x`      |
+| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x` and higher    |
 | [`2019-05-29`][api-version-2019-05-29]              | `7.x.x`               |
 | [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
 | `2017-03-08`                                        | `2.x.x`               |
