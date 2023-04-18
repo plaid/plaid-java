@@ -536,7 +536,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve an Asset Report
-   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report.  To retrieve an Asset Report with Insights, call the &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.
+   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report.  If report_type was set to &#x60;VERIFICATION_OF_EMPLOYMENT&#x60; when the Asset Report was created in asset_report/create, debit transactions and transaction amounts won’t be included in the report.  To retrieve an Asset Report with Insights, call the &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.
    * @param assetReportGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
@@ -552,7 +552,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve a PDF Asset Report
-   * The &#x60;/asset_report/pdf/get&#x60; endpoint retrieves the Asset Report in PDF format. Before calling &#x60;/asset_report/pdf/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  The response to &#x60;/asset_report/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
+   * The &#x60;/asset_report/pdf/get&#x60; endpoint retrieves the Asset Report in PDF format. Before calling &#x60;/asset_report/pdf/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  The response to &#x60;/asset_report/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  If report_type was set to &#x60;VERIFICATION_OF_EMPLOYMENT&#x60; when the Asset Report was created in asset_report/create, debit transactions and transaction amounts won’t be included in the report.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
    * @param assetReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -842,7 +842,7 @@ public interface PlaidApi {
 
   /**
    * Update an Audit Copy Token
-   * The &#x60;/credit/audit_copy_token/update&#x60; endpoint updates the Audit Copy Token by adding the report tokens in the &#x60;report_tokens&#x60; field to the &#x60;audit_copy_token&#x60;. If the Audit Copy Token already contains a report of a certain type, it will be replaced with the token provided in the &#x60;report_tokens&#x60; field.
+   * The &#x60;/credit/audit_copy_token/update&#x60; endpoint updates an existing  Audit Copy Token by adding the report tokens in the &#x60;report_tokens&#x60; field to the &#x60;audit_copy_token&#x60;. If the Audit Copy Token already contains a report of a certain type, it will be replaced with the token provided in the &#x60;report_tokens&#x60; field.
    * @param creditAuditCopyTokenUpdateRequest  (required)
    * @return Call&lt;CreditAuditCopyTokenUpdateResponse&gt;
    * 
