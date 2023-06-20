@@ -68,6 +68,9 @@ import com.plaid.client.model.CreditBankIncomeGetResponse;
 import com.plaid.client.model.CreditBankIncomePDFGetRequest;
 import com.plaid.client.model.CreditBankIncomeRefreshRequest;
 import com.plaid.client.model.CreditBankIncomeRefreshResponse;
+import com.plaid.client.model.CreditBankIncomeWebhookUpdateRequest;
+import com.plaid.client.model.CreditBankStatementsUploadsGetRequest;
+import com.plaid.client.model.CreditBankStatementsUploadsGetResponse;
 import com.plaid.client.model.CreditEmploymentGetRequest;
 import com.plaid.client.model.CreditEmploymentGetResponse;
 import com.plaid.client.model.CreditFreddieMacReportsGetRequest;
@@ -111,6 +114,8 @@ import com.plaid.client.model.IdentityGetRequest;
 import com.plaid.client.model.IdentityGetResponse;
 import com.plaid.client.model.IdentityMatchRequest;
 import com.plaid.client.model.IdentityMatchResponse;
+import com.plaid.client.model.IdentityRefreshRequest;
+import com.plaid.client.model.IdentityRefreshResponse;
 import com.plaid.client.model.IdentityVerificationCreateRequest;
 import com.plaid.client.model.IdentityVerificationCreateResponse;
 import com.plaid.client.model.IdentityVerificationGetRequest;
@@ -134,6 +139,8 @@ import com.plaid.client.model.InstitutionsGetRequest;
 import com.plaid.client.model.InstitutionsGetResponse;
 import com.plaid.client.model.InstitutionsSearchRequest;
 import com.plaid.client.model.InstitutionsSearchResponse;
+import com.plaid.client.model.InvestmentsAuthGetRequest;
+import com.plaid.client.model.InvestmentsAuthGetResponse;
 import com.plaid.client.model.InvestmentsHoldingsGetRequest;
 import com.plaid.client.model.InvestmentsHoldingsGetResponse;
 import com.plaid.client.model.InvestmentsRefreshRequest;
@@ -797,12 +804,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Get Categories
-   * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.
+   * Get categories
+   * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.   All implementations are recommended to use the newer &#x60;personal_finance_category&#x60; taxonomy instead of the older &#x60;category&#x60; taxonomy supported by this endpoint. The [&#x60;personal_finance_category taxonomy&#x60; CSV file](https://plaid.com/documents/transactions-personal-finance-category-taxonomy.csv) is available for download and is not accessible via API.
    * @param body  (required)
    * @return Call&lt;CategoriesGetResponse&gt;
    * 
-   * @see <a href="/api/products/transactions/#categoriesget">Get Categories Documentation</a>
+   * @see <a href="/api/products/transactions/#categoriesget">Get categories Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -943,6 +950,38 @@ public interface PlaidApi {
   );
 
   /**
+   * Subscribe and unsubscribe to proactive notifications for a user&#39;s income profile
+   * &#x60;/credit/bank_income/webhook/update&#x60; allows you to subscribe or unsubscribe a user for income webhook notifications.   If a user is subscribed, on significant changes to the user&#39;s income profile, you will receive a &#x60;BANK_INCOME_REFRESH_UPDATE&#x60; webhook, prompting you to refresh bank income data for the user.
+   * @param creditBankIncomeWebhookUpdateRequest  (required)
+   * @return Call&lt;Void&gt;
+   * 
+   * @see <a href="/api/products/income/#creditbank_incomewebhookupdate">Subscribe and unsubscribe to proactive notifications for a user&#39;s income profile Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/bank_income/webhook/update")
+  Call<Void> creditBankIncomeWebhookUpdate(
+    @retrofit2.http.Body CreditBankIncomeWebhookUpdateRequest creditBankIncomeWebhookUpdateRequest
+  );
+
+  /**
+   * Retrieve data for a user&#39;s uploaded bank statements
+   * &#x60;/credit/bank_statements/uploads/get&#x60; returns data from user-uploaded bank statements.
+   * @param creditBankStatementsUploadsGetRequest  (required)
+   * @return Call&lt;CreditBankStatementsUploadsGetResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#creditbank_statementsuploadsget">Retrieve data for a user&#39;s uploaded bank statements Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/bank_statements/uploads/get")
+  Call<CreditBankStatementsUploadsGetResponse> creditBankStatementsUploadsGet(
+    @retrofit2.http.Body CreditBankStatementsUploadsGetRequest creditBankStatementsUploadsGetRequest
+  );
+
+  /**
    * Retrieve a summary of an individual&#39;s employment information
    * &#x60;/credit/employment/get&#x60; returns a list of items with employment information from a user&#39;s payroll provider that was verified by an end user.
    * @param creditEmploymentGetRequest  (required)
@@ -1024,7 +1063,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve fraud insights for a user&#39;s manually uploaded document(s).
-   * &#x60;/credit/payroll_income/risk_signals/get&#x60; can be used as part of the Document Income flow to assess a user-uploaded document for signs of potential fraud or tampering. It returns a risk score for each uploaded document that indicates the likelihood of the document being fraudulent, in addition to details on the individual risk signals contributing to the score. &#x60;/credit/payroll_income/risk_signals/get&#x60; can be called at any time after the &#x60;INCOME_VERIFICATION&#x60; webhook has been fired.  &#x60;/credit/payroll_income/risk_signals/get&#x60; is offered as an add-on to Document Income and is billed separately. To request access to this endpoint, submit a product access request or contact your Plaid account manager.
+   * &#x60;/credit/payroll_income/risk_signals/get&#x60; can be used as part of the Document Income flow to assess a user-uploaded document for signs of potential fraud or tampering. It returns a risk score for each uploaded document that indicates the likelihood of the document being fraudulent, in addition to details on the individual risk signals contributing to the score. &#x60;/credit/payroll_income/risk_signals/get&#x60; can be called at any time after the &#x60;INCOME_VERIFICATION_RISK_SIGNALS&#x60; webhook has been fired.  &#x60;/credit/payroll_income/risk_signals/get&#x60; is offered as an add-on to Document Income and is billed separately. To request access to this endpoint, submit a product access request or contact your Plaid account manager.
    * @param creditPayrollIncomeRiskSignalsGetRequest  (required)
    * @return Call&lt;CreditPayrollIncomeRiskSignalsGetResponse&gt;
    * 
@@ -1313,6 +1352,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Refresh identity data
+   * &#x60;/identity/refresh&#x60; is an optional endpoint for users of the Identity product. It initiates an on-demand extraction to fetch the most up to date Identity information from the Financial Institution. This on-demand extraction takes place in addition to the periodic extractions that automatically occur any Identity-enabled Item. If changes to Identity are discovered after calling &#x60;/identity/refresh&#x60;, Plaid will fire a webhook [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/identity/#default_update). &#x60;/identity/refresh&#x60; is offered as an add-on to Identity and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
+   * @param identityRefreshRequest  (required)
+   * @return Call&lt;IdentityRefreshResponse&gt;
+   * 
+   * @see <a href="/api/products/identity/#identityrefresh">Refresh identity data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("identity/refresh")
+  Call<IdentityRefreshResponse> identityRefresh(
+    @retrofit2.http.Body IdentityRefreshRequest identityRefreshRequest
+  );
+
+  /**
    * Create a new identity verification
    * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; field. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If you don&#39;t know whether the associated user already has an active Identity Verification, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with an &#x60;200 OK&#x60; HTTP status code.  You can also use this endpoint to supply information you already have collected about the user; if any of these fields are specified, the screens prompting the user to enter them will be skipped during the Link flow. 
    * @param identityVerificationCreateRequest  (required)
@@ -1515,6 +1570,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Get data needed to authorize an investments transfer
+   * The &#x60;/investments/auth/get&#x60; endpoint allows developers to receive user-authorized data to facilitate the transfer of holdings
+   * @param investmentsAuthGetRequest  (required)
+   * @return Call&lt;InvestmentsAuthGetResponse&gt;
+   * 
+   * @see <a href="/api/products/investments/#investmentsauth">Get data needed to authorize an investments transfer Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("investments/auth/get")
+  Call<InvestmentsAuthGetResponse> investmentsAuthGet(
+    @retrofit2.http.Body InvestmentsAuthGetRequest investmentsAuthGetRequest
+  );
+
+  /**
    * Get Investment holdings
    * The &#x60;/investments/holdings/get&#x60; endpoint allows developers to receive user-authorized stock position data for &#x60;investment&#x60;-type accounts.
    * @param investmentsHoldingsGetRequest  (required)
@@ -1654,7 +1725,7 @@ public interface PlaidApi {
 
   /**
    * Import Item
-   * &#x60;/item/import&#x60; creates an Item via your Plaid Exchange Integration and returns an &#x60;access_token&#x60;. As part of an &#x60;/item/import&#x60; request, you will include a User ID (&#x60;user_auth.user_id&#x60;) and Authentication Token (&#x60;user_auth.auth_token&#x60;) that enable data aggregation through your Plaid Exchange API endpoints. These authentication principals are to be chosen by you.  Upon creating an Item via &#x60;/item/import&#x60;, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated. This will automatically generate the Plaid native account ID for the account the user will switch their direct deposit to (&#x60;target_account_id&#x60;).
+   * &#x60;/item/import&#x60; creates an Item via your Plaid Exchange Integration and returns an &#x60;access_token&#x60;. As part of an &#x60;/item/import&#x60; request, you will include a User ID (&#x60;user_auth.user_id&#x60;) and Authentication Token (&#x60;user_auth.auth_token&#x60;) that enable data aggregation through your Plaid Exchange API endpoints. These authentication principals are to be chosen by you.  Upon creating an Item via &#x60;/item/import&#x60;, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated.
    * @param itemImportRequest  (required)
    * @return Call&lt;ItemImportResponse&gt;
    */
@@ -1731,12 +1802,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create Link Delivery session
-   * Use the &#x60;/link_delivery/create&#x60; endpoint to create a Link Delivery session.
+   * Create Hosted Link session
+   * Use the &#x60;/link_delivery/create&#x60; endpoint to create a Hosted Link session.
    * @param linkDeliveryCreateRequest  (required)
    * @return Call&lt;LinkDeliveryCreateResponse&gt;
    * 
-   * @see <a href="/docs/assets/waitlist/link-delivery/">Create Link Delivery session Documentation</a>
+   * @see <a href="/assets/waitlist/hosted-link/">Create Hosted Link session Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1747,12 +1818,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Get Link Delivery session
-   * Use the &#x60;/link_delivery/get&#x60; endpoint to get the status of a Link Delivery session.
+   * Get Hosted Link session
+   * Use the &#x60;/link_delivery/get&#x60; endpoint to get the status of a Hosted Link session.
    * @param linkDeliveryGetRequest  (required)
    * @return Call&lt;LinkDeliveryGetResponse&gt;
    * 
-   * @see <a href="/docs/assets/waitlist/link-delivery/">Get Link Delivery session Documentation</a>
+   * @see <a href="/assets/waitlist/hosted-link/">Get Hosted Link session Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2260,7 +2331,7 @@ public interface PlaidApi {
 
   /**
    * Create Stripe bank account token
-   *  Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).  Note that the Stripe bank account token is a one-time use token. To store bank account information for later use, you can use a Stripe customer object and create an associated bank account from the token, or you can use a Stripe Custom account and create an associated external bank account from the token. This bank account information should work indefinitely, unless the user&#39;s bank account information changes or they revoke Plaid&#39;s permissions to access their account. Stripe bank account information cannot be modified once the bank account token has been created. If you ever need to change the bank account details used by Stripe for a specific customer, have the user go through Link again and create a new bank account token from the new &#x60;access_token&#x60;.  Bank account tokens can also be revoked, using &#x60;/item/remove&#x60;.&#39;
+   *  Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).  Note that the Stripe bank account token is a one-time use token. To store bank account information for later use, you can use a Stripe customer object and create an associated bank account from the token, or you can use a Stripe Custom account and create an associated external bank account from the token. This bank account information should work indefinitely, unless the user&#39;s bank account information changes or they revoke Plaid&#39;s permissions to access their account. Stripe bank account information cannot be modified once the bank account token has been created. If you ever need to change the bank account details used by Stripe for a specific customer, have the user go through Link again and create a new bank account token from the new &#x60;access_token&#x60;.  Bank account tokens can also be revoked, using &#x60;/item/remove&#x60;.
    * @param processorStripeBankAccountTokenCreateRequest  (required)
    * @return Call&lt;ProcessorStripeBankAccountTokenCreateResponse&gt;
    * 
@@ -2768,7 +2839,7 @@ public interface PlaidApi {
 
   /**
    * Get transaction data
-   * The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
+   * Note: All new implementations are encouraged to use &#x60;/transactions/sync&#x60; rather than &#x60;/transactions/get&#x60;. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and improves developer ease-of-use for handling transactions updates.  The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
    * @param transactionsGetRequest  (required)
    * @return Call&lt;TransactionsGetResponse&gt;
    * 
@@ -2874,7 +2945,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.  The fields &#x60;device.ip_address&#x60; and &#x60;device.user_agent&#x60; are required for all sessions where the end-user is present. For example, when a user is authorizing a one-time payment from their device.  For [Guarantee](https://www.plaid.com/docs//transfer/guarantee/), the following fields are required : &#x60;idempotency_key&#x60;, &#x60;user.phone_number&#x60; (optional if &#x60;email_address&#x60; provided), &#x60;user.email_address&#x60; (optional if &#x60;phone_number&#x60; provided), &#x60;device.ip_address&#x60;, &#x60;device.user_agent&#x60;, and &#x60;user_present&#x60;.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.  The fields &#x60;device.ip_address&#x60; and &#x60;device.user_agent&#x60; are required for all sessions where the end-user is present. For example, when a user is authorizing a one-time payment from their device.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -3002,7 +3073,7 @@ public interface PlaidApi {
 
   /**
    * Sync transfer events
-   * &#x60;/transfer/event/sync&#x60; allows you to request up to the next 25 transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/transfer/event/sync&#x60; endpoint to guarantee you have seen all transfer events. When using Auth with micro-deposit verification enabled, this endpoint can be used to fetch status updates on ACH micro-deposits. For more details, see [micro-deposit events](https://www.plaid.com/docs/auth/coverage/microdeposit-events/).
+   * &#x60;/transfer/event/sync&#x60; allows you to request up to the next 25 transfer events that happened after a specific &#x60;event_id&#x60;. Use the &#x60;/transfer/event/sync&#x60; endpoint to guarantee you have seen all transfer events.
    * @param transferEventSyncRequest  (required)
    * @return Call&lt;TransferEventSyncResponse&gt;
    * 
