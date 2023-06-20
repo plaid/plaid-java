@@ -162,6 +162,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
         Products.INCOME,
         Products.IDENTITY,
         Products.INVESTMENTS,
+        Products.INVESTMENTS_AUTH,
         Products.LIABILITIES
       ),
       institution.getProducts()
