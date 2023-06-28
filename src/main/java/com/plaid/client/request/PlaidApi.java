@@ -253,6 +253,8 @@ import com.plaid.client.model.ProcessorTransactionsRefreshRequest;
 import com.plaid.client.model.ProcessorTransactionsRefreshResponse;
 import com.plaid.client.model.ProcessorTransactionsSyncRequest;
 import com.plaid.client.model.ProcessorTransactionsSyncResponse;
+import com.plaid.client.model.SandboxBankIncomeFireWebhookRequest;
+import com.plaid.client.model.SandboxBankIncomeFireWebhookResponse;
 import com.plaid.client.model.SandboxBankTransferFireWebhookRequest;
 import com.plaid.client.model.SandboxBankTransferFireWebhookResponse;
 import com.plaid.client.model.SandboxBankTransferSimulateRequest;
@@ -326,6 +328,8 @@ import com.plaid.client.model.TransferConfigurationGetRequest;
 import com.plaid.client.model.TransferConfigurationGetResponse;
 import com.plaid.client.model.TransferCreateRequest;
 import com.plaid.client.model.TransferCreateResponse;
+import com.plaid.client.model.TransferDiligenceDocumentUploadRequest;
+import com.plaid.client.model.TransferDiligenceDocumentUploadResponse;
 import com.plaid.client.model.TransferDiligenceSubmitRequest;
 import com.plaid.client.model.TransferDiligenceSubmitResponse;
 import com.plaid.client.model.TransferEventListRequest;
@@ -805,7 +809,7 @@ public interface PlaidApi {
 
   /**
    * Get categories
-   * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.   All implementations are recommended to use the newer &#x60;personal_finance_category&#x60; taxonomy instead of the older &#x60;category&#x60; taxonomy supported by this endpoint. The [&#x60;personal_finance_category taxonomy&#x60; CSV file](https://plaid.com/documents/transactions-personal-finance-category-taxonomy.csv) is available for download and is not accessible via API.
+   * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.  All implementations are recommended to use the newer &#x60;personal_finance_category&#x60; taxonomy instead of the older &#x60;category&#x60; taxonomy supported by this endpoint. The [&#x60;personal_finance_category taxonomy&#x60; CSV file](https://plaid.com/documents/transactions-personal-finance-category-taxonomy.csv) is available for download and is not accessible via API.
    * @param body  (required)
    * @return Call&lt;CategoriesGetResponse&gt;
    * 
@@ -951,7 +955,7 @@ public interface PlaidApi {
 
   /**
    * Subscribe and unsubscribe to proactive notifications for a user&#39;s income profile
-   * &#x60;/credit/bank_income/webhook/update&#x60; allows you to subscribe or unsubscribe a user for income webhook notifications.   If a user is subscribed, on significant changes to the user&#39;s income profile, you will receive a &#x60;BANK_INCOME_REFRESH_UPDATE&#x60; webhook, prompting you to refresh bank income data for the user.
+   * &#x60;/credit/bank_income/webhook/update&#x60; allows you to subscribe or unsubscribe a user for income webhook notifications.  If a user is subscribed, on significant changes to the user&#39;s income profile, you will receive a &#x60;BANK_INCOME_REFRESH_UPDATE&#x60; webhook, prompting you to refresh bank income data for the user.
    * @param creditBankIncomeWebhookUpdateRequest  (required)
    * @return Call&lt;Void&gt;
    * 
@@ -2299,7 +2303,7 @@ public interface PlaidApi {
 
   /**
    * Evaluate a planned ACH transaction
-   * Use &#x60;/processor/signal/evaluate&#x60; to evaluate a planned ACH transaction as a processor to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If &#x60;/processor/signal/evaluate&#x60; is called on the same transaction multiple times within a 24-hour period, cached results may be returned. For more information please refer to our error documentation on [item errors](/docs/errors/item/) and [Link in Update Mode](/docs/link/update-mode/).  Note: This request may take some time to complete if Signal is being added to an existing Item. This is because Plaid must communicate directly with the institution when retrieving the data for the first time.
+   * Use &#x60;/processor/signal/evaluate&#x60; to evaluate a planned ACH transaction as a processor to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If &#x60;/processor/signal/evaluate&#x60; is called on the same transaction multiple times within a 24-hour period, cached results may be returned. For more information please refer to our error documentation on [item errors](/docs/errors/item/) and [Link in Update Mode](/docs/link/update-mode/).  Note: This request may take some time to complete if Signal is being added to an existing Item. This is because Plaid must communicate directly with the institution when retrieving the data for the first time. To reduce this latency, you can call &#x60;/signal/prepare&#x60; on the Item before you need to request Signal data.
    * @param processorSignalEvaluateRequest  (required)
    * @return Call&lt;ProcessorSignalEvaluateResponse&gt;
    * 
@@ -2458,6 +2462,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Manually fire a bank income webhook in sandbox
+   * Use the &#x60;/sandbox/bank_income/fire_webhook&#x60; endpoint to manually trigger a Bank Income webhook in the Sandbox environment.
+   * @param sandboxBankIncomeFireWebhookRequest  (required)
+   * @return Call&lt;SandboxBankIncomeFireWebhookResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxbankincomefire_webhook">Manually fire a bank income webhook in sandbox Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/bank_income/fire_webhook")
+  Call<SandboxBankIncomeFireWebhookResponse> sandboxBankIncomeFireWebhook(
+    @retrofit2.http.Body SandboxBankIncomeFireWebhookRequest sandboxBankIncomeFireWebhookRequest
+  );
+
+  /**
    * Manually fire a Bank Transfer webhook
    * Use the &#x60;/sandbox/bank_transfer/fire_webhook&#x60; endpoint to manually trigger a Bank Transfers webhook in the Sandbox environment.
    * @param sandboxBankTransferFireWebhookRequest  (required)
@@ -2491,7 +2511,7 @@ public interface PlaidApi {
 
   /**
    * Manually fire an Income webhook
-   * Use the &#x60;/sandbox/income/fire_webhook&#x60; endpoint to manually trigger an Income webhook in the Sandbox environment.
+   * Use the &#x60;/sandbox/income/fire_webhook&#x60; endpoint to manually trigger a Payroll Income webhook in the Sandbox environment.
    * @param sandboxIncomeFireWebhookRequest  (required)
    * @return Call&lt;SandboxIncomeFireWebhookResponse&gt;
    * 
@@ -3037,6 +3057,22 @@ public interface PlaidApi {
   @POST("transfer/create")
   Call<TransferCreateResponse> transferCreate(
     @retrofit2.http.Body TransferCreateRequest transferCreateRequest
+  );
+
+  /**
+   * This endpoint allows third-party sender customers to upload a document on behalf of its end customer (i.e. originator) to Plaid. You’ll need to send a request of type multipart/form-data.
+   * Third-party sender customers can use &#x60;/transfer/diligence/document/upload&#x60; endpoint to upload a document on behalf of its end customer (i.e. originator) to Plaid. You’ll need to send a request of type multipart/form-data. You must provide the &#x60;client_id&#x60; in the &#x60;PLAID-CLIENT-ID&#x60; header and &#x60;secret&#x60; in the &#x60;PLAID-SECRET&#x60; header.
+   * @param transferDiligenceDocumentUploadRequest  (required)
+   * @return Call&lt;TransferDiligenceDocumentUploadResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferdiligencedocumentupload">This endpoint allows third-party sender customers to upload a document on behalf of its end customer (i.e. originator) to Plaid. You’ll need to send a request of type multipart/form-data. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/diligence/document/upload")
+  Call<TransferDiligenceDocumentUploadResponse> transferDiligenceDocumentUpload(
+    @retrofit2.http.Body TransferDiligenceDocumentUploadRequest transferDiligenceDocumentUploadRequest
   );
 
   /**
