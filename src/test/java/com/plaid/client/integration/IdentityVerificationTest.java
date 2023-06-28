@@ -13,6 +13,7 @@ import com.plaid.client.model.IdentityVerificationGetRequest;
 import com.plaid.client.model.IdentityVerificationCreateRequest;
 import com.plaid.client.model.IdentityVerificationGetResponse;
 import com.plaid.client.model.IdentityVerificationCreateResponse;
+import com.plaid.client.model.IdentityVerificationCreateRequestUser;
 import com.plaid.client.model.IdentityVerificationRequestUser;
 import com.plaid.client.model.IdentityVerificationRetryRequest;
 import com.plaid.client.model.IdentityVerificationRetryResponse;
@@ -35,13 +36,14 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     String customerReference = "idv-user-" + Instant.now();
+    String email = customerReference + "@example.com";
 
     // POST /identity_verification/create
-    IdentityVerificationRequestUser user = new IdentityVerificationRequestUser();
-    user.setClientUserId(customerReference);
-    user.setEmailAddress(customerReference + "@example.com");
+    IdentityVerificationCreateRequestUser user = new IdentityVerificationCreateRequestUser();
+    user.setEmailAddress(email);
 
     IdentityVerificationCreateRequest identityVerificationCreateRequest = new IdentityVerificationCreateRequest();
+    identityVerificationCreateRequest.setClientUserId(customerReference);
     identityVerificationCreateRequest.setIsShareable(true);
     identityVerificationCreateRequest.setTemplateId(TEMPLATE_ID);
     identityVerificationCreateRequest.setGaveConsent(true);
@@ -57,10 +59,13 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
     String clientId = identityVerificationCreateResponse.body().getId().replaceAll("flwses", "idv");
 
     // POST /identity_verification/retry
+    IdentityVerificationRequestUser retryUser = new IdentityVerificationRequestUser();
+    retryUser.setEmailAddress(email);
     IdentityVerificationRetryRequest identityVerificationRetryRequest = new IdentityVerificationRetryRequest();
     identityVerificationRetryRequest.setTemplateId(TEMPLATE_ID);
     identityVerificationRetryRequest.setClientUserId(customerReference);
     identityVerificationRetryRequest.setStrategy(Strategy.RESET);
+    identityVerificationRetryRequest.setUser(retryUser);
 
     Response<IdentityVerificationRetryResponse> identityVerificationRetryResponse = client()
             .identityVerificationRetry(identityVerificationRetryRequest)
@@ -102,11 +107,11 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
     String customerReference = "idv-user-" + Instant.now();
 
     // POST /identity_verification/create
-    IdentityVerificationRequestUser user = new IdentityVerificationRequestUser();
-    user.setClientUserId(customerReference);
+    IdentityVerificationCreateRequestUser user = new IdentityVerificationCreateRequestUser();
     user.setEmailAddress(customerReference + "2@example.com");
 
     IdentityVerificationCreateRequest identityVerificationCreateRequest = new IdentityVerificationCreateRequest();
+    identityVerificationCreateRequest.setClientUserId(customerReference);
     identityVerificationCreateRequest.setIsShareable(true);
     identityVerificationCreateRequest.setTemplateId(TEMPLATE_ID);
     identityVerificationCreateRequest.setGaveConsent(true);
