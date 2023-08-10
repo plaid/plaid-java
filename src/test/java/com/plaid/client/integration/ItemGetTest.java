@@ -1,5 +1,6 @@
 package com.plaid.client.integration;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.plaid.client.model.PlaidError;
@@ -44,6 +45,24 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
       .accessToken(getItemPublicTokenExchangeResponse().getAccessToken());
 
     Response<ItemGetResponse> response = client().itemGet(request).execute();
+    for (int i = 0; i < 10; i++) {
+      ItemStatusTransactions transactions = response
+        .body()
+        .getStatus()
+        .getTransactions();
+  
+      ItemStatusInvestments investments = response
+        .body()
+        .getStatus()
+        .getInvestments();
+
+      if (transactions.getLastSuccessfulUpdate() != null && investments.getLastSuccessfulUpdate() != null) {
+        break;
+      }
+
+      Thread.sleep(1000);
+      response = client().itemGet(request).execute();
+    }
 
     assertSuccessResponse(response);
     assertItemEquals(getItem(), response.body().getItem());
@@ -52,13 +71,13 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
       .body()
       .getStatus()
       .getTransactions();
-    assertNull(transactions.getLastFailedUpdate());
+    assertNotNull(transactions.getLastSuccessfulUpdate());
 
     ItemStatusInvestments investments = response
       .body()
       .getStatus()
       .getInvestments();
-    assertNull(investments.getLastFailedUpdate());
+    assertNotNull(investments.getLastSuccessfulUpdate());
 
     ItemStatusLastWebhook webhook = response
       .body()
