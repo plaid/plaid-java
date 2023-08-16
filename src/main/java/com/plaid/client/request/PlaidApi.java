@@ -97,6 +97,7 @@ import com.plaid.client.model.CreditPayrollIncomeRiskSignalsGetResponse;
 import com.plaid.client.model.CreditRelayCreateRequest;
 import com.plaid.client.model.CreditRelayCreateResponse;
 import com.plaid.client.model.CreditRelayGetRequest;
+import com.plaid.client.model.CreditRelayPDFGetRequest;
 import com.plaid.client.model.CreditRelayRefreshRequest;
 import com.plaid.client.model.CreditRelayRefreshResponse;
 import com.plaid.client.model.CreditRelayRemoveRequest;
@@ -585,7 +586,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve an Asset Report
-   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report.  If report_type was set to &#x60;VERIFICATION_OF_EMPLOYMENT&#x60; when the Asset Report was created in asset_report/create, debit transactions and transaction amounts won’t be included in the report.  To retrieve an Asset Report with Insights, call the &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.
+   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report. To retrieve an Asset Report with Insights, call &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.  If &#x60;report_type&#x60; was set to &#x60;VERIFICATION_OF_EMPLOYMENT&#x60; when the Asset Report was created in &#x60;/asset_report/create&#x60;, debit transactions and transaction amounts won’t be included in the report.   For latency-sensitive applications, you can optionally call &#x60;/asset_report/create&#x60; with &#x60;options.add_ons&#x60; set to &#x60;[\&quot;fast_assets\&quot;]&#x60;. This will cause Plaid to create two versions of the Asset Report: one with only current and available balance and identity information, and then later on the complete Asset Report. You will receive separate webhooks for each version of the Asset Report.
    * @param assetReportGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
@@ -1207,6 +1208,22 @@ public interface PlaidApi {
   @POST("credit/relay/get")
   Call<AssetReportGetResponse> creditRelayGet(
     @retrofit2.http.Body CreditRelayGetRequest creditRelayGetRequest
+  );
+
+  /**
+   * Retrieve the pdf reports associated with a relay token that was shared with you (beta)
+   * &#x60;/credit/relay/pdf/get&#x60; allows third parties to receive a pdf report that was shared with them, using a &#x60;relay_token&#x60; that was created by the report owner.  The &#x60;/credit/relay/pdf/get&#x60; endpoint retrieves the Asset Report in PDF format. Before calling &#x60;/credit/relay/pdf/get&#x60;, you must first create the Asset Report using &#x60;/credit/relay/create&#x60; and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  The response to &#x60;/credit/relay/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
+   * @param creditRelayPDFGetRequest  (required)
+   * @return Call&lt;ResponseBody&gt;
+   * 
+   * @see <a href="/api/products/assets/#creditrelaypdfget">Retrieve the pdf reports associated with a relay token that was shared with you (beta) Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/relay/pdf/get")
+  Call<ResponseBody> creditRelayPdfGet(
+    @retrofit2.http.Body CreditRelayPDFGetRequest creditRelayPDFGetRequest
   );
 
   /**

@@ -1,5 +1,25 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 16.3.0
+- Updating to OAS 2020-09-14_1.410.1
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.410.1
+- Add `statements` to the list of supported Plaid products in the `/link/token/create` endpoint
+
+### 2020-09-14_1.410.0
+- add `/credit/relay/pdf/get` endpoint
+
+### 2020-09-14_1.409.0
+- Add `original_client_id` to `/transfer/balance/get`
+- Mark `type` optional in `/transfer/balance/get` request
+
+### 2020-09-14_1.408.0
+- Add `status` to `document_reference` in `/credit/payroll_income/risk_signals/get`
+
+### 2020-09-14_1.407.0
+- Add `consumer_report_user_identity` to `/user/create`
+
 # 16.2.0
 - Updating to OAS 2020-09-14_1.406.1
 
