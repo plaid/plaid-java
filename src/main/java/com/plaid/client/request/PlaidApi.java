@@ -359,6 +359,8 @@ import com.plaid.client.model.TransferIntentCreateRequest;
 import com.plaid.client.model.TransferIntentCreateResponse;
 import com.plaid.client.model.TransferIntentGetRequest;
 import com.plaid.client.model.TransferIntentGetResponse;
+import com.plaid.client.model.TransferLedgerGetRequest;
+import com.plaid.client.model.TransferLedgerGetResponse;
 import com.plaid.client.model.TransferListRequest;
 import com.plaid.client.model.TransferListResponse;
 import com.plaid.client.model.TransferMetricsGetRequest;
@@ -3330,6 +3332,22 @@ public interface PlaidApi {
   @POST("transfer/intent/get")
   Call<TransferIntentGetResponse> transferIntentGet(
     @retrofit2.http.Body TransferIntentGetRequest transferIntentGetRequest
+  );
+
+  /**
+   * Retrieve Plaid Ledger balance
+   * Use the &#x60;/transfer/ledger/get&#x60; endpoint to view a balance on the ledger held with Plaid.
+   * @param transferLedgerGetRequest  (required)
+   * @return Call&lt;TransferLedgerGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferledgerget">Retrieve Plaid Ledger balance Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/ledger/get")
+  Call<TransferLedgerGetResponse> transferLedgerGet(
+    @retrofit2.http.Body TransferLedgerGetRequest transferLedgerGetRequest
   );
 
   /**

@@ -1,5 +1,24 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 16.6.0
+- Updating to OAS 2020-09-14_1.421.0
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.421.0
+- Update permissible purpose code `LEGITIMATE_BUSINESS_NEED_TENANT_OTHER` to `LEGITIMATE_BUSINESS_NEED_OTHER`
+
+### 2020-09-14_1.420.1
+- Add new enums to `canonical_description` in `credit/payroll_income/get`
+
+### 2020-09-14_1.420.0
+- Add `database_match_enabled` field to `auth` object in `link/token/create`
+
+### 2020-09-14_1.419.2
+- Add `/transfer/ledger/get` route
+
+### 2020-09-14_1.419.1
+- Add `submitted` and `not_submitted` to transferDiligenceStatus
+
 # 16.5.0
 - Updating to OAS 2020-09-14_1.419.0
 
