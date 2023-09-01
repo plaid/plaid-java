@@ -36,7 +36,9 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
   @Test
   public void testSuccess() throws Exception {
     String customerReference = "idv-user-" + Instant.now();
-    String email = customerReference + "@example.com";
+    // : is not allowed in email addresses but is part of the ISO8601 timestamp format that Instant
+    // is represented as.
+    String email = customerReference.replace(":", "") + "@example.com";
 
     // POST /identity_verification/create
     IdentityVerificationCreateRequestUser user = new IdentityVerificationCreateRequestUser();
