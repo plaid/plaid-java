@@ -35,7 +35,9 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
   @Ignore
   @Test
   public void testSuccess() throws Exception {
-    String customerReference = "idv-user-" + Instant.now();
+    // customerReference is used to build `email` but the ISO8601 timestamp that is created from
+    // Instant.now() contains a ':' which is not allowed in email addresses so we remove it.
+    String customerReference = "idv-user-" + Instant.now().toString().replace(":", "");
     String email = customerReference + "@example.com";
 
     // POST /identity_verification/create
@@ -104,7 +106,8 @@ public class IdentityVerificationTest extends AbstractIntegrationTest {
   // This tests for a bug fixed in https://github.plaid.com/plaid/go/pull/52937
   @Test
   public void testStructIssue() throws Exception {
-    String customerReference = "idv-user-" + Instant.now();
+    // Instant.now() contains a ':' which is not allowed in email addresses so we remove it.
+    String customerReference = "idv-user-" + Instant.now().toString().replace(":", "");;
 
     // POST /identity_verification/create
     IdentityVerificationCreateRequestUser user = new IdentityVerificationCreateRequestUser();
