@@ -232,6 +232,8 @@ import com.plaid.client.model.PaymentProfileGetResponse;
 import com.plaid.client.model.PaymentProfileRemoveRequest;
 import com.plaid.client.model.PaymentProfileRemoveResponse;
 import com.plaid.client.model.PlaidError;
+import com.plaid.client.model.ProcessorAccountGetRequest;
+import com.plaid.client.model.ProcessorAccountGetResponse;
 import com.plaid.client.model.ProcessorApexProcessorTokenCreateRequest;
 import com.plaid.client.model.ProcessorAuthGetRequest;
 import com.plaid.client.model.ProcessorAuthGetResponse;
@@ -290,6 +292,12 @@ import com.plaid.client.model.SandboxPublicTokenCreateRequest;
 import com.plaid.client.model.SandboxPublicTokenCreateResponse;
 import com.plaid.client.model.SandboxTransferFireWebhookRequest;
 import com.plaid.client.model.SandboxTransferFireWebhookResponse;
+import com.plaid.client.model.SandboxTransferLedgerDepositSimulateRequest;
+import com.plaid.client.model.SandboxTransferLedgerDepositSimulateResponse;
+import com.plaid.client.model.SandboxTransferLedgerSimulateAvailableRequest;
+import com.plaid.client.model.SandboxTransferLedgerSimulateAvailableResponse;
+import com.plaid.client.model.SandboxTransferLedgerWithdrawSimulateRequest;
+import com.plaid.client.model.SandboxTransferLedgerWithdrawSimulateResponse;
 import com.plaid.client.model.SandboxTransferRepaymentSimulateRequest;
 import com.plaid.client.model.SandboxTransferRepaymentSimulateResponse;
 import com.plaid.client.model.SandboxTransferSimulateRequest;
@@ -359,8 +367,12 @@ import com.plaid.client.model.TransferIntentCreateRequest;
 import com.plaid.client.model.TransferIntentCreateResponse;
 import com.plaid.client.model.TransferIntentGetRequest;
 import com.plaid.client.model.TransferIntentGetResponse;
+import com.plaid.client.model.TransferLedgerDepositRequest;
+import com.plaid.client.model.TransferLedgerDepositResponse;
 import com.plaid.client.model.TransferLedgerGetRequest;
 import com.plaid.client.model.TransferLedgerGetResponse;
+import com.plaid.client.model.TransferLedgerWithdrawRequest;
+import com.plaid.client.model.TransferLedgerWithdrawResponse;
 import com.plaid.client.model.TransferListRequest;
 import com.plaid.client.model.TransferListResponse;
 import com.plaid.client.model.TransferMetricsGetRequest;
@@ -369,6 +381,8 @@ import com.plaid.client.model.TransferMigrateAccountRequest;
 import com.plaid.client.model.TransferMigrateAccountResponse;
 import com.plaid.client.model.TransferOriginatorCreateRequest;
 import com.plaid.client.model.TransferOriginatorCreateResponse;
+import com.plaid.client.model.TransferOriginatorFundingAccountUpdateRequest;
+import com.plaid.client.model.TransferOriginatorFundingAccountUpdateResponse;
 import com.plaid.client.model.TransferOriginatorGetRequest;
 import com.plaid.client.model.TransferOriginatorGetResponse;
 import com.plaid.client.model.TransferOriginatorListRequest;
@@ -399,6 +413,8 @@ import com.plaid.client.model.TransferSweepListRequest;
 import com.plaid.client.model.TransferSweepListResponse;
 import com.plaid.client.model.UserCreateRequest;
 import com.plaid.client.model.UserCreateResponse;
+import com.plaid.client.model.UserUpdateRequest;
+import com.plaid.client.model.UserUpdateResponse;
 import com.plaid.client.model.WalletCreateRequest;
 import com.plaid.client.model.WalletCreateResponse;
 import com.plaid.client.model.WalletGetRequest;
@@ -588,7 +604,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve an Asset Report
-   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report. To retrieve an Asset Report with Insights, call &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.  If &#x60;report_type&#x60; was set to &#x60;VERIFICATION_OF_EMPLOYMENT&#x60; when the Asset Report was created in &#x60;/asset_report/create&#x60;, debit transactions and transaction amounts won’t be included in the report.   For latency-sensitive applications, you can optionally call &#x60;/asset_report/create&#x60; with &#x60;options.add_ons&#x60; set to &#x60;[\&quot;fast_assets\&quot;]&#x60;. This will cause Plaid to create two versions of the Asset Report: one with only current and available balance and identity information, and then later on the complete Asset Report. You will receive separate webhooks for each version of the Asset Report.
+   * The &#x60;/asset_report/get&#x60; endpoint retrieves the Asset Report in JSON format. Before calling &#x60;/asset_report/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  By default, an Asset Report includes transaction descriptions as returned by the bank, as opposed to parsed and categorized by Plaid. You can also receive cleaned and categorized transactions, as well as additional insights like merchant name or location information. We call this an Asset Report with Insights. An Asset Report with Insights provides transaction category, location, and merchant information in addition to the transaction strings provided in a standard Asset Report. To retrieve an Asset Report with Insights, call &#x60;/asset_report/get&#x60; endpoint with &#x60;include_insights&#x60; set to &#x60;true&#x60;.  For latency-sensitive applications, you can optionally call &#x60;/asset_report/create&#x60; with &#x60;options.add_ons&#x60; set to &#x60;[\&quot;fast_assets\&quot;]&#x60;. This will cause Plaid to create two versions of the Asset Report: one with only current and available balance and identity information, and then later on the complete Asset Report. You will receive separate webhooks for each version of the Asset Report.
    * @param assetReportGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
@@ -604,7 +620,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve a PDF Asset Report
-   * The &#x60;/asset_report/pdf/get&#x60; endpoint retrieves the Asset Report in PDF format. Before calling &#x60;/asset_report/pdf/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  The response to &#x60;/asset_report/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  If &#x60;report_type&#x60; was set to &#x60;VERIFICATION_OF_EMPLOYMENT&#x60; when the Asset Report was created in &#x60;/asset_report/create&#x60;, debit transactions and transaction amounts won’t be included in the report.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
+   * The &#x60;/asset_report/pdf/get&#x60; endpoint retrieves the Asset Report in PDF format. Before calling &#x60;/asset_report/pdf/get&#x60;, you must first create the Asset Report using &#x60;/asset_report/create&#x60; (or filter an Asset Report using &#x60;/asset_report/filter&#x60;) and then wait for the [&#x60;PRODUCT_READY&#x60;](https://plaid.com/docs/api/products/assets/#product_ready) webhook to fire, indicating that the Report is ready to be retrieved.  The response to &#x60;/asset_report/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
    * @param assetReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -2261,9 +2277,11 @@ public interface PlaidApi {
    * Use &#x60;/payment_profile/create&#x60; endpoint to create a new payment profile. To initiate the account linking experience, call &#x60;/link/token/create&#x60; and provide the &#x60;payment_profile_token&#x60; in the &#x60;transfer.payment_profile_token&#x60; field. You can then use the &#x60;payment_profile_token&#x60; when creating transfers using &#x60;/transfer/authorization/create&#x60; and &#x60;/transfer/create&#x60;.
    * @param paymentProfileCreateRequest  (required)
    * @return Call&lt;PaymentProfileCreateResponse&gt;
+   * @deprecated
    * 
    * @see <a href="/api/products/transfer/#payment_profilecreate">Create payment profile Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -2277,9 +2295,11 @@ public interface PlaidApi {
    * Use &#x60;/payment_profile/get&#x60; endpoint to get the status of a given Payment Profile.
    * @param paymentProfileGetRequest  (required)
    * @return Call&lt;PaymentProfileGetResponse&gt;
+   * @deprecated
    * 
    * @see <a href="/api/products/transfer/#payment_profileget">Get payment profile Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -2293,15 +2313,33 @@ public interface PlaidApi {
    * Use the &#x60;/payment_profile/remove&#x60; endpoint to remove a given Payment Profile. Once it’s removed, it can no longer be used to create transfers.
    * @param paymentProfileRemoveRequest  (required)
    * @return Call&lt;PaymentProfileRemoveResponse&gt;
+   * @deprecated
    * 
    * @see <a href="/api/products/transfer/#payment_profileremove">Remove payment profile Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
   @POST("payment_profile/remove")
   Call<PaymentProfileRemoveResponse> paymentProfileRemove(
     @retrofit2.http.Body PaymentProfileRemoveRequest paymentProfileRemoveRequest
+  );
+
+  /**
+   * Retrieve the account associated with a processor token
+   * This endpoint returns the account associated with a given processor token.  This endpoint retrieves cached information, rather than extracting fresh information from the institution. As a result, the account balance returned may not be up-to-date; for realtime balance information, use &#x60;/processor/balance/get&#x60; instead. Note that some information is nullable. 
+   * @param processorAccountGetRequest  (required)
+   * @return Call&lt;ProcessorAccountGetResponse&gt;
+   * 
+   * @see <a href="/api/processors/#processoraccountget">Retrieve the account associated with a processor token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("processor/account/get")
+  Call<ProcessorAccountGetResponse> processorAccountGet(
+    @retrofit2.http.Body ProcessorAccountGetRequest processorAccountGetRequest
   );
 
   /**
@@ -2514,7 +2552,7 @@ public interface PlaidApi {
 
   /**
    * Update a processor token&#39;s webhook URL
-   * This endpoint allows you to update the webhook URL associated with a processor token. This request triggers a &#x60;WEBHOOK_UPDATE_ACKNOWLEDGED&#x60; webhook to the newly specified webhook URL.
+   * This endpoint allows you, the processor, to update the webhook URL associated with a processor token. This request triggers a &#x60;WEBHOOK_UPDATE_ACKNOWLEDGED&#x60; webhook to the newly specified webhook URL.
    * @param processorTokenWebhookUpdateRequest  (required)
    * @return Call&lt;ProcessorTokenWebhookUpdateResponse&gt;
    * 
@@ -2658,7 +2696,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Transactions update webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;AUTH_DATA_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item created with Auth as an enabled product.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development.
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Transactions update webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;AUTH_DATA_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item created with Auth as an enabled product.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development (except for webhooks of type &#x60;TRANSFER&#x60;).
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -2723,9 +2761,11 @@ public interface PlaidApi {
    * &#x60;/sandbox/payment_profile/reset_login/&#x60; forces a Payment Profile into a state where the login is no longer valid. This makes it easy to test update mode for Payment Profile in the Sandbox environment.   After calling &#x60;/sandbox/payment_profile/reset_login&#x60;, calls to the &#x60;/transfer/authorization/create&#x60; with the Payment Profile will result in a &#x60;decision_rationale&#x60; &#x60;PAYMENT_PROFILE_LOGIN_REQUIRED&#x60;. You can then use update mode for Payment Profile to restore it into a good state.   In order to invoke this endpoint, you must first [create a Payment Profile](https://plaid.com/docs/transfer/add-to-app/#create-a-payment-profile-optional) and [go through the Link flow](https://plaid.com/docs/transfer/add-to-app/#create-a-link-token).
    * @param sandboxPaymentProfileResetLoginRequest  (required)
    * @return Call&lt;SandboxPaymentProfileResetLoginResponse&gt;
+   * @deprecated
    * 
    * @see <a href="/api/sandbox/#sandboxpayment_profilereset_login">Reset the login of a Payment Profile Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -2768,7 +2808,7 @@ public interface PlaidApi {
 
   /**
    * Manually fire a Transfer webhook
-   * Use the &#x60;/sandbox/transfer/fire_webhook&#x60; endpoint to manually trigger a Transfer webhook in the Sandbox environment.
+   * Use the &#x60;/sandbox/transfer/fire_webhook&#x60; endpoint to manually trigger a &#x60;TRANSFER_EVENTS_UPDATE&#x60; webhook in the Sandbox environment.
    * @param sandboxTransferFireWebhookRequest  (required)
    * @return Call&lt;SandboxTransferFireWebhookResponse&gt;
    * 
@@ -2780,6 +2820,54 @@ public interface PlaidApi {
   @POST("sandbox/transfer/fire_webhook")
   Call<SandboxTransferFireWebhookResponse> sandboxTransferFireWebhook(
     @retrofit2.http.Body SandboxTransferFireWebhookRequest sandboxTransferFireWebhookRequest
+  );
+
+  /**
+   * Simulate a ledger deposit event in Sandbox
+   * Use the &#x60;/sandbox/transfer/ledger/deposit/simulate&#x60; endpoint to simulate a ledger deposit event in the Sandbox environment.
+   * @param sandboxTransferLedgerDepositSimulateRequest  (required)
+   * @return Call&lt;SandboxTransferLedgerDepositSimulateResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransferledgerdepositsimulate">Simulate a ledger deposit event in Sandbox Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/ledger/deposit/simulate")
+  Call<SandboxTransferLedgerDepositSimulateResponse> sandboxTransferLedgerDepositSimulate(
+    @retrofit2.http.Body SandboxTransferLedgerDepositSimulateRequest sandboxTransferLedgerDepositSimulateRequest
+  );
+
+  /**
+   * Simulate converting pending balance to available balance
+   * Use the &#x60;/sandbox/transfer/ledger/simulate_available&#x60; endpoint to simulate converting pending balance to available balance for all originators in the Sandbox environment.
+   * @param sandboxTransferLedgerSimulateAvailableRequest  (required)
+   * @return Call&lt;SandboxTransferLedgerSimulateAvailableResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransferledgersimulate_available">Simulate converting pending balance to available balance Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/ledger/simulate_available")
+  Call<SandboxTransferLedgerSimulateAvailableResponse> sandboxTransferLedgerSimulateAvailable(
+    @retrofit2.http.Body SandboxTransferLedgerSimulateAvailableRequest sandboxTransferLedgerSimulateAvailableRequest
+  );
+
+  /**
+   * Simulate a ledger withdraw event in Sandbox
+   * Use the &#x60;/sandbox/transfer/ledger/withdraw/simulate&#x60; endpoint to simulate a ledger withdraw event in the Sandbox environment.
+   * @param sandboxTransferLedgerWithdrawSimulateRequest  (required)
+   * @return Call&lt;SandboxTransferLedgerWithdrawSimulateResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransferledgerwithdrawsimulate">Simulate a ledger withdraw event in Sandbox Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/ledger/withdraw/simulate")
+  Call<SandboxTransferLedgerWithdrawSimulateResponse> sandboxTransferLedgerWithdrawSimulate(
+    @retrofit2.http.Body SandboxTransferLedgerWithdrawSimulateRequest sandboxTransferLedgerWithdrawSimulateRequest
   );
 
   /**
@@ -2832,7 +2920,7 @@ public interface PlaidApi {
 
   /**
    * Advance a test clock
-   * Use the &#x60;/sandbox/transfer/test_clock/advance&#x60; endpoint to advance a &#x60;test_clock&#x60; in the Sandbox environment.  A test clock object represents an independent timeline and has a &#x60;virtual_time&#x60; field indicating the current timestamp of the timeline. A test clock can be advanced by incrementing &#x60;virtual_time&#x60;, but may never go back to a lower &#x60;virtual_time&#x60;.  If a test clock is advanced, we will simulate the changes that ought to occur during the time that elapsed. For instance, a client creates a weekly recurring transfer with a test clock set at t. When the client advances the test clock by setting &#x60;virtual_time&#x60; &#x3D; t + 15 days, 2 new originations should be created, along with the webhook events.  The advancement of the test clock from its current &#x60;virtual_time&#x60; should be limited such that there are no more than 20 originations resulting from the advance operation on each &#x60;recurring_transfer&#x60; associated with the &#x60;test_clock&#x60;. For instance, if the recurring transfer associated with this test clock originates once every 4 weeks, you can advance the &#x60;virtual_time&#x60; up to 80 weeks on each API call.
+   * Use the &#x60;/sandbox/transfer/test_clock/advance&#x60; endpoint to advance a &#x60;test_clock&#x60; in the Sandbox environment.  A test clock object represents an independent timeline and has a &#x60;virtual_time&#x60; field indicating the current timestamp of the timeline. A test clock can be advanced by incrementing &#x60;virtual_time&#x60;, but may never go back to a lower &#x60;virtual_time&#x60;.  If a test clock is advanced, we will simulate the changes that ought to occur during the time that elapsed.  For example, a client creates a weekly recurring transfer with a test clock set at t. When the client advances the test clock by setting &#x60;virtual_time&#x60; &#x3D; t + 15 days, 2 new originations should be created, along with the webhook events.  The advancement of the test clock from its current &#x60;virtual_time&#x60; should be limited such that there are no more than 20 originations resulting from the advance operation on each &#x60;recurring_transfer&#x60; associated with the &#x60;test_clock&#x60;.  For example, if the recurring transfer associated with this test clock originates once every 4 weeks, you can advance the &#x60;virtual_time&#x60; up to 80 weeks on each API call.
    * @param sandboxTransferTestClockAdvanceRequest  (required)
    * @return Call&lt;SandboxTransferTestClockAdvanceResponse&gt;
    * 
@@ -2896,7 +2984,7 @@ public interface PlaidApi {
 
   /**
    * Report whether you initiated an ACH transaction
-   * After calling &#x60;/signal/evaluate&#x60;, call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated. This endpoint will return an [&#x60;INVALID_FIELD&#x60;](/docs/errors/invalid-request/#invalid_field) error if called a second time with a different value for &#x60;initiated&#x60;.
+   * After calling &#x60;/signal/evaluate&#x60;, call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated.
    * @param signalDecisionReportRequest  (required)
    * @return Call&lt;SignalDecisionReportResponse&gt;
    * 
@@ -2928,7 +3016,7 @@ public interface PlaidApi {
 
   /**
    * Opt-in an Item to Signal
-   * When Link is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score.  If you are using other Plaid products after Link, e.g. Identity or Assets, call &#x60;/signal/prepare&#x60; after those product calls are complete.  Example flow: Link is initialized with Auth, call &#x60;/auth/get&#x60; for the account and routing number, call &#x60;/identity/get&#x60; to retrieve bank ownership details, then call &#x60;/signal/prepare&#x60; to begin Signal data collection. Later, once you have obtained details about the proposed transaction from the user, call &#x60;/signal/evaluate&#x60; for a Signal score. For more information please see [Recommendations for initializing Link with specific product combinations](https://www.plaid.com/docs/link/initializing-products/#recommendations-for-initializing-link-with-specific-product-combinations).
+   * When Link is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score.  If you are using other Plaid products after Link, e.g. Identity or Assets, call &#x60;/signal/prepare&#x60; after those product calls are complete.  Example flow: Link is initialized with Auth, call &#x60;/auth/get&#x60; for the account and routing number, call &#x60;/identity/get&#x60; to retrieve bank ownership details, then call &#x60;/signal/prepare&#x60; to begin Signal data collection. Later, once you have obtained details about the proposed transaction from the user, call &#x60;/signal/evaluate&#x60; for a Signal score. For more information please see [Recommendations for initializing Link with specific product combinations](https://www.plaid.com/docs/link/initializing-products/#recommendations-for-initializing-link-with-specific-product-combinations).  If run on an Item that is already initialized with Signal, this endpoint will return a 200 response and will not modify the Item. 
    * @param signalPrepareRequest  (required)
    * @return Call&lt;SignalPrepareResponse&gt;
    * 
@@ -2960,11 +3048,11 @@ public interface PlaidApi {
 
   /**
    * Retrieve a single statement.
-   * The &#x60;/statements/download&#x60; endpoint retrieves a single statement.
+   * The &#x60;/statements/download&#x60; endpoint retrieves a single statement PDF in binary format.  The response will contain a &#x60;Plaid-Content-Hash&#x60; header containing a SHA 256 checksum of the statement. This can be used to verify that the file being sent by Plaid is the same file that was downloaded to your system.
    * @param statementsDownloadRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/none/">Retrieve a single statement. Documentation</a>
+   * @see <a href="/api/products/statements#statementsdownload">Retrieve a single statement. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2980,7 +3068,7 @@ public interface PlaidApi {
    * @param statementsListRequest  (required)
    * @return Call&lt;StatementsListResponse&gt;
    * 
-   * @see <a href="/none/">Retrieve a list of all statements associated with the provided item. Documentation</a>
+   * @see <a href="/api/products/statements#statementslist">Retrieve a list of all statements associated with the provided item. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3128,7 +3216,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to determine transfer failure risk.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with null rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.  The fields &#x60;device.ip_address&#x60; and &#x60;device.user_agent&#x60; are required for all sessions where the end-user is present. For example, when a user is authorizing a one-time payment from their device.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;.   There are three possible outcomes to calling this endpoint: If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -3335,6 +3423,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Deposit funds into a Plaid Ledger balance
+   * Use the &#x60;/transfer/ledger/deposit&#x60; endpoint to deposit funds into Plaid Ledger.
+   * @param transferLedgerDepositRequest  (required)
+   * @return Call&lt;TransferLedgerDepositResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferledgerdeposit">Deposit funds into a Plaid Ledger balance Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/ledger/deposit")
+  Call<TransferLedgerDepositResponse> transferLedgerDeposit(
+    @retrofit2.http.Body TransferLedgerDepositRequest transferLedgerDepositRequest
+  );
+
+  /**
    * Retrieve Plaid Ledger balance
    * Use the &#x60;/transfer/ledger/get&#x60; endpoint to view a balance on the ledger held with Plaid.
    * @param transferLedgerGetRequest  (required)
@@ -3348,6 +3452,22 @@ public interface PlaidApi {
   @POST("transfer/ledger/get")
   Call<TransferLedgerGetResponse> transferLedgerGet(
     @retrofit2.http.Body TransferLedgerGetRequest transferLedgerGetRequest
+  );
+
+  /**
+   * Withdraw funds from a Plaid Ledger balance
+   * Use the &#x60;/transfer/ledger/withdraw&#x60; endpoint to withdraw funds from a Plaid Ledger balance.
+   * @param transferLedgerWithdrawRequest  (required)
+   * @return Call&lt;TransferLedgerWithdrawResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferledgerwithdraw">Withdraw funds from a Plaid Ledger balance Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/ledger/withdraw")
+  Call<TransferLedgerWithdrawResponse> transferLedgerWithdraw(
+    @retrofit2.http.Body TransferLedgerWithdrawRequest transferLedgerWithdrawRequest
   );
 
   /**
@@ -3412,6 +3532,22 @@ public interface PlaidApi {
   @POST("transfer/originator/create")
   Call<TransferOriginatorCreateResponse> transferOriginatorCreate(
     @retrofit2.http.Body TransferOriginatorCreateRequest transferOriginatorCreateRequest
+  );
+
+  /**
+   * Update the funding account associated with the originator
+   * Use the &#x60;/transfer/originator/funding_account/update&#x60; endpoint to update the funding account associated with the originator.
+   * @param transferOriginatorFundingAccountUpdateRequest  (required)
+   * @return Call&lt;TransferOriginatorFundingAccountUpdateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/#transferoriginatorfundingaccountupdate">Update the funding account associated with the originator Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/originator/funding_account/update")
+  Call<TransferOriginatorFundingAccountUpdateResponse> transferOriginatorFundingAccountUpdate(
+    @retrofit2.http.Body TransferOriginatorFundingAccountUpdateRequest transferOriginatorFundingAccountUpdateRequest
   );
 
   /**
@@ -3652,6 +3788,22 @@ public interface PlaidApi {
   @POST("user/create")
   Call<UserCreateResponse> userCreate(
     @retrofit2.http.Body UserCreateRequest userCreateRequest
+  );
+
+  /**
+   * Update user information
+   * This endpoint is used to update user information associated with an existing &#x60;user_token&#x60;. The &#x60;user_token&#x60; should be in the response of &#x60;/user/create&#x60; call   If you call the endpoint with a non-exist &#x60;user_token&#x60;, the call will fail with an error message indicating that the user token is not found.
+   * @param userUpdateRequest  (required)
+   * @return Call&lt;UserUpdateResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#userupdate">Update user information Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/update")
+  Call<UserUpdateResponse> userUpdate(
+    @retrofit2.http.Body UserUpdateRequest userUpdateRequest
   );
 
   /**
