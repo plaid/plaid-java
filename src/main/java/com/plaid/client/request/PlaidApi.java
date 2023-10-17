@@ -58,6 +58,10 @@ import com.plaid.client.model.BaseReportGetRequest;
 import com.plaid.client.model.BaseReportGetResponse;
 import com.plaid.client.model.BeaconReportCreateRequest;
 import com.plaid.client.model.BeaconReportCreateResponse;
+import com.plaid.client.model.BeaconReportListRequest;
+import com.plaid.client.model.BeaconReportListResponse;
+import com.plaid.client.model.BeaconReportSyndicationListRequest;
+import com.plaid.client.model.BeaconReportSyndicationListResponse;
 import com.plaid.client.model.BeaconUserCreateRequest;
 import com.plaid.client.model.BeaconUserCreateResponse;
 import com.plaid.client.model.BeaconUserGetRequest;
@@ -88,6 +92,8 @@ import com.plaid.client.model.CreditFreddieMacReportsGetRequest;
 import com.plaid.client.model.CreditFreddieMacReportsGetResponse;
 import com.plaid.client.model.CreditPayrollIncomeGetRequest;
 import com.plaid.client.model.CreditPayrollIncomeGetResponse;
+import com.plaid.client.model.CreditPayrollIncomeParsingConfigUpdateRequest;
+import com.plaid.client.model.CreditPayrollIncomeParsingConfigUpdateResponse;
 import com.plaid.client.model.CreditPayrollIncomePrecheckRequest;
 import com.plaid.client.model.CreditPayrollIncomePrecheckResponse;
 import com.plaid.client.model.CreditPayrollIncomeRefreshRequest;
@@ -298,6 +304,8 @@ import com.plaid.client.model.SandboxTransferLedgerSimulateAvailableRequest;
 import com.plaid.client.model.SandboxTransferLedgerSimulateAvailableResponse;
 import com.plaid.client.model.SandboxTransferLedgerWithdrawSimulateRequest;
 import com.plaid.client.model.SandboxTransferLedgerWithdrawSimulateResponse;
+import com.plaid.client.model.SandboxTransferRefundSimulateRequest;
+import com.plaid.client.model.SandboxTransferRefundSimulateResponse;
 import com.plaid.client.model.SandboxTransferRepaymentSimulateRequest;
 import com.plaid.client.model.SandboxTransferRepaymentSimulateResponse;
 import com.plaid.client.model.SandboxTransferSimulateRequest;
@@ -325,8 +333,8 @@ import com.plaid.client.model.StatementsListRequest;
 import com.plaid.client.model.StatementsListResponse;
 import com.plaid.client.model.TransactionsEnhanceGetRequest;
 import com.plaid.client.model.TransactionsEnhanceGetResponse;
-import com.plaid.client.model.TransactionsEnrichGetRequest;
-import com.plaid.client.model.TransactionsEnrichGetResponse;
+import com.plaid.client.model.TransactionsEnrichRequest;
+import com.plaid.client.model.TransactionsEnrichResponse;
 import com.plaid.client.model.TransactionsGetRequest;
 import com.plaid.client.model.TransactionsGetResponse;
 import com.plaid.client.model.TransactionsRecurringGetRequest;
@@ -341,6 +349,8 @@ import com.plaid.client.model.TransactionsRulesRemoveRequest;
 import com.plaid.client.model.TransactionsRulesRemoveResponse;
 import com.plaid.client.model.TransactionsSyncRequest;
 import com.plaid.client.model.TransactionsSyncResponse;
+import com.plaid.client.model.TransactionsUserInsightsGetRequest;
+import com.plaid.client.model.TransactionsUserInsightsGetResponse;
 import com.plaid.client.model.TransferAuthorizationCreateRequest;
 import com.plaid.client.model.TransferAuthorizationCreateResponse;
 import com.plaid.client.model.TransferBalanceGetRequest;
@@ -875,6 +885,38 @@ public interface PlaidApi {
   );
 
   /**
+   * List Beacon Reports for a Beacon User
+   * Use the &#x60;/beacon/report/list&#x60; endpoint to view all Beacon Reports you created for a specific Beacon User. The reports returned by this endpoint are exclusively reports you created for a specific user. A Beacon User can only have one active report at a time, but a new report can be created if a previous report has been deleted. The results from this endpoint are paginated; the &#x60;next_cursor&#x60; field will be populated if there is another page of results that can be retrieved. To fetch the next page, pass the &#x60;next_cursor&#x60; value as the &#x60;cursor&#x60; parameter in the next request.
+   * @param beaconReportListRequest  (required)
+   * @return Call&lt;BeaconReportListResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconreportlist">List Beacon Reports for a Beacon User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/report/list")
+  Call<BeaconReportListResponse> beaconReportList(
+    @retrofit2.http.Body BeaconReportListRequest beaconReportListRequest
+  );
+
+  /**
+   * List Beacon Report Syndications for a Beacon User
+   * Use the &#x60;/beacon/report_syndication/list&#x60; endpoint to view all Beacon Reports that have been syndicated to a specific Beacon User. This endpoint returns Beacon Report Syndications which are references to Beacon Reports created either by you, or another Beacon customer, that matched the specified Beacon User. A Beacon User can have multiple active Beacon Report Syndications at once. The results from this endpoint are paginated; the &#x60;next_cursor&#x60; field will be populated if there is another page of results that can be retrieved. To fetch the next page, pass the &#x60;next_cursor&#x60; value as the &#x60;cursor&#x60; parameter in the next request.
+   * @param beaconReportSyndicationListRequest  (required)
+   * @return Call&lt;BeaconReportSyndicationListResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconreportsyndicationlist">List Beacon Report Syndications for a Beacon User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/report_syndication/list")
+  Call<BeaconReportSyndicationListResponse> beaconReportSyndicationList(
+    @retrofit2.http.Body BeaconReportSyndicationListRequest beaconReportSyndicationListRequest
+  );
+
+  /**
    * Create a Beacon User
    * Create and scan a Beacon User against your Beacon Program, according to your program&#39;s settings.  When you submit a new user to &#x60;/beacon/user/create&#x60;, several checks are performed immediately:    - The user&#39;s PII (provided within the &#x60;user&#x60; object) is searched against all other users within the Beacon Program you specified. If a match is found that violates your program&#39;s \&quot;Duplicate Information Filtering\&quot; settings, the user will be returned with a status of &#x60;pending_review&#x60;.    - The user&#39;s PII is also searched against all fraud reports created by your organization across all of your Beacon Programs. If the user&#39;s data matches a fraud report that your team created, the user will be returned with a status of &#x60;rejected&#x60;.    - Finally, the user&#39;s PII is searched against all fraud report shared with the Beacon Network by other companies. If a matching fraud report is found, the user will be returned with a &#x60;pending_review&#x60; status if your program has enabled automatic flagging based on network fraud.
    * @param beaconUserCreateRequest  (required)
@@ -1146,6 +1188,22 @@ public interface PlaidApi {
   @POST("credit/payroll_income/get")
   Call<CreditPayrollIncomeGetResponse> creditPayrollIncomeGet(
     @retrofit2.http.Body CreditPayrollIncomeGetRequest creditPayrollIncomeGetRequest
+  );
+
+  /**
+   * Update the parsing configuration for a document income verification
+   * &#x60;/credit/payroll_income/parsing_config/update&#x60; updates the parsing configuration for a document income verification.
+   * @param creditPayrollIncomeParsingConfigUpdateRequest  (required)
+   * @return Call&lt;CreditPayrollIncomeParsingConfigUpdateResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#creditpayroll_incomeparsing_configupdate">Update the parsing configuration for a document income verification Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("credit/payroll_income/parsing_config/update")
+  Call<CreditPayrollIncomeParsingConfigUpdateResponse> creditPayrollIncomeParsingConfigUpdate(
+    @retrofit2.http.Body CreditPayrollIncomeParsingConfigUpdateRequest creditPayrollIncomeParsingConfigUpdateRequest
   );
 
   /**
@@ -2871,6 +2929,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Simulate a refund event in Sandbox
+   * Use the &#x60;/sandbox/transfer/refund/simulate&#x60; endpoint to simulate a refund event in the Sandbox environment.  Note that while an event will be simulated and will appear when using endpoints such as &#x60;/transfer/event/sync&#x60; or &#x60;/transfer/event/list&#x60;, no transactions will actually take place and funds will not move between accounts, even within the Sandbox.
+   * @param sandboxTransferRefundSimulateRequest  (required)
+   * @return Call&lt;SandboxTransferRefundSimulateResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransferrefundsimulate">Simulate a refund event in Sandbox Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transfer/refund/simulate")
+  Call<SandboxTransferRefundSimulateResponse> sandboxTransferRefundSimulate(
+    @retrofit2.http.Body SandboxTransferRefundSimulateRequest sandboxTransferRefundSimulateRequest
+  );
+
+  /**
    * Trigger the creation of a repayment
    * Use the &#x60;/sandbox/transfer/repayment/simulate&#x60; endpoint to trigger the creation of a repayment. As a side effect of calling this route, a repayment is created that includes all unreimbursed returns of guaranteed transfers. If there are no such returns, an 400 error is returned.
    * @param sandboxTransferRepaymentSimulateRequest  (required)
@@ -2904,7 +2978,7 @@ public interface PlaidApi {
 
   /**
    * Simulate creating a sweep
-   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all &#x60;posted&#x60; or &#x60;pending&#x60; transfers with a sweep status of &#x60;unswept&#x60; will become &#x60;swept&#x60;, and all &#x60;returned&#x60; transfers with a sweep status of &#x60;swept&#x60; will become &#x60;return_swept&#x60;.
+   * Use the &#x60;/sandbox/transfer/sweep/simulate&#x60; endpoint to create a sweep and associated events in the Sandbox environment. Upon calling this endpoint, all transfers with a sweep status of &#x60;swept&#x60; will become &#x60;swept_settled&#x60;, all &#x60;posted&#x60; or &#x60;pending&#x60; transfers with a sweep status of &#x60;unswept&#x60; will become &#x60;swept&#x60;, and all &#x60;returned&#x60; transfers with a sweep status of &#x60;swept&#x60; will become &#x60;return_swept&#x60;.
    * @param sandboxTransferSweepSimulateRequest  (required)
    * @return Call&lt;SandboxTransferSweepSimulateResponse&gt;
    * 
@@ -3016,7 +3090,7 @@ public interface PlaidApi {
 
   /**
    * Opt-in an Item to Signal
-   * When Link is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score.  If you are using other Plaid products after Link, e.g. Identity or Assets, call &#x60;/signal/prepare&#x60; after those product calls are complete.  Example flow: Link is initialized with Auth, call &#x60;/auth/get&#x60; for the account and routing number, call &#x60;/identity/get&#x60; to retrieve bank ownership details, then call &#x60;/signal/prepare&#x60; to begin Signal data collection. Later, once you have obtained details about the proposed transaction from the user, call &#x60;/signal/evaluate&#x60; for a Signal score. For more information please see [Recommendations for initializing Link with specific product combinations](https://www.plaid.com/docs/link/initializing-products/#recommendations-for-initializing-link-with-specific-product-combinations).  If run on an Item that is already initialized with Signal, this endpoint will return a 200 response and will not modify the Item. 
+   * When Link is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score.  If you are using other Plaid products after Link, e.g. Identity or Assets, call &#x60;/signal/prepare&#x60; after those product calls are complete.  Example flow: Link is initialized with Auth, call &#x60;/auth/get&#x60; for the account and routing number, call &#x60;/identity/get&#x60; to retrieve bank ownership details, then call &#x60;/signal/prepare&#x60; to begin Signal data collection. Later, once you have obtained details about the proposed transaction from the user, call &#x60;/signal/evaluate&#x60; for a Signal score. For more information please see [Recommendations for initializing Link with specific product combinations](https://www.plaid.com/docs/link/initializing-products/#recommendations-for-initializing-link-with-specific-product-combinations).  If run on an Item that is already initialized with Signal, this endpoint will return a 200 response and will not modify the Item.
    * @param signalPrepareRequest  (required)
    * @return Call&lt;SignalPrepareResponse&gt;
    * 
@@ -3095,8 +3169,8 @@ public interface PlaidApi {
   /**
    * Enrich locally-held transaction data
    * The &#x60;/transactions/enrich&#x60; endpoint enriches raw transaction data generated by your own banking products or retrieved from other non-Plaid sources.
-   * @param transactionsEnrichGetRequest  (required)
-   * @return Call&lt;TransactionsEnrichGetResponse&gt;
+   * @param transactionsEnrichRequest  (required)
+   * @return Call&lt;TransactionsEnrichResponse&gt;
    * 
    * @see <a href="/api/products/enrich/#transactionsenrich">Enrich locally-held transaction data Documentation</a>
    */
@@ -3104,8 +3178,8 @@ public interface PlaidApi {
     "Content-Type:application/json"
   })
   @POST("transactions/enrich")
-  Call<TransactionsEnrichGetResponse> transactionsEnrich(
-    @retrofit2.http.Body TransactionsEnrichGetRequest transactionsEnrichGetRequest
+  Call<TransactionsEnrichResponse> transactionsEnrich(
+    @retrofit2.http.Body TransactionsEnrichRequest transactionsEnrichRequest
   );
 
   /**
@@ -3215,8 +3289,24 @@ public interface PlaidApi {
   );
 
   /**
+   * Obtain user insights based on transactions sent through /transactions/enrich
+   * The &#x60;/beta/transactions/user_insights/v1/get&#x60; gets user insights for clients who have enriched data with &#x60;/transactions/enrich&#x60;.  The product is currently in beta.
+   * @param transactionsUserInsightsGetRequest  (required)
+   * @return Call&lt;TransactionsUserInsightsGetResponse&gt;
+   * 
+   * @see <a href="/api/products/enrich/#userinsightsget">Obtain user insights based on transactions sent through /transactions/enrich Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/transactions/user_insights/v1/get")
+  Call<TransactionsUserInsightsGetResponse> transactionsUserInsightsGet(
+    @retrofit2.http.Body TransactionsUserInsightsGetRequest transactionsUserInsightsGetRequest
+  );
+
+  /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;.   There are three possible outcomes to calling this endpoint: If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;.  There are three possible outcomes to calling this endpoint: If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -3264,7 +3354,7 @@ public interface PlaidApi {
 
   /**
    * Get RTP eligibility information of a transfer
-   * Use the &#x60;/transfer/capabilities/get&#x60; endpoint to determine the RTP eligibility information of a transfer.
+   * Use the &#x60;/transfer/capabilities/get&#x60; endpoint to determine the RTP eligibility information of a transfer. To simulate RTP eligiblity in Sandbox, log in using the username &#x60;user_good&#x60; and password &#x60;pass_good&#x60; and use the first two checking and savings accounts in the \&quot;First Platypus Bank\&quot; institution (ending in 0000 or 1111), which will return &#x60;true&#x60;. Any other account will return &#x60;false&#x60;.
    * @param transferCapabilitiesGetRequest  (required)
    * @return Call&lt;TransferCapabilitiesGetResponse&gt;
    * 
@@ -3311,12 +3401,12 @@ public interface PlaidApi {
   );
 
   /**
-   * This endpoint allows third-party sender customers to upload a document on behalf of its end customer (i.e. originator) to Plaid. You’ll need to send a request of type multipart/form-data.
+   * Upload transfer diligence document on behalf of the originator
    * Third-party sender customers can use &#x60;/transfer/diligence/document/upload&#x60; endpoint to upload a document on behalf of its end customer (i.e. originator) to Plaid. You’ll need to send a request of type multipart/form-data. You must provide the &#x60;client_id&#x60; in the &#x60;PLAID-CLIENT-ID&#x60; header and &#x60;secret&#x60; in the &#x60;PLAID-SECRET&#x60; header.
    * @param transferDiligenceDocumentUploadRequest  (required)
    * @return Call&lt;TransferDiligenceDocumentUploadResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferdiligencedocumentupload">This endpoint allows third-party sender customers to upload a document on behalf of its end customer (i.e. originator) to Plaid. You’ll need to send a request of type multipart/form-data. Documentation</a>
+   * @see <a href="/api/products/transfer/#transferdiligencedocumentupload">Upload transfer diligence document on behalf of the originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3327,12 +3417,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Submit transfer diligence on behalf of the end customer (i.e. the originator).
-   * Use the &#x60;/transfer/diligence/submit&#x60; endpoint to submit transfer diligence on behalf of the originator.
+   * Submit transfer diligence on behalf of the originator
+   * Use the &#x60;/transfer/diligence/submit&#x60; endpoint to submit transfer diligence on behalf of the originator (i.e., the end customer).
    * @param transferDiligenceSubmitRequest  (required)
    * @return Call&lt;TransferDiligenceSubmitResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferdiligencesubmit">Submit transfer diligence on behalf of the end customer (i.e. the originator). Documentation</a>
+   * @see <a href="/api/products/transfer/#transferdiligencesubmit">Submit transfer diligence on behalf of the originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3540,7 +3630,7 @@ public interface PlaidApi {
    * @param transferOriginatorFundingAccountUpdateRequest  (required)
    * @return Call&lt;TransferOriginatorFundingAccountUpdateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferoriginatorfundingaccountupdate">Update the funding account associated with the originator Documentation</a>
+   * @see <a href="/api/products/transfer/#transferoriginatorfunding_accountupdate">Update the funding account associated with the originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3616,7 +3706,7 @@ public interface PlaidApi {
 
   /**
    * Create a recurring transfer
-   * Use the &#x60;/transfer/recurring/create&#x60; endpoint to initiate a new recurring transfer.
+   * Use the &#x60;/transfer/recurring/create&#x60; endpoint to initiate a new recurring transfer. This capability is not currently supported for Transfer UI or Platform Payments (beta) customers.
    * @param transferRecurringCreateRequest  (required)
    * @return Call&lt;TransferRecurringCreateResponse&gt;
    * 
@@ -3792,7 +3882,7 @@ public interface PlaidApi {
 
   /**
    * Update user information
-   * This endpoint is used to update user information associated with an existing &#x60;user_token&#x60;. The &#x60;user_token&#x60; should be in the response of &#x60;/user/create&#x60; call   If you call the endpoint with a non-exist &#x60;user_token&#x60;, the call will fail with an error message indicating that the user token is not found.
+   * This endpoint is used to update user information associated with an existing &#x60;user_token&#x60;. The &#x60;user_token&#x60; should be in the response of &#x60;/user/create&#x60; call  If you call the endpoint with a non-exist &#x60;user_token&#x60;, the call will fail with an error message indicating that the user token is not found.
    * @param userUpdateRequest  (required)
    * @return Call&lt;UserUpdateResponse&gt;
    * 
