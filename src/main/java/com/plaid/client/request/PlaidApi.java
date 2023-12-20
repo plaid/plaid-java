@@ -58,8 +58,12 @@ import com.plaid.client.model.BaseReportGetRequest;
 import com.plaid.client.model.BaseReportGetResponse;
 import com.plaid.client.model.BeaconReportCreateRequest;
 import com.plaid.client.model.BeaconReportCreateResponse;
+import com.plaid.client.model.BeaconReportGetRequest;
+import com.plaid.client.model.BeaconReportGetResponse;
 import com.plaid.client.model.BeaconReportListRequest;
 import com.plaid.client.model.BeaconReportListResponse;
+import com.plaid.client.model.BeaconReportSyndicationGetRequest;
+import com.plaid.client.model.BeaconReportSyndicationGetResponse;
 import com.plaid.client.model.BeaconReportSyndicationListRequest;
 import com.plaid.client.model.BeaconReportSyndicationListResponse;
 import com.plaid.client.model.BeaconUserCreateRequest;
@@ -67,6 +71,8 @@ import com.plaid.client.model.BeaconUserCreateResponse;
 import com.plaid.client.model.BeaconUserGetRequest;
 import com.plaid.client.model.BeaconUserGetResponse;
 import com.plaid.client.model.BeaconUserReviewRequest;
+import com.plaid.client.model.BeaconUserUpdateRequest;
+import com.plaid.client.model.BeaconUserUpdateResponse;
 import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.CraBankIncomeGetRequest;
 import com.plaid.client.model.CraBankIncomeGetResponse;
@@ -892,6 +898,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Get a Beacon Report
+   * Returns a Beacon report for a given Beacon report id.
+   * @param beaconReportGetRequest  (required)
+   * @return Call&lt;BeaconReportGetResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconreportget">Get a Beacon Report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/report/get")
+  Call<BeaconReportGetResponse> beaconReportGet(
+    @retrofit2.http.Body BeaconReportGetRequest beaconReportGetRequest
+  );
+
+  /**
    * List Beacon Reports for a Beacon User
    * Use the &#x60;/beacon/report/list&#x60; endpoint to view all Beacon Reports you created for a specific Beacon User. The reports returned by this endpoint are exclusively reports you created for a specific user. A Beacon User can only have one active report at a time, but a new report can be created if a previous report has been deleted. The results from this endpoint are paginated; the &#x60;next_cursor&#x60; field will be populated if there is another page of results that can be retrieved. To fetch the next page, pass the &#x60;next_cursor&#x60; value as the &#x60;cursor&#x60; parameter in the next request.
    * @param beaconReportListRequest  (required)
@@ -905,6 +927,22 @@ public interface PlaidApi {
   @POST("beacon/report/list")
   Call<BeaconReportListResponse> beaconReportList(
     @retrofit2.http.Body BeaconReportListRequest beaconReportListRequest
+  );
+
+  /**
+   * Get a Beacon Report Syndication
+   * Returns a Beacon Report Syndication for a given Beacon Report Syndication id.
+   * @param beaconReportSyndicationGetRequest  (required)
+   * @return Call&lt;BeaconReportSyndicationGetResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconreportsyndicationget">Get a Beacon Report Syndication Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/report_syndication/get")
+  Call<BeaconReportSyndicationGetResponse> beaconReportSyndicationGet(
+    @retrofit2.http.Body BeaconReportSyndicationGetRequest beaconReportSyndicationGetRequest
   );
 
   /**
@@ -969,6 +1007,22 @@ public interface PlaidApi {
   @POST("beacon/user/review")
   Call<BeaconUserGetResponse> beaconUserReview(
     @retrofit2.http.Body BeaconUserReviewRequest beaconUserReviewRequest
+  );
+
+  /**
+   * Update the identity data of a Beacon User
+   * Update the identity data for a Beacon User in your Beacon Program.  Similar to &#x60;/beacon/user/create&#x60;, several checks are performed immediately when you submit a change to &#x60;/beacon/user/update&#x60;:    - The user&#39;s updated PII is searched against all other users within the Beacon Program you specified. If a match is found that violates your program&#39;s \&quot;Duplicate Information Filtering\&quot; settings, the user will be returned with a status of &#x60;pending_review&#x60;.    - The user&#39;s updated PII is also searched against all fraud reports created by your organization across all of your Beacon Programs. If the user&#39;s data matches a fraud report that your team created, the user will be returned with a status of &#x60;rejected&#x60;.    - Finally, the user&#39;s PII is searched against all fraud report shared with the Beacon Network by other companies. If a matching fraud report is found, the user will be returned with a &#x60;pending_review&#x60; status if your program has enabled automatic flagging based on network fraud.  Plaid maintains a version history for each Beacon User, so the Beacon User&#39;s identity data before and after the update is retained as separate versions.
+   * @param beaconUserUpdateRequest  (required)
+   * @return Call&lt;BeaconUserUpdateResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconuserupdate">Update the identity data of a Beacon User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/user/update")
+  Call<BeaconUserUpdateResponse> beaconUserUpdate(
+    @retrofit2.http.Body BeaconUserUpdateRequest beaconUserUpdateRequest
   );
 
   /**
@@ -2843,7 +2897,7 @@ public interface PlaidApi {
 
   /**
    * Set verification status for Sandbox account
-   * The &#x60;/sandbox/item/set_verification_status&#x60; endpoint can be used to change the verification status of an Item in in the Sandbox in order to simulate the Automated Micro-deposit flow.  Note that not all Plaid developer accounts are enabled for micro-deposit based verification by default. Your account must be enabled for this feature in order to test it in Sandbox. To enable this features or check your status, contact your account manager or [submit a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access).  For more information on testing Automated Micro-deposits in Sandbox, see [Auth full coverage testing](https://plaid.com/docs/auth/coverage/testing#).
+   * The &#x60;/sandbox/item/set_verification_status&#x60; endpoint can be used to change the verification status of an Item in in the Sandbox in order to simulate the Automated Micro-deposit flow.  For more information on testing Automated Micro-deposits in Sandbox, see [Auth full coverage testing](https://plaid.com/docs/auth/coverage/testing#).
    * @param sandboxItemSetVerificationStatusRequest  (required)
    * @return Call&lt;SandboxItemSetVerificationStatusResponse&gt;
    * 
@@ -3257,7 +3311,7 @@ public interface PlaidApi {
 
   /**
    * Fetch recurring transaction streams
-   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on an Item that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;). Once all historical transactions have been fetched, call &#x60;/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.
+   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on an Item that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;). For optimal results, we strongly recommend customers using Recurring Transactions to request at least 180 days of history when initializing items with Transactions (using the [&#x60;days_requested&#x60;](https://plaid.com/docs/api/tokens/#link-token-create-request-transactions-days-requested) option). Once all historical transactions have been fetched, call &#x60;/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.
    * @param transactionsRecurringGetRequest  (required)
    * @return Call&lt;TransactionsRecurringGetResponse&gt;
    * 
