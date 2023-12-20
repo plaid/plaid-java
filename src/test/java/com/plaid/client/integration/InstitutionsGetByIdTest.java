@@ -159,6 +159,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
         Products.TRANSACTIONS,
         Products.CREDIT_DETAILS,
         Products.SIGNAL,
+        Products.IDENTITY_MATCH,
         Products.INCOME,
         Products.IDENTITY,
         Products.INVESTMENTS,
