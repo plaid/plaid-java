@@ -56,6 +56,8 @@ import com.plaid.client.model.BankTransferSweepListRequest;
 import com.plaid.client.model.BankTransferSweepListResponse;
 import com.plaid.client.model.BaseReportGetRequest;
 import com.plaid.client.model.BaseReportGetResponse;
+import com.plaid.client.model.BeaconDuplicateGetRequest;
+import com.plaid.client.model.BeaconDuplicateGetResponse;
 import com.plaid.client.model.BeaconReportCreateRequest;
 import com.plaid.client.model.BeaconReportCreateResponse;
 import com.plaid.client.model.BeaconReportGetRequest;
@@ -141,6 +143,8 @@ import com.plaid.client.model.IdentityMatchRequest;
 import com.plaid.client.model.IdentityMatchResponse;
 import com.plaid.client.model.IdentityRefreshRequest;
 import com.plaid.client.model.IdentityRefreshResponse;
+import com.plaid.client.model.IdentityVerificationAutofillCreateRequest;
+import com.plaid.client.model.IdentityVerificationAutofillCreateResponse;
 import com.plaid.client.model.IdentityVerificationCreateRequest;
 import com.plaid.client.model.IdentityVerificationCreateResponse;
 import com.plaid.client.model.IdentityVerificationGetRequest;
@@ -260,6 +264,8 @@ import com.plaid.client.model.ProcessorIdentityGetRequest;
 import com.plaid.client.model.ProcessorIdentityGetResponse;
 import com.plaid.client.model.ProcessorIdentityMatchRequest;
 import com.plaid.client.model.ProcessorIdentityMatchResponse;
+import com.plaid.client.model.ProcessorLiabilitiesGetRequest;
+import com.plaid.client.model.ProcessorLiabilitiesGetResponse;
 import com.plaid.client.model.ProcessorSignalDecisionReportRequest;
 import com.plaid.client.model.ProcessorSignalDecisionReportResponse;
 import com.plaid.client.model.ProcessorSignalEvaluateRequest;
@@ -342,6 +348,8 @@ import com.plaid.client.model.SignalReturnReportResponse;
 import com.plaid.client.model.StatementsDownloadRequest;
 import com.plaid.client.model.StatementsListRequest;
 import com.plaid.client.model.StatementsListResponse;
+import com.plaid.client.model.StatementsRefreshRequest;
+import com.plaid.client.model.StatementsRefreshResponse;
 import com.plaid.client.model.TransactionsEnhanceGetRequest;
 import com.plaid.client.model.TransactionsEnhanceGetResponse;
 import com.plaid.client.model.TransactionsEnrichRequest;
@@ -879,6 +887,22 @@ public interface PlaidApi {
   @POST("cra/base_report/get")
   Call<BaseReportGetResponse> baseReportGet(
     @retrofit2.http.Body BaseReportGetRequest baseReportGetRequest
+  );
+
+  /**
+   * Get a Beacon Duplicate
+   * Returns a Beacon Duplicate for a given Beacon Duplicate id.  A Beacon Duplicate represents a pair of similar Beacon Users within your organization.  Two Beacon User revisions are returned for each Duplicate record in either the &#x60;beacon_user1&#x60; or &#x60;beacon_user2&#x60; response fields.  The &#x60;analysis&#x60; field in the response indicates which fields matched between &#x60;beacon_user1&#x60; and &#x60;beacon_user2&#x60;. 
+   * @param beaconDuplicateGetRequest  (required)
+   * @return Call&lt;BeaconDuplicateGetResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconduplicateget">Get a Beacon Duplicate Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/duplicate/get")
+  Call<BeaconDuplicateGetResponse> beaconDuplicateGet(
+    @retrofit2.http.Body BeaconDuplicateGetRequest beaconDuplicateGetRequest
   );
 
   /**
@@ -1640,12 +1664,28 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a new identity verification
+   * Create autofill for an Identity Verification
+   * Try to autofill an Identity Verification based of the provided phone number, date of birth and country of residence.
+   * @param identityVerificationAutofillCreateRequest  (required)
+   * @return Call&lt;IdentityVerificationAutofillCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/identity-verification/#identity_verificationautofillcreate">Create autofill for an Identity Verification Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("identity_verification/autofill/create")
+  Call<IdentityVerificationAutofillCreateResponse> identityVerificationAutofillCreate(
+    @retrofit2.http.Body IdentityVerificationAutofillCreateRequest identityVerificationAutofillCreateRequest
+  );
+
+  /**
+   * Create a new Identity Verification
    * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; field. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If you don&#39;t know whether the associated user already has an active Identity Verification, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with an &#x60;200 OK&#x60; HTTP status code.  You can also use this endpoint to supply information you already have collected about the user; if any of these fields are specified, the screens prompting the user to enter them will be skipped during the Link flow. 
    * @param identityVerificationCreateRequest  (required)
    * @return Call&lt;IdentityVerificationCreateResponse&gt;
    * 
-   * @see <a href="/api/products/identity-verification/#identity_verificationcreate">Create a new identity verification Documentation</a>
+   * @see <a href="/api/products/identity-verification/#identity_verificationcreate">Create a new Identity Verification Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1657,7 +1697,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Identity Verification
-   * Retrieve a previously created identity verification.
+   * Retrieve a previously created Identity Verification.
    * @param identityVerificationGetRequest  (required)
    * @return Call&lt;IdentityVerificationGetResponse&gt;
    * 
@@ -1689,7 +1729,7 @@ public interface PlaidApi {
 
   /**
    * Retry an Identity Verification
-   * Allow a customer to retry their identity verification
+   * Allow a customer to retry their Identity Verification
    * @param identityVerificationRetryRequest  (required)
    * @return Call&lt;IdentityVerificationRetryResponse&gt;
    * 
@@ -2592,6 +2632,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve Liabilities data
+   * The &#x60;/processor/liabilities/get&#x60; endpoint returns various details about a loan or credit account. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Currently supported account types are account type &#x60;credit&#x60; with account subtype &#x60;credit card&#x60; or &#x60;paypal&#x60;, and account type &#x60;loan&#x60; with account subtype &#x60;student&#x60; or &#x60;mortgage&#x60;.  The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling &#x60;/processor/liabilities/get&#x60;.  Note: This request may take some time to complete if &#x60;liabilities&#x60; was not specified as an initial product when creating the processor token. This is because Plaid must communicate directly with the institution to retrieve the additional data.
+   * @param processorLiabilitiesGetRequest  (required)
+   * @return Call&lt;ProcessorLiabilitiesGetResponse&gt;
+   * 
+   * @see <a href="/api/processors/#processorliabilitiesget">Retrieve Liabilities data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("processor/liabilities/get")
+  Call<ProcessorLiabilitiesGetResponse> processorLiabilitiesGet(
+    @retrofit2.http.Body ProcessorLiabilitiesGetRequest processorLiabilitiesGetRequest
+  );
+
+  /**
    * Report whether you initiated an ACH transaction
    * After calling &#x60;/processor/signal/evaluate&#x60;, call &#x60;/processor/signal/decision/report&#x60; to report whether the transaction was initiated.
    * @param processorSignalDecisionReportRequest  (required)
@@ -3261,6 +3317,22 @@ public interface PlaidApi {
   @POST("statements/list")
   Call<StatementsListResponse> statementsList(
     @retrofit2.http.Body StatementsListRequest statementsListRequest
+  );
+
+  /**
+   * Refresh statements data.
+   * &#x60;/statements/refresh&#x60; initiates an on-demand extraction to fetch the statements for the provided dates.
+   * @param statementsRefreshRequest  (required)
+   * @return Call&lt;StatementsRefreshResponse&gt;
+   * 
+   * @see <a href="/api/products/statements#statementsrefresh">Refresh statements data. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("statements/refresh")
+  Call<StatementsRefreshResponse> statementsRefresh(
+    @retrofit2.http.Body StatementsRefreshRequest statementsRefreshRequest
   );
 
   /**
