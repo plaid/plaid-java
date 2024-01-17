@@ -80,9 +80,9 @@ if (response.isSuccessful()) {
 
 
 // Asynchronously do the same thing. Useful for potentially long-lived calls.
-ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(publicToken);
+ItemPublicTokenExchangeRequest asyncRequest = new ItemPublicTokenExchangeRequest().publicToken("the_link_public_token");
 plaidClient
-    .itemPublicTokenExchange(request)
+    .itemPublicTokenExchange(asyncRequest)
     .enqueue(new Callback<ItemPublicTokenExchangeResponse>() {
         @Override
         public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {
