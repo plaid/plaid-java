@@ -71,7 +71,7 @@ plaidClient = apiClient.createService(PlaidApi.class);
 // Synchronously exchange a Link public_token for an API access_token
 // Required request parameters are always Request object constructor arguments
 ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken("the_link_public_token");
-Response<ItemPublicTokenExchangeResponse> response = plaidClient()
+Response<ItemPublicTokenExchangeResponse> response = plaidClient
     .itemPublicTokenExchange(request).execute();
 
 if (response.isSuccessful()) {
@@ -81,7 +81,7 @@ if (response.isSuccessful()) {
 
 // Asynchronously do the same thing. Useful for potentially long-lived calls.
 ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(publicToken);
-plaidClient()
+plaidClient
     .itemPublicTokenExchange(request)
     .enqueue(new Callback<ItemPublicTokenExchangeResponse>() {
         @Override
