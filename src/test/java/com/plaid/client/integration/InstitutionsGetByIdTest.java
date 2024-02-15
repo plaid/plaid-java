@@ -139,7 +139,9 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
         Products.INCOME,
         Products.IDENTITY,
         Products.INVESTMENTS,
-        Products.LIABILITIES
+        Products.LIABILITIES,
+        Products.PROCESSOR_PAYMENTS,
+        Products.TRANSFER
       ),
       institution.getProducts()
     );
@@ -165,7 +167,9 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
         Products.IDENTITY,
         Products.INVESTMENTS,
         Products.INVESTMENTS_AUTH,
-        Products.LIABILITIES
+        Products.LIABILITIES,
+        Products.PROCESSOR_PAYMENTS,
+        Products.TRANSFER
       ),
       institution.getProducts()
     );
