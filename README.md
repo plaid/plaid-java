@@ -45,6 +45,8 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 | [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
 | `2017-03-08`                                        | `2.x.x`               |
 
+For information about what has changed between versions and how to update your integration, head to the [version changelog][version-changelog].
+
 The plaid-java client library is typically updated on a monthly basis. The canonical source for the latest version number is the [client library changelog](https://github.com/plaid/plaid-java/blob/master/CHANGELOG.md). New versions are published as [GitHub tags](https://github.com/plaid/plaid-java/tags), not as Releases. New versions can also be found on [Maven Central](https://central.sonatype.com/artifact/com.plaid/plaid-java).
 
 All users are strongly recommended to use a recent version of the library, as older versions do not contain support for new endpoints and fields. For more details, see the [Migration Guide](#migration-guide).
@@ -69,7 +71,7 @@ plaidClient = apiClient.createService(PlaidApi.class);
 // Synchronously exchange a Link public_token for an API access_token
 // Required request parameters are always Request object constructor arguments
 ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken("the_link_public_token");
-Response<ItemPublicTokenExchangeResponse> response = plaidClient
+Response<ItemPublicTokenExchangeResponse> response = plaidClient()
     .itemPublicTokenExchange(request).execute();
 
 if (response.isSuccessful()) {
@@ -78,9 +80,9 @@ if (response.isSuccessful()) {
 
 
 // Asynchronously do the same thing. Useful for potentially long-lived calls.
-ItemPublicTokenExchangeRequest asyncRequest = new ItemPublicTokenExchangeRequest().publicToken("the_link_public_token");
-plaidClient
-    .itemPublicTokenExchange(asyncRequest)
+ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(publicToken);
+plaidClient()
+    .itemPublicTokenExchange(request)
     .enqueue(new Callback<ItemPublicTokenExchangeResponse>() {
         @Override
         public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {
