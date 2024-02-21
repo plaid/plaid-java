@@ -294,6 +294,8 @@ import com.plaid.client.model.ProcessorTransactionsRefreshRequest;
 import com.plaid.client.model.ProcessorTransactionsRefreshResponse;
 import com.plaid.client.model.ProcessorTransactionsSyncRequest;
 import com.plaid.client.model.ProcessorTransactionsSyncResponse;
+import com.plaid.client.model.ProfileGetRequest;
+import com.plaid.client.model.ProfileGetResponse;
 import com.plaid.client.model.SandboxBankIncomeFireWebhookRequest;
 import com.plaid.client.model.SandboxBankIncomeFireWebhookResponse;
 import com.plaid.client.model.SandboxBankTransferFireWebhookRequest;
@@ -2871,6 +2873,22 @@ public interface PlaidApi {
   @POST("processor/transactions/sync")
   Call<ProcessorTransactionsSyncResponse> processorTransactionsSync(
     @retrofit2.http.Body ProcessorTransactionsSyncRequest processorTransactionsSyncRequest
+  );
+
+  /**
+   * Retrieve a Profile
+   * Returns user permissioned profile data including identity and item access tokens.
+   * @param profileGetRequest  (required)
+   * @return Call&lt;ProfileGetResponse&gt;
+   * 
+   * @see <a href="/api/profile/#profileget">Retrieve a Profile Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("profile/get")
+  Call<ProfileGetResponse> profileGet(
+    @retrofit2.http.Body ProfileGetRequest profileGetRequest
   );
 
   /**
