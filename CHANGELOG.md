@@ -1,5 +1,15 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 20.1.0
+- Updating to OAS 2020-09-14_1.496.2
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.496.2
+- Adds prediction interval to `/cra/bank_income/get`
+
+### 2020-09-14_1.496.1
+- Update the descriptions for `risk_level` and `score` in `/accounts/balance/get`
+
 # 20.0.0
 - Updating to OAS 2020-09-14_1.496.0
 
