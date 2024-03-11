@@ -56,6 +56,8 @@ import com.plaid.client.model.BankTransferSweepListRequest;
 import com.plaid.client.model.BankTransferSweepListResponse;
 import com.plaid.client.model.BaseReportGetRequest;
 import com.plaid.client.model.BaseReportGetResponse;
+import com.plaid.client.model.BeaconAccountRiskEvaluateRequest;
+import com.plaid.client.model.BeaconAccountRiskEvaluateResponse;
 import com.plaid.client.model.BeaconDuplicateGetRequest;
 import com.plaid.client.model.BeaconDuplicateGetResponse;
 import com.plaid.client.model.BeaconReportCreateRequest;
@@ -72,6 +74,8 @@ import com.plaid.client.model.BeaconUserCreateRequest;
 import com.plaid.client.model.BeaconUserCreateResponse;
 import com.plaid.client.model.BeaconUserGetRequest;
 import com.plaid.client.model.BeaconUserGetResponse;
+import com.plaid.client.model.BeaconUserHistoryListRequest;
+import com.plaid.client.model.BeaconUserHistoryListResponse;
 import com.plaid.client.model.BeaconUserReviewRequest;
 import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
@@ -894,6 +898,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Evaluate risk of a bank account
+   * Use &#x60;/beacon/account_risk/v1/evaluate&#x60; to get risk insights for a linked account.
+   * @param beaconAccountRiskEvaluateRequest  (required)
+   * @return Call&lt;BeaconAccountRiskEvaluateResponse&gt;
+   * 
+   * @see <a href="none">Evaluate risk of a bank account Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/account_risk/v1/evaluate")
+  Call<BeaconAccountRiskEvaluateResponse> beaconAccountRiskEvaluate(
+    @retrofit2.http.Body BeaconAccountRiskEvaluateRequest beaconAccountRiskEvaluateRequest
+  );
+
+  /**
    * Get a Beacon Duplicate
    * Returns a Beacon Duplicate for a given Beacon Duplicate id.  A Beacon Duplicate represents a pair of similar Beacon Users within your organization.  Two Beacon User revisions are returned for each Duplicate record in either the &#x60;beacon_user1&#x60; or &#x60;beacon_user2&#x60; response fields.  The &#x60;analysis&#x60; field in the response indicates which fields matched between &#x60;beacon_user1&#x60; and &#x60;beacon_user2&#x60;. 
    * @param beaconDuplicateGetRequest  (required)
@@ -1019,6 +1039,22 @@ public interface PlaidApi {
   @POST("beacon/user/get")
   Call<BeaconUserGetResponse> beaconUserGet(
     @retrofit2.http.Body BeaconUserGetRequest beaconUserGetRequest
+  );
+
+  /**
+   * List a Beacon User&#39;s history
+   * List all changes to the Beacon User in reverse-chronological order.
+   * @param beaconUserHistoryListRequest  (required)
+   * @return Call&lt;BeaconUserHistoryListResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconuserhistorylist">List a Beacon User&#39;s history Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/user/history/list")
+  Call<BeaconUserHistoryListResponse> beaconUserHistoryList(
+    @retrofit2.http.Body BeaconUserHistoryListRequest beaconUserHistoryListRequest
   );
 
   /**
@@ -2845,7 +2881,7 @@ public interface PlaidApi {
 
   /**
    * Refresh transaction data
-   * &#x60;/processor/transactions/refresh&#x60; is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for a processor token. This on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled processor token. If changes to transactions are discovered after calling &#x60;/processor/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/processor/transactions/sync&#x60; and &#x60;/processor/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/processor/transactions/get&#x60; or &#x60;/processor/transactions/sync&#x60;. Note that the &#x60;/processor/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCT_NOT_SUPPORTED&#x60; error if called on a processor token from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/processor/transactions/refresh&#x60; is offered as an add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
+   * &#x60;/processor/transactions/refresh&#x60; is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for a processor token. This on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled processor token. If changes to transactions are discovered after calling &#x60;/processor/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/processor/transactions/sync&#x60; and &#x60;/processor/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/processor/transactions/get&#x60; or &#x60;/processor/transactions/sync&#x60;. Note that the &#x60;/processor/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on a processor token from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/processor/transactions/refresh&#x60; is offered as an add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
    * @param processorTransactionsRefreshRequest  (required)
    * @return Call&lt;ProcessorTransactionsRefreshResponse&gt;
    * 
@@ -3435,7 +3471,7 @@ public interface PlaidApi {
 
   /**
    * Refresh transaction data
-   * &#x60;/transactions/refresh&#x60; is an optional endpoint for users of the Transactions product. It initiates an on-demand extraction to fetch the newest transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled Item. If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/transactions/sync&#x60; and &#x60;/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;. Note that the &#x60;/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCT_NOT_SUPPORTED&#x60; error if called on an Item from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/transactions/refresh&#x60; is offered as an add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
+   * &#x60;/transactions/refresh&#x60; is an optional endpoint that initiates an on-demand extraction to fetch the newest transactions for an Item. The on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled Item. The Item must already have Transactions added as a product in order to call &#x60;/transactions/refresh&#x60;.   If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/transactions/sync&#x60; and &#x60;/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;.   Note that the &#x60;/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item from that institution.    As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/transactions/refresh&#x60; is offered as an optional add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
    * @param transactionsRefreshRequest  (required)
    * @return Call&lt;TransactionsRefreshResponse&gt;
    * 

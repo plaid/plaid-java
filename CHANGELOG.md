@@ -1,5 +1,42 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 20.2.0
+- Updating to OAS 2020-09-14_1.499.0
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.499.0
+- [Breaking change for Go] Make `account_id` optional in `/transactions/recurring/get` endpoint
+
+### 2020-09-14_1.489.3
+- Update description of `network_trace_id`
+
+### 2020-09-14_1.489.2
+- Correct documentation to indicate that `assets` is not supported in the `additional_consented_products` field
+- Remove `additionalProperties: true` incorrectly applied to `transferIntentGet` object and missed in `2020-09-14_1.352.0`. This will result in more strict type checking for this object, but should not be a breaking change.
+
+### 2020-09-14_1.498.1
+- Enable original description for all customers 
+
+### 2020-09-14_1.498.0
+- Add `POST /beacon/account_risk/v1/evaluate` endpoint
+
+### 2020-09-14_1.497.0
+- Add `institution_id` to `processor/account/get` endpoint.
+
+### 2020-09-14_1.496.5
+- Update the description and enum values for `linked_services` in the response of all of the identity verification endpoints:
+  - `identity_verification/create`
+  - `identity_verification/get`
+  - `identity_verification/list`
+  - `identity_verification/retry`
+
+### 2020-09-14_1.496.4
+  Add `POST /beacon/user/history/list`
+
+### 2020-09-14_1.496.3
+- Add `timestamp` to the beacon user's `audit_trail` object
+- Add `version` to the beacon user object.
+
 # 20.1.0
 - Updating to OAS 2020-09-14_1.496.2
 
