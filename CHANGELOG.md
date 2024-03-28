@@ -1,5 +1,62 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 21.0.0
+- Updating to OAS 2020-09-14_1.503.5
+
+### 2020-09-14_1.503.5
+- Improve description for `RiskCheckIdentityAbuseSignals`
+
+### 2020-09-14_1.503.4
+- Improve description for `TransferNetworkTraceID`
+
+### 2020-09-14_1.503.3
+- Update description for `TransferNetworkTraceID`
+
+### 2020-09-14_1.503.2
+- Change `forecasted_average_monthly_income_prediction_intervals` to plural.
+
+### 2020-09-14_1.503.1
+- Add `has_more` field to /transfer/event/list and /transfer/event/sync to indicate there are more events to be pulled
+
+### 2020-09-14_1.503.0
+- Add new `/cra/base_report/create` endpoint
+
+### 2020-09-14_1.502.4
+- Add `sms_microdeposits_verification_enabled` to `auth` object inside `/link/token/create` calls.
+
+### 2020-09-14_1.502.3
+- Added descriptions for `vested_quantity` and `vested_amount` fields for `investments/holdings/get`
+- Removed description for `vested_quantity` and `vested_amount` fields for `HoldingsOverride` object (for sandbox)
+
+### 2020-09-14_1.502.2
+- [Breaking] Update `network` field type in `/transfer/recurring/create` request from `TransferNetwork` to `TransferACHNetwork` since recurring currently only works for ACH.
+- [Breaking] Update `network` field type in `RecurringTransfer` and `RecurringTransferNullable` from `TransferNetwork` to `TransferACHNetwork` since recurring currently only works for ACH.
+
+### 2020-09-14_1.502.1
+- Update description for `/item/remove` and `/asset_report/remove`
+
+### 2020-09-14_1.502.0
+- Add `client_report_id` fields to `/link/token/create` and `/cra/base_report/get`
+
+### 2020-09-14_1.501.2
+- Updating `insights` field in `/cra/partner_insights/get` response to contain both numerical and string values
+
+### 2020-09-14_1.501.1
+- Enable original description for all customers on `/transactions/get` endpoint
+
+### 2020-09-14_1.501.0
+[Breaking change for Go client library] Mark `address` field in `/beacon/user/create` as optional
+
+### 2020-09-14_1.500.0
+- Remove `prime_trust` processor partner
+
+### 2020-09-14_1.499.2
+- Fix broken link from previous update
+
+### 2020-09-14_1.499.1
+- Updated doc url for some Transfer and processor endpoints to support documentation reorganization
+- Minor documentation updates and clarifications
+
 # 20.2.0
 - Updating to OAS 2020-09-14_1.499.0
 

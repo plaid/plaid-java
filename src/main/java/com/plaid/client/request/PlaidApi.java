@@ -54,6 +54,8 @@ import com.plaid.client.model.BankTransferSweepGetRequest;
 import com.plaid.client.model.BankTransferSweepGetResponse;
 import com.plaid.client.model.BankTransferSweepListRequest;
 import com.plaid.client.model.BankTransferSweepListResponse;
+import com.plaid.client.model.BaseReportCreateRequest;
+import com.plaid.client.model.BaseReportCreateResponse;
 import com.plaid.client.model.BaseReportGetRequest;
 import com.plaid.client.model.BaseReportGetResponse;
 import com.plaid.client.model.BeaconAccountRiskEvaluateRequest;
@@ -80,6 +82,8 @@ import com.plaid.client.model.BeaconUserReviewRequest;
 import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
 import com.plaid.client.model.CategoriesGetResponse;
+import com.plaid.client.model.CraBankIncomeCreateRequest;
+import com.plaid.client.model.CraBankIncomeCreateResponse;
 import com.plaid.client.model.CraBankIncomeGetRequest;
 import com.plaid.client.model.CraBankIncomeGetResponse;
 import com.plaid.client.model.CraPartnerInsightsGetRequest;
@@ -691,7 +695,7 @@ public interface PlaidApi {
 
   /**
    * Delete an Asset Report
-   * The &#x60;/item/remove&#x60; endpoint allows you to invalidate an &#x60;access_token&#x60;, meaning you will not be able to create new Asset Reports with it. Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove them specifically.  The &#x60;/asset_report/remove&#x60; endpoint allows you to remove an Asset Report. Removing an Asset Report invalidates its &#x60;asset_report_token&#x60;, meaning you will no longer be able to use it to access Report data or create new Audit Copies. Removing an Asset Report does not affect the underlying Items, but does invalidate any &#x60;audit_copy_tokens&#x60; associated with the Asset Report.
+   * The &#x60;/item/remove&#x60; endpoint allows you to invalidate an &#x60;access_token&#x60;, meaning you will not be able to create new Asset Reports with it. Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove them specifically.  The &#x60;/asset_report/remove&#x60; endpoint allows you to remove access to an Asset Report. Removing an Asset Report invalidates its &#x60;asset_report_token&#x60;, meaning you will no longer be able to use it to access Report data or create new Audit Copies. Removing an Asset Report does not affect the underlying Items, but does invalidate any &#x60;audit_copy_tokens&#x60; associated with the Asset Report.
    * @param assetReportRemoveRequest  (required)
    * @return Call&lt;AssetReportRemoveResponse&gt;
    * 
@@ -879,6 +883,22 @@ public interface PlaidApi {
   @POST("bank_transfer/sweep/list")
   Call<BankTransferSweepListResponse> bankTransferSweepList(
     @retrofit2.http.Body BankTransferSweepListRequest bankTransferSweepListRequest
+  );
+
+  /**
+   * Create a Base Report
+   * This endpoint allows the customer to create a Base Report by passing in a user token. The Base Report will be generated based on the most recently linked item from the user token.
+   * @param baseReportCreateRequest  (required)
+   * @return Call&lt;BaseReportCreateResponse&gt;
+   * 
+   * @see <a href="/none/">Create a Base Report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/base_report/create")
+  Call<BaseReportCreateResponse> baseReportCreate(
+    @retrofit2.http.Body BaseReportCreateRequest baseReportCreateRequest
   );
 
   /**
@@ -1103,6 +1123,22 @@ public interface PlaidApi {
   @POST("categories/get")
   Call<CategoriesGetResponse> categoriesGet(
     @retrofit2.http.Body Object body
+  );
+
+  /**
+   * Create a CRA report for income verification
+   * &#x60;/cra/bank_income/create&#x60; creates a CRA report for income verification
+   * @param craBankIncomeCreateRequest  (required)
+   * @return Call&lt;CraBankIncomeCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#crabank_incomecreate">Create a CRA report for income verification Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/bank_income/create")
+  Call<CraBankIncomeCreateResponse> craBankIncomeCreate(
+    @retrofit2.http.Body CraBankIncomeCreateRequest craBankIncomeCreateRequest
   );
 
   /**
@@ -2139,7 +2175,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count. To increase your credential account in Development, contact Support.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
+   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Note that in the Development environment, issuing an &#x60;/item/remove&#x60;  request will not decrement your live credential count. To increase your credential account in Development, contact Support.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -2581,7 +2617,7 @@ public interface PlaidApi {
    * @param processorAccountGetRequest  (required)
    * @return Call&lt;ProcessorAccountGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#processoraccountget">Retrieve the account associated with a processor token Documentation</a>
+   * @see <a href="/api/processor-partners/#processoraccountget">Retrieve the account associated with a processor token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2629,7 +2665,7 @@ public interface PlaidApi {
    * @param processorBalanceGetRequest The &#x60;/processor/balance/get&#x60; endpoint returns the real-time balance for the account associated with a given &#x60;processor_token&#x60;.  The current balance is the total amount of funds in the account. The available balance is the current balance less any outstanding holds or debits that have not yet posted to the account.  Note that not all institutions calculate the available balance. In the event that available balance is unavailable from the institution, Plaid will return an available balance value of &#x60;null&#x60;. (required)
    * @return Call&lt;ProcessorBalanceGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#processorbalanceget">Retrieve Balance data Documentation</a>
+   * @see <a href="/api/processor-partners/#processorbalanceget">Retrieve Balance data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2645,7 +2681,7 @@ public interface PlaidApi {
    * @param processorBankTransferCreateRequest  (required)
    * @return Call&lt;ProcessorBankTransferCreateResponse&gt;
    * 
-   * @see <a href="/api/processors/#bank_transfercreate">Create a bank transfer as a processor Documentation</a>
+   * @see <a href="/api/processor-partners/#bank_transfercreate">Create a bank transfer as a processor Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2661,7 +2697,7 @@ public interface PlaidApi {
    * @param processorIdentityGetRequest  (required)
    * @return Call&lt;ProcessorIdentityGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#processoridentityget">Retrieve Identity data Documentation</a>
+   * @see <a href="/api/processor-partners/#processoridentityget">Retrieve Identity data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2677,7 +2713,7 @@ public interface PlaidApi {
    * @param processorIdentityMatchRequest  (required)
    * @return Call&lt;ProcessorIdentityMatchResponse&gt;
    * 
-   * @see <a href="/api/processors/#processoridentitymatch">Retrieve identity match score Documentation</a>
+   * @see <a href="/api/processor-partners/#processoridentitymatch">Retrieve identity match score Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2693,7 +2729,7 @@ public interface PlaidApi {
    * @param processorLiabilitiesGetRequest  (required)
    * @return Call&lt;ProcessorLiabilitiesGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#processorliabilitiesget">Retrieve Liabilities data Documentation</a>
+   * @see <a href="/api/processor-partners/#processorliabilitiesget">Retrieve Liabilities data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2709,7 +2745,7 @@ public interface PlaidApi {
    * @param processorSignalDecisionReportRequest  (required)
    * @return Call&lt;ProcessorSignalDecisionReportResponse&gt;
    * 
-   * @see <a href="/api/processors/#processorsignaldecisionreport">Report whether you initiated an ACH transaction Documentation</a>
+   * @see <a href="/api/processor-partners/#processorsignaldecisionreport">Report whether you initiated an ACH transaction Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2725,7 +2761,7 @@ public interface PlaidApi {
    * @param processorSignalEvaluateRequest  (required)
    * @return Call&lt;ProcessorSignalEvaluateResponse&gt;
    * 
-   * @see <a href="/api/processors/#processorsignalevaluate">Evaluate a planned ACH transaction Documentation</a>
+   * @see <a href="/api/processor-partners/#processorsignalevaluate">Evaluate a planned ACH transaction Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2741,7 +2777,7 @@ public interface PlaidApi {
    * @param processorSignalPrepareRequest  (required)
    * @return Call&lt;ProcessorSignalPrepareResponse&gt;
    * 
-   * @see <a href="/api/processors/#processorsignalprepare">Opt-in a processor token to Signal Documentation</a>
+   * @see <a href="/api/processor-partners/#processorsignalprepare">Opt-in a processor token to Signal Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2757,7 +2793,7 @@ public interface PlaidApi {
    * @param processorSignalReturnReportRequest  (required)
    * @return Call&lt;ProcessorSignalReturnReportResponse&gt;
    * 
-   * @see <a href="/api/processors/#processorsignalreturnreport">Report a return for an ACH transaction Documentation</a>
+   * @see <a href="/api/processor-partners/#processorsignalreturnreport">Report a return for an ACH transaction Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2837,7 +2873,7 @@ public interface PlaidApi {
    * @param processorTokenWebhookUpdateRequest  (required)
    * @return Call&lt;ProcessorTokenWebhookUpdateResponse&gt;
    * 
-   * @see <a href="/api/processors/#processortokenwebhookupdate">Update a processor token&#39;s webhook URL Documentation</a>
+   * @see <a href="/api/processor-partners/#processortokenwebhookupdate">Update a processor token&#39;s webhook URL Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2849,11 +2885,11 @@ public interface PlaidApi {
 
   /**
    * Get transaction data
-   * The &#x60;/processor/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/processor/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with a processor token, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/processor/transactions/get&#x60; will be the data available for the processor token as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To force Plaid to check for new transactions, you can use the &#x60;/processor/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/processor/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/processor/transactions/get&#x60;, if it wasn&#39;t. If no transaction history is ready when &#x60;/processor/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processors/#processortokenwebhookupdate) endpoint.
+   * The &#x60;/processor/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/processor/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with a processor token, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/processor/transactions/get&#x60; will be the data available for the processor token as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To force Plaid to check for new transactions, you can use the &#x60;/processor/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/processor/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/processor/transactions/get&#x60;, if it wasn&#39;t. If no transaction history is ready when &#x60;/processor/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processor-partners/#processortokenwebhookupdate) endpoint.
    * @param processorTransactionsGetRequest  (required)
    * @return Call&lt;ProcessorTransactionsGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#processortransactionsget">Get transaction data Documentation</a>
+   * @see <a href="/api/processor-partners/#processortransactionsget">Get transaction data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2865,11 +2901,11 @@ public interface PlaidApi {
 
   /**
    * Fetch recurring transaction streams
-   * The &#x60;/processor/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on a processor token that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/processor/transactions/get&#x60; or &#x60;/processor/transactions/sync&#x60;). Once all historical transactions have been fetched, call &#x60;/processor/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/processor/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/processor/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/processor/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processors/#processortokenwebhookupdate) endpoint.
+   * The &#x60;/processor/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on a processor token that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/processor/transactions/get&#x60; or &#x60;/processor/transactions/sync&#x60;). Once all historical transactions have been fetched, call &#x60;/processor/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/processor/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/processor/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/processor/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processor-partners/#processortokenwebhookupdate) endpoint.
    * @param processorTransactionsRecurringGetRequest  (required)
    * @return Call&lt;ProcessorTransactionsRecurringGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#processortransactionsrecurringget">Fetch recurring transaction streams Documentation</a>
+   * @see <a href="/api/processor-partners/#processortransactionsrecurringget">Fetch recurring transaction streams Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2885,7 +2921,7 @@ public interface PlaidApi {
    * @param processorTransactionsRefreshRequest  (required)
    * @return Call&lt;ProcessorTransactionsRefreshResponse&gt;
    * 
-   * @see <a href="/api/processors/#processortransactionsrefresh">Refresh transaction data Documentation</a>
+   * @see <a href="/api/processor-partners/#processortransactionsrefresh">Refresh transaction data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2897,11 +2933,11 @@ public interface PlaidApi {
 
   /**
    * Get incremental transaction updates on a processor token
-   * This endpoint replaces &#x60;/processor/transactions/get&#x60; and its associated webhooks for most common use-cases.  The &#x60;/processor/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with a processor token and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen. &#x60;/processor/transactions/sync&#x60; provides the same functionality as &#x60;/processor/transactions/get&#x60; and can be used instead of &#x60;/processor/transactions/get&#x60; to simplify the process of tracking transactions updates.  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/processor/transactions/sync&#x60; for a processor token, the endpoint will return all historical transactions data associated with that processor token up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that processor token. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with a processor token, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/processor/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/processor/transactions/sync&#x60; fails when retrieving a paginated update, which can occur as a result of the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  Whenever new or updated transaction data becomes available, &#x60;/processor/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To force Plaid to check for new transactions, use the &#x60;/processor/transactions/refresh&#x60; endpoint.  Note that for newly created processor tokens, data may not be immediately available to &#x60;/processor/transactions/sync&#x60;. Plaid begins preparing transactions data when the corresponding Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processors/#processortokenwebhookupdate) endpoint.
+   * This endpoint replaces &#x60;/processor/transactions/get&#x60; and its associated webhooks for most common use-cases.  The &#x60;/processor/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with a processor token and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen. &#x60;/processor/transactions/sync&#x60; provides the same functionality as &#x60;/processor/transactions/get&#x60; and can be used instead of &#x60;/processor/transactions/get&#x60; to simplify the process of tracking transactions updates.  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/processor/transactions/sync&#x60; for a processor token, the endpoint will return all historical transactions data associated with that processor token up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that processor token. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with a processor token, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/processor/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/processor/transactions/sync&#x60; fails when retrieving a paginated update, which can occur as a result of the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  Whenever new or updated transaction data becomes available, &#x60;/processor/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To force Plaid to check for new transactions, use the &#x60;/processor/transactions/refresh&#x60; endpoint.  Note that for newly created processor tokens, data may not be immediately available to &#x60;/processor/transactions/sync&#x60;. Plaid begins preparing transactions data when the corresponding Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processor-partners/#processortokenwebhookupdate) endpoint.
    * @param processorTransactionsSyncRequest  (required)
    * @return Call&lt;ProcessorTransactionsSyncResponse&gt;
    * 
-   * @see <a href="/api/processors/#processortransactionssync">Get incremental transaction updates on a processor token Documentation</a>
+   * @see <a href="/api/processor-partners/#processortransactionssync">Get incremental transaction updates on a processor token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3439,7 +3475,7 @@ public interface PlaidApi {
 
   /**
    * Get transaction data
-   * Note: All new implementations are encouraged to use &#x60;/transactions/sync&#x60; rather than &#x60;/transactions/get&#x60;. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and improves developer ease-of-use for handling transactions updates.  The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
+   * Note: All new implementations are encouraged to use &#x60;/transactions/sync&#x60; rather than &#x60;/transactions/get&#x60;. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and improves developer ease-of-use for handling transactions updates.  The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To find out when the Item was last updated, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
    * @param transactionsGetRequest  (required)
    * @return Call&lt;TransactionsGetResponse&gt;
    * 
@@ -3471,7 +3507,7 @@ public interface PlaidApi {
 
   /**
    * Refresh transaction data
-   * &#x60;/transactions/refresh&#x60; is an optional endpoint that initiates an on-demand extraction to fetch the newest transactions for an Item. The on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled Item. The Item must already have Transactions added as a product in order to call &#x60;/transactions/refresh&#x60;.   If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/transactions/sync&#x60; and &#x60;/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;.   Note that the &#x60;/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item from that institution.    As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/transactions/refresh&#x60; is offered as an optional add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
+   * &#x60;/transactions/refresh&#x60; is an optional endpoint that initiates an on-demand extraction to fetch the newest transactions for an Item. The on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled Item. The Item must already have Transactions added as a product in order to call &#x60;/transactions/refresh&#x60;.  If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/transactions/sync&#x60; and &#x60;/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;.  Note that the &#x60;/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item from that institution.   As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/transactions/refresh&#x60; is offered as an optional add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
    * @param transactionsRefreshRequest  (required)
    * @return Call&lt;TransactionsRefreshResponse&gt;
    * 
@@ -3529,7 +3565,7 @@ public interface PlaidApi {
 
   /**
    * Get incremental transaction updates on an Item
-   * The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen.  &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates. To learn more about migrating from &#x60;/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. An Item&#39;s &#x60;status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  For newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.  &#x60;/transactions/sync&#x60; does not directly return balance data. To get the balance for an account, call &#x60;/accounts/get&#x60;, which is a free-to-use endpoint that will return the cached balance as of the last successful transactions update.
+   * The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen.  &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates. To learn more about migrating from &#x60;/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To find out when the Item was last updated, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  For newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.  &#x60;/transactions/sync&#x60; does not directly return balance data. To get the balance for an account, call &#x60;/accounts/get&#x60;, which is a free-to-use endpoint that will return the cached balance as of the last successful transactions update.
    * @param transactionsSyncRequest  (required)
    * @return Call&lt;TransactionsSyncResponse&gt;
    * 
@@ -3565,7 +3601,7 @@ public interface PlaidApi {
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferauthorizationcreate">Create a transfer authorization Documentation</a>
+   * @see <a href="/api/products/transfer/initiating-transfers/#transferauthorizationcreate">Create a transfer authorization Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3581,7 +3617,7 @@ public interface PlaidApi {
    * @param transferBalanceGetRequest  (required)
    * @return Call&lt;TransferBalanceGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferbalanceget">Retrieve a balance held with Plaid Documentation</a>
+   * @see <a href="/api/products/transfer/balance/#transferbalanceget">Retrieve a balance held with Plaid Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3597,7 +3633,7 @@ public interface PlaidApi {
    * @param transferCancelRequest  (required)
    * @return Call&lt;TransferCancelResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfercancel">Cancel a transfer Documentation</a>
+   * @see <a href="/api/products/transfer/initiating-transfers/#transfercancel">Cancel a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3613,7 +3649,7 @@ public interface PlaidApi {
    * @param transferCapabilitiesGetRequest  (required)
    * @return Call&lt;TransferCapabilitiesGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfercapabilitiesget">Get RTP eligibility information of a transfer Documentation</a>
+   * @see <a href="/api/products/transfer/account-linking/#transfercapabilitiesget">Get RTP eligibility information of a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3629,7 +3665,7 @@ public interface PlaidApi {
    * @param transferConfigurationGetRequest  (required)
    * @return Call&lt;TransferConfigurationGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferconfigurationget">Get transfer product configuration Documentation</a>
+   * @see <a href="/api/products/transfer/metrics/#transferconfigurationget">Get transfer product configuration Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3645,7 +3681,7 @@ public interface PlaidApi {
    * @param transferCreateRequest  (required)
    * @return Call&lt;TransferCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfercreate">Create a transfer Documentation</a>
+   * @see <a href="/api/products/transfer/initiating-transfers/#transfercreate">Create a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3661,7 +3697,7 @@ public interface PlaidApi {
    * @param transferDiligenceDocumentUploadRequest  (required)
    * @return Call&lt;TransferDiligenceDocumentUploadResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferdiligencedocumentupload">Upload transfer diligence document on behalf of the originator Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferdiligencedocumentupload">Upload transfer diligence document on behalf of the originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3677,7 +3713,7 @@ public interface PlaidApi {
    * @param transferDiligenceSubmitRequest  (required)
    * @return Call&lt;TransferDiligenceSubmitResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferdiligencesubmit">Submit transfer diligence on behalf of the originator Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferdiligencesubmit">Submit transfer diligence on behalf of the originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3693,7 +3729,7 @@ public interface PlaidApi {
    * @param transferEventListRequest  (required)
    * @return Call&lt;TransferEventListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfereventlist">List transfer events Documentation</a>
+   * @see <a href="/api/products/transfer/reading-transfers/#transfereventlist">List transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3709,7 +3745,7 @@ public interface PlaidApi {
    * @param transferEventSyncRequest  (required)
    * @return Call&lt;TransferEventSyncResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfereventsync">Sync transfer events Documentation</a>
+   * @see <a href="/api/products/transfer/reading-transfers/#transfereventsync">Sync transfer events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3725,7 +3761,7 @@ public interface PlaidApi {
    * @param transferGetRequest  (required)
    * @return Call&lt;TransferGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferget">Retrieve a transfer Documentation</a>
+   * @see <a href="/api/products/transfer/reading-transfers/#transferget">Retrieve a transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3741,7 +3777,7 @@ public interface PlaidApi {
    * @param transferIntentCreateRequest  (required)
    * @return Call&lt;TransferIntentCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferintentcreate">Create a transfer intent object to invoke the Transfer UI Documentation</a>
+   * @see <a href="/api/products/transfer/account-linking/#transferintentcreate">Create a transfer intent object to invoke the Transfer UI Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3757,7 +3793,7 @@ public interface PlaidApi {
    * @param transferIntentGetRequest  (required)
    * @return Call&lt;TransferIntentGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferintentget">Retrieve more information about a transfer intent Documentation</a>
+   * @see <a href="/api/products/transfer/account-linking/#transferintentget">Retrieve more information about a transfer intent Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3773,7 +3809,7 @@ public interface PlaidApi {
    * @param transferLedgerDepositRequest  (required)
    * @return Call&lt;TransferLedgerDepositResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferledgerdeposit">Deposit funds into a Plaid Ledger balance Documentation</a>
+   * @see <a href="/api/products/transfer/ledger/#transferledgerdeposit">Deposit funds into a Plaid Ledger balance Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3789,7 +3825,7 @@ public interface PlaidApi {
    * @param transferLedgerDistributeRequest  (required)
    * @return Call&lt;TransferLedgerDistributeResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferledgerdistribute">Move available balance between the ledgers of the platform and one of its originators Documentation</a>
+   * @see <a href="/api/products/transfer/ledger/#transferledgerdistribute">Move available balance between the ledgers of the platform and one of its originators Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3805,7 +3841,7 @@ public interface PlaidApi {
    * @param transferLedgerGetRequest  (required)
    * @return Call&lt;TransferLedgerGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferledgerget">Retrieve Plaid Ledger balance Documentation</a>
+   * @see <a href="/api/products/transfer/ledger/#transferledgerget">Retrieve Plaid Ledger balance Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3821,7 +3857,7 @@ public interface PlaidApi {
    * @param transferLedgerWithdrawRequest  (required)
    * @return Call&lt;TransferLedgerWithdrawResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferledgerwithdraw">Withdraw funds from a Plaid Ledger balance Documentation</a>
+   * @see <a href="/api/products/transfer/ledger/#transferledgerwithdraw">Withdraw funds from a Plaid Ledger balance Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3837,7 +3873,7 @@ public interface PlaidApi {
    * @param transferListRequest  (required)
    * @return Call&lt;TransferListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferlist">List transfers Documentation</a>
+   * @see <a href="/api/products/transfer/reading-transfers/#transferlist">List transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3853,7 +3889,7 @@ public interface PlaidApi {
    * @param transferMetricsGetRequest  (required)
    * @return Call&lt;TransferMetricsGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfermetricsget">Get transfer product usage metrics Documentation</a>
+   * @see <a href="/api/products/transfer/metrics/#transfermetricsget">Get transfer product usage metrics Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3869,7 +3905,7 @@ public interface PlaidApi {
    * @param transferMigrateAccountRequest  (required)
    * @return Call&lt;TransferMigrateAccountResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfermigrate_account">Migrate account into Transfers Documentation</a>
+   * @see <a href="/api/products/transfer/account-linking/#transfermigrate_account">Migrate account into Transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3885,7 +3921,7 @@ public interface PlaidApi {
    * @param transferOriginatorCreateRequest  (required)
    * @return Call&lt;TransferOriginatorCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferoriginatorcreate">Create a new originator Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferoriginatorcreate">Create a new originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3901,7 +3937,7 @@ public interface PlaidApi {
    * @param transferOriginatorFundingAccountUpdateRequest  (required)
    * @return Call&lt;TransferOriginatorFundingAccountUpdateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferoriginatorfunding_accountupdate">Update the funding account associated with the originator Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferoriginatorfunding_accountupdate">Update the funding account associated with the originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3917,7 +3953,7 @@ public interface PlaidApi {
    * @param transferOriginatorGetRequest  (required)
    * @return Call&lt;TransferOriginatorGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferoriginatorget">Get status of an originator&#39;s onboarding Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferoriginatorget">Get status of an originator&#39;s onboarding Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3933,7 +3969,7 @@ public interface PlaidApi {
    * @param transferOriginatorListRequest  (required)
    * @return Call&lt;TransferOriginatorListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferoriginatorlist">Get status of all originators&#39; onboarding Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferoriginatorlist">Get status of all originators&#39; onboarding Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3949,7 +3985,7 @@ public interface PlaidApi {
    * @param transferQuestionnaireCreateRequest  (required)
    * @return Call&lt;TransferQuestionnaireCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferquestionnairecreate">Generate a Plaid-hosted onboarding UI URL. Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferquestionnairecreate">Generate a Plaid-hosted onboarding UI URL. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3965,7 +4001,7 @@ public interface PlaidApi {
    * @param transferRecurringCancelRequest  (required)
    * @return Call&lt;TransferRecurringCancelResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrecurringcancel">Cancel a recurring transfer. Documentation</a>
+   * @see <a href="/api/products/transfer/recurring-transfers/#transferrecurringcancel">Cancel a recurring transfer. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3981,7 +4017,7 @@ public interface PlaidApi {
    * @param transferRecurringCreateRequest  (required)
    * @return Call&lt;TransferRecurringCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrecurringcreate">Create a recurring transfer Documentation</a>
+   * @see <a href="/api/products/transfer/recurring-transfers/#transferrecurringcreate">Create a recurring transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3997,7 +4033,7 @@ public interface PlaidApi {
    * @param transferRecurringGetRequest  (required)
    * @return Call&lt;TransferRecurringGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrecurringget">Retrieve a recurring transfer Documentation</a>
+   * @see <a href="/api/products/transfer/recurring-transfers/#transferrecurringget">Retrieve a recurring transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4013,7 +4049,7 @@ public interface PlaidApi {
    * @param transferRecurringListRequest  (required)
    * @return Call&lt;TransferRecurringListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrecurringlist">List recurring transfers Documentation</a>
+   * @see <a href="/api/products/transfer/recurring-transfers/#transferrecurringlist">List recurring transfers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4029,7 +4065,7 @@ public interface PlaidApi {
    * @param transferRefundCancelRequest  (required)
    * @return Call&lt;TransferRefundCancelResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrefundcancel">Cancel a refund Documentation</a>
+   * @see <a href="/api/products/transfer/refunds/#transferrefundcancel">Cancel a refund Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4045,7 +4081,7 @@ public interface PlaidApi {
    * @param transferRefundCreateRequest  (required)
    * @return Call&lt;TransferRefundCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrefundcreate">Create a refund Documentation</a>
+   * @see <a href="/api/products/transfer/refunds/#transferrefundcreate">Create a refund Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4061,7 +4097,7 @@ public interface PlaidApi {
    * @param transferRefundGetRequest  (required)
    * @return Call&lt;TransferRefundGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferrefundget">Retrieve a refund Documentation</a>
+   * @see <a href="/api/products/transfer/refunds/#transferrefundget">Retrieve a refund Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4109,7 +4145,7 @@ public interface PlaidApi {
    * @param transferSweepGetRequest  (required)
    * @return Call&lt;TransferSweepGetResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfersweepget">Retrieve a sweep Documentation</a>
+   * @see <a href="/api/products/transfer/reading-transfers/#transfersweepget">Retrieve a sweep Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4125,7 +4161,7 @@ public interface PlaidApi {
    * @param transferSweepListRequest  (required)
    * @return Call&lt;TransferSweepListResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transfersweeplist">List sweeps Documentation</a>
+   * @see <a href="/api/products/transfer/reading-transfers/#transfersweeplist">List sweeps Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
