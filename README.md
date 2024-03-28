@@ -45,7 +45,6 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 | [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
 | `2017-03-08`                                        | `2.x.x`               |
 
-For information about what has changed between versions and how to update your integration, head to the [version changelog][version-changelog].
 
 The plaid-java client library is typically updated on a monthly basis. The canonical source for the latest version number is the [client library changelog](https://github.com/plaid/plaid-java/blob/master/CHANGELOG.md). New versions are published as [GitHub tags](https://github.com/plaid/plaid-java/tags), not as Releases. New versions can also be found on [Maven Central](https://central.sonatype.com/artifact/com.plaid/plaid-java).
 

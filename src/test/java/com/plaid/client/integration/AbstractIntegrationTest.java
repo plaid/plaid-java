@@ -40,7 +40,7 @@ public abstract class AbstractIntegrationTest {
     "ins_109510";
   public static final String TARTAN_BANK_INSTITUTION_ID = "ins_109511";
   public static final String HOUNDSTOOTH_BANK_INSTITUTION_ID = "ins_109512";
-  public static final String INCOME_INSTITUTION_ID = "ins_129618";
+  public static final String INCOME_INSTITUTION_ID = "ins_135842";
 
   private PlaidApi plaidClient;
   private ApiClient apiClient;
