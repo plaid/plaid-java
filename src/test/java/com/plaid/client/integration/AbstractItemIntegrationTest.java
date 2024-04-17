@@ -14,6 +14,7 @@ import com.plaid.client.model.ItemPublicTokenExchangeResponse;
 import com.plaid.client.model.ItemStatus;
 import com.plaid.client.model.Products;
 import com.plaid.client.model.SandboxPublicTokenCreateRequest;
+import com.plaid.client.model.SandboxPublicTokenCreateRequestOptions;
 import com.plaid.client.model.SandboxPublicTokenCreateResponse;
 import java.util.List;
 import org.junit.Before;
@@ -64,6 +65,7 @@ public abstract class AbstractItemIntegrationTest
     SandboxPublicTokenCreateRequest request = new SandboxPublicTokenCreateRequest()
       .institutionId(setupItemInstitutionId());
     request.setInitialProducts(setupItemProducts());
+    request.setOptions(setupOptions());
 
     Response<SandboxPublicTokenCreateResponse> createResponse = client()
       .sandboxPublicTokenCreate(request)
@@ -93,6 +95,10 @@ public abstract class AbstractItemIntegrationTest
   protected abstract List<Products> setupItemProducts();
 
   protected abstract String setupItemInstitutionId();
+
+  protected SandboxPublicTokenCreateRequestOptions setupOptions() {
+    return null;
+  }
 
   public ItemPublicTokenExchangeResponse getItemPublicTokenExchangeResponse() {
     return exchangeTokenResponse;
