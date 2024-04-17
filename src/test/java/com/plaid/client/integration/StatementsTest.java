@@ -28,6 +28,18 @@ public class StatementsTest extends AbstractItemIntegrationTest {
         return FIRST_PLATYPUS_BANK_INSTITUTION_ID;
     }
 
+    @Override
+    protected SandboxPublicTokenCreateRequestOptions setupOptions() {
+        SandboxPublicTokenCreateRequestOptionsStatements statementsOptions = new SandboxPublicTokenCreateRequestOptionsStatements()
+            .startDate(LocalDate.parse("2023-11-01"))
+            .endDate(LocalDate.parse("2023-12-01"));
+
+        SandboxPublicTokenCreateRequestOptions options = new SandboxPublicTokenCreateRequestOptions()
+            .statements(statementsOptions);
+
+        return options;
+    }
+
     @Test
     public void testStatementsFullFlow() throws Exception {
         String accessToken = getItemPublicTokenExchangeResponse().getAccessToken();
@@ -59,7 +71,7 @@ public class StatementsTest extends AbstractItemIntegrationTest {
         Response<StatementsRefreshResponse> statementsRefreshResponse = refreshStatements(
                 client(),
                 accessToken,
-                "2023-12-01",
+                "2024-01-01",
                 "2024-02-01"
         );
         assertNotNull(statementsRefreshResponse.body());
