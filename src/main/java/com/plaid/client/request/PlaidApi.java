@@ -81,11 +81,20 @@ import com.plaid.client.model.BeaconUserHistoryListResponse;
 import com.plaid.client.model.BeaconUserReviewRequest;
 import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
+import com.plaid.client.model.CRALoansRegisterRequest;
 import com.plaid.client.model.CategoriesGetResponse;
+import com.plaid.client.model.ConsumerReportPDFGetRequest;
 import com.plaid.client.model.CraBankIncomeCreateRequest;
 import com.plaid.client.model.CraBankIncomeCreateResponse;
 import com.plaid.client.model.CraBankIncomeGetRequest;
 import com.plaid.client.model.CraBankIncomeGetResponse;
+import com.plaid.client.model.CraLoanUnregisterResponse;
+import com.plaid.client.model.CraLoansApplicationsRegisterRequest;
+import com.plaid.client.model.CraLoansApplicationsRegisterResponse;
+import com.plaid.client.model.CraLoansRegisterResponse;
+import com.plaid.client.model.CraLoansUnregisterRequest;
+import com.plaid.client.model.CraLoansUpdateRequest;
+import com.plaid.client.model.CraLoansUpdateResponse;
 import com.plaid.client.model.CraPartnerInsightsGetRequest;
 import com.plaid.client.model.CraPartnerInsightsGetResponse;
 import com.plaid.client.model.CreditAuditCopyTokenCreateRequest;
@@ -386,6 +395,8 @@ import com.plaid.client.model.TransactionsSyncRequest;
 import com.plaid.client.model.TransactionsSyncResponse;
 import com.plaid.client.model.TransactionsUserInsightsGetRequest;
 import com.plaid.client.model.TransactionsUserInsightsGetResponse;
+import com.plaid.client.model.TransferAuthorizationCancelRequest;
+import com.plaid.client.model.TransferAuthorizationCancelResponse;
 import com.plaid.client.model.TransferAuthorizationCreateRequest;
 import com.plaid.client.model.TransferAuthorizationCreateResponse;
 import com.plaid.client.model.TransferBalanceGetRequest;
@@ -1130,6 +1141,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve a PDF Reports
+   * Retrieves all existing CRB Bank Income and Base reports for the consumer in PDF format.  Response is PDF binary data. The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.
+   * @param consumerReportPDFGetRequest  (required)
+   * @return Call&lt;ResponseBody&gt;
+   * 
+   * @see <a href="/none/">Retrieve a PDF Reports Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("consumer_report/pdf/get")
+  Call<ResponseBody> consumerReportPdfGet(
+    @retrofit2.http.Body ConsumerReportPDFGetRequest consumerReportPDFGetRequest
+  );
+
+  /**
    * Create a CRA report for income verification
    * &#x60;/cra/bank_income/create&#x60; creates a CRA report for income verification
    * @param craBankIncomeCreateRequest  (required)
@@ -1159,6 +1186,70 @@ public interface PlaidApi {
   @POST("cra/bank_income/get")
   Call<CraBankIncomeGetResponse> craBankIncomeGet(
     @retrofit2.http.Body CraBankIncomeGetRequest craBankIncomeGetRequest
+  );
+
+  /**
+   * Register loan applications and decisions.
+   * &#x60;/cra/loans/applications/register&#x60; registers loan applications and decisions.
+   * @param craLoansApplicationsRegisterRequest  (required)
+   * @return Call&lt;CraLoansApplicationsRegisterResponse&gt;
+   * 
+   * @see <a href="/none/">Register loan applications and decisions. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/loans/applications/register")
+  Call<CraLoansApplicationsRegisterResponse> craLoansApplicationsRegister(
+    @retrofit2.http.Body CraLoansApplicationsRegisterRequest craLoansApplicationsRegisterRequest
+  );
+
+  /**
+   * Register a list of loans to their applicants.
+   * &#x60;/cra/loans/register&#x60; registers a list of loans to their applicants.
+   * @param crALoansRegisterRequest  (required)
+   * @return Call&lt;CraLoansRegisterResponse&gt;
+   * 
+   * @see <a href="/none/">Register a list of loans to their applicants. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/loans/register")
+  Call<CraLoansRegisterResponse> craLoansRegister(
+    @retrofit2.http.Body CRALoansRegisterRequest crALoansRegisterRequest
+  );
+
+  /**
+   * Unregister a list of loans.
+   * &#x60;/cra/loans/unregister&#x60; indicates the loans have reached a final status and no further updates are expected.
+   * @param craLoansUnregisterRequest  (required)
+   * @return Call&lt;CraLoanUnregisterResponse&gt;
+   * 
+   * @see <a href="/none/">Unregister a list of loans. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/loans/unregister")
+  Call<CraLoanUnregisterResponse> craLoansUnregister(
+    @retrofit2.http.Body CraLoansUnregisterRequest craLoansUnregisterRequest
+  );
+
+  /**
+   * Updates loan data.
+   * &#x60;/cra/loans/update&#x60; updates loan information such as the status and payment history.
+   * @param craLoansUpdateRequest  (required)
+   * @return Call&lt;CraLoansUpdateResponse&gt;
+   * 
+   * @see <a href="/none/">Updates loan data. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/loans/update")
+  Call<CraLoansUpdateResponse> craLoansUpdate(
+    @retrofit2.http.Body CraLoansUpdateRequest craLoansUpdateRequest
   );
 
   /**
@@ -1454,12 +1545,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a relay token to share an Asset Report with a partner client (beta)
+   * Create a relay token to share an Asset Report with a partner client
    * Plaid can share an Asset Report directly with a participating third party on your behalf. The shared Asset Report is the exact same Asset Report originally created in &#x60;/asset_report/create&#x60;.  To grant a third party access to an Asset Report, use the &#x60;/credit/relay/create&#x60; endpoint to create a &#x60;relay_token&#x60; and then pass that token to your third party. Each third party has its own &#x60;secondary_client_id&#x60;; for example, &#x60;ce5bd328dcd34123456&#x60;. You&#39;ll need to create a separate &#x60;relay_token&#x60; for each third party that needs access to the report on your behalf.
    * @param creditRelayCreateRequest  (required)
    * @return Call&lt;CreditRelayCreateResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#creditrelaycreate">Create a relay token to share an Asset Report with a partner client (beta) Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelaycreate">Create a relay token to share an Asset Report with a partner client Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1470,12 +1561,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve the reports associated with a relay token that was shared with you (beta)
+   * Retrieve the reports associated with a relay token that was shared with you
    * &#x60;/credit/relay/get&#x60; allows third parties to receive a report that was shared with them, using a &#x60;relay_token&#x60; that was created by the report owner.
    * @param creditRelayGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#creditrelayget">Retrieve the reports associated with a relay token that was shared with you (beta) Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelayget">Retrieve the reports associated with a relay token that was shared with you Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1502,12 +1593,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Refresh a report of a relay token (beta)
+   * Refresh a report of a relay token
    * The &#x60;/credit/relay/refresh&#x60; endpoint allows third parties to refresh a report that was relayed to them, using a &#x60;relay_token&#x60; that was created by the report owner. A new report will be created with the original report parameters, but with the most recent data available based on the &#x60;days_requested&#x60; value of the original report.
    * @param creditRelayRefreshRequest  (required)
    * @return Call&lt;CreditRelayRefreshResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#creditrelayrefresh">Refresh a report of a relay token (beta) Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelayrefresh">Refresh a report of a relay token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1518,12 +1609,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Remove relay token (beta)
+   * Remove relay token
    * The &#x60;/credit/relay/remove&#x60; endpoint allows you to invalidate a &#x60;relay_token&#x60;. The third party holding the token will no longer be able to access or refresh the reports which the &#x60;relay_token&#x60; gives access to. The original report, associated Items, and other relay tokens that provide access to the same report are not affected and will remain accessible after removing the given &#x60;relay_token&#x60;.
    * @param creditRelayRemoveRequest  (required)
    * @return Call&lt;CreditRelayRemoveResponse&gt;
    * 
-   * @see <a href="/api/products/assets/#creditrelayremove">Remove relay token (beta) Documentation</a>
+   * @see <a href="/api/products/assets/#creditrelayremove">Remove relay token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2531,7 +2622,7 @@ public interface PlaidApi {
 
   /**
    * Reverse an existing payment
-   * Reverse a settled payment from a Plaid virtual account.  The original payment must be in a settled state to be refunded. To refund partially, specify the amount as part of the request. If the amount is not specified, the refund amount will be equal to all of the remaining payment amount that has not been refunded yet.  The refund will go back to the source account that initiated the payment. The original payment must have been initiated to a Plaid virtual account so that this account can be used to initiate the refund. 
+   * Reverse a settled payment from a Plaid virtual account.  The original payment must be in a settled state to be refunded. To refund partially, specify the amount as part of the request. If the amount is not specified, the refund amount will be equal to all of the remaining payment amount that has not been refunded yet.  The refund will go back to the source account that initiated the payment. The original payment must have been initiated to a Plaid virtual account so that this account can be used to initiate the refund.  Providing counterparty information such as date of birth and address increases  the likelihood of refund being successful without human intervention. 
    * @param paymentInitiationPaymentReverseRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentReverseResponse&gt;
    * 
@@ -2685,7 +2776,7 @@ public interface PlaidApi {
    * @param processorAuthGetRequest  (required)
    * @return Call&lt;ProcessorAuthGetResponse&gt;
    * 
-   * @see <a href="/api/processors/#processorauthget">Retrieve Auth data Documentation</a>
+   * @see <a href="/api/processor-partners/#processorauthget">Retrieve Auth data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3065,7 +3156,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Transactions update webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;AUTH_DATA_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item created with Auth as an enabled product.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development (except for webhooks of type &#x60;TRANSFER&#x60;).
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Transactions update webhook to be fired for a given Sandbox Item. If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;AUTH_DATA_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item created with Auth as an enabled product.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development (except for webhooks of type &#x60;TRANSFER&#x60;).
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -3543,7 +3634,7 @@ public interface PlaidApi {
 
   /**
    * Refresh transaction data
-   * &#x60;/transactions/refresh&#x60; is an optional endpoint that initiates an on-demand extraction to fetch the newest transactions for an Item. The on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled Item. The Item must already have Transactions added as a product in order to call &#x60;/transactions/refresh&#x60;.  If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/transactions/sync&#x60; and &#x60;/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;.  Note that the &#x60;/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item from that institution.   As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/transactions/refresh&#x60; is offered as an optional add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
+   * &#x60;/transactions/refresh&#x60; is an optional endpoint that initiates an on-demand extraction to fetch the newest transactions for an Item. The on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Transactions-enabled Item. The Item must already have Transactions added as a product in order to call &#x60;/transactions/refresh&#x60;.  If changes to transactions are discovered after calling &#x60;/transactions/refresh&#x60;, Plaid will fire a webhook: for &#x60;/transactions/sync&#x60; users, [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) will be fired if there are any transactions updated, added, or removed. For users of both &#x60;/transactions/sync&#x60; and &#x60;/transactions/get&#x60;, [&#x60;TRANSACTIONS_REMOVED&#x60;](https://plaid.com/docs/api/products/transactions/#transactions_removed) will be fired if any removed transactions are detected, and [&#x60;DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#default_update) will be fired if any new transactions are detected. New transactions can be fetched by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;.  Note that the &#x60;/transactions/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/transactions/refresh&#x60; is offered as an optional add-on to Transactions and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
    * @param transactionsRefreshRequest  (required)
    * @return Call&lt;TransactionsRefreshResponse&gt;
    * 
@@ -3629,6 +3720,22 @@ public interface PlaidApi {
   @POST("beta/transactions/user_insights/v1/get")
   Call<TransactionsUserInsightsGetResponse> transactionsUserInsightsGet(
     @retrofit2.http.Body TransactionsUserInsightsGetRequest transactionsUserInsightsGetRequest
+  );
+
+  /**
+   * Cancel a transfer authorization
+   * Use the &#x60;/transfer/authorization/cancel&#x60; endpoint to cancel a transfer authorization. A transfer authorization is eligible for cancellation if it has not yet been used to create a transfer.
+   * @param transferAuthorizationCancelRequest  (required)
+   * @return Call&lt;TransferAuthorizationCancelResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/initiating-transfers/#transferauthorizationcancel">Cancel a transfer authorization Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/authorization/cancel")
+  Call<TransferAuthorizationCancelResponse> transferAuthorizationCancel(
+    @retrofit2.http.Body TransferAuthorizationCancelRequest transferAuthorizationCancelRequest
   );
 
   /**
