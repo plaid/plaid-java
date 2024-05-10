@@ -147,8 +147,6 @@ import com.plaid.client.model.EmploymentVerificationGetRequest;
 import com.plaid.client.model.EmploymentVerificationGetResponse;
 import com.plaid.client.model.FDXNotification;
 import java.io.File;
-import com.plaid.client.model.IdentityDocumentsUploadsGetRequest;
-import com.plaid.client.model.IdentityDocumentsUploadsGetResponse;
 import com.plaid.client.model.IdentityGetRequest;
 import com.plaid.client.model.IdentityGetResponse;
 import com.plaid.client.model.IdentityMatchRequest;
@@ -218,8 +216,6 @@ import com.plaid.client.model.LinkDeliveryGetRequest;
 import com.plaid.client.model.LinkDeliveryGetResponse;
 import com.plaid.client.model.LinkOAuthCorrelationIdExchangeRequest;
 import com.plaid.client.model.LinkOAuthCorrelationIdExchangeResponse;
-import com.plaid.client.model.LinkProfileEligibilityCheckRequest;
-import com.plaid.client.model.LinkProfileEligibilityCheckResponse;
 import com.plaid.client.model.LinkTokenCreateRequest;
 import com.plaid.client.model.LinkTokenCreateResponse;
 import com.plaid.client.model.LinkTokenGetRequest;
@@ -1712,22 +1708,6 @@ public interface PlaidApi {
   );
 
   /**
-   * Returns uploaded document identity
-   * Use &#x60;/identity/documents/uploads/get&#x60; to retrieve document uploaded identity.
-   * @param identityDocumentsUploadsGetRequest  (required)
-   * @return Call&lt;IdentityDocumentsUploadsGetResponse&gt;
-   * 
-   * @see <a href="none">Returns uploaded document identity Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("identity/documents/uploads/get")
-  Call<IdentityDocumentsUploadsGetResponse> identityDocumentsUploadsGet(
-    @retrofit2.http.Body IdentityDocumentsUploadsGetRequest identityDocumentsUploadsGetRequest
-  );
-
-  /**
    * Retrieve identity data
    * The &#x60;/identity/get&#x60; endpoint allows you to retrieve various account holder information on file with the financial institution, including names, emails, phone numbers, and addresses. Only name data is guaranteed to be returned; other fields will be empty arrays if not provided by the institution.  This request may take some time to complete if identity was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the data.  Note: In API versions 2018-05-22 and earlier, the &#x60;owners&#x60; object is not returned, and instead identity information is returned in the top level &#x60;identity&#x60; object. For more details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2019-05-29).
    * @param identityGetRequest  (required)
@@ -2287,22 +2267,6 @@ public interface PlaidApi {
   @POST("link/oauth/correlation_id/exchange")
   Call<LinkOAuthCorrelationIdExchangeResponse> linkOauthCorrelationIdExchange(
     @retrofit2.http.Body LinkOAuthCorrelationIdExchangeRequest linkOAuthCorrelationIdExchangeRequest
-  );
-
-  /**
-   * Check profile eligibility
-   * The &#x60;/link/profile/eligibility/check&#x60; endpoint can be used to check whether a user with the supplied phone number has a saved profile that satisfies customer-defined eligibility requirements.
-   * @param linkProfileEligibilityCheckRequest  (required)
-   * @return Call&lt;LinkProfileEligibilityCheckResponse&gt;
-   * 
-   * @see <a href="/api/link/#profileeligibilitycheck">Check profile eligibility Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("link/profile/eligibility/check")
-  Call<LinkProfileEligibilityCheckResponse> linkProfileEligibilityCheck(
-    @retrofit2.http.Body LinkProfileEligibilityCheckRequest linkProfileEligibilityCheckRequest
   );
 
   /**
@@ -3448,12 +3412,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve a list of all statements associated with an item.
-   * The &#x60;/statements/list&#x60; endpoint retrieves a list of all statements associated with an item.
+   * Retrieve a list of all statements associated with the provided item.
+   * The &#x60;/statements/list&#x60; endpoint retrieves a list of all statements associated with the provided item.
    * @param statementsListRequest  (required)
    * @return Call&lt;StatementsListResponse&gt;
    * 
-   * @see <a href="/api/products/statements#statementslist">Retrieve a list of all statements associated with an item. Documentation</a>
+   * @see <a href="/api/products/statements#statementslist">Retrieve a list of all statements associated with the provided item. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3601,7 +3565,7 @@ public interface PlaidApi {
 
   /**
    * Get incremental transaction updates on an Item
-   * The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen.  &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates. To learn more about migrating from &#x60;/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To find out when the Item was last updated, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  For newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
+   * The &#x60;/transactions/sync&#x60; endpoint allows developers to subscribe to all transactions associated with an Item and get updates synchronously in a stream-like manner, using a cursor to track which updates have already been seen.  &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and can be used instead of &#x60;/transactions/get&#x60; to simplify the process of tracking transactions updates. To learn more about migrating from &#x60;/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint provides user-authorized transaction data for &#x60;credit&#x60;, &#x60;depository&#x60;, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  Returned transactions data is grouped into three types of update, indicating whether the transaction was added, removed, or modified since the last call to the API.  In the first call to &#x60;/transactions/sync&#x60; for an Item, the endpoint will return all historical transactions data associated with that Item up until the time of the API call (as \&quot;adds\&quot;), which then generates a &#x60;next_cursor&#x60; for that Item. In subsequent calls, send the &#x60;next_cursor&#x60; to receive only the changes that have occurred since the previous call.  Due to the potentially large number of transactions associated with an Item, results are paginated. The &#x60;has_more&#x60; field specifies if additional calls are necessary to fetch all available transaction updates. Call &#x60;/transactions/sync&#x60; with the new cursor, pulling all updates, until &#x60;has_more&#x60; is &#x60;false&#x60;.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error, the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  Whenever new or updated transaction data becomes available, &#x60;/transactions/sync&#x60; will provide these updates. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To find out when the Item was last updated, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  For newly created Items, data may not be immediately available to &#x60;/transactions/sync&#x60;. Plaid begins preparing transactions data when the Item is created, but the process can take anywhere from a few seconds to several minutes to complete, depending on the number of transactions available.  To be alerted when new data is available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.  &#x60;/transactions/sync&#x60; does not directly return balance data. To get the balance for an account, call &#x60;/accounts/get&#x60;, which is a free-to-use endpoint that will return the cached balance as of the last successful transactions update.
    * @param transactionsSyncRequest  (required)
    * @return Call&lt;TransactionsSyncResponse&gt;
    * 
@@ -3648,15 +3612,13 @@ public interface PlaidApi {
   );
 
   /**
-   * (Deprecated) Retrieve a balance held with Plaid
-   * (Deprecated) Use the &#x60;/transfer/balance/get&#x60; endpoint to view a balance held with Plaid.
+   * Retrieve a balance held with Plaid
+   * Use the &#x60;/transfer/balance/get&#x60; endpoint to view a balance held with Plaid.
    * @param transferBalanceGetRequest  (required)
    * @return Call&lt;TransferBalanceGetResponse&gt;
-   * @deprecated
    * 
-   * @see <a href="/api/products/transfer/balance/#transferbalanceget">(Deprecated) Retrieve a balance held with Plaid Documentation</a>
+   * @see <a href="/api/products/transfer/balance/#transferbalanceget">Retrieve a balance held with Plaid Documentation</a>
    */
-  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
