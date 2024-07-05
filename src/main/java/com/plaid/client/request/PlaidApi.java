@@ -72,6 +72,8 @@ import com.plaid.client.model.BeaconReportSyndicationGetRequest;
 import com.plaid.client.model.BeaconReportSyndicationGetResponse;
 import com.plaid.client.model.BeaconReportSyndicationListRequest;
 import com.plaid.client.model.BeaconReportSyndicationListResponse;
+import com.plaid.client.model.BeaconUserAccountInsightsGetRequest;
+import com.plaid.client.model.BeaconUserAccountInsightsGetResponse;
 import com.plaid.client.model.BeaconUserCreateRequest;
 import com.plaid.client.model.BeaconUserCreateResponse;
 import com.plaid.client.model.BeaconUserGetRequest;
@@ -94,6 +96,8 @@ import com.plaid.client.model.CraCheckReportCreateRequest;
 import com.plaid.client.model.CraCheckReportCreateResponse;
 import com.plaid.client.model.CraCheckReportIncomeInsightsGetRequest;
 import com.plaid.client.model.CraCheckReportIncomeInsightsGetResponse;
+import com.plaid.client.model.CraCheckReportNetworkAttributesGetRequest;
+import com.plaid.client.model.CraCheckReportNetworkAttributesGetResponse;
 import com.plaid.client.model.CraCheckReportPDFGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetResponse;
@@ -371,6 +375,8 @@ import com.plaid.client.model.SandboxTransferTestClockGetRequest;
 import com.plaid.client.model.SandboxTransferTestClockGetResponse;
 import com.plaid.client.model.SandboxTransferTestClockListRequest;
 import com.plaid.client.model.SandboxTransferTestClockListResponse;
+import com.plaid.client.model.SandboxUserResetLoginRequest;
+import com.plaid.client.model.SandboxUserResetLoginResponse;
 import com.plaid.client.model.SignalDecisionReportRequest;
 import com.plaid.client.model.SignalDecisionReportResponse;
 import com.plaid.client.model.SignalEvaluateRequest;
@@ -482,6 +488,10 @@ import com.plaid.client.model.UserAccountSessionGetRequest;
 import com.plaid.client.model.UserAccountSessionGetResponse;
 import com.plaid.client.model.UserCreateRequest;
 import com.plaid.client.model.UserCreateResponse;
+import com.plaid.client.model.UserItemsGetRequest;
+import com.plaid.client.model.UserItemsGetResponse;
+import com.plaid.client.model.UserRemoveRequest;
+import com.plaid.client.model.UserRemoveResponse;
 import com.plaid.client.model.UserUpdateRequest;
 import com.plaid.client.model.UserUpdateResponse;
 import com.plaid.client.model.WalletCreateRequest;
@@ -1056,6 +1066,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Get Account Insights for a Beacon User
+   * Get Account Insights for all Accounts linked to this Beacon User. The insights for each account are computed based on the information that was last retrieved from the financial institution.
+   * @param beaconUserAccountInsightsGetRequest  (required)
+   * @return Call&lt;BeaconUserAccountInsightsGetResponse&gt;
+   * 
+   * @see <a href="/api/products/beacon/#beaconuseraccount_insightsget">Get Account Insights for a Beacon User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beacon/user/account_insights/get")
+  Call<BeaconUserAccountInsightsGetResponse> beaconUserAccountInsightsGet(
+    @retrofit2.http.Body BeaconUserAccountInsightsGetRequest beaconUserAccountInsightsGetRequest
+  );
+
+  /**
    * Create a Beacon User
    * Create and scan a Beacon User against your Beacon Program, according to your program&#39;s settings.  When you submit a new user to &#x60;/beacon/user/create&#x60;, several checks are performed immediately:    - The user&#39;s PII (provided within the &#x60;user&#x60; object) is searched against all other users within the Beacon Program you specified. If a match is found that violates your program&#39;s \&quot;Duplicate Information Filtering\&quot; settings, the user will be returned with a status of &#x60;pending_review&#x60;.    - The user&#39;s PII is also searched against all fraud reports created by your organization across all of your Beacon Programs. If the user&#39;s data matches a fraud report that your team created, the user will be returned with a status of &#x60;rejected&#x60;.    - Finally, the user&#39;s PII is searched against all fraud report shared with the Beacon Network by other companies. If a matching fraud report is found, the user will be returned with a &#x60;pending_review&#x60; status if your program has enabled automatic flagging based on network fraud.
    * @param beaconUserCreateRequest  (required)
@@ -1121,7 +1147,7 @@ public interface PlaidApi {
 
   /**
    * Update the identity data of a Beacon User
-   * Update the identity data for a Beacon User in your Beacon Program.  Similar to &#x60;/beacon/user/create&#x60;, several checks are performed immediately when you submit a change to &#x60;/beacon/user/update&#x60;:    - The user&#39;s updated PII is searched against all other users within the Beacon Program you specified. If a match is found that violates your program&#39;s \&quot;Duplicate Information Filtering\&quot; settings, the user will be returned with a status of &#x60;pending_review&#x60;.    - The user&#39;s updated PII is also searched against all fraud reports created by your organization across all of your Beacon Programs. If the user&#39;s data matches a fraud report that your team created, the user will be returned with a status of &#x60;rejected&#x60;.    - Finally, the user&#39;s PII is searched against all fraud report shared with the Beacon Network by other companies. If a matching fraud report is found, the user will be returned with a &#x60;pending_review&#x60; status if your program has enabled automatic flagging based on network fraud.  Plaid maintains a version history for each Beacon User, so the Beacon User&#39;s identity data before and after the update is retained as separate versions.
+   * Update the identity data for a Beacon User in your Beacon Program or add new accounts to the Beacon User.  Similar to &#x60;/beacon/user/create&#x60;, several checks are performed immediately when you submit an identity data change to &#x60;/beacon/user/update&#x60;:    - The user&#39;s updated PII is searched against all other users within the Beacon Program you specified. If a match is found that violates your program&#39;s \&quot;Duplicate Information Filtering\&quot; settings, the user will be returned with a status of &#x60;pending_review&#x60;.    - The user&#39;s updated PII is also searched against all fraud reports created by your organization across all of your Beacon Programs. If the user&#39;s data matches a fraud report that your team created, the user will be returned with a status of &#x60;rejected&#x60;.    - Finally, the user&#39;s PII is searched against all fraud report shared with the Beacon Network by other companies. If a matching fraud report is found, the user will be returned with a &#x60;pending_review&#x60; status if your program has enabled automatic flagging based on network fraud.  Plaid maintains a version history for each Beacon User, so the Beacon User&#39;s identity data before and after the update is retained as separate versions.
    * @param beaconUserUpdateRequest  (required)
    * @return Call&lt;BeaconUserUpdateResponse&gt;
    * 
@@ -1248,6 +1274,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve network attributes for the user
+   * This endpoint allows you to retrieve the Network Attributes product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_network_attributes&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will generate the attributes when you call this endpoint.
+   * @param craCheckReportNetworkAttributesGetRequest  (required)
+   * @return Call&lt;CraCheckReportNetworkAttributesGetResponse&gt;
+   * 
+   * @see <a href="/check/api/#cracheck_reportnetwork_attributesget">Retrieve network attributes for the user Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/check_report/network_insights/get")
+  Call<CraCheckReportNetworkAttributesGetResponse> craCheckReportNetworkAttributesGet(
+    @retrofit2.http.Body CraCheckReportNetworkAttributesGetRequest craCheckReportNetworkAttributesGetRequest
+  );
+
+  /**
    * Retrieve cash flow insights from partners
    * This endpoint allows you to retrieve the Partner Insights product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;credit_partner_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will call our partners to generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
    * @param craCheckReportPartnerInsightsGetRequest  (required)
@@ -1269,7 +1311,7 @@ public interface PlaidApi {
    * @param craCheckReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/none/">Retrieve the most recent Base Report in PDF format. You can also include other reports in the same PDF if you specify &#x60;add_ons&#x60;. Documentation</a>
+   * @see <a href="/check/api/#cracheck_reportpdfget">Retrieve the most recent Base Report in PDF format. You can also include other reports in the same PDF if you specify &#x60;add_ons&#x60;. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2245,7 +2287,7 @@ public interface PlaidApi {
    * @param itemAccessTokenInvalidateRequest  (required)
    * @return Call&lt;ItemAccessTokenInvalidateResponse&gt;
    * 
-   * @see <a href="/api/tokens/#itemaccess_tokeninvalidate">Invalidate access_token Documentation</a>
+   * @see <a href="/api/items/#itemaccess_tokeninvalidate">Invalidate access_token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2365,7 +2407,7 @@ public interface PlaidApi {
    * @param itemPublicTokenExchangeRequest  (required)
    * @return Call&lt;ItemPublicTokenExchangeResponse&gt;
    * 
-   * @see <a href="/api/tokens/#itempublic_tokenexchange">Exchange public token for an access token Documentation</a>
+   * @see <a href="/api/items/#itempublic_tokenexchange">Exchange public token for an access token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2489,7 +2531,7 @@ public interface PlaidApi {
 
   /**
    * Create Link Token
-   * The &#x60;/link/token/create&#x60; endpoint creates a &#x60;link_token&#x60;, which is required as a parameter when initializing Link. Once Link has been initialized, it returns a &#x60;public_token&#x60;, which can then be exchanged for an &#x60;access_token&#x60; via &#x60;/item/public_token/exchange&#x60; as part of the main Link flow.  A &#x60;link_token&#x60; generated by &#x60;/link/token/create&#x60; is also used to initialize other Link flows, such as the update mode flow for tokens with expired credentials, or the Payment Initiation (Europe) flow.
+   * The &#x60;/link/token/create&#x60; endpoint creates a &#x60;link_token&#x60;, which is required as a parameter when initializing Link. Once Link has been initialized, it returns a &#x60;public_token&#x60;. For most Plaid products, the &#x60;public_token&#x60; is saved and exchanged for an &#x60;access_token&#x60; via &#x60;/item/public_token/exchange&#x60; as part of the main Link flow. For more details, see the [Link flow overview](https://plaid.com/docs/link/#link-flow-overview).  A &#x60;link_token&#x60; generated by &#x60;/link/token/create&#x60; is also used to initialize other Link flows, such as the [update mode](https://plaid.com/docs/link/update-mode) flow for tokens with expired credentials, or the Identity Verification flow.
    * @param linkTokenCreateRequest  (required)
    * @return Call&lt;LinkTokenCreateResponse&gt;
    * 
@@ -2537,7 +2579,7 @@ public interface PlaidApi {
 
   /**
    * Enables a Plaid reseller&#39;s end customer in the Production environment.
-   * The &#x60;/partner/customer/enable&#x60; endpoint is used by reseller partners to enable an end customer in the Production environment.
+   * The &#x60;/partner/customer/enable&#x60; endpoint is used by reseller partners to enable an end customer in the full Production environment.
    * @param partnerCustomerEnableRequest  (required)
    * @return Call&lt;PartnerCustomerEnableResponse&gt;
    * 
@@ -2585,7 +2627,7 @@ public interface PlaidApi {
 
   /**
    * Removes a Plaid reseller&#39;s end customer.
-   * The &#x60;/partner/customer/remove&#x60; endpoint is used by reseller partners to remove an end customer. Removing an end customer will remove it from view in the Plaid Dashboard and deactivate its API keys. This endpoint can only be used to remove an end customer that has not yet been enabled in Production.
+   * The &#x60;/partner/customer/remove&#x60; endpoint is used by reseller partners to remove an end customer. Removing an end customer will remove it from view in the Plaid Dashboard and deactivate its API keys. This endpoint can only be used to remove an end customer that has not yet been enabled in full Production.
    * @param partnerCustomerRemoveRequest  (required)
    * @return Call&lt;PartnerCustomerRemoveResponse&gt;
    * 
@@ -2665,7 +2707,7 @@ public interface PlaidApi {
 
   /**
    * Create a payment
-   * After creating a payment recipient, you can use the &#x60;/payment_initiation/payment/create&#x60; endpoint to create a payment to that recipient.  Payments can be one-time or standing order (recurring) and can be denominated in either EUR, GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency).  If making domestic GBP-denominated payments, your recipient must have been created with BACS numbers. In general, EUR-denominated payments will be sent via SEPA Credit Transfer, GBP-denominated payments will be sent via the Faster Payments network and for non-Eurozone markets typically via the local payment scheme, but the payment network used will be determined by the institution. Payments sent via Faster Payments will typically arrive immediately, while payments sent via SEPA Credit Transfer or other local payment schemes will typically arrive in one business day.  Standing orders (recurring payments) must be denominated in GBP and can only be sent to recipients in the UK. Once created, standing order payments cannot be modified or canceled via the API. An end user can cancel or modify a standing order directly on their banking application or website, or by contacting the bank. Standing orders will follow the payment rules of the underlying rails (Faster Payments in UK). Payments can be sent Monday to Friday, excluding bank holidays. If the pre-arranged date falls on a weekend or bank holiday, the payment is made on the next working day. It is not possible to guarantee the exact time the payment will reach the recipient’s account, although at least 90% of standing order payments are sent by 6am.  In the Development environment, payments must be below 5 GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency). For details on any payment limits in Production, contact your Plaid Account Manager.
+   * After creating a payment recipient, you can use the &#x60;/payment_initiation/payment/create&#x60; endpoint to create a payment to that recipient.  Payments can be one-time or standing order (recurring) and can be denominated in either EUR, GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency).  If making domestic GBP-denominated payments, your recipient must have been created with BACS numbers. In general, EUR-denominated payments will be sent via SEPA Credit Transfer, GBP-denominated payments will be sent via the Faster Payments network and for non-Eurozone markets typically via the local payment scheme, but the payment network used will be determined by the institution. Payments sent via Faster Payments will typically arrive immediately, while payments sent via SEPA Credit Transfer or other local payment schemes will typically arrive in one business day.  Standing orders (recurring payments) must be denominated in GBP and can only be sent to recipients in the UK. Once created, standing order payments cannot be modified or canceled via the API. An end user can cancel or modify a standing order directly on their banking application or website, or by contacting the bank. Standing orders will follow the payment rules of the underlying rails (Faster Payments in UK). Payments can be sent Monday to Friday, excluding bank holidays. If the pre-arranged date falls on a weekend or bank holiday, the payment is made on the next working day. It is not possible to guarantee the exact time the payment will reach the recipient’s account, although at least 90% of standing order payments are sent by 6am.  In Limited Production, payments must be below 5 GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency), and standing orders, variable recurring payments, and Virtual Accounts are not supported. 
    * @param paymentInitiationPaymentCreateRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentCreateResponse&gt;
    * 
@@ -3247,7 +3289,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid sandbox &#x60;DEFAULT_UPDATE&#x60; responses include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production or Development (except for webhooks of type &#x60;TRANSFER&#x60;).
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid sandbox &#x60;DEFAULT_UPDATE&#x60; responses include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -3550,19 +3592,19 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve User Account
-   * Returns user permissioned account data including identity and item access tokens.
-   * @param userAccountSessionGetRequest  (required)
-   * @return Call&lt;UserAccountSessionGetResponse&gt;
+   * Force item(s) for a Sandbox User into an error state
+   * &#x60;/sandbox/user/reset_login/&#x60; functions the same as &#x60;/sandbox/item/reset_login&#x60;, but will modify Items related to a User. This endpoint forces each Item into an &#x60;ITEM_LOGIN_REQUIRED&#x60; state in order to simulate an Item whose login is no longer valid. This makes it easy to test Link&#39;s [update mode](https://plaid.com/docs/link/update-mode) flow in the Sandbox environment.  After calling &#x60;/sandbox/user/reset_login&#x60;, You can then use Plaid Link update mode to restore Items associated with the User to a good state. An &#x60;ITEM_LOGIN_REQUIRED&#x60; webhook will also be fired after a call to this endpoint, if one is associated with the Item.   In the Sandbox, Items will transition to an &#x60;ITEM_LOGIN_REQUIRED&#x60; error state automatically after 30 days, even if this endpoint is not called.
+   * @param sandboxUserResetLoginRequest  (required)
+   * @return Call&lt;SandboxUserResetLoginResponse&gt;
    * 
-   * @see <a href="/api/user_account/#sessionget">Retrieve User Account Documentation</a>
+   * @see <a href="/api/sandbox/#sandboxuserreset_login">Force item(s) for a Sandbox User into an error state Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
   })
-  @POST("user_account/session/get")
-  Call<UserAccountSessionGetResponse> sessionGet(
-    @retrofit2.http.Body UserAccountSessionGetRequest userAccountSessionGetRequest
+  @POST("sandbox/user/reset_login")
+  Call<SandboxUserResetLoginResponse> sandboxUserResetLogin(
+    @retrofit2.http.Body SandboxUserResetLoginRequest sandboxUserResetLoginRequest
   );
 
   /**
@@ -4424,6 +4466,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve User Account
+   * Returns user permissioned account data including identity and Item access tokens.
+   * @param userAccountSessionGetRequest  (required)
+   * @return Call&lt;UserAccountSessionGetResponse&gt;
+   * 
+   * @see <a href="/api/products/layer/#user_accountsessionget">Retrieve User Account Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user_account/session/get")
+  Call<UserAccountSessionGetResponse> userAccountSessionGet(
+    @retrofit2.http.Body UserAccountSessionGetRequest userAccountSessionGetRequest
+  );
+
+  /**
    * Create user
    * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.  Ensure that you store the &#x60;user_token&#x60; along with your user&#39;s identifier in your database, as it is not possible to retrieve a previously created &#x60;user_token&#x60;.
    * @param userCreateRequest  (required)
@@ -4437,6 +4495,38 @@ public interface PlaidApi {
   @POST("user/create")
   Call<UserCreateResponse> userCreate(
     @retrofit2.http.Body UserCreateRequest userCreateRequest
+  );
+
+  /**
+   * Get Items associated with a User
+   * Returns Items associated with a User along with their corresponding statuses.
+   * @param userItemsGetRequest  (required)
+   * @return Call&lt;UserItemsGetResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#useritemsget">Get Items associated with a User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/items/get")
+  Call<UserItemsGetResponse> userItemsGet(
+    @retrofit2.http.Body UserItemsGetRequest userItemsGetRequest
+  );
+
+  /**
+   * Remove user
+   * This endpoint is used to remove a user and any relevant data related to the user based on the provided user token.  Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist.
+   * @param userRemoveRequest  (required)
+   * @return Call&lt;UserRemoveResponse&gt;
+   * 
+   * @see <a href="/api/products/income/#userremove">Remove user Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/remove")
+  Call<UserRemoveResponse> userRemove(
+    @retrofit2.http.Body UserRemoveRequest userRemoveRequest
   );
 
   /**

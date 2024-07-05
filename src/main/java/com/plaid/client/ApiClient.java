@@ -37,7 +37,6 @@ public class ApiClient {
   private JSON json;
   private OkHttpClient okHttpClient;
   public static final String Production = "https://production.plaid.com";
-  public static final String Development = "https://development.plaid.com";
   public static final String Sandbox = "https://sandbox.plaid.com";
 
   public ApiClient() {
@@ -50,7 +49,7 @@ public class ApiClient {
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 Request requestWithUserAgent = originalRequest.newBuilder()
-                        .header("User-Agent", "Plaid Java v24.0.0")
+                        .header("User-Agent", "Plaid Java v25.0.0")
                         .header("Plaid-Version", "2020-09-14")
                         .build();
                 return chain.proceed(requestWithUserAgent);
@@ -160,10 +159,10 @@ public class ApiClient {
   public void setPlaidAdapter(String baseUrl) {
     json = new JSON();
 
-    List<String> PLAID_ENVS = Arrays.asList("https://sandbox.plaid.com", "https://production.plaid.com", "https://development.plaid.com");
+    List<String> PLAID_ENVS = Arrays.asList("https://sandbox.plaid.com", "https://production.plaid.com");
 
     if(!PLAID_ENVS.contains(baseUrl)) {
-      System.out.println("baseUrl not found in PLAID_ENVS, must be one of the following: https://sandbox.plaid.com, https://production.plaid.com, https://development.plaid.com");
+      System.out.println("baseUrl not found in PLAID_ENVS, must be one of the following: https://sandbox.plaid.com, https://production.plaid.com");
     }
 
     if (!baseUrl.endsWith("/"))
