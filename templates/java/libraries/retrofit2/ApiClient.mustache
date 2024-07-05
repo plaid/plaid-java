@@ -229,10 +229,10 @@ public class ApiClient {
   public void setPlaidAdapter(String baseUrl) {
     json = new JSON();
 
-    List<String> PLAID_ENVS = Arrays.asList("https://sandbox.plaid.com", "https://production.plaid.com", "https://development.plaid.com");
+    List<String> PLAID_ENVS = Arrays.asList("https://sandbox.plaid.com", "https://production.plaid.com");
 
     if(!PLAID_ENVS.contains(baseUrl)) {
-      System.out.println("baseUrl not found in PLAID_ENVS, must be one of the following: https://sandbox.plaid.com, https://production.plaid.com, https://development.plaid.com");
+      System.out.println("baseUrl not found in PLAID_ENVS, must be one of the following: https://sandbox.plaid.com, https://production.plaid.com");
     }
 
     if (!baseUrl.endsWith("/"))
