@@ -44,6 +44,8 @@ public enum WebhookType {
   
   ASSETS("ASSETS"),
 
+  STATEMENTS("STATEMENTS"),
+
   // This is returned when an enum is returned from the API that doesn't exist in the OpenAPI file.
   // Try upgrading your client-library version.
   ENUM_UNKNOWN("ENUM_UNKNOWN");
