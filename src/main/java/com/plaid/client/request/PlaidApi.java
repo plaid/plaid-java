@@ -54,10 +54,6 @@ import com.plaid.client.model.BankTransferSweepGetRequest;
 import com.plaid.client.model.BankTransferSweepGetResponse;
 import com.plaid.client.model.BankTransferSweepListRequest;
 import com.plaid.client.model.BankTransferSweepListResponse;
-import com.plaid.client.model.BaseReportCreateRequest;
-import com.plaid.client.model.BaseReportCreateResponse;
-import com.plaid.client.model.BaseReportGetRequest;
-import com.plaid.client.model.BaseReportGetResponse;
 import com.plaid.client.model.BeaconAccountRiskEvaluateRequest;
 import com.plaid.client.model.BeaconAccountRiskEvaluateResponse;
 import com.plaid.client.model.BeaconDuplicateGetRequest;
@@ -90,14 +86,18 @@ import com.plaid.client.model.CraBankIncomeCreateRequest;
 import com.plaid.client.model.CraBankIncomeCreateResponse;
 import com.plaid.client.model.CraBankIncomeGetRequest;
 import com.plaid.client.model.CraBankIncomeGetResponse;
+import com.plaid.client.model.CraBaseReportCreateRequest;
+import com.plaid.client.model.CraBaseReportCreateResponse;
+import com.plaid.client.model.CraBaseReportGetRequest;
+import com.plaid.client.model.CraBaseReportGetResponse;
 import com.plaid.client.model.CraCheckReportBaseReportGetRequest;
 import com.plaid.client.model.CraCheckReportBaseReportGetResponse;
 import com.plaid.client.model.CraCheckReportCreateRequest;
 import com.plaid.client.model.CraCheckReportCreateResponse;
 import com.plaid.client.model.CraCheckReportIncomeInsightsGetRequest;
 import com.plaid.client.model.CraCheckReportIncomeInsightsGetResponse;
-import com.plaid.client.model.CraCheckReportNetworkAttributesGetRequest;
-import com.plaid.client.model.CraCheckReportNetworkAttributesGetResponse;
+import com.plaid.client.model.CraCheckReportNetworkInsightsGetRequest;
+import com.plaid.client.model.CraCheckReportNetworkInsightsGetResponse;
 import com.plaid.client.model.CraCheckReportPDFGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetResponse;
@@ -108,6 +108,12 @@ import com.plaid.client.model.CraLoansRegisterResponse;
 import com.plaid.client.model.CraLoansUnregisterRequest;
 import com.plaid.client.model.CraLoansUpdateRequest;
 import com.plaid.client.model.CraLoansUpdateResponse;
+import com.plaid.client.model.CraMonitoringInsightsGetRequest;
+import com.plaid.client.model.CraMonitoringInsightsGetResponse;
+import com.plaid.client.model.CraMonitoringInsightsSubscribeRequest;
+import com.plaid.client.model.CraMonitoringInsightsSubscribeResponse;
+import com.plaid.client.model.CraMonitoringInsightsUnsubscribeRequest;
+import com.plaid.client.model.CraMonitoringInsightsUnsubscribeResponse;
 import com.plaid.client.model.CraPartnerInsightsGetRequest;
 import com.plaid.client.model.CraPartnerInsightsGetResponse;
 import com.plaid.client.model.CreditAuditCopyTokenCreateRequest;
@@ -169,6 +175,8 @@ import com.plaid.client.model.EmploymentVerificationGetRequest;
 import com.plaid.client.model.EmploymentVerificationGetResponse;
 import com.plaid.client.model.FDXNotification;
 import java.io.File;
+import com.plaid.client.model.GetRecipientResponse;
+import com.plaid.client.model.GetRecipientsResponse;
 import com.plaid.client.model.IdentityDocumentsUploadsGetRequest;
 import com.plaid.client.model.IdentityDocumentsUploadsGetResponse;
 import com.plaid.client.model.IdentityGetRequest;
@@ -246,6 +254,8 @@ import com.plaid.client.model.LinkTokenCreateRequest;
 import com.plaid.client.model.LinkTokenCreateResponse;
 import com.plaid.client.model.LinkTokenGetRequest;
 import com.plaid.client.model.LinkTokenGetResponse;
+import com.plaid.client.model.NetworkInsightsReportGetRequest;
+import com.plaid.client.model.NetworkInsightsReportGetResponse;
 import com.plaid.client.model.PartnerCustomerCreateRequest;
 import com.plaid.client.model.PartnerCustomerCreateResponse;
 import com.plaid.client.model.PartnerCustomerEnableRequest;
@@ -330,6 +340,8 @@ import com.plaid.client.model.ProcessorTransactionsSyncRequest;
 import com.plaid.client.model.ProcessorTransactionsSyncResponse;
 import com.plaid.client.model.ProfileGetRequest;
 import com.plaid.client.model.ProfileGetResponse;
+import com.plaid.client.model.ProfileNetworkStatusGetRequest;
+import com.plaid.client.model.ProfileNetworkStatusGetResponse;
 import com.plaid.client.model.SandboxBankIncomeFireWebhookRequest;
 import com.plaid.client.model.SandboxBankIncomeFireWebhookResponse;
 import com.plaid.client.model.SandboxBankTransferFireWebhookRequest;
@@ -460,6 +472,8 @@ import com.plaid.client.model.TransferOriginatorGetRequest;
 import com.plaid.client.model.TransferOriginatorGetResponse;
 import com.plaid.client.model.TransferOriginatorListRequest;
 import com.plaid.client.model.TransferOriginatorListResponse;
+import com.plaid.client.model.TransferPlatformOriginatorCreateRequest;
+import com.plaid.client.model.TransferPlatformOriginatorCreateResponse;
 import com.plaid.client.model.TransferQuestionnaireCreateRequest;
 import com.plaid.client.model.TransferQuestionnaireCreateResponse;
 import com.plaid.client.model.TransferRecurringCancelRequest;
@@ -922,38 +936,6 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a Base Report
-   * This endpoint allows the customer to create a Base Report by passing in a user token. The Base Report will be generated based on the most recently linked item from the user token.
-   * @param baseReportCreateRequest  (required)
-   * @return Call&lt;BaseReportCreateResponse&gt;
-   * 
-   * @see <a href="/none/">Create a Base Report Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("cra/base_report/create")
-  Call<BaseReportCreateResponse> baseReportCreate(
-    @retrofit2.http.Body BaseReportCreateRequest baseReportCreateRequest
-  );
-
-  /**
-   * Retrieve a Base Report
-   * This endpoint allows the customer to retrieve a Base Report. Customers should pass in the &#x60;user_token&#x60; created in &#x60;/link/token/create&#x60;.
-   * @param baseReportGetRequest  (required)
-   * @return Call&lt;BaseReportGetResponse&gt;
-   * 
-   * @see <a href="/none/">Retrieve a Base Report Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("cra/base_report/get")
-  Call<BaseReportGetResponse> baseReportGet(
-    @retrofit2.http.Body BaseReportGetRequest baseReportGetRequest
-  );
-
-  /**
    * Evaluate risk of a bank account
    * Use &#x60;/beacon/account_risk/v1/evaluate&#x60; to get risk insights for a linked account.
    * @param beaconAccountRiskEvaluateRequest  (required)
@@ -1039,7 +1021,7 @@ public interface PlaidApi {
    * @param beaconReportSyndicationGetRequest  (required)
    * @return Call&lt;BeaconReportSyndicationGetResponse&gt;
    * 
-   * @see <a href="/api/products/beacon/#beaconreportsyndicationget">Get a Beacon Report Syndication Documentation</a>
+   * @see <a href="/api/products/beacon/#beaconreport_syndicationget">Get a Beacon Report Syndication Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1055,7 +1037,7 @@ public interface PlaidApi {
    * @param beaconReportSyndicationListRequest  (required)
    * @return Call&lt;BeaconReportSyndicationListResponse&gt;
    * 
-   * @see <a href="/api/products/beacon/#beaconreportsyndicationlist">List Beacon Report Syndications for a Beacon User Documentation</a>
+   * @see <a href="/api/products/beacon/#beaconreport_syndicationlist">List Beacon Report Syndications for a Beacon User Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1226,6 +1208,38 @@ public interface PlaidApi {
   );
 
   /**
+   * Create a Base Report
+   * This endpoint allows the customer to create a Base Report by passing in a user token. The Base Report will be generated based on the most recently linked item from the user token.
+   * @param craBaseReportCreateRequest  (required)
+   * @return Call&lt;CraBaseReportCreateResponse&gt;
+   * 
+   * @see <a href="/none/">Create a Base Report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/base_report/create")
+  Call<CraBaseReportCreateResponse> craBaseReportCreate(
+    @retrofit2.http.Body CraBaseReportCreateRequest craBaseReportCreateRequest
+  );
+
+  /**
+   * Retrieve a Base Report
+   * This endpoint allows the customer to retrieve a Base Report. Customers should pass in the &#x60;user_token&#x60; created in &#x60;/user/create&#x60;.
+   * @param craBaseReportGetRequest  (required)
+   * @return Call&lt;CraBaseReportGetResponse&gt;
+   * 
+   * @see <a href="/none/">Retrieve a Base Report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/base_report/get")
+  Call<CraBaseReportGetResponse> craBaseReportGet(
+    @retrofit2.http.Body CraBaseReportGetRequest craBaseReportGetRequest
+  );
+
+  /**
    * Retrieve a Base Report
    * This endpoint allows you to retrieve the Base Report for your user, allowing you to receive comprehensive bank account and cash flow data. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn&#39;t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.
    * @param craCheckReportBaseReportGetRequest  (required)
@@ -1275,23 +1289,23 @@ public interface PlaidApi {
 
   /**
    * Retrieve network attributes for the user
-   * This endpoint allows you to retrieve the Network Attributes product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_network_attributes&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will generate the attributes when you call this endpoint.
-   * @param craCheckReportNetworkAttributesGetRequest  (required)
-   * @return Call&lt;CraCheckReportNetworkAttributesGetResponse&gt;
+   * This endpoint allows you to retrieve the Network Insights product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_network_attributes&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will generate the attributes when you call this endpoint.
+   * @param craCheckReportNetworkInsightsGetRequest  (required)
+   * @return Call&lt;CraCheckReportNetworkInsightsGetResponse&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportnetwork_attributesget">Retrieve network attributes for the user Documentation</a>
+   * @see <a href="/check/api/#cracheck_reportnetwork_insightsget">Retrieve network attributes for the user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
   })
   @POST("cra/check_report/network_insights/get")
-  Call<CraCheckReportNetworkAttributesGetResponse> craCheckReportNetworkAttributesGet(
-    @retrofit2.http.Body CraCheckReportNetworkAttributesGetRequest craCheckReportNetworkAttributesGetRequest
+  Call<CraCheckReportNetworkInsightsGetResponse> craCheckReportNetworkInsightsGet(
+    @retrofit2.http.Body CraCheckReportNetworkInsightsGetRequest craCheckReportNetworkInsightsGetRequest
   );
 
   /**
    * Retrieve cash flow insights from partners
-   * This endpoint allows you to retrieve the Partner Insights product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;credit_partner_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will call our partners to generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
+   * This endpoint allows you to retrieve the Partner Insights report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;credit_partner_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will call our partners to generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
    * @param craCheckReportPartnerInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportPartnerInsightsGetResponse&gt;
    * 
@@ -1306,12 +1320,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve the most recent Base Report in PDF format. You can also include other reports in the same PDF if you specify &#x60;add_ons&#x60;.
-   * &#x60;/cra/check_report/pdf/get&#x60; retrieve the most recent Bank Income report (if it exists) followed by the most recent Base Report (if it exists) in PDF format
+   * Retrieve Consumer Reports as a PDF
+   * &#x60;/cra/check_report/pdf/get&#x60; retrieves the most recent Bank Income report (if it exists) followed by the most recent Base Report (if it exists) in PDF format.
    * @param craCheckReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportpdfget">Retrieve the most recent Base Report in PDF format. You can also include other reports in the same PDF if you specify &#x60;add_ons&#x60;. Documentation</a>
+   * @see <a href="/check/api/#cracheck_reportpdfget">Retrieve Consumer Reports as a PDF Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1383,6 +1397,54 @@ public interface PlaidApi {
   @POST("cra/loans/update")
   Call<CraLoansUpdateResponse> craLoansUpdate(
     @retrofit2.http.Body CraLoansUpdateRequest craLoansUpdateRequest
+  );
+
+  /**
+   * Retrieve a Monitoring Insights Report
+   * This endpoint allows you to retrieve a Monitoring Insights report by passing in the &#x60;user_token&#x60; referred to in the webhook you received.
+   * @param craMonitoringInsightsGetRequest  (required)
+   * @return Call&lt;CraMonitoringInsightsGetResponse&gt;
+   * 
+   * @see <a href="/none/">Retrieve a Monitoring Insights Report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/monitoring_insights/get")
+  Call<CraMonitoringInsightsGetResponse> craMonitoringInsightsGet(
+    @retrofit2.http.Body CraMonitoringInsightsGetRequest craMonitoringInsightsGetRequest
+  );
+
+  /**
+   * Subscribe to Monitoring Insights
+   * This endpoint allows you to subscribe to insights for a user&#39;s linked CRA items, which are updated every 14 days.
+   * @param craMonitoringInsightsSubscribeRequest  (required)
+   * @return Call&lt;CraMonitoringInsightsSubscribeResponse&gt;
+   * 
+   * @see <a href="/none/">Subscribe to Monitoring Insights Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/monitoring_insights/subscribe")
+  Call<CraMonitoringInsightsSubscribeResponse> craMonitoringInsightsSubscribe(
+    @retrofit2.http.Body CraMonitoringInsightsSubscribeRequest craMonitoringInsightsSubscribeRequest
+  );
+
+  /**
+   * Unsubscribe from Monitoring Insights
+   * This endpoint allows you to unsubscribe from previously subscribed Monitoring Insights.
+   * @param craMonitoringInsightsUnsubscribeRequest  (required)
+   * @return Call&lt;CraMonitoringInsightsUnsubscribeResponse&gt;
+   * 
+   * @see <a href="/none/">Unsubscribe from Monitoring Insights Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/monitoring_insights/unsubscribe")
+  Call<CraMonitoringInsightsUnsubscribeResponse> craMonitoringInsightsUnsubscribe(
+    @retrofit2.http.Body CraMonitoringInsightsUnsubscribeRequest craMonitoringInsightsUnsubscribeRequest
   );
 
   /**
@@ -1485,7 +1547,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve information from the bank accounts used for income verification
-   * &#x60;/credit/bank_income/get&#x60; returns the bank income report(s) for a specified user.
+   * &#x60;/credit/bank_income/get&#x60; returns the bank income report(s) for a specified user. A single report corresponds to all institutions linked in a single Link session. To include multiple institutions in a single report, use [Multi-Item Link](https://plaid.com/docs/link/multi-item-link). To return older reports, use the &#x60;options.count&#x60; field.
    * @param creditBankIncomeGetRequest  (required)
    * @return Call&lt;CreditBankIncomeGetResponse&gt;
    * 
@@ -1501,7 +1563,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve information from the bank accounts used for income verification in PDF format
-   * &#x60;/credit/bank_income/pdf/get&#x60; returns the most recent bank income report for a specified user in PDF format.
+   * &#x60;/credit/bank_income/pdf/get&#x60; returns the most recent bank income report for a specified user in PDF format.  A single report corresponds to all institutions linked in a single Link session. To include multiple institutions in a single report, use [Multi-Item Link](https://plaid.com/docs/link/multi-item-link).
    * @param creditBankIncomePDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -1517,7 +1579,7 @@ public interface PlaidApi {
 
   /**
    * Refresh a user&#39;s bank income information
-   * &#x60;/credit/bank_income/refresh&#x60; refreshes the bank income report data for a specific user.
+   * &#x60;/credit/bank_income/refresh&#x60; refreshes the most recent bank income report data for a specific user. If the most recent bank income report is no longer valid (i.e. deleted), the endpoint will refresh the most recent valid report instead.
    * @param creditBankIncomeRefreshRequest  (required)
    * @return Call&lt;CreditBankIncomeRefreshResponse&gt;
    * 
@@ -1795,7 +1857,7 @@ public interface PlaidApi {
    * @param dashboardUserGetRequest  (required)
    * @return Call&lt;DashboardUserGetResponse&gt;
    * 
-   * @see <a href="/api/products/monitor/#dashboard_userget">Retrieve a dashboard user Documentation</a>
+   * @see <a href="/api/kyc-aml-users/#dashboard_userget">Retrieve a dashboard user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1811,7 +1873,7 @@ public interface PlaidApi {
    * @param dashboardUserListRequest  (required)
    * @return Call&lt;DashboardUserListResponse&gt;
    * 
-   * @see <a href="/api/products/monitor/#dashboard_userlist">List dashboard users Documentation</a>
+   * @see <a href="/api/kyc-aml-users/#dashboard_userlist">List dashboard users Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1934,6 +1996,27 @@ public interface PlaidApi {
   Call<Void> fdxNotifications(
     @retrofit2.http.Body FDXNotification fdXNotification
   );
+
+  /**
+   * Get Recipient
+   * Get a specific recipient
+   * @param recipientId Recipient Identifier. Uniquely identifies the recipient (required)
+   * @param OAUTH_STATE_ID The value that is passed into the OAuth URI &#39;state&#39; query parameter. (optional)
+   * @return Call&lt;GetRecipientResponse&gt;
+   */
+  @GET("fdx/recipient/{recipientId}")
+  Call<GetRecipientResponse> getRecipient(
+    @retrofit2.http.Path("recipientId") String recipientId, @retrofit2.http.Header("OAUTH-STATE-ID") String OAUTH_STATE_ID
+  );
+
+  /**
+   * Get Recipients
+   * Returns a list of Recipients
+   * @return Call&lt;GetRecipientsResponse&gt;
+   */
+  @GET("fdx/recipients")
+  Call<GetRecipientsResponse> getRecipients();
+    
 
   /**
    * Returns uploaded document identity
@@ -2251,7 +2334,7 @@ public interface PlaidApi {
 
   /**
    * Refresh investment data
-   * &#x60;/investments/refresh&#x60; is an optional endpoint for users of the Investments product. It initiates an on-demand extraction to fetch the newest investments, holdings and investment transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Investments-enabled Item. If changes to investments are discovered after calling &#x60;/investments/refresh&#x60;, Plaid will fire webhooks: [&#x60;HOLDINGS: DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/investments/#holdings-default_update) if any new holdings are detected, and [INVESTMENTS_TRANSACTIONS: DEFAULT_UPDATE](https://plaid.com/docs/api/products/investments/#investments_transactions-default_update) if any new investment transactions are detected. Updated holdings and investment transactions can be fetched by calling &#x60;/investments/holdings/get&#x60; and &#x60;/investments/transactions/get&#x60;. \&quot;Note that the &#x60;/investments/refresh&#x60; endpoint is not supported by all institutions. If called on an Item from an institution that does not support this functionality, it will return a &#x60;PRODUCT_NOT_SUPPORTED&#x60; error.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/investments/refresh&#x60; is offered as an add-on to Investments and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
+   * &#x60;/investments/refresh&#x60; is an optional endpoint for users of the Investments product. It initiates an on-demand extraction to fetch the newest investment holdings and transactions for an Item. This on-demand extraction takes place in addition to the periodic extractions that automatically occur one or more times per day for any Investments-enabled Item. If changes to investments are discovered after calling &#x60;/investments/refresh&#x60;, Plaid will fire webhooks: [&#x60;HOLDINGS: DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/investments/#holdings-default_update) if any new holdings are detected, and [&#x60;INVESTMENTS_TRANSACTIONS: DEFAULT_UPDATE&#x60;](https://plaid.com/docs/api/products/investments/#investments_transactions-default_update) if any new investment transactions are detected. Updated holdings and investment transactions can be fetched by calling &#x60;/investments/holdings/get&#x60; and &#x60;/investments/transactions/get&#x60;. Note that the &#x60;/investments/refresh&#x60; endpoint is not supported by all institutions. If called on an Item from an institution that does not support this functionality, it will return a &#x60;PRODUCT_NOT_SUPPORTED&#x60; error.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  &#x60;/investments/refresh&#x60; is offered as an add-on to Investments and has a separate [fee model](/docs/account/billing/#per-request-flat-fee). To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.
    * @param investmentsRefreshRequest  (required)
    * @return Call&lt;InvestmentsRefreshResponse&gt;
    * 
@@ -2361,7 +2444,7 @@ public interface PlaidApi {
    * @param itemPublicTokenCreateRequest  (required)
    * @return Call&lt;ItemPublicTokenCreateResponse&gt;
    * 
-   * @see <a href="/api/tokens/#itempublic_tokencreate">Create public token Documentation</a>
+   * @see <a href="/api/link/#itempublic_tokencreate">Create public token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2451,7 +2534,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Liabilities data
-   * The &#x60;/liabilities/get&#x60; endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Currently supported account types are account type &#x60;credit&#x60; with account subtype &#x60;credit card&#x60; or &#x60;paypal&#x60;, and account type &#x60;loan&#x60; with account subtype &#x60;student&#x60; or &#x60;mortgage&#x60;. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the &#x60;account_filters&#x60; parameter when [creating a Link token](https://plaid.com/docs/api/tokens/#linktokencreate).  The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling &#x60;/liabilities/get&#x60;.  Note: This request may take some time to complete if &#x60;liabilities&#x60; was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the additional data.
+   * The &#x60;/liabilities/get&#x60; endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Currently supported account types are account type &#x60;credit&#x60; with account subtype &#x60;credit card&#x60; or &#x60;paypal&#x60;, and account type &#x60;loan&#x60; with account subtype &#x60;student&#x60; or &#x60;mortgage&#x60;. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the &#x60;account_filters&#x60; parameter when [creating a Link token](https://plaid.com/docs/api/link/#linktokencreate).  The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling &#x60;/liabilities/get&#x60;.  Note: This request may take some time to complete if &#x60;liabilities&#x60; was not specified as an initial product when creating the Item. This is because Plaid must communicate directly with the institution to retrieve the additional data.
    * @param liabilitiesGetRequest  (required)
    * @return Call&lt;LiabilitiesGetResponse&gt;
    * 
@@ -2535,7 +2618,7 @@ public interface PlaidApi {
    * @param linkTokenCreateRequest  (required)
    * @return Call&lt;LinkTokenCreateResponse&gt;
    * 
-   * @see <a href="/api/tokens/#linktokencreate">Create Link Token Documentation</a>
+   * @see <a href="/api/link/#linktokencreate">Create Link Token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2547,11 +2630,11 @@ public interface PlaidApi {
 
   /**
    * Get Link Token
-   * The &#x60;/link/token/get&#x60; endpoint gets information about a previously-created &#x60;link_token&#x60; using the &#x60;/link/token/create&#x60; endpoint. It can be useful for debugging purposes.
+   * The &#x60;/link/token/get&#x60; endpoint gets information about a Link session, including all callbacks fired during the session along with their metadata, including the public token. This endpoint is used with Link flows that don&#39;t provide a public token via frontend callbacks, such as the [Hosted Link flow](https://plaid.com/docs/link/hosted-link/) and the [Multi-Item Link flow](https://plaid.com/docs/link/multi-item-link/). It also can be useful for debugging purposes.
    * @param linkTokenGetRequest  (required)
    * @return Call&lt;LinkTokenGetResponse&gt;
    * 
-   * @see <a href="/api/tokens/#linktokenget">Get Link Token Documentation</a>
+   * @see <a href="/api/link/#linktokenget">Get Link Token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2559,6 +2642,22 @@ public interface PlaidApi {
   @POST("link/token/get")
   Call<LinkTokenGetResponse> linkTokenGet(
     @retrofit2.http.Body LinkTokenGetRequest linkTokenGetRequest
+  );
+
+  /**
+   * Retrieve network insights for the provided &#x60;access_tokens&#x60;
+   * This endpoint allows you to retrieve the Network Insights from a list of &#x60;access_tokens&#x60;.
+   * @param networkInsightsReportGetRequest  (required)
+   * @return Call&lt;NetworkInsightsReportGetResponse&gt;
+   * 
+   * @see <a href="/api/network_insights/report/#get">Retrieve network insights for the provided &#x60;access_tokens&#x60; Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("network_insights/report/get")
+  Call<NetworkInsightsReportGetResponse> networkInsightsReportGet(
+    @retrofit2.http.Body NetworkInsightsReportGetRequest networkInsightsReportGetRequest
   );
 
   /**
@@ -3224,6 +3323,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Check a user&#39;s Plaid Network status
+   * The &#x60;/profile/network_status/get&#x60; endpoint can be used to check whether Plaid has a matching profile for the user.
+   * @param profileNetworkStatusGetRequest  (required)
+   * @return Call&lt;ProfileNetworkStatusGetResponse&gt;
+   * 
+   * @see <a href="/api/profile/#networkstatusget">Check a user&#39;s Plaid Network status Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("profile/network_status/get")
+  Call<ProfileNetworkStatusGetResponse> profileNetworkStatusGet(
+    @retrofit2.http.Body ProfileNetworkStatusGetRequest profileNetworkStatusGetRequest
+  );
+
+  /**
    * Manually fire a bank income webhook in sandbox
    * Use the &#x60;/sandbox/bank_income/fire_webhook&#x60; endpoint to manually trigger a Bank Income webhook in the Sandbox environment.
    * @param sandboxBankIncomeFireWebhookRequest  (required)
@@ -3289,7 +3404,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid sandbox &#x60;DEFAULT_UPDATE&#x60; responses include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Webhook to be fired for a given Sandbox Item created with Account Select v2.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid sandbox &#x60;DEFAULT_UPDATE&#x60; responses include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Fired to indicate that a new account is available on the Item and you can launch update mode to request access to it.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -3385,7 +3500,7 @@ public interface PlaidApi {
 
   /**
    * Create a test Item
-   * Use the &#x60;/sandbox/public_token/create&#x60; endpoint to create a valid &#x60;public_token&#x60;  for an arbitrary institution ID, initial products, and test credentials. The created &#x60;public_token&#x60; maps to a new Sandbox Item. You can then call &#x60;/item/public_token/exchange&#x60; to exchange the &#x60;public_token&#x60; for an &#x60;access_token&#x60; and perform all API actions. &#x60;/sandbox/public_token/create&#x60; can also be used with the [&#x60;user_custom&#x60; test username](https://plaid.com/docs/sandbox/user-custom) to generate a test account with custom data. &#x60;/sandbox/public_token/create&#x60; cannot be used with OAuth institutions.
+   * Use the &#x60;/sandbox/public_token/create&#x60; endpoint to create a valid &#x60;public_token&#x60;  for an arbitrary institution ID, initial products, and test credentials. The created &#x60;public_token&#x60; maps to a new Sandbox Item. You can then call &#x60;/item/public_token/exchange&#x60; to exchange the &#x60;public_token&#x60; for an &#x60;access_token&#x60; and perform all API actions. &#x60;/sandbox/public_token/create&#x60; can also be used with the [&#x60;user_custom&#x60; test username](https://plaid.com/docs/sandbox/user-custom) to generate a test account with custom data, or with Plaid&#39;s [pre-populated Sandbox test accounts](https://plaid.com/docs/sandbox/test-credentials/).
    * @param sandboxPublicTokenCreateRequest  (required)
    * @return Call&lt;SandboxPublicTokenCreateResponse&gt;
    * 
@@ -3767,7 +3882,7 @@ public interface PlaidApi {
 
   /**
    * Fetch recurring transaction streams
-   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on an Item that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;). For optimal results, we strongly recommend customers using Recurring Transactions to request at least 180 days of history when initializing items with Transactions (using the [&#x60;days_requested&#x60;](https://plaid.com/docs/api/tokens/#link-token-create-request-transactions-days-requested) option). Once all historical transactions have been fetched, call &#x60;/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.
+   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on an Item that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;).   When using Recurring Transactions, for best results, make sure to use the [&#x60;days_requested&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transactions-days-requested) parameter to request at least 180 days of history when initializing Items with Transactions. Once all historical transactions have been fetched, call &#x60;/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.
    * @param transactionsRecurringGetRequest  (required)
    * @return Call&lt;TransactionsRecurringGetResponse&gt;
    * 
@@ -3889,7 +4004,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;.  There are three possible outcomes to calling this endpoint: If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;. If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To approve a transfer with the rationale code &#x60;ITEM_LOGIN_REQUIRED&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;. The transfer authorization will expire if not used after one hour. (You can contact your account manager to change the default authorization lifetime.)   There are four possible outcomes to calling this endpoint:  - If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer.  - If the &#x60;authorization.decision&#x60; is &#x60;user_action_required&#x60;, additional user input is needed, usually to fix a broken bank connection, before Plaid can properly assess the risk. You need to launch Link in update mode to complete the required user action. When calling &#x60;/link/token/create&#x60; to get a new Link token, instead of providing &#x60;access_token&#x60; in the request, you should set [&#x60;transfer.authorization_id&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transfer-authorization-id) as the &#x60;authorization.id&#x60;. After the Link flow is completed, you may re-attempt the authorization. - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;. - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To get an authorization decision of &#x60;user_action_required&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -3971,7 +4086,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer
-   * Use the &#x60;/transfer/create&#x60; endpoint to initiate a new transfer.
+   * Use the &#x60;/transfer/create&#x60; endpoint to initiate a new transfer. This endpoint is retryable and idempotent; if a transfer with the provided &#x60;transfer_id&#x60; has already been created, it will return the transfer details without creating a new transfer. A transfer may still be created if a 500 error is returned; to detect this scenario, use [Transfer events](https://plaid.com/docs/transfer/reconciling-transfers/).
    * @param transferCreateRequest  (required)
    * @return Call&lt;TransferCreateResponse&gt;
    * 
@@ -4195,7 +4310,7 @@ public interface PlaidApi {
 
   /**
    * Migrate account into Transfers
-   * As an alternative to adding Items via Link, you can also use the &#x60;/transfer/migrate_account&#x60; endpoint to migrate known account and routing numbers to Plaid Items. If you intend to create wire transfers on this account, you must provide &#x60;wire_routing_number&#x60;. Note that Items created in this way are not compatible with endpoints for other products, such as &#x60;/accounts/balance/get&#x60;, and can only be used with Transfer endpoints.  If you require access to other endpoints, create the Item through Link instead.  Access to &#x60;/transfer/migrate_account&#x60; is not enabled by default; to obtain access, contact your Plaid Account Manager.
+   * As an alternative to adding Items via Link, you can also use the &#x60;/transfer/migrate_account&#x60; endpoint to migrate known account and routing numbers to Plaid Items. This endpoint is also required when adding an Item for use with wire transfers; if you intend to create wire transfers on this account, you must provide &#x60;wire_routing_number&#x60;. Note that Items created in this way are not compatible with endpoints for other products, such as &#x60;/accounts/balance/get&#x60;, and can only be used with Transfer endpoints.  If you require access to other endpoints, create the Item through Link instead.  Access to &#x60;/transfer/migrate_account&#x60; is not enabled by default; to obtain access, contact your Plaid Account Manager.
    * @param transferMigrateAccountRequest  (required)
    * @return Call&lt;TransferMigrateAccountResponse&gt;
    * 
@@ -4271,6 +4386,22 @@ public interface PlaidApi {
   @POST("transfer/originator/list")
   Call<TransferOriginatorListResponse> transferOriginatorList(
     @retrofit2.http.Body TransferOriginatorListRequest transferOriginatorListRequest
+  );
+
+  /**
+   * Create an originator for scaled platform customers
+   * The &#x60;/transfer/platform/originator/create&#x60; endpoint allows gathering information about the originator specific to the Scaled Platform Transfer offering, including the originator&#39;s agreement to legal terms required before accepting any further information related to the originator.
+   * @param transferPlatformOriginatorCreateRequest  (required)
+   * @return Call&lt;TransferPlatformOriginatorCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/platform/originator/#transferplatformoriginatorcreate">Create an originator for scaled platform customers Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/platform/originator/create")
+  Call<TransferPlatformOriginatorCreateResponse> transferPlatformOriginatorCreate(
+    @retrofit2.http.Body TransferPlatformOriginatorCreateRequest transferPlatformOriginatorCreateRequest
   );
 
   /**
@@ -4483,11 +4614,11 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * This endpoint should be called for each of your end users before they begin a Plaid income flow. This provides you a single token to access all income data associated with the user. You should only create one per end user.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.  Ensure that you store the &#x60;user_token&#x60; along with your user&#39;s identifier in your database, as it is not possible to retrieve a previously created &#x60;user_token&#x60;.
+   * This endpoint should be called for each of your end users before they begin a Plaid Check or Income flow, or a Multi-Item Link flow. This provides you a single token to access all data associated with the user. You should only create one per end user.  The &#x60;consumer_report_user_identity&#x60; object must be present in order to create a Plaid Check Consumer Report for a user. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.  Ensure that you store the &#x60;user_token&#x60; along with your user&#39;s identifier in your database, as it is not possible to retrieve a previously created &#x60;user_token&#x60;.
    * @param userCreateRequest  (required)
    * @return Call&lt;UserCreateResponse&gt;
    * 
-   * @see <a href="/api/products/income/#usercreate">Create user Documentation</a>
+   * @see <a href="/api/users/#usercreate">Create user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4503,7 +4634,7 @@ public interface PlaidApi {
    * @param userItemsGetRequest  (required)
    * @return Call&lt;UserItemsGetResponse&gt;
    * 
-   * @see <a href="/api/products/income/#useritemsget">Get Items associated with a User Documentation</a>
+   * @see <a href="/api/users/#useritemsget">Get Items associated with a User Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4515,11 +4646,11 @@ public interface PlaidApi {
 
   /**
    * Remove user
-   * This endpoint is used to remove a user and any relevant data related to the user based on the provided user token.  Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist.
+   * &#x60;/user/remove&#x60; deletes a user token and and associated information, including any Items associated with the token.  Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist.
    * @param userRemoveRequest  (required)
    * @return Call&lt;UserRemoveResponse&gt;
    * 
-   * @see <a href="/api/products/income/#userremove">Remove user Documentation</a>
+   * @see <a href="/api/users/#userremove">Remove user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4531,11 +4662,11 @@ public interface PlaidApi {
 
   /**
    * Update user information
-   * This endpoint is used to update user information associated with an existing &#x60;user_token&#x60;. The &#x60;user_token&#x60; should be in the response of &#x60;/user/create&#x60; call  If you call the endpoint with a non-exist &#x60;user_token&#x60;, the call will fail with an error message indicating that the user token is not found.
+   * This endpoint is used to update user information associated with an existing &#x60;user_token&#x60;. It can also be used to enable an existing &#x60;user_token&#x60; for use with Consumer Reports by Plaid Check, by adding a &#x60;consumer_report_user_identity&#x60; object to the user.
    * @param userUpdateRequest  (required)
    * @return Call&lt;UserUpdateResponse&gt;
    * 
-   * @see <a href="/api/products/income/#userupdate">Update user information Documentation</a>
+   * @see <a href="/api/users/#userupdate">Update user information Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
