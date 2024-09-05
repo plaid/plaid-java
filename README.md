@@ -9,15 +9,14 @@ the hood. You may want to take a look at those libraries if you need to do anyth
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Versioning](#versioning)
-* [Basic Usage Examples](#basic-usage-examples)
-  + [Initialization, API call, and error handling](#initialization-api-call-and-error-handling)
-  + [Dates](#dates)
-* [Migration Guide](#migration-guide)
-* [Contributing](#contributing)
-* [License](#license)
-  
+- [Installation](#installation)
+- [Versioning](#versioning)
+- [Basic Usage Examples](#basic-usage-examples)
+  - [Initialization, API call, and error handling](#initialization-api-call-and-error-handling)
+  - [Dates](#dates)
+- [Migration Guide](#migration-guide)
+- [Contributing](#contributing)
+- [License](#license)
 
 ### Installation
 
@@ -34,17 +33,16 @@ Plaid-java is available at [Maven Central](https://central.sonatype.com/artifact
 
 ### Versioning
 
-As of `9.0.0`, the library is generated from the OpenAPI spec. 
+As of `9.0.0`, the library is generated from the OpenAPI spec.
 
 Each major version of `plaid-java` targets a specific version of the Plaid API:
 
-| API version                                         | plaid-java release    |
-| --------------------------------------------------- | --------------------- |
-| [`2020-09-14`][api-version-2020-09-14] (**latest**) | `8.x.x` and higher    |
-| [`2019-05-29`][api-version-2019-05-29]              | `7.x.x`               |
-| [`2018-05-22`][api-version-2018-05-22]              | `4.x.x` (and `3.x.x`) |
-| `2017-03-08`                                        | `2.x.x`               |
-
+| API version             | plaid-java release |
+| ----------------------- | ------------------ |
+| 2020-09-14 (**latest**) | 8.x.x and higher   |
+| 2019-05-29`             | 7.x.x              |
+| 2018-05-22              | 4.x.x (and 3.x.x)  |
+| 2017-03-08              | 2.x.x              |
 
 The plaid-java client library is typically updated on a monthly basis. The canonical source for the latest version number is the [client library changelog](https://github.com/plaid/plaid-java/blob/master/CHANGELOG.md). New versions are published as [GitHub tags](https://github.com/plaid/plaid-java/tags), not as Releases. New versions can also be found on [Maven Central](https://central.sonatype.com/artifact/com.plaid/plaid-java).
 
@@ -111,7 +109,8 @@ try {
 ```
 
 #### Dates
-Dates and datetimes in requests, which are represented as strings in the API, are represented in this version of the Java client library as `LocalDate` or `OffsetDateTime` objects. 
+
+Dates and datetimes in requests, which are represented as strings in the API, are represented in this version of the Java client library as `LocalDate` or `OffsetDateTime` objects.
 
 Time zone information is required for request fields that accept datetimes. Failing to include time zone information (or specifying a string, instead of an `OffsetDateTime` object) will result in an error.
 
@@ -124,7 +123,6 @@ LocalDate myDate = LocalDate.parse("2019-12-06");
 ```
 
 If the API reference documentation for a request field specifies `format: date-time`, the following is acceptable:
-
 
 ```java
 import java.time.OffsetDateTime;
@@ -161,8 +159,8 @@ Version 9.0.0 of the client library was released in August 2021 and contains mul
 
 **Rename Error model:**
 
-- from:  `com.plaid.client.model.ErrorResponse`
-- to:  `com.plaid.client.model.Error`
+- from: `com.plaid.client.model.ErrorResponse`
+- to: `com.plaid.client.model.Error`
 - from: `ErrorResponse.ErrorType`
 - to: `Error.ErrorTypeEnum`
 
@@ -178,7 +176,7 @@ Version 9.0.0 of the client library was released in August 2021 and contains mul
 
 **Request Model Structure:**
 
-- All request models changed from having their options passed as function arguments  `new AuthGetRequest(accessToken)` to now having builder syntax  `new AuthGetRequest().accessToken(accessToken)`.
+- All request models changed from having their options passed as function arguments `new AuthGetRequest(accessToken)` to now having builder syntax `new AuthGetRequest().accessToken(accessToken)`.
 - All `with$VARNAME` chained setters have been converted to `${}options`. E.g. `.withEndDate(endDate)` -> `.endDate(endDate)` See [Optional Parameters](#optional-parameters) for an example.
 
 **Response Model Structure:**
@@ -196,9 +194,11 @@ Version 9.0.0 of the client library was released in August 2021 and contains mul
 The date and date-time format has changed in this client library. See [Dates](#dates) for information on the new date format.
 
 #### Enum changes
+
 While the API represents enums using strings, and previous library versions used singletons, this current library uses enum types.
 
 Old:
+
 ```
 LinkTokenCreateRequest request = new LinkTokenCreateRequest(
    Collections.singletonList("auth"))
@@ -207,6 +207,7 @@ LinkTokenCreateRequest request = new LinkTokenCreateRequest(
 ```
 
 Current:
+
 ```
 LinkTokenCreateRequest request = new LinkTokenCreateRequest()
   .products(Arrays.asList(Products.AUTH))
@@ -221,6 +222,7 @@ See [basic usage](#basic-usage) for examples of new-style initialization and err
 #### Method calling examples
 
 Old:
+
 ```
 // Pull real-time balance information for each account associated
 // with the Item
@@ -231,6 +233,7 @@ List<Account> accounts = response.body().getAccounts();
 ```
 
 New:
+
 ```
 // Pull real-time balance information for each account associated
 // with the Item
@@ -315,4 +318,5 @@ while (transactions.size() < response.body().getTotalTransactions()) {
 Please see [Contributing](CONTRIBUTING.md) for guidelines and instructions for local development.
 
 ## License
+
 [MIT](LICENSE).
