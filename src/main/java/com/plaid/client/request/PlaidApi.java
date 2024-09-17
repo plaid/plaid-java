@@ -81,6 +81,8 @@ import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
 import com.plaid.client.model.CRALoansRegisterRequest;
 import com.plaid.client.model.CategoriesGetResponse;
+import com.plaid.client.model.ConsentEventsGetRequest;
+import com.plaid.client.model.ConsentEventsGetResponse;
 import com.plaid.client.model.ConsumerReportPDFGetRequest;
 import com.plaid.client.model.CraBankIncomeCreateRequest;
 import com.plaid.client.model.CraBankIncomeCreateResponse;
@@ -218,6 +220,12 @@ import com.plaid.client.model.InvestmentsRefreshRequest;
 import com.plaid.client.model.InvestmentsRefreshResponse;
 import com.plaid.client.model.InvestmentsTransactionsGetRequest;
 import com.plaid.client.model.InvestmentsTransactionsGetResponse;
+import com.plaid.client.model.IssuesGetRequest;
+import com.plaid.client.model.IssuesGetResponse;
+import com.plaid.client.model.IssuesSearchRequest;
+import com.plaid.client.model.IssuesSearchResponse;
+import com.plaid.client.model.IssuesSubscribeRequest;
+import com.plaid.client.model.IssuesSubscribeResponse;
 import com.plaid.client.model.ItemAccessTokenInvalidateRequest;
 import com.plaid.client.model.ItemAccessTokenInvalidateResponse;
 import com.plaid.client.model.ItemActivityListRequest;
@@ -474,6 +482,8 @@ import com.plaid.client.model.TransferOriginatorListRequest;
 import com.plaid.client.model.TransferOriginatorListResponse;
 import com.plaid.client.model.TransferPlatformOriginatorCreateRequest;
 import com.plaid.client.model.TransferPlatformOriginatorCreateResponse;
+import com.plaid.client.model.TransferPlatformRequirementSubmitRequest;
+import com.plaid.client.model.TransferPlatformRequirementSubmitResponse;
 import com.plaid.client.model.TransferQuestionnaireCreateRequest;
 import com.plaid.client.model.TransferQuestionnaireCreateResponse;
 import com.plaid.client.model.TransferRecurringCancelRequest;
@@ -1160,6 +1170,22 @@ public interface PlaidApi {
   );
 
   /**
+   * List a historical log of item consent events
+   * List a historical log of item consent events
+   * @param consentEventsGetRequest  (required)
+   * @return Call&lt;ConsentEventsGetResponse&gt;
+   * 
+   * @see <a href="/api/consent/#consenteventsget">List a historical log of item consent events Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("consent/events/get")
+  Call<ConsentEventsGetResponse> consentEventsGet(
+    @retrofit2.http.Body ConsentEventsGetRequest consentEventsGetRequest
+  );
+
+  /**
    * Retrieve a PDF Reports
    * Retrieves all existing CRB Bank Income and Base reports for the consumer in PDF format.  Response is PDF binary data. The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.
    * @param consumerReportPDFGetRequest  (required)
@@ -1257,7 +1283,7 @@ public interface PlaidApi {
 
   /**
    * Create a Consumer Report
-   * &#x60;/cra/check_report/create&#x60; creates a Consumer Report powered by Plaid Check. Plaid Check automatically starts creating Consumer Report data after the user completes the Link process with a Plaid Check product, so you typically would only call this endpoint if you wish to generate an updated report, some time after the initial report was generated.
+   * &#x60;/cra/check_report/create&#x60; creates a Consumer Report powered by Plaid Check. You can call this endpoint to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. If you did provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report.   &#x60;/cra/check_report/create&#x60; can also be used to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it. Note that refreshing or regenerating a report is a billable event.\&quot;
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
@@ -1321,7 +1347,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Consumer Reports as a PDF
-   * &#x60;/cra/check_report/pdf/get&#x60; retrieves the most recent Bank Income report (if it exists) followed by the most recent Base Report (if it exists) in PDF format.
+   * &#x60;/cra/check_report/pdf/get&#x60; retrieves the most recent Consumer Report in PDF format. By default, the most recent Base Report (if it exists) for the user will be returned. To request that the most recent Income Insights report be included in the PDF as well, use the &#x60;add-ons&#x60; field.
    * @param craCheckReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -1853,7 +1879,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve a dashboard user
-   * Retrieve information about a dashboard user.
+   * The &#x60;/dashboard_user/get&#x60; endpoint provides details (such as email address) about a specific Dashboard user based on the &#x60;dashboard_user_id&#x60; field, which is returned in the &#x60;audit_trail&#x60; object of certain Monitor and Beacon endpoints. This can be used to identify the specific reviewer who performed a Dashboard action.
    * @param dashboardUserGetRequest  (required)
    * @return Call&lt;DashboardUserGetResponse&gt;
    * 
@@ -1869,7 +1895,7 @@ public interface PlaidApi {
 
   /**
    * List dashboard users
-   * List all dashboard users associated with your account.
+   * The &#x60;/dashboard_user/list&#x60; endpoint provides details (such as email address) all Dashboard users associated with your account. This can use used to audit or track the list of reviewers for Monitor, Beacon, and Identity Verification products.
    * @param dashboardUserListRequest  (required)
    * @return Call&lt;DashboardUserListResponse&gt;
    * 
@@ -1884,13 +1910,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a deposit switch without using Plaid Exchange
+   * (Deprecated) Create a deposit switch without using Plaid Exchange
    * This endpoint provides an alternative to &#x60;/deposit_switch/create&#x60; for customers who have not yet fully integrated with Plaid Exchange. Like &#x60;/deposit_switch/create&#x60;, it creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
    * @param depositSwitchAltCreateRequest  (required)
    * @return Call&lt;DepositSwitchAltCreateResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/deposit-switch/reference#deposit_switchaltcreate">Create a deposit switch without using Plaid Exchange Documentation</a>
+   * @see <a href="/deposit-switch/reference#deposit_switchaltcreate">(Deprecated) Create a deposit switch without using Plaid Exchange Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -1900,13 +1928,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a deposit switch
+   * (Deprecated) Create a deposit switch
    * This endpoint creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
    * @param depositSwitchCreateRequest  (required)
    * @return Call&lt;DepositSwitchCreateResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/deposit-switch/reference#deposit_switchcreate">Create a deposit switch Documentation</a>
+   * @see <a href="/deposit-switch/reference#deposit_switchcreate">(Deprecated) Create a deposit switch Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -1916,13 +1946,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve a deposit switch
+   * (Deprecated) Retrieve a deposit switch
    * This endpoint returns information related to how the user has configured their payroll allocation and the state of the switch. You can use this information to build logic related to the user&#39;s direct deposit allocation preferences.
    * @param depositSwitchGetRequest  (required)
    * @return Call&lt;DepositSwitchGetResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/deposit-switch/reference#deposit_switchget">Retrieve a deposit switch Documentation</a>
+   * @see <a href="/deposit-switch/reference#deposit_switchget">(Deprecated) Retrieve a deposit switch Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -1932,13 +1964,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a deposit switch token
+   * (Deprecated) Create a deposit switch token
    * In order for the end user to take action, you will need to create a public token representing the deposit switch. This token is used to initialize Link. It can be used one time and expires after 30 minutes. 
    * @param depositSwitchTokenCreateRequest  (required)
    * @return Call&lt;DepositSwitchTokenCreateResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/deposit-switch/reference#deposit_switchtokencreate">Create a deposit switch token Documentation</a>
+   * @see <a href="/deposit-switch/reference#deposit_switchtokencreate">(Deprecated) Create a deposit switch token Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -2306,7 +2340,7 @@ public interface PlaidApi {
    * @param investmentsAuthGetRequest  (required)
    * @return Call&lt;InvestmentsAuthGetResponse&gt;
    * 
-   * @see <a href="/api/products/investments/#investmentsauth">Get data needed to authorize an investments transfer Documentation</a>
+   * @see <a href="/api/products/investments-move/#investmentsauthget">Get data needed to authorize an investments transfer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2362,6 +2396,54 @@ public interface PlaidApi {
   @POST("investments/transactions/get")
   Call<InvestmentsTransactionsGetResponse> investmentsTransactionsGet(
     @retrofit2.http.Body InvestmentsTransactionsGetRequest investmentsTransactionsGetRequest
+  );
+
+  /**
+   * Get an Issue
+   * Retrieve detailed information about a specific &#x60;Issue&#x60;. This endpoint returns a single &#x60;Issue&#x60; object.
+   * @param issuesGetRequest  (required)
+   * @return Call&lt;IssuesGetResponse&gt;
+   * 
+   * @see <a href="/api/products/link/#supportapi">Get an Issue Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("issues/get")
+  Call<IssuesGetResponse> issuesGet(
+    @retrofit2.http.Body IssuesGetRequest issuesGetRequest
+  );
+
+  /**
+   * Search for an Issue
+   * Search for an issue associated with one of the following identifiers:  &#x60;item_id&#x60;, &#x60;link_session_id&#x60; or Link session &#x60;request_id&#x60;.  This endpoint returns a list of &#x60;Issue&#x60; objects, with an empty list indicating that no issues are associated with the provided identifier. At least one of the identifiers must be provided to perform the search.
+   * @param issuesSearchRequest  (required)
+   * @return Call&lt;IssuesSearchResponse&gt;
+   * 
+   * @see <a href="/api/products/link/#supportapi">Search for an Issue Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("issues/search")
+  Call<IssuesSearchResponse> issuesSearch(
+    @retrofit2.http.Body IssuesSearchRequest issuesSearchRequest
+  );
+
+  /**
+   * Subscribe to an Issue
+   * Allows a user to subscribe to updates on a specific &#x60;Issue&#x60; using a POST method. Subscribers will receive webhook notifications when the issue status changes, particularly when resolved.
+   * @param issuesSubscribeRequest  (required)
+   * @return Call&lt;IssuesSubscribeResponse&gt;
+   * 
+   * @see <a href="/api/products/link/#supportapi">Subscribe to an Issue Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("issues/subscribe")
+  Call<IssuesSubscribeResponse> issuesSubscribe(
+    @retrofit2.http.Body IssuesSubscribeRequest issuesSubscribeRequest
   );
 
   /**
@@ -2806,7 +2888,7 @@ public interface PlaidApi {
 
   /**
    * Create a payment
-   * After creating a payment recipient, you can use the &#x60;/payment_initiation/payment/create&#x60; endpoint to create a payment to that recipient.  Payments can be one-time or standing order (recurring) and can be denominated in either EUR, GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency).  If making domestic GBP-denominated payments, your recipient must have been created with BACS numbers. In general, EUR-denominated payments will be sent via SEPA Credit Transfer, GBP-denominated payments will be sent via the Faster Payments network and for non-Eurozone markets typically via the local payment scheme, but the payment network used will be determined by the institution. Payments sent via Faster Payments will typically arrive immediately, while payments sent via SEPA Credit Transfer or other local payment schemes will typically arrive in one business day.  Standing orders (recurring payments) must be denominated in GBP and can only be sent to recipients in the UK. Once created, standing order payments cannot be modified or canceled via the API. An end user can cancel or modify a standing order directly on their banking application or website, or by contacting the bank. Standing orders will follow the payment rules of the underlying rails (Faster Payments in UK). Payments can be sent Monday to Friday, excluding bank holidays. If the pre-arranged date falls on a weekend or bank holiday, the payment is made on the next working day. It is not possible to guarantee the exact time the payment will reach the recipient’s account, although at least 90% of standing order payments are sent by 6am.  In Limited Production, payments must be below 5 GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency), and standing orders, variable recurring payments, and Virtual Accounts are not supported. 
+   * After creating a payment recipient, you can use the &#x60;/payment_initiation/payment/create&#x60; endpoint to create a payment to that recipient.  Payments can be one-time or standing order (recurring) and can be denominated in either EUR, GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency).  If making domestic GBP-denominated payments, your recipient must have been created with BACS numbers. In general, EUR-denominated payments will be sent via SEPA Credit Transfer, GBP-denominated payments will be sent via the Faster Payments network and for non-Eurozone markets typically via the local payment scheme, but the payment network used will be determined by the institution. Payments sent via Faster Payments will typically arrive immediately, while payments sent via SEPA Credit Transfer or other local payment schemes will typically arrive in one business day.  Standing orders (recurring payments) must be denominated in GBP and can only be sent to recipients in the UK. Once created, standing order payments cannot be modified or canceled via the API. An end user can cancel or modify a standing order directly on their banking application or website, or by contacting the bank. Standing orders will follow the payment rules of the underlying rails (Faster Payments in UK). Payments can be sent Monday to Friday, excluding bank holidays. If the pre-arranged date falls on a weekend or bank holiday, the payment is made on the next working day. It is not possible to guarantee the exact time the payment will reach the recipient’s account, although at least 90% of standing order payments are sent by 6am.  In Limited Production, payments must be below 5 GBP or other chosen [currency](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-create-request-amount-currency), and standing orders, variable recurring payments, and Virtual Accounts are not supported.
    * @param paymentInitiationPaymentCreateRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentCreateResponse&gt;
    * 
@@ -4054,7 +4136,7 @@ public interface PlaidApi {
 
   /**
    * Get RTP eligibility information of a transfer
-   * Use the &#x60;/transfer/capabilities/get&#x60; endpoint to determine the RTP eligibility information of a transfer. To simulate RTP eligibility in Sandbox, log in using the username &#x60;user_good&#x60; and password &#x60;pass_good&#x60; and use the first two checking and savings accounts in the \&quot;First Platypus Bank\&quot; institution (ending in 0000 or 1111), which will return &#x60;true&#x60;. Any other account will return &#x60;false&#x60;.
+   * Use the &#x60;/transfer/capabilities/get&#x60; endpoint to determine the RTP eligibility information of an account to be used with Transfer. This endpoint works on all Transfer-capable Items, including those created by &#x60;/transfer/migrate_account&#x60;. To simulate RTP eligibility in Sandbox, log in using the username &#x60;user_good&#x60; and password &#x60;pass_good&#x60; and use the first two checking and savings accounts in the \&quot;First Platypus Bank\&quot; institution (ending in 0000 or 1111), which will return &#x60;true&#x60;. Any other account will return &#x60;false&#x60;.
    * @param transferCapabilitiesGetRequest  (required)
    * @return Call&lt;TransferCapabilitiesGetResponse&gt;
    * 
@@ -4166,7 +4248,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve a transfer
-   * The &#x60;/transfer/get&#x60; endpoint fetches information about the transfer corresponding to the given &#x60;transfer_id&#x60;.
+   * The &#x60;/transfer/get&#x60; endpoint fetches information about the transfer corresponding to the given &#x60;transfer_id&#x60; or &#x60;authorization_id&#x60;. One of &#x60;transfer_id&#x60; or &#x60;authorization_id&#x60; must be populated but not both.
    * @param transferGetRequest  (required)
    * @return Call&lt;TransferGetResponse&gt;
    * 
@@ -4402,6 +4484,22 @@ public interface PlaidApi {
   @POST("transfer/platform/originator/create")
   Call<TransferPlatformOriginatorCreateResponse> transferPlatformOriginatorCreate(
     @retrofit2.http.Body TransferPlatformOriginatorCreateRequest transferPlatformOriginatorCreateRequest
+  );
+
+  /**
+   * Submit onboarding requirements for Scaled Platform originators
+   * The &#x60;/transfer/platform/requirement/submit&#x60; endpoint allows platforms to submit onboarding requirements for an originator as part of the Scaled Platform Transfer offering.
+   * @param transferPlatformRequirementSubmitRequest  (required)
+   * @return Call&lt;TransferPlatformRequirementSubmitResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/platform-payments/#transferplatformrequirementsubmit">Submit onboarding requirements for Scaled Platform originators Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/platform/requirement/submit")
+  Call<TransferPlatformRequirementSubmitResponse> transferPlatformRequirementSubmit(
+    @retrofit2.http.Body TransferPlatformRequirementSubmitRequest transferPlatformRequirementSubmitRequest
   );
 
   /**
