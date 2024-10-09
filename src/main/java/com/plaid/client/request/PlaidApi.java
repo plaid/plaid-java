@@ -482,6 +482,8 @@ import com.plaid.client.model.TransferOriginatorListRequest;
 import com.plaid.client.model.TransferOriginatorListResponse;
 import com.plaid.client.model.TransferPlatformOriginatorCreateRequest;
 import com.plaid.client.model.TransferPlatformOriginatorCreateResponse;
+import com.plaid.client.model.TransferPlatformPersonCreateRequest;
+import com.plaid.client.model.TransferPlatformPersonCreateResponse;
 import com.plaid.client.model.TransferPlatformRequirementSubmitRequest;
 import com.plaid.client.model.TransferPlatformRequirementSubmitResponse;
 import com.plaid.client.model.TransferQuestionnaireCreateRequest;
@@ -516,6 +518,10 @@ import com.plaid.client.model.UserItemsGetRequest;
 import com.plaid.client.model.UserItemsGetResponse;
 import com.plaid.client.model.UserRemoveRequest;
 import com.plaid.client.model.UserRemoveResponse;
+import com.plaid.client.model.UserThirdPartyTokenCreateRequest;
+import com.plaid.client.model.UserThirdPartyTokenCreateResponse;
+import com.plaid.client.model.UserThirdPartyTokenRemoveRequest;
+import com.plaid.client.model.UserThirdPartyTokenRemoveResponse;
 import com.plaid.client.model.UserUpdateRequest;
 import com.plaid.client.model.UserUpdateResponse;
 import com.plaid.client.model.WalletCreateRequest;
@@ -597,7 +603,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve accounts
-   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance. For items that went through the updated account selection pane, this endpoint only returns accounts that were permissioned by the user when they initially created the Item. If a user creates a new account after the initial link, you can capture this event through the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/items/#new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  &#x60;/accounts/get&#x60; is free to use and retrieves cached information, rather than extracting fresh information from the institution. The balance returned will reflect the balance at the time of the last successful Item update. If the Item is enabled for a regularly updating product, such as Transactions, Investments, or Liabilities, the balance will typically update about once a day, as long as the Item is healthy. If the Item is enabled only for products that do not frequently update, such as Auth or Identity, balance data may be much older.  For realtime balance information, use the paid endpoint &#x60;/accounts/balance/get&#x60; instead.
+   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance. To return new accounts that were created after the user linked their Item, you can listen for the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/items/#new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  &#x60;/accounts/get&#x60; is free to use and retrieves cached information, rather than extracting fresh information from the institution. The balance returned will reflect the balance at the time of the last successful Item update. If the Item is enabled for a regularly updating product, such as Transactions, Investments, or Liabilities, the balance will typically update about once a day, as long as the Item is healthy. If the Item is enabled only for products that do not frequently update, such as Auth or Identity, balance data may be much older.  For realtime balance information, use the paid endpoint &#x60;/accounts/balance/get&#x60; instead.
    * @param accountsGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
@@ -2054,11 +2060,11 @@ public interface PlaidApi {
 
   /**
    * Returns uploaded document identity
-   * Use &#x60;/identity/documents/uploads/get&#x60; to retrieve document uploaded identity.
+   * Use &#x60;/identity/documents/uploads/get&#x60; to retrieve identity details when using [Identity Document Upload](https://plaid.com/docs/identity/identity-document-upload/).
    * @param identityDocumentsUploadsGetRequest  (required)
    * @return Call&lt;IdentityDocumentsUploadsGetResponse&gt;
    * 
-   * @see <a href="none">Returns uploaded document identity Documentation</a>
+   * @see <a href="/api/products/identity/#identitydocumentsuploadsget">Returns uploaded document identity Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2404,7 +2410,7 @@ public interface PlaidApi {
    * @param issuesGetRequest  (required)
    * @return Call&lt;IssuesGetResponse&gt;
    * 
-   * @see <a href="/api/products/link/#supportapi">Get an Issue Documentation</a>
+   * @see <a href="/api/products/issues/#issuesget">Get an Issue Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2420,7 +2426,7 @@ public interface PlaidApi {
    * @param issuesSearchRequest  (required)
    * @return Call&lt;IssuesSearchResponse&gt;
    * 
-   * @see <a href="/api/products/link/#supportapi">Search for an Issue Documentation</a>
+   * @see <a href="/api/products/issues#issuessearch">Search for an Issue Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2436,7 +2442,7 @@ public interface PlaidApi {
    * @param issuesSubscribeRequest  (required)
    * @return Call&lt;IssuesSubscribeResponse&gt;
    * 
-   * @see <a href="/api/products/link/#supportapi">Subscribe to an Issue Documentation</a>
+   * @see <a href="/api/products/issues/#issuessubscribe">Subscribe to an Issue Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3486,7 +3492,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid sandbox &#x60;DEFAULT_UPDATE&#x60; responses include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Fired to indicate that a new account is available on the Item and you can launch update mode to request access to it.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid Sandbox &#x60;DEFAULT_UPDATE&#x60; webhook types include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Fired to indicate that a new account is available on the Item and you can launch update mode to request access to it.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;PENDING_DISCONNECT&#x60;: Fired when an Item will stop working in the near future (e.g. due to a planned bank migration) and must be sent through update mode to continue working.   &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -4086,7 +4092,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;. The transfer authorization will expire if not used after one hour. (You can contact your account manager to change the default authorization lifetime.)   There are four possible outcomes to calling this endpoint:  - If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer.  - If the &#x60;authorization.decision&#x60; is &#x60;user_action_required&#x60;, additional user input is needed, usually to fix a broken bank connection, before Plaid can properly assess the risk. You need to launch Link in update mode to complete the required user action. When calling &#x60;/link/token/create&#x60; to get a new Link token, instead of providing &#x60;access_token&#x60; in the request, you should set [&#x60;transfer.authorization_id&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transfer-authorization-id) as the &#x60;authorization.id&#x60;. After the Link flow is completed, you may re-attempt the authorization. - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;. - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To get an authorization decision of &#x60;user_action_required&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;. The transfer authorization will expire if not used after one hour. (You can contact your account manager to change the default authorization lifetime.)   There are four possible outcomes to calling this endpoint:     - If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer.     - If the &#x60;authorization.decision&#x60; is &#x60;user_action_required&#x60;, additional user input is needed, usually to fix a broken bank connection, before Plaid can properly assess the risk. You need to launch Link in update mode to complete the required user action. When calling &#x60;/link/token/create&#x60; to get a new Link token, instead of providing &#x60;access_token&#x60; in the request, you should set [&#x60;transfer.authorization_id&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transfer-authorization-id) as the &#x60;authorization.id&#x60;. After the Link flow is completed, you may re-attempt the authorization.    - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;.      - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To get an authorization decision of &#x60;user_action_required&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -4487,6 +4493,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Create a person associated with an originator
+   * Use the &#x60;/transfer/platform/person/create&#x60; endpoint to create a person record associated with an originator and optionally submit person-specific requirements.
+   * @param transferPlatformPersonCreateRequest  (required)
+   * @return Call&lt;TransferPlatformPersonCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/platform/#transferplatformpersoncreate">Create a person associated with an originator Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/platform/person/create")
+  Call<TransferPlatformPersonCreateResponse> transferPlatformPersonCreate(
+    @retrofit2.http.Body TransferPlatformPersonCreateRequest transferPlatformPersonCreateRequest
+  );
+
+  /**
    * Submit onboarding requirements for Scaled Platform originators
    * The &#x60;/transfer/platform/requirement/submit&#x60; endpoint allows platforms to submit onboarding requirements for an originator as part of the Scaled Platform Transfer offering.
    * @param transferPlatformRequirementSubmitRequest  (required)
@@ -4756,6 +4778,38 @@ public interface PlaidApi {
   @POST("user/remove")
   Call<UserRemoveResponse> userRemove(
     @retrofit2.http.Body UserRemoveRequest userRemoveRequest
+  );
+
+  /**
+   * Create a third-party user token
+   * This endpoint is used to create a third-party user token. This token can be shared with and used by a specified third-party client to access data associated with the user through supported endpoints.  Ensure you store the &#x60;third_party_user_token&#x60; along with the &#x60;user_token&#x60; and &#x60;third_party_client_id&#x60;, as it is not possible to retrieve a previously created &#x60;third_party_user_token&#x60;.
+   * @param userThirdPartyTokenCreateRequest  (required)
+   * @return Call&lt;UserThirdPartyTokenCreateResponse&gt;
+   * 
+   * @see <a href="/api/users/#userthirdpartytokencreate">Create a third-party user token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/third_party_token/create")
+  Call<UserThirdPartyTokenCreateResponse> userThirdPartyTokenCreate(
+    @retrofit2.http.Body UserThirdPartyTokenCreateRequest userThirdPartyTokenCreateRequest
+  );
+
+  /**
+   * Remove a third-party user token
+   * This endpoint is used to delete a third-party user token. Once removed, the token can longer be used to access data associated with the user.   Any subsequent calls to retrieve information using the same third-party user token will result in an error stating the third-party user token does not exist.
+   * @param userThirdPartyTokenRemoveRequest  (required)
+   * @return Call&lt;UserThirdPartyTokenRemoveResponse&gt;
+   * 
+   * @see <a href="/api/users/#userthirdpartytokenremove">Remove a third-party user token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/third_party_token/remove")
+  Call<UserThirdPartyTokenRemoveResponse> userThirdPartyTokenRemove(
+    @retrofit2.http.Body UserThirdPartyTokenRemoveRequest userThirdPartyTokenRemoveRequest
   );
 
   /**
