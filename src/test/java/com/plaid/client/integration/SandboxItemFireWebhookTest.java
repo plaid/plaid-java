@@ -8,6 +8,7 @@ import com.plaid.client.model.ItemWebhookUpdateResponse;
 import com.plaid.client.model.Products;
 import com.plaid.client.model.SandboxItemFireWebhookRequest;
 import com.plaid.client.model.SandboxItemFireWebhookResponse;
+import com.plaid.client.model.WebhookType;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
@@ -41,7 +42,8 @@ public class SandboxItemFireWebhookTest extends AbstractItemIntegrationTest {
       .accessToken(getItemPublicTokenExchangeResponse().getAccessToken())
       .webhookCode(
         SandboxItemFireWebhookRequest.WebhookCodeEnum.DEFAULT_UPDATE
-      );
+      )
+      .webhookType(WebhookType.TRANSACTIONS);
 
     Response<SandboxItemFireWebhookResponse> response = client()
       .sandboxItemFireWebhook(fireRequest)
