@@ -89,7 +89,7 @@ public abstract class AbstractItemIntegrationTest
       .itemGet(itemGetRequest)
       .execute();
     assertSuccessResponse(itemGetResponse);
-    item = itemGetResponse.body().getItem();
+    item = getItemFromItemWithConsentFields(itemGetResponse.body().getItem());
   }
 
   protected abstract List<Products> setupItemProducts();

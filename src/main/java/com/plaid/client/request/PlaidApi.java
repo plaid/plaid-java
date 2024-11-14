@@ -1289,7 +1289,7 @@ public interface PlaidApi {
 
   /**
    * Create a Consumer Report
-   * &#x60;/cra/check_report/create&#x60; creates a Consumer Report powered by Plaid Check. You can call this endpoint to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. If you did provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report.   &#x60;/cra/check_report/create&#x60; can also be used to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it. Note that refreshing or regenerating a report is a billable event.\&quot;
+   * &#x60;/cra/check_report/create&#x60; creates a Consumer Report powered by Plaid Check. You can call this endpoint to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. If you did provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report.   &#x60;/cra/check_report/create&#x60; can also be used to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it. Note that refreshing or regenerating a report is a billable event.
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
@@ -1437,7 +1437,7 @@ public interface PlaidApi {
    * @param craMonitoringInsightsGetRequest  (required)
    * @return Call&lt;CraMonitoringInsightsGetResponse&gt;
    * 
-   * @see <a href="/none/">Retrieve a Monitoring Insights Report Documentation</a>
+   * @see <a href="/check/api/#cramonitoring_insightsget">Retrieve a Monitoring Insights Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1453,7 +1453,7 @@ public interface PlaidApi {
    * @param craMonitoringInsightsSubscribeRequest  (required)
    * @return Call&lt;CraMonitoringInsightsSubscribeResponse&gt;
    * 
-   * @see <a href="/none/">Subscribe to Monitoring Insights Documentation</a>
+   * @see <a href="/check/api/#cramonitoring_insightssubscribe">Subscribe to Monitoring Insights Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1469,7 +1469,7 @@ public interface PlaidApi {
    * @param craMonitoringInsightsUnsubscribeRequest  (required)
    * @return Call&lt;CraMonitoringInsightsUnsubscribeResponse&gt;
    * 
-   * @see <a href="/none/">Unsubscribe from Monitoring Insights Documentation</a>
+   * @see <a href="/check/api/#cramonitoring_insightsunsubscribe">Unsubscribe from Monitoring Insights Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2750,7 +2750,7 @@ public interface PlaidApi {
 
   /**
    * Creates a new end customer for a Plaid reseller.
-   * The &#x60;/partner/customer/create&#x60; endpoint is used by reseller partners to create end customers.
+   * The &#x60;/partner/customer/create&#x60; endpoint is used by reseller partners to create end customers. To create end customers, it should be called in the Production environment only, even when creating Sandbox API keys. If called in the Sandbox environment, it will return a sample response, but no customer will be created and the API keys will not be valid.
    * @param partnerCustomerCreateRequest  (required)
    * @return Call&lt;PartnerCustomerCreateResponse&gt;
    * 
@@ -3252,7 +3252,7 @@ public interface PlaidApi {
 
   /**
    * Create Stripe bank account token
-   *  Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).  Note that the Stripe bank account token is a one-time use token. To store bank account information for later use, you can use a Stripe customer object and create an associated bank account from the token, or you can use a Stripe Custom account and create an associated external bank account from the token. This bank account information should work indefinitely, unless the user&#39;s bank account information changes or they revoke Plaid&#39;s permissions to access their account. Stripe bank account information cannot be modified once the bank account token has been created. If you ever need to change the bank account details used by Stripe for a specific customer, have the user go through Link again and create a new bank account token from the new &#x60;access_token&#x60;.  Bank account tokens can also be revoked, using &#x60;/item/remove&#x60;.
+   *  Used to create a token suitable for sending to Stripe to enable Plaid-Stripe integrations. For a detailed guide on integrating Stripe, see [Add Stripe to your app](https://plaid.com/docs/auth/partnerships/stripe/).  Note that the Stripe bank account token is a one-time use token. To store bank account information for later use, you can use a Stripe customer object and create an associated bank account from the token, or you can use a Stripe Custom account and create an associated external bank account from the token. This bank account information should work indefinitely, unless the user&#39;s bank account information changes or they revoke Plaid&#39;s permissions to access their account. Stripe bank account information cannot be modified once the bank account token has been created. If you ever need to change the bank account details used by Stripe for a specific customer, have the user go through Link again and create a new bank account token from the new &#x60;access_token&#x60;.  To revoke a bank account token, the entire underlying access token must be revoked using &#x60;/item/remove&#x60;.
    * @param processorStripeBankAccountTokenCreateRequest  (required)
    * @return Call&lt;ProcessorStripeBankAccountTokenCreateResponse&gt;
    * 
@@ -3268,7 +3268,7 @@ public interface PlaidApi {
 
   /**
    * Create processor token
-   * Used to create a token suitable for sending to one of Plaid&#39;s partners to enable integrations. Note that Stripe partnerships use bank account tokens instead; see &#x60;/processor/stripe/bank_account_token/create&#x60; for creating tokens for use with Stripe integrations. Once created, a processor token for a given Item cannot be modified or updated. If the account must be linked to a new or different partner resource, create a new Item by having the user go through the Link flow again; a new processor token can then be created from the new &#x60;access_token&#x60;. Processor tokens can also be revoked, using &#x60;/item/remove&#x60;.
+   * Used to create a token suitable for sending to one of Plaid&#39;s partners to enable integrations. Note that Stripe partnerships use bank account tokens instead; see &#x60;/processor/stripe/bank_account_token/create&#x60; for creating tokens for use with Stripe integrations. If using multiple processors, multiple different processor tokens can be created for a single access token. Once created, a processor token for a given Item cannot be modified or updated. To revoke the processor&#39;s access, the entire Item must be deleted by calling &#x60;/item/remove&#x60;.
    * @param processorTokenCreateRequest  (required)
    * @return Call&lt;ProcessorTokenCreateResponse&gt;
    * 
@@ -3812,7 +3812,7 @@ public interface PlaidApi {
 
   /**
    * Report whether you initiated an ACH transaction
-   * After calling &#x60;/signal/evaluate&#x60; (or &#x60;/accounts/balance/get&#x60;, for participants in the [Balance Plus](http://plaid.com/docs/balance/balance-plus) beta), call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated.
+   * After calling &#x60;/signal/evaluate&#x60;, call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated.
    * @param signalDecisionReportRequest  (required)
    * @return Call&lt;SignalDecisionReportResponse&gt;
    * 
@@ -3844,7 +3844,7 @@ public interface PlaidApi {
 
   /**
    * Opt-in an Item to Signal
-   * When Link is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score.  If run on an Item that is already initialized with Signal, this endpoint will return a 200 response and will not modify the Item.
+   * When an Item is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score. This should be done on Items where Signal was added in the &#x60;additional_consented_products&#x60; array but not in the &#x60;products&#x60;, &#x60;optional_products&#x60;, or &#x60;required_if_supported_products&#x60; array. If &#x60;/signal/prepare&#x60; is skipped on an Item that is not initialized with Signal, the initial call to &#x60;/signal/evaluate&#x60; on that Item will be less accurate, because Signal will have access to less data for computing the Signal score.  If run on an Item that is already initialized with Signal, this endpoint will return a 200 response and will not modify the Item.
    * @param signalPrepareRequest  (required)
    * @return Call&lt;SignalPrepareResponse&gt;
    * 
@@ -3860,7 +3860,7 @@ public interface PlaidApi {
 
   /**
    * Report a return for an ACH transaction
-   * Call the &#x60;/signal/return/report&#x60; endpoint to report a returned transaction that was previously sent to the &#x60;/signal/evaluate&#x60; or (for participants in the [Balance Plus](http://plaid.com/docs/balance/balance-plus) beta) the &#x60;/accounts/balance/get&#x60; endpoint. Your feedback will be used by the model to incorporate the latest risk trend in your portfolio.
+   * Call the &#x60;/signal/return/report&#x60; endpoint to report a returned transaction that was previously sent to the &#x60;/signal/evaluate&#x60; endpoint. Your feedback will be used by the model to incorporate the latest risk trend in your portfolio.
    * @param signalReturnReportRequest  (required)
    * @return Call&lt;SignalReturnReportResponse&gt;
    * 

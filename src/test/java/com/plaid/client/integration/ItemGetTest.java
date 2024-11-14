@@ -36,7 +36,7 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
     Response<ItemGetResponse> response = client().itemGet(request).execute();
 
     assertSuccessResponse(response);
-    assertItemEquals(getItem(), response.body().getItem());
+    assertItemEquals(getItem(), getItemFromItemWithConsentFields(response.body().getItem()));
   }
 
   @Test
@@ -65,7 +65,7 @@ public class ItemGetTest extends AbstractItemIntegrationTest {
     }
 
     assertSuccessResponse(response);
-    assertItemEquals(getItem(), response.body().getItem());
+    assertItemEquals(getItem(), getItemFromItemWithConsentFields(response.body().getItem()));
 
     ItemStatusTransactions transactions = response
       .body()

@@ -7,6 +7,7 @@ import com.plaid.client.ApiClient;
 import com.plaid.client.model.PlaidError;
 import com.plaid.client.model.PlaidErrorType;
 import com.plaid.client.model.Item;
+import com.plaid.client.model.ItemWithConsentFields;
 import com.plaid.client.request.PlaidApi;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -125,5 +126,22 @@ public abstract class AbstractIntegrationTest {
       expectedItem.getConsentExpirationTime(),
       actualItem.getConsentExpirationTime()
     );
+    assertEquals(
+      expectedItem.getUpdateType(),
+      actualItem.getUpdateType()
+    );
+  }
+
+  public Item getItemFromItemWithConsentFields(ItemWithConsentFields itemWithConsentFields) {
+    Item item = new Item()
+      .error(itemWithConsentFields.getError())
+      .availableProducts(itemWithConsentFields.getAvailableProducts())
+      .billedProducts(itemWithConsentFields.getBilledProducts())
+      .institutionId(itemWithConsentFields.getInstitutionId())
+      .itemId(itemWithConsentFields.getItemId())
+      .webhook(itemWithConsentFields.getWebhook())
+      .consentExpirationTime(itemWithConsentFields.getConsentExpirationTime())
+      .updateType(Item.UpdateTypeEnum.fromValue(itemWithConsentFields.getUpdateType().getValue()));
+    return item;
   }
 }
