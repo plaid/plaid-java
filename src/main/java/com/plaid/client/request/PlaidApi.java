@@ -90,6 +90,8 @@ import com.plaid.client.model.CraBankIncomeGetRequest;
 import com.plaid.client.model.CraBankIncomeGetResponse;
 import com.plaid.client.model.CraCheckReportBaseReportGetRequest;
 import com.plaid.client.model.CraCheckReportBaseReportGetResponse;
+import com.plaid.client.model.CraCheckReportCashflowInsightsGetRequest;
+import com.plaid.client.model.CraCheckReportCashflowInsightsGetResponse;
 import com.plaid.client.model.CraCheckReportCreateRequest;
 import com.plaid.client.model.CraCheckReportCreateResponse;
 import com.plaid.client.model.CraCheckReportIncomeInsightsGetRequest;
@@ -407,6 +409,8 @@ import com.plaid.client.model.SignalPrepareRequest;
 import com.plaid.client.model.SignalPrepareResponse;
 import com.plaid.client.model.SignalReturnReportRequest;
 import com.plaid.client.model.SignalReturnReportResponse;
+import com.plaid.client.model.SignalScheduleRequest;
+import com.plaid.client.model.SignalScheduleResponse;
 import com.plaid.client.model.StatementsDownloadRequest;
 import com.plaid.client.model.StatementsListRequest;
 import com.plaid.client.model.StatementsListResponse;
@@ -1255,6 +1259,22 @@ public interface PlaidApi {
   @POST("cra/check_report/base_report/get")
   Call<CraCheckReportBaseReportGetResponse> craCheckReportBaseReportGet(
     @retrofit2.http.Body CraCheckReportBaseReportGetRequest craCheckReportBaseReportGetRequest
+  );
+
+  /**
+   * Retrieve cash flow insights from your user&#39;s banking data
+   * This endpoint allows you to retrieve the Cashflow Insights report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_cashflow_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
+   * @param craCheckReportCashflowInsightsGetRequest  (required)
+   * @return Call&lt;CraCheckReportCashflowInsightsGetResponse&gt;
+   * 
+   * @see <a href="/check/api/#cracheck_reportcashflow_insightsget">Retrieve cash flow insights from your user&#39;s banking data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/check_report/cashflow_insights/get")
+  Call<CraCheckReportCashflowInsightsGetResponse> craCheckReportCashflowInsightsGet(
+    @retrofit2.http.Body CraCheckReportCashflowInsightsGetRequest craCheckReportCashflowInsightsGetRequest
   );
 
   /**
@@ -3890,6 +3910,22 @@ public interface PlaidApi {
   @POST("signal/return/report")
   Call<SignalReturnReportResponse> signalReturnReport(
     @retrofit2.http.Body SignalReturnReportRequest signalReturnReportRequest
+  );
+
+  /**
+   * Schedule a planned ACH transaction
+   * Use &#x60;/signal/schedule&#x60; to schedule a planned ACH transaction.
+   * @param signalScheduleRequest  (required)
+   * @return Call&lt;SignalScheduleResponse&gt;
+   * 
+   * @see <a href="none">Schedule a planned ACH transaction Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("signal/schedule")
+  Call<SignalScheduleResponse> signalSchedule(
+    @retrofit2.http.Body SignalScheduleRequest signalScheduleRequest
   );
 
   /**
