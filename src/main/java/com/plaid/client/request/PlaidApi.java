@@ -80,6 +80,10 @@ import com.plaid.client.model.BeaconUserReviewRequest;
 import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
 import com.plaid.client.model.CRALoansRegisterRequest;
+import com.plaid.client.model.CashflowReportGetRequest;
+import com.plaid.client.model.CashflowReportGetResponse;
+import com.plaid.client.model.CashflowReportRefreshRequest;
+import com.plaid.client.model.CashflowReportRefreshResponse;
 import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.ConsentEventsGetRequest;
 import com.plaid.client.model.ConsentEventsGetResponse;
@@ -401,6 +405,8 @@ import com.plaid.client.model.SandboxTransferTestClockListRequest;
 import com.plaid.client.model.SandboxTransferTestClockListResponse;
 import com.plaid.client.model.SandboxUserResetLoginRequest;
 import com.plaid.client.model.SandboxUserResetLoginResponse;
+import com.plaid.client.model.SessionTokenCreateRequest;
+import com.plaid.client.model.SessionTokenCreateResponse;
 import com.plaid.client.model.SignalDecisionReportRequest;
 import com.plaid.client.model.SignalDecisionReportResponse;
 import com.plaid.client.model.SignalEvaluateRequest;
@@ -1166,6 +1172,38 @@ public interface PlaidApi {
   );
 
   /**
+   * Gets transaction data in cashflow_report
+   * The &#x60;/cashflow_report/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with cashflow_report, or if it wasn&#39;t, upon the first call to /cashflow_report/refresh. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
+   * @param cashflowReportGetRequest  (required)
+   * @return Call&lt;CashflowReportGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transactions/#cashflowReportGet">Gets transaction data in cashflow_report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cashflow_report/get")
+  Call<CashflowReportGetResponse> cashflowReportGet(
+    @retrofit2.http.Body CashflowReportGetRequest cashflowReportGetRequest
+  );
+
+  /**
+   * Refresh transaction data in cashflow_report
+   * &#x60;/cashflow_report/refresh&#x60; is an endpoint that initiates an on-demand extraction to fetch the newest transactions for an item (given an &#x60;item_id&#x60;). The item must already have Cashflow Report added as a product in order to call &#x60;/cashflow_report/refresh&#x60;.  After calling &#x60;/cashflow_report/refresh&#x60;, Plaid will fire a webhook &#x60;CASHFLOW_REPORT_READY&#x60; alerting clients that new transactions data can then be ingested via &#x60;/cashflow_report/get&#x60; or the webhook will contain an error code informing there was an error in refreshing transactions data.   Note that the &#x60;/cashflow_report/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) non-depository accounts and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item that contains only non-depository accounts from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but up to 30 seconds or more). If you encounter errors, you may find it necessary to adjust your timeout period for requests.
+   * @param cashflowReportRefreshRequest  (required)
+   * @return Call&lt;CashflowReportRefreshResponse&gt;
+   * 
+   * @see <a href="/api/products/transactions/#cashflowReportRefresh">Refresh transaction data in cashflow_report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cashflow_report/refresh")
+  Call<CashflowReportRefreshResponse> cashflowReportRefresh(
+    @retrofit2.http.Body CashflowReportRefreshRequest cashflowReportRefreshRequest
+  );
+
+  /**
    * Get categories
    * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on categories returned by Plaid. This endpoint does not require authentication.  All implementations are recommended to use the newer &#x60;personal_finance_category&#x60; taxonomy instead of the older &#x60;category&#x60; taxonomy supported by this endpoint. The [&#x60;personal_finance_category taxonomy&#x60; CSV file](https://plaid.com/documents/transactions-personal-finance-category-taxonomy.csv) is available for download and is not accessible via API.
    * @param body  (required)
@@ -1251,7 +1289,7 @@ public interface PlaidApi {
    * @param craCheckReportBaseReportGetRequest  (required)
    * @return Call&lt;CraCheckReportBaseReportGetResponse&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportbase_reportget">Retrieve a Base Report Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportbase_reportget">Retrieve a Base Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1267,7 +1305,7 @@ public interface PlaidApi {
    * @param craCheckReportCashflowInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportCashflowInsightsGetResponse&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportcashflow_insightsget">Retrieve cash flow insights from your user&#39;s banking data Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportcashflow_insightsget">Retrieve cash flow insights from your user&#39;s banking data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1283,7 +1321,7 @@ public interface PlaidApi {
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportcreate">Create a Consumer Report Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportcreate">Create a Consumer Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1299,7 +1337,7 @@ public interface PlaidApi {
    * @param craCheckReportIncomeInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportIncomeInsightsGetResponse&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportincome_insightsget">Retrieve cash flow information from your user&#39;s banks Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportincome_insightsget">Retrieve cash flow information from your user&#39;s banks Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1315,7 +1353,7 @@ public interface PlaidApi {
    * @param craCheckReportNetworkInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportNetworkInsightsGetResponse&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportnetwork_insightsget">Retrieve network attributes for the user Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportnetwork_insightsget">Retrieve network attributes for the user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1331,7 +1369,7 @@ public interface PlaidApi {
    * @param craCheckReportPartnerInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportPartnerInsightsGetResponse&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportpartner_insightsget">Retrieve cash flow insights from partners Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportpartner_insightsget">Retrieve cash flow insights from partners Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1347,7 +1385,7 @@ public interface PlaidApi {
    * @param craCheckReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/check/api/#cracheck_reportpdfget">Retrieve Consumer Reports as a PDF Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportpdfget">Retrieve Consumer Reports as a PDF Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1427,7 +1465,7 @@ public interface PlaidApi {
    * @param craMonitoringInsightsGetRequest  (required)
    * @return Call&lt;CraMonitoringInsightsGetResponse&gt;
    * 
-   * @see <a href="/check/api/#cramonitoring_insightsget">Retrieve a Monitoring Insights Report Documentation</a>
+   * @see <a href="/api/products/check/#cramonitoring_insightsget">Retrieve a Monitoring Insights Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1443,7 +1481,7 @@ public interface PlaidApi {
    * @param craMonitoringInsightsSubscribeRequest  (required)
    * @return Call&lt;CraMonitoringInsightsSubscribeResponse&gt;
    * 
-   * @see <a href="/check/api/#cramonitoring_insightssubscribe">Subscribe to Monitoring Insights Documentation</a>
+   * @see <a href="/api/products/check/#cramonitoring_insightssubscribe">Subscribe to Monitoring Insights Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1459,7 +1497,7 @@ public interface PlaidApi {
    * @param craMonitoringInsightsUnsubscribeRequest  (required)
    * @return Call&lt;CraMonitoringInsightsUnsubscribeResponse&gt;
    * 
-   * @see <a href="/check/api/#cramonitoring_insightsunsubscribe">Unsubscribe from Monitoring Insights Documentation</a>
+   * @see <a href="/api/products/check/#cramonitoring_insightsunsubscribe">Unsubscribe from Monitoring Insights Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3846,6 +3884,22 @@ public interface PlaidApi {
   @POST("sandbox/user/reset_login")
   Call<SandboxUserResetLoginResponse> sandboxUserResetLogin(
     @retrofit2.http.Body SandboxUserResetLoginRequest sandboxUserResetLoginRequest
+  );
+
+  /**
+   * Create a Session Token
+   * Any Plaid experience a user sees such as connecting a bank account, verifying identity, or sharing a credit report is considered a session. Today, most sessions happen through Link and the token to start these Link session is a link token created and configured via &#x60;link/token/create&#x60;. Sessions are a higher level abstraction where configuration primarily happens in Plaid Dashboard.  Depending on the template id provided, the session may a Link session, specified by a Link token, or may be another experience in the future. A primary benefit is that configuration changes can be done in Dashboard with no code changes required.  Currently, this endpoint is only supported for Layer templates and Link but is reserved in the future to initialize other end-user Plaid experiences. The returned Link token is used as an parameter when initializing the Link SDK. For more details, see the [Link flow overview](https://plaid.com/docs/link/#link-flow-overview).
+   * @param sessionTokenCreateRequest  (required)
+   * @return Call&lt;SessionTokenCreateResponse&gt;
+   * 
+   * @see <a href="/api/link/#sessiontokencreate">Create a Session Token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("session/token/create")
+  Call<SessionTokenCreateResponse> sessionTokenCreate(
+    @retrofit2.http.Body SessionTokenCreateRequest sessionTokenCreateRequest
   );
 
   /**
