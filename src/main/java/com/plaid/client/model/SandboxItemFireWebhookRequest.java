@@ -72,6 +72,10 @@ public class SandboxItemFireWebhookRequest {
     
     ERROR("ERROR");
 
+    USER_PERMISSION_REVOKED("USER_PERMISSION_REVOKED");
+
+    USER_ACCOUNT_REVOKED("USER_ACCOUNT_REVOKED");
+
     private String value;
 
     WebhookCodeEnum(String value) {
