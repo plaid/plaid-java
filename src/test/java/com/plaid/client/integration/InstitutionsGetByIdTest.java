@@ -11,6 +11,7 @@ import com.plaid.client.model.InstitutionsGetByIdRequestOptions;
 import com.plaid.client.model.InstitutionsGetByIdResponse;
 import com.plaid.client.model.Products;
 import java.util.Arrays;
+import java.util.HashSet;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -128,7 +129,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
     assertEquals("Tartan Bank", institution.getName());
     assertEquals(
-      Arrays.asList(
+      new HashSet<>(Arrays.asList(
         Products.ASSETS,
         Products.AUTH,
         Products.BALANCE,
@@ -144,8 +145,8 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
         Products.PAY_BY_BANK,
         Products.PROCESSOR_PAYMENTS,
         Products.TRANSFER
-      ),
-      institution.getProducts()
+      )),
+      new HashSet<>(institution.getProducts())
     );
     assertTrue(institution.getCountryCodes().contains(CountryCode.US));
   }
@@ -157,7 +158,7 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
     );
     assertTrue(institution.getName().contains("First Platypus Bank"));
     assertEquals(
-      Arrays.asList(
+      new HashSet<>(Arrays.asList(
         Products.ASSETS,
         Products.AUTH,
         Products.BALANCE,
@@ -175,9 +176,10 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
         Products.PROCESSOR_PAYMENTS,
         Products.STATEMENTS,
         Products.TRANSFER
-      ),
-      institution.getProducts()
+      )),
+      new HashSet<>(institution.getProducts())
     );
+
     assertTrue(institution.getCountryCodes().contains(CountryCode.US));
   }
 

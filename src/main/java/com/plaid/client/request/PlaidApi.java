@@ -88,10 +88,6 @@ import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.ConsentEventsGetRequest;
 import com.plaid.client.model.ConsentEventsGetResponse;
 import com.plaid.client.model.ConsumerReportPDFGetRequest;
-import com.plaid.client.model.CraBankIncomeCreateRequest;
-import com.plaid.client.model.CraBankIncomeCreateResponse;
-import com.plaid.client.model.CraBankIncomeGetRequest;
-import com.plaid.client.model.CraBankIncomeGetResponse;
 import com.plaid.client.model.CraCheckReportBaseReportGetRequest;
 import com.plaid.client.model.CraCheckReportBaseReportGetResponse;
 import com.plaid.client.model.CraCheckReportCashflowInsightsGetRequest;
@@ -105,6 +101,8 @@ import com.plaid.client.model.CraCheckReportNetworkInsightsGetResponse;
 import com.plaid.client.model.CraCheckReportPDFGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetResponse;
+import com.plaid.client.model.CraCheckReportVerificationGetRequest;
+import com.plaid.client.model.CraCheckReportVerificationGetResponse;
 import com.plaid.client.model.CraLoanUnregisterResponse;
 import com.plaid.client.model.CraLoansApplicationsRegisterRequest;
 import com.plaid.client.model.CraLoansApplicationsRegisterResponse;
@@ -165,14 +163,6 @@ import com.plaid.client.model.DashboardUserGetRequest;
 import com.plaid.client.model.DashboardUserGetResponse;
 import com.plaid.client.model.DashboardUserListRequest;
 import com.plaid.client.model.DashboardUserListResponse;
-import com.plaid.client.model.DepositSwitchAltCreateRequest;
-import com.plaid.client.model.DepositSwitchAltCreateResponse;
-import com.plaid.client.model.DepositSwitchCreateRequest;
-import com.plaid.client.model.DepositSwitchCreateResponse;
-import com.plaid.client.model.DepositSwitchGetRequest;
-import com.plaid.client.model.DepositSwitchGetResponse;
-import com.plaid.client.model.DepositSwitchTokenCreateRequest;
-import com.plaid.client.model.DepositSwitchTokenCreateResponse;
 import com.plaid.client.model.EmployersSearchRequest;
 import com.plaid.client.model.EmployersSearchResponse;
 import com.plaid.client.model.EmploymentVerificationGetRequest;
@@ -486,6 +476,8 @@ import com.plaid.client.model.TransferMigrateAccountRequest;
 import com.plaid.client.model.TransferMigrateAccountResponse;
 import com.plaid.client.model.TransferOriginatorCreateRequest;
 import com.plaid.client.model.TransferOriginatorCreateResponse;
+import com.plaid.client.model.TransferOriginatorFundingAccountCreateRequest;
+import com.plaid.client.model.TransferOriginatorFundingAccountCreateResponse;
 import com.plaid.client.model.TransferOriginatorFundingAccountUpdateRequest;
 import com.plaid.client.model.TransferOriginatorFundingAccountUpdateResponse;
 import com.plaid.client.model.TransferOriginatorGetRequest;
@@ -1173,7 +1165,7 @@ public interface PlaidApi {
 
   /**
    * Gets transaction data in cashflow_report
-   * The &#x60;/cashflow_report/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with cashflow_report, or if it wasn&#39;t, upon the first call to /cashflow_report/refresh. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
+   * The &#x60;/cashflow_report/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with cashflow_report, or if it wasn&#39;t, upon the first call to /cashflow_report/refresh. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
    * @param cashflowReportGetRequest  (required)
    * @return Call&lt;CashflowReportGetResponse&gt;
    * 
@@ -1189,7 +1181,7 @@ public interface PlaidApi {
 
   /**
    * Refresh transaction data in cashflow_report
-   * &#x60;/cashflow_report/refresh&#x60; is an endpoint that initiates an on-demand extraction to fetch the newest transactions for an item (given an &#x60;item_id&#x60;). The item must already have Cashflow Report added as a product in order to call &#x60;/cashflow_report/refresh&#x60;.  After calling &#x60;/cashflow_report/refresh&#x60;, Plaid will fire a webhook &#x60;CASHFLOW_REPORT_READY&#x60; alerting clients that new transactions data can then be ingested via &#x60;/cashflow_report/get&#x60; or the webhook will contain an error code informing there was an error in refreshing transactions data.   Note that the &#x60;/cashflow_report/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) non-depository accounts and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item that contains only non-depository accounts from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but up to 30 seconds or more). If you encounter errors, you may find it necessary to adjust your timeout period for requests.
+   * &#x60;/cashflow_report/refresh&#x60; is an endpoint that initiates an on-demand extraction to fetch the newest transactions for an item (given an &#x60;item_id&#x60;). The item must already have Cashflow Report added as a product in order to call &#x60;/cashflow_report/refresh&#x60;.  After calling &#x60;/cashflow_report/refresh&#x60;, Plaid will fire a webhook &#x60;CASHFLOW_REPORT_READY&#x60; alerting clients that new transactions data can then be ingested via &#x60;/cashflow_report/get&#x60; or the webhook will contain an error code informing there was an error in refreshing transactions data.  Note that the &#x60;/cashflow_report/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) non-depository accounts and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item that contains only non-depository accounts from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but up to 30 seconds or more). If you encounter errors, you may find it necessary to adjust your timeout period for requests.
    * @param cashflowReportRefreshRequest  (required)
    * @return Call&lt;CashflowReportRefreshResponse&gt;
    * 
@@ -1249,38 +1241,6 @@ public interface PlaidApi {
   @POST("consumer_report/pdf/get")
   Call<ResponseBody> consumerReportPdfGet(
     @retrofit2.http.Body ConsumerReportPDFGetRequest consumerReportPDFGetRequest
-  );
-
-  /**
-   * Create a CRA report for income verification
-   * &#x60;/cra/bank_income/create&#x60; creates a CRA report for income verification
-   * @param craBankIncomeCreateRequest  (required)
-   * @return Call&lt;CraBankIncomeCreateResponse&gt;
-   * 
-   * @see <a href="/api/products/income/#crabank_incomecreate">Create a CRA report for income verification Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("cra/bank_income/create")
-  Call<CraBankIncomeCreateResponse> craBankIncomeCreate(
-    @retrofit2.http.Body CraBankIncomeCreateRequest craBankIncomeCreateRequest
-  );
-
-  /**
-   * Retrieve information from the bank accounts used for income verification
-   * &#x60;/cra/bank_income/get&#x60; returns the bank income report(s) for a specified user.
-   * @param craBankIncomeGetRequest  (required)
-   * @return Call&lt;CraBankIncomeGetResponse&gt;
-   * 
-   * @see <a href="/api/products/income/#crabank_incomeget">Retrieve information from the bank accounts used for income verification Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("cra/bank_income/get")
-  Call<CraBankIncomeGetResponse> craBankIncomeGet(
-    @retrofit2.http.Body CraBankIncomeGetRequest craBankIncomeGetRequest
   );
 
   /**
@@ -1393,6 +1353,22 @@ public interface PlaidApi {
   @POST("cra/check_report/pdf/get")
   Call<ResponseBody> craCheckReportPdfGet(
     @retrofit2.http.Body CraCheckReportPDFGetRequest craCheckReportPDFGetRequest
+  );
+
+  /**
+   * Retrieve various verification reports for a user.
+   * This endpoint allows you to retrieve verification reports for a user. To obtain a VoA or VoE report, you need to make sure that &#x60;cra_base_report&#x60; is included in the &#x60;products&#x60; parameter when calling &#x60;/link/token/create&#x60; or &#x60;/cra/check_report/create&#x60;.   You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;.  If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.\&quot;
+   * @param craCheckReportVerificationGetRequest  (required)
+   * @return Call&lt;CraCheckReportVerificationGetResponse&gt;
+   * 
+   * @see <a href="/api/products/check/#cracheck_reportverificationget">Retrieve various verification reports for a user. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/check_report/verification/get")
+  Call<CraCheckReportVerificationGetResponse> craCheckReportVerificationGet(
+    @retrofit2.http.Body CraCheckReportVerificationGetRequest craCheckReportVerificationGetRequest
   );
 
   /**
@@ -1944,78 +1920,6 @@ public interface PlaidApi {
   );
 
   /**
-   * (Deprecated) Create a deposit switch without using Plaid Exchange
-   * This endpoint provides an alternative to &#x60;/deposit_switch/create&#x60; for customers who have not yet fully integrated with Plaid Exchange. Like &#x60;/deposit_switch/create&#x60;, it creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
-   * @param depositSwitchAltCreateRequest  (required)
-   * @return Call&lt;DepositSwitchAltCreateResponse&gt;
-   * @deprecated
-   * 
-   * @see <a href="/deposit-switch/reference#deposit_switchaltcreate">(Deprecated) Create a deposit switch without using Plaid Exchange Documentation</a>
-   */
-  @Deprecated
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("deposit_switch/alt/create")
-  Call<DepositSwitchAltCreateResponse> depositSwitchAltCreate(
-    @retrofit2.http.Body DepositSwitchAltCreateRequest depositSwitchAltCreateRequest
-  );
-
-  /**
-   * (Deprecated) Create a deposit switch
-   * This endpoint creates a deposit switch entity that will be persisted throughout the lifecycle of the switch.
-   * @param depositSwitchCreateRequest  (required)
-   * @return Call&lt;DepositSwitchCreateResponse&gt;
-   * @deprecated
-   * 
-   * @see <a href="/deposit-switch/reference#deposit_switchcreate">(Deprecated) Create a deposit switch Documentation</a>
-   */
-  @Deprecated
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("deposit_switch/create")
-  Call<DepositSwitchCreateResponse> depositSwitchCreate(
-    @retrofit2.http.Body DepositSwitchCreateRequest depositSwitchCreateRequest
-  );
-
-  /**
-   * (Deprecated) Retrieve a deposit switch
-   * This endpoint returns information related to how the user has configured their payroll allocation and the state of the switch. You can use this information to build logic related to the user&#39;s direct deposit allocation preferences.
-   * @param depositSwitchGetRequest  (required)
-   * @return Call&lt;DepositSwitchGetResponse&gt;
-   * @deprecated
-   * 
-   * @see <a href="/deposit-switch/reference#deposit_switchget">(Deprecated) Retrieve a deposit switch Documentation</a>
-   */
-  @Deprecated
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("deposit_switch/get")
-  Call<DepositSwitchGetResponse> depositSwitchGet(
-    @retrofit2.http.Body DepositSwitchGetRequest depositSwitchGetRequest
-  );
-
-  /**
-   * (Deprecated) Create a deposit switch token
-   * In order for the end user to take action, you will need to create a public token representing the deposit switch. This token is used to initialize Link. It can be used one time and expires after 30 minutes. 
-   * @param depositSwitchTokenCreateRequest  (required)
-   * @return Call&lt;DepositSwitchTokenCreateResponse&gt;
-   * @deprecated
-   * 
-   * @see <a href="/deposit-switch/reference#deposit_switchtokencreate">(Deprecated) Create a deposit switch token Documentation</a>
-   */
-  @Deprecated
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("deposit_switch/token/create")
-  Call<DepositSwitchTokenCreateResponse> depositSwitchTokenCreate(
-    @retrofit2.http.Body DepositSwitchTokenCreateRequest depositSwitchTokenCreateRequest
-  );
-
-  /**
    * Search employer database
    * &#x60;/employers/search&#x60; allows you the ability to search Plaid’s database of known employers, for use with Deposit Switch. You can use this endpoint to look up a user&#39;s employer in order to confirm that they are supported. Users with non-supported employers can then be routed out of the Deposit Switch flow.  The data in the employer database is currently limited. As the Deposit Switch and Income products progress through their respective beta periods, more employers are being regularly added. Because the employer database is frequently updated, we recommend that you do not cache or store data from this endpoint for more than a day.
    * @param employersSearchRequest  (required)
@@ -2450,7 +2354,7 @@ public interface PlaidApi {
 
   /**
    * Search for an Issue
-   * Search for an issue associated with one of the following identifiers:  &#x60;item_id&#x60;, &#x60;link_session_id&#x60; or Link session &#x60;request_id&#x60;.  This endpoint returns a list of &#x60;Issue&#x60; objects, with an empty list indicating that no issues are associated with the provided identifier. At least one of the identifiers must be provided to perform the search.
+   * Search for an issue associated with one of the following identifiers:  &#x60;item_id&#x60;, &#x60;link_session_id&#x60; or Link session &#x60;request_id&#x60;. This endpoint returns a list of &#x60;Issue&#x60; objects, with an empty list indicating that no issues are associated with the provided identifier. At least one of the identifiers must be provided to perform the search.
    * @param issuesSearchRequest  (required)
    * @return Call&lt;IssuesSearchResponse&gt;
    * 
@@ -2618,7 +2522,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.   Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item. For money movement products such as Auth and Transfer, if the Item is at an institution that uses Tokenized Account Numbers (TANs), such as Chase or PNC, calling &#x60;/item/remove&#x60; will invalidate the TAN, and subsequent ACH transfer attempts using that TAN will be returned.  In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
+   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item. For money movement products such as Auth and Transfer, if the Item is at Chase or PNC, calling &#x60;/item/remove&#x60; will invalidate the TAN, and subsequent ACH transfer attempts using that TAN will be returned.  In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -2970,7 +2874,7 @@ public interface PlaidApi {
 
   /**
    * Reverse an existing payment
-   * Reverse a settled payment from a Plaid virtual account.  The original payment must be in a settled state to be refunded. To refund partially, specify the amount as part of the request. If the amount is not specified, the refund amount will be equal to all of the remaining payment amount that has not been refunded yet.  The refund will go back to the source account that initiated the payment. The original payment must have been initiated to a Plaid virtual account so that this account can be used to initiate the refund.  Providing counterparty information such as date of birth and address increases  the likelihood of refund being successful without human intervention. 
+   * Reverse a settled payment from a Plaid virtual account.  The original payment must be in a settled state to be refunded. To refund partially, specify the amount as part of the request. If the amount is not specified, the refund amount will be equal to all of the remaining payment amount that has not been refunded yet.  The refund will go back to the source account that initiated the payment. The original payment must have been initiated to a Plaid virtual account so that this account can be used to initiate the refund.  Providing counterparty information such as date of birth and address increases the likelihood of refund being successful without human intervention. 
    * @param paymentInitiationPaymentReverseRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentReverseResponse&gt;
    * 
@@ -3440,7 +3344,7 @@ public interface PlaidApi {
 
   /**
    * Get incremental transaction updates on a processor token
-   *  The &#x60;/processor/transactions/sync&#x60; endpoint retrieves transactions associated with an Item and can fetch updates using a cursor to track which updates have already been seen.  For important instructions on integrating with &#x60;/processor/transactions/sync&#x60;, see the [Transactions integration overview](https://plaid.com/docs/transactions/#integration-overview). If you are migrating from an existing integration using &#x60;/processor/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint supports &#x60;credit&#x60;, &#x60;depository&#x60;, and some &#x60;loan&#x60;-type accounts (only those with account subtype &#x60;student&#x60;). For &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/processor/transactions/sync&#x60; fails when retrieving a paginated update (e.g due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error), the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  If transactions data is not yet available for the Item, which can happen if the Item was not initialized with transactions during the &#x60;/link/token/create&#x60; call or if &#x60;/processor/transactions/sync&#x60; was called within a few seconds of Item creation, &#x60;/processor/transactions/sync&#x60; will return empty transactions arrays.   Plaid typically checks for new transactions data between one and four times per day, depending on the institution. To find out when transactions were last updated for an Item, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/processor/transactions/refresh&#x60; endpoint.  To be alerted when new transactions are available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processor-partners/#processortokenwebhookupdate) endpoint.
+   *  The &#x60;/processor/transactions/sync&#x60; endpoint retrieves transactions associated with an Item and can fetch updates using a cursor to track which updates have already been seen.  For important instructions on integrating with &#x60;/processor/transactions/sync&#x60;, see the [Transactions integration overview](https://plaid.com/docs/transactions/#integration-overview). If you are migrating from an existing integration using &#x60;/processor/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint supports &#x60;credit&#x60;, &#x60;depository&#x60;, and some &#x60;loan&#x60;-type accounts (only those with account subtype &#x60;student&#x60;). For &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/processor/transactions/sync&#x60; fails when retrieving a paginated update (e.g due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error), the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  If transactions data is not yet available for the Item, which can happen if the Item was not initialized with transactions during the &#x60;/link/token/create&#x60; call or if &#x60;/processor/transactions/sync&#x60; was called within a few seconds of Item creation, &#x60;/processor/transactions/sync&#x60; will return empty transactions arrays.  Plaid typically checks for new transactions data between one and four times per day, depending on the institution. To find out when transactions were last updated for an Item, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/processor/transactions/refresh&#x60; endpoint.  To be alerted when new transactions are available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.  To receive Transactions webhooks for a processor token, set its webhook URL via the [&#x60;/processor/token/webhook/update&#x60;](https://plaid.com/docs/api/processor-partners/#processortokenwebhookupdate) endpoint.
    * @param processorTransactionsSyncRequest  (required)
    * @return Call&lt;ProcessorTransactionsSyncResponse&gt;
    * 
@@ -3552,7 +3456,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid Sandbox &#x60;DEFAULT_UPDATE&#x60; webhook types include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Fired to indicate that a new account is available on the Item and you can launch update mode to request access to it.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;PENDING_DISCONNECT&#x60;: Fired when an Item will stop working in the near future (e.g. due to a planned bank migration) and must be sent through update mode to continue working.   &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;USER_PERMISSION_REVOKED&#x60;: Indicates an end user has revoked the permission that they previously granted to access an Item. May not always fire upon revocation, as some institutions’ consent portals do not trigger this webhook. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  &#x60;USER_ACCOUNT_REVOKED&#x60;: Fired when an end user has revoked access to their account on the Data Provider&#39;s portal. This webhook is currently sent only for Chase and PNC Items, but may be sent in the future for other financial institutions. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid Sandbox &#x60;DEFAULT_UPDATE&#x60; webhook types include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Fired to indicate that a new account is available on the Item and you can launch update mode to request access to it.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given same day micro-deposit item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;PENDING_DISCONNECT&#x60;: Fired when an Item will stop working in the near future (e.g. due to a planned bank migration) and must be sent through update mode to continue working.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;USER_PERMISSION_REVOKED&#x60;: Indicates an end user has revoked the permission that they previously granted to access an Item. May not always fire upon revocation, as some institutions’ consent portals do not trigger this webhook. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  &#x60;USER_ACCOUNT_REVOKED&#x60;: Fired when an end user has revoked access to their account on the Data Provider&#39;s portal. This webhook is currently sent only for Chase and PNC Items, but may be sent in the future for other financial institutions. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -3888,11 +3792,11 @@ public interface PlaidApi {
 
   /**
    * Create a Session Token
-   * Any Plaid experience a user sees such as connecting a bank account, verifying identity, or sharing a credit report is considered a session. Today, most sessions happen through Link and the token to start these Link session is a link token created and configured via &#x60;link/token/create&#x60;. Sessions are a higher level abstraction where configuration primarily happens in Plaid Dashboard.  Depending on the template id provided, the session may a Link session, specified by a Link token, or may be another experience in the future. A primary benefit is that configuration changes can be done in Dashboard with no code changes required.  Currently, this endpoint is only supported for Layer templates and Link but is reserved in the future to initialize other end-user Plaid experiences. The returned Link token is used as an parameter when initializing the Link SDK. For more details, see the [Link flow overview](https://plaid.com/docs/link/#link-flow-overview).
+   * Any Plaid experience a user sees such as connecting a bank account, verifying identity, or sharing a credit report is considered a session. Today, most sessions happen through Link and the token to start these Link session is a link token created and configured via &#x60;link/token/create&#x60;. Sessions are a higher level abstraction where configuration primarily happens in Plaid Dashboard. Depending on the template id provided, the session may a Link session, specified by a Link token, or may be another experience in the future. A primary benefit is that configuration changes can be done in Dashboard with no code changes required.  Currently, this endpoint is only supported for Layer templates and Link but is reserved in the future to initialize other end-user Plaid experiences. The returned Link token is used as an parameter when initializing the Link SDK. For more details, see the [Link flow overview](https://plaid.com/docs/link/#link-flow-overview).
    * @param sessionTokenCreateRequest  (required)
    * @return Call&lt;SessionTokenCreateResponse&gt;
    * 
-   * @see <a href="/api/link/#sessiontokencreate">Create a Session Token Documentation</a>
+   * @see <a href="/api/products/layer/#sessiontokencreate">Create a Session Token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4078,7 +3982,7 @@ public interface PlaidApi {
 
   /**
    * Fetch recurring transaction streams
-   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on an Item that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;).   When using Recurring Transactions, for best results, make sure to use the [&#x60;days_requested&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transactions-days-requested) parameter to request at least 180 days of history when initializing Items with Transactions. Once all historical transactions have been fetched, call &#x60;/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.
+   * The &#x60;/transactions/recurring/get&#x60; endpoint allows developers to receive a summary of the recurring outflow and inflow streams (expenses and deposits) from a user’s checking, savings or credit card accounts. Additionally, Plaid provides key insights about each recurring stream including the category, merchant, last amount, and more. Developers can use these insights to build tools and experiences that help their users better manage cash flow, monitor subscriptions, reduce spend, and stay on track with bill payments.  This endpoint is offered as an add-on to Transactions. To request access to this endpoint, submit a [product access request](https://dashboard.plaid.com/team/products) or contact your Plaid account manager.  This endpoint can only be called on an Item that has already been initialized with Transactions (either during Link, by specifying it in &#x60;/link/token/create&#x60;; or after Link, by calling &#x60;/transactions/get&#x60; or &#x60;/transactions/sync&#x60;).  When using Recurring Transactions, for best results, make sure to use the [&#x60;days_requested&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transactions-days-requested) parameter to request at least 180 days of history when initializing Items with Transactions. Once all historical transactions have been fetched, call &#x60;/transactions/recurring/get&#x60; to receive the Recurring Transactions streams and subscribe to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook. To know when historical transactions have been fetched, if you are using &#x60;/transactions/sync&#x60; listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#SyncUpdatesAvailableWebhook-historical-update-complete) webhook and check that the &#x60;historical_update_complete&#x60; field in the payload is &#x60;true&#x60;. If using &#x60;/transactions/get&#x60;, listen for the [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhook.  After the initial call, you can call &#x60;/transactions/recurring/get&#x60; endpoint at any point in the future to retrieve the latest summary of recurring streams. Listen to the [&#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#recurring_transactions_update) webhook to be notified when new updates are available.
    * @param transactionsRecurringGetRequest  (required)
    * @return Call&lt;TransactionsRecurringGetResponse&gt;
    * 
@@ -4152,7 +4056,7 @@ public interface PlaidApi {
 
   /**
    * Get incremental transaction updates on an Item
-   * The &#x60;/transactions/sync&#x60; endpoint retrieves transactions associated with an Item and can fetch updates using a cursor to track which updates have already been seen.  For important instructions on integrating with &#x60;/transactions/sync&#x60;, see the [Transactions integration overview](https://plaid.com/docs/transactions/#integration-overview). If you are migrating from an existing integration using &#x60;/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint supports &#x60;credit&#x60;, &#x60;depository&#x60;, and some &#x60;loan&#x60;-type accounts (only those with account subtype &#x60;student&#x60;). For &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.   When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails when retrieving a paginated update (e.g due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error), the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  If transactions data is not yet available for the Item, which can happen if the Item was not initialized with transactions during the &#x60;/link/token/create&#x60; call or if &#x60;/transactions/sync&#x60; was called within a few seconds of Item creation, &#x60;/transactions/sync&#x60; will return empty transactions arrays.   Plaid typically checks for new transactions data between one and four times per day, depending on the institution. To find out when transactions were last updated for an Item, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  To be alerted when new transactions are available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
+   * The &#x60;/transactions/sync&#x60; endpoint retrieves transactions associated with an Item and can fetch updates using a cursor to track which updates have already been seen.  For important instructions on integrating with &#x60;/transactions/sync&#x60;, see the [Transactions integration overview](https://plaid.com/docs/transactions/#integration-overview). If you are migrating from an existing integration using &#x60;/transactions/get&#x60;, see the [Transactions Sync migration guide](https://plaid.com/docs/transactions/sync-migration/).  This endpoint supports &#x60;credit&#x60;, &#x60;depository&#x60;, and some &#x60;loan&#x60;-type accounts (only those with account subtype &#x60;student&#x60;). For &#x60;investments&#x60; accounts, use &#x60;/investments/transactions/get&#x60; instead.  When retrieving paginated updates, track both the &#x60;next_cursor&#x60; from the latest response and the original cursor from the first call in which &#x60;has_more&#x60; was &#x60;true&#x60;; if a call to &#x60;/transactions/sync&#x60; fails when retrieving a paginated update (e.g due to the [&#x60;TRANSACTIONS_SYNC_MUTATION_DURING_PAGINATION&#x60;](https://plaid.com/docs/errors/transactions/#transactions_sync_mutation_during_pagination) error), the entire pagination request loop must be restarted beginning with the cursor for the first page of the update, rather than retrying only the single request that failed.  If transactions data is not yet available for the Item, which can happen if the Item was not initialized with transactions during the &#x60;/link/token/create&#x60; call or if &#x60;/transactions/sync&#x60; was called within a few seconds of Item creation, &#x60;/transactions/sync&#x60; will return empty transactions arrays.  Plaid typically checks for new transactions data between one and four times per day, depending on the institution. To find out when transactions were last updated for an Item, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, use the &#x60;/transactions/refresh&#x60; endpoint.  To be alerted when new transactions are available, listen for the [&#x60;SYNC_UPDATES_AVAILABLE&#x60;](https://plaid.com/docs/api/products/transactions/#sync_updates_available) webhook.
    * @param transactionsSyncRequest  (required)
    * @return Call&lt;TransactionsSyncResponse&gt;
    * 
@@ -4200,7 +4104,7 @@ public interface PlaidApi {
 
   /**
    * Create a transfer authorization
-   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;. The transfer authorization will expire if not used after one hour. (You can contact your account manager to change the default authorization lifetime.)   There are four possible outcomes to calling this endpoint:     - If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer.     - If the &#x60;authorization.decision&#x60; is &#x60;user_action_required&#x60;, additional user input is needed, usually to fix a broken bank connection, before Plaid can properly assess the risk. You need to launch Link in update mode to complete the required user action. When calling &#x60;/link/token/create&#x60; to get a new Link token, instead of providing &#x60;access_token&#x60; in the request, you should set [&#x60;transfer.authorization_id&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transfer-authorization-id) as the &#x60;authorization.id&#x60;. After the Link flow is completed, you may re-attempt the authorization.    - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;.      - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To get an authorization decision of &#x60;user_action_required&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
+   * Use the &#x60;/transfer/authorization/create&#x60; endpoint to authorize a transfer. This endpoint must be called prior to calling &#x60;/transfer/create&#x60;. The transfer authorization will expire if not used after one hour. (You can contact your account manager to change the default authorization lifetime.)  There are four possible outcomes to calling this endpoint:    - If the &#x60;authorization.decision&#x60; in the response is &#x60;declined&#x60;, the proposed transfer has failed the risk check and you cannot proceed with the transfer.    - If the &#x60;authorization.decision&#x60; is &#x60;user_action_required&#x60;, additional user input is needed, usually to fix a broken bank connection, before Plaid can properly assess the risk. You need to launch Link in update mode to complete the required user action. When calling &#x60;/link/token/create&#x60; to get a new Link token, instead of providing &#x60;access_token&#x60; in the request, you should set [&#x60;transfer.authorization_id&#x60;](https://plaid.com/docs/api/link/#link-token-create-request-transfer-authorization-id) as the &#x60;authorization.id&#x60;. After the Link flow is completed, you may re-attempt the authorization.    - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60;, and the &#x60;authorization.rationale_code&#x60; is &#x60;null&#x60;, the transfer has passed the risk check and you can proceed to call &#x60;/transfer/create&#x60;.    - If the &#x60;authorization.decision&#x60; is &#x60;approved&#x60; and the &#x60;authorization.rationale_code&#x60; is non-&#x60;null&#x60;, the risk check could not be run: you may proceed with the transfer, but should perform your own risk evaluation. For more details, see the response schema.  In Plaid&#39;s Sandbox environment the decisions will be returned as follows:    - To approve a transfer with &#x60;null&#x60; rationale code, make an authorization request with an &#x60;amount&#x60; less than the available balance in the account.    - To approve a transfer with the rationale code &#x60;MANUALLY_VERIFIED_ITEM&#x60;, create an Item in Link through the [Same Day Micro-deposits flow](https://plaid.com/docs/auth/coverage/testing/#testing-same-day-micro-deposits).    - To get an authorization decision of &#x60;user_action_required&#x60;, [reset the login for an Item](https://plaid.com/docs/sandbox/#item_login_required).    - To decline a transfer with the rationale code &#x60;NSF&#x60;, the available balance on the account must be less than the authorization &#x60;amount&#x60;. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.    - To decline a transfer with the rationale code &#x60;RISK&#x60;, the available balance on the account must be exactly $0. See [Create Sandbox test data](https://plaid.com/docs/sandbox/user-custom/) for details on how to customize data in Sandbox.
    * @param transferAuthorizationCreateRequest  (required)
    * @return Call&lt;TransferAuthorizationCreateResponse&gt;
    * 
@@ -4534,6 +4438,22 @@ public interface PlaidApi {
   @POST("transfer/originator/create")
   Call<TransferOriginatorCreateResponse> transferOriginatorCreate(
     @retrofit2.http.Body TransferOriginatorCreateRequest transferOriginatorCreateRequest
+  );
+
+  /**
+   * Create a new funding account for an originator
+   * Use the &#x60;/transfer/originator/funding_account/create&#x60; endpoint to create a new funding account for the originator.
+   * @param transferOriginatorFundingAccountCreateRequest  (required)
+   * @return Call&lt;TransferOriginatorFundingAccountCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/platform-payments/#transferoriginatorfunding_accountcreate">Create a new funding account for an originator Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/originator/funding_account/create")
+  Call<TransferOriginatorFundingAccountCreateResponse> transferOriginatorFundingAccountCreate(
+    @retrofit2.http.Body TransferOriginatorFundingAccountCreateRequest transferOriginatorFundingAccountCreateRequest
   );
 
   /**
@@ -4874,7 +4794,7 @@ public interface PlaidApi {
 
   /**
    * Remove user
-   * &#x60;/user/remove&#x60; deletes a user token and and associated information, including any Items associated with the token.  Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist.
+   * &#x60;/user/remove&#x60; deletes a user token and and associated information, including any Items associated with the token. Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist. If a user is created for a given &#x60;client_user_id&#x60; using &#x60;/user/create&#x60; and that user is then deleted with &#x60;/user/remove&#x60;, the &#x60;client_user_id&#x60; cannot be reused for another &#x60;/user/create&#x60; request.
    * @param userRemoveRequest  (required)
    * @return Call&lt;UserRemoveResponse&gt;
    * 
@@ -4906,7 +4826,7 @@ public interface PlaidApi {
 
   /**
    * Remove a third-party user token
-   * This endpoint is used to delete a third-party user token. Once removed, the token can longer be used to access data associated with the user.   Any subsequent calls to retrieve information using the same third-party user token will result in an error stating the third-party user token does not exist.
+   * This endpoint is used to delete a third-party user token. Once removed, the token can longer be used to access data associated with the user.  Any subsequent calls to retrieve information using the same third-party user token will result in an error stating the third-party user token does not exist.
    * @param userThirdPartyTokenRemoveRequest  (required)
    * @return Call&lt;UserThirdPartyTokenRemoveResponse&gt;
    * 
