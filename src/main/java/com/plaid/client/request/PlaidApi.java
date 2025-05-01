@@ -256,6 +256,13 @@ import com.plaid.client.model.NetworkInsightsReportGetRequest;
 import com.plaid.client.model.NetworkInsightsReportGetResponse;
 import com.plaid.client.model.NetworkStatusGetRequest;
 import com.plaid.client.model.NetworkStatusGetResponse;
+import com.plaid.client.model.OAuthErrorResponse;
+import com.plaid.client.model.OAuthIntrospectRequest;
+import com.plaid.client.model.OAuthIntrospectResponse;
+import com.plaid.client.model.OAuthRevokeRequest;
+import com.plaid.client.model.OAuthRevokeResponse;
+import com.plaid.client.model.OAuthTokenRequest;
+import com.plaid.client.model.OAuthTokenResponse;
 import com.plaid.client.model.PartnerCustomerCreateRequest;
 import com.plaid.client.model.PartnerCustomerCreateResponse;
 import com.plaid.client.model.PartnerCustomerEnableRequest;
@@ -2678,6 +2685,54 @@ public interface PlaidApi {
   @POST("network/status/get")
   Call<NetworkStatusGetResponse> networkStatusGet(
     @retrofit2.http.Body NetworkStatusGetRequest networkStatusGetRequest
+  );
+
+  /**
+   * Get metadata about an OAuth token
+   * &#x60;/oauth/introspect&#x60; returns metadata about an access token or refresh token.  Note: This endpoint supports &#x60;Content-Type: application/x-www-form-urlencoded&#x60; as well as JSON. The fields for the form are equivalent to the fields for JSON and conform to the OAuth 2.0 specification.
+   * @param oauthIntrospectRequest  (required)
+   * @return Call&lt;OAuthIntrospectResponse&gt;
+   * 
+   * @see <a href="/api/oauth/#introspect">Get metadata about an OAuth token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("oauth/introspect")
+  Call<OAuthIntrospectResponse> oauthIntrospect(
+    @retrofit2.http.Body OAuthIntrospectRequest oauthIntrospectRequest
+  );
+
+  /**
+   * Revoke an OAuth token
+   * &#x60;/oauth/revoke&#x60; revokes an access or refresh token, preventing any further use. If a refresh token is revoked, all access and refresh tokens derived from it are also revoked, including exchanged tokens.  Note: This endpoint supports &#x60;Content-Type: application/x-www-form-urlencoded&#x60; as well as JSON. The fields for the form are equivalent to the fields for JSON and conform to the OAuth 2.0 specification.
+   * @param oauthRevokeRequest  (required)
+   * @return Call&lt;OAuthRevokeResponse&gt;
+   * 
+   * @see <a href="/api/oauth/#revoke">Revoke an OAuth token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("oauth/revoke")
+  Call<OAuthRevokeResponse> oauthRevoke(
+    @retrofit2.http.Body OAuthRevokeRequest oauthRevokeRequest
+  );
+
+  /**
+   * Create or refresh an OAuth access token
+   * &#x60;/oauth/token&#x60; issues an access token and refresh token depending on the &#x60;grant_type&#x60; provided:   - &#x60;refresh_token&#x60; allows refreshing an access token using a refresh token. Only the &#x60;refresh_token&#x60; field is required.   - &#x60;urn:ietf:params:oauth:grant-type:token-exchange&#x60; allows exchanging a subject token for an OAuth token. The following &#x60;subject_token_type&#x60;s are supported:     - &#x60;urn:plaid:params:tokensdb::user-token&#x60; allows exchanging a Plaid-issued user token for an OAuth token. &#x60;audience&#x60; must be the same as the &#x60;client_id&#x60;. &#x60;subject_token&#x60; must be a Plaid-issued user token issued from the &#x60;/user/create&#x60; endpoint.     - &#x60;urn:plaid:params:oauth::user-token&#x60; allows exchanging a refresh token for an OAuth token to another &#x60;client_id&#x60;. The other &#x60;client_id&#x60; is provided in &#x60;audience&#x60;. &#x60;subject_token&#x60; must be an OAuth refresh token issued from the &#x60;/oauth/token&#x60; endpoint.  Note: This endpoint supports &#x60;Content-Type: application/x-www-form-urlencoded&#x60; as well as JSON. The fields for the form are equivalent to the fields for JSON and conform to the OAuth 2.0 specification.
+   * @param oauthTokenRequest  (required)
+   * @return Call&lt;OAuthTokenResponse&gt;
+   * 
+   * @see <a href="/api/oauth/#token">Create or refresh an OAuth access token Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("oauth/token")
+  Call<OAuthTokenResponse> oauthToken(
+    @retrofit2.http.Body OAuthTokenRequest oauthTokenRequest
   );
 
   /**
