@@ -868,7 +868,7 @@ public interface PlaidApi {
 
   /**
    * Sync bank transfer events
-   * &#x60;/bank_transfer/event/sync&#x60; allows you to request up to the next 25 Plaid-initiated bank transfer events that happened after a specific &#x60;event_id&#x60;. When using Auth with micro-deposit verification enabled, this endpoint can be used to fetch status updates on ACH micro-deposits. For more details, see [micro-deposit events](https://www.plaid.com/docs/auth/coverage/microdeposit-events/).
+   * &#x60;/bank_transfer/event/sync&#x60; allows you to request up to the next 25 Plaid-initiated bank transfer events that happened after a specific &#x60;event_id&#x60;. When using Auth with micro-deposit verification enabled, this endpoint can be used to fetch status updates on ACH micro-deposits. For more details, see [micro-deposit events](https://plaid.com/docs/auth/coverage/microdeposit-events/).
    * @param bankTransferEventSyncRequest  (required)
    * @return Call&lt;BankTransferEventSyncResponse&gt;
    * 
@@ -2529,7 +2529,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item. For money movement products such as Auth and Transfer, if the Item is at Chase or PNC, calling &#x60;/item/remove&#x60; will invalidate the TAN, and subsequent ACH transfer attempts using that TAN will be returned.  In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
+   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item.   In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -2693,7 +2693,7 @@ public interface PlaidApi {
    * @param oauthIntrospectRequest  (required)
    * @return Call&lt;OAuthIntrospectResponse&gt;
    * 
-   * @see <a href="/api/oauth/#introspect">Get metadata about an OAuth token Documentation</a>
+   * @see <a href="/api/oauth/#oauthintrospect">Get metadata about an OAuth token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2709,7 +2709,7 @@ public interface PlaidApi {
    * @param oauthRevokeRequest  (required)
    * @return Call&lt;OAuthRevokeResponse&gt;
    * 
-   * @see <a href="/api/oauth/#revoke">Revoke an OAuth token Documentation</a>
+   * @see <a href="/api/oauth/#oauthrevoke">Revoke an OAuth token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2721,11 +2721,11 @@ public interface PlaidApi {
 
   /**
    * Create or refresh an OAuth access token
-   * &#x60;/oauth/token&#x60; issues an access token and refresh token depending on the &#x60;grant_type&#x60; provided:   - &#x60;refresh_token&#x60; allows refreshing an access token using a refresh token. Only the &#x60;refresh_token&#x60; field is required.   - &#x60;urn:ietf:params:oauth:grant-type:token-exchange&#x60; allows exchanging a subject token for an OAuth token. The following &#x60;subject_token_type&#x60;s are supported:     - &#x60;urn:plaid:params:tokensdb::user-token&#x60; allows exchanging a Plaid-issued user token for an OAuth token. &#x60;audience&#x60; must be the same as the &#x60;client_id&#x60;. &#x60;subject_token&#x60; must be a Plaid-issued user token issued from the &#x60;/user/create&#x60; endpoint.     - &#x60;urn:plaid:params:oauth::user-token&#x60; allows exchanging a refresh token for an OAuth token to another &#x60;client_id&#x60;. The other &#x60;client_id&#x60; is provided in &#x60;audience&#x60;. &#x60;subject_token&#x60; must be an OAuth refresh token issued from the &#x60;/oauth/token&#x60; endpoint.  Note: This endpoint supports &#x60;Content-Type: application/x-www-form-urlencoded&#x60; as well as JSON. The fields for the form are equivalent to the fields for JSON and conform to the OAuth 2.0 specification.
+   * &#x60;/oauth/token&#x60; issues an access token and refresh token depending on the &#x60;grant_type&#x60; provided. This endpoint supports &#x60;Content-Type: application/x-www-form-urlencoded&#x60; as well as JSON. The fields for the form are equivalent to the fields for JSON and conform to the OAuth 2.0 specification.
    * @param oauthTokenRequest  (required)
    * @return Call&lt;OAuthTokenResponse&gt;
    * 
-   * @see <a href="/api/oauth/#token">Create or refresh an OAuth access token Documentation</a>
+   * @see <a href="/api/oauth/#oauthtoken">Create or refresh an OAuth access token Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3207,7 +3207,7 @@ public interface PlaidApi {
 
   /**
    * Report whether you initiated an ACH transaction
-   * After calling &#x60;/processor/signal/evaluate&#x60;, call &#x60;/processor/signal/decision/report&#x60; to report whether the transaction was initiated.  If you are using the [Plaid Transfer product](https://www.plaid.com/docs/transfer) to create transfers, it is not necessary to use this endpoint, as Plaid already knows whether the transfer was initiated.
+   * After calling &#x60;/processor/signal/evaluate&#x60;, call &#x60;/processor/signal/decision/report&#x60; to report whether the transaction was initiated.  If you are using the [Plaid Transfer product](https://plaid.com/docs/transfer) to create transfers, it is not necessary to use this endpoint, as Plaid already knows whether the transfer was initiated.
    * @param processorSignalDecisionReportRequest  (required)
    * @return Call&lt;ProcessorSignalDecisionReportResponse&gt;
    * 
@@ -3255,7 +3255,7 @@ public interface PlaidApi {
 
   /**
    * Report a return for an ACH transaction
-   * Call the &#x60;/processor/signal/return/report&#x60; endpoint to report a returned transaction that was previously sent to the &#x60;/processor/signal/evaluate&#x60; endpoint. Your feedback will be used by the model to incorporate the latest risk trend in your portfolio.  If you are using the [Plaid Transfer product](https://www.plaid.com/docs/transfer) to create transfers, it is not necessary to use this endpoint, as Plaid already knows whether the transfer was returned.
+   * Call the &#x60;/processor/signal/return/report&#x60; endpoint to report a returned transaction that was previously sent to the &#x60;/processor/signal/evaluate&#x60; endpoint. Your feedback will be used by the model to incorporate the latest risk trend in your portfolio.  If you are using the [Plaid Transfer product](https://plaid.com/docs/transfer) to create transfers, it is not necessary to use this endpoint, as Plaid already knows whether the transfer was returned.
    * @param processorSignalReturnReportRequest  (required)
    * @return Call&lt;ProcessorSignalReturnReportResponse&gt;
    * 
@@ -4465,7 +4465,7 @@ public interface PlaidApi {
 
   /**
    * Migrate account into Transfers
-   * As an alternative to adding Items via Link, you can also use the &#x60;/transfer/migrate_account&#x60; endpoint to migrate known account and routing numbers to Plaid Items. This endpoint is also required when adding an Item for use with wire transfers; if you intend to create wire transfers on this account, you must provide &#x60;wire_routing_number&#x60;. Note that Items created in this way are not compatible with endpoints for other products, such as &#x60;/accounts/balance/get&#x60;, and can only be used with Transfer endpoints.  If you require access to other endpoints, create the Item through Link instead.  Access to &#x60;/transfer/migrate_account&#x60; is not enabled by default; to obtain access, contact your Plaid Account Manager.
+   * As an alternative to adding Items via Link, you can also use the &#x60;/transfer/migrate_account&#x60; endpoint to migrate previously-verified account and routing numbers to Plaid Items. This endpoint is also required when adding an Item for use with wire transfers; if you intend to create wire transfers on this account, you must provide &#x60;wire_routing_number&#x60;. Note that Items created in this way are not compatible with endpoints for other products, such as &#x60;/accounts/balance/get&#x60;, and can only be used with Transfer endpoints.  If you require access to other endpoints, create the Item through Link instead.  Access to &#x60;/transfer/migrate_account&#x60; is not enabled by default; to obtain access, contact your Plaid Account Manager or [Support](https://dashboard.plaid.com/support).
    * @param transferMigrateAccountRequest  (required)
    * @return Call&lt;TransferMigrateAccountResponse&gt;
    * 
@@ -4819,6 +4819,7 @@ public interface PlaidApi {
    * Create user
    * This endpoint should be called for each of your end users before they begin a Plaid Check or Income flow, or a Multi-Item Link flow. This provides you a single token to access all data associated with the user. You should only create one per end user.  The &#x60;consumer_report_user_identity&#x60; object must be present in order to create a Plaid Check Consumer Report for a user. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;. Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.  Ensure that you store the &#x60;user_token&#x60; along with your user&#39;s identifier in your database, as it is not possible to retrieve a previously created &#x60;user_token&#x60;.
    * @param userCreateRequest  (required)
+   * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional)
    * @return Call&lt;UserCreateResponse&gt;
    * 
    * @see <a href="/api/users/#usercreate">Create user Documentation</a>
@@ -4828,7 +4829,7 @@ public interface PlaidApi {
   })
   @POST("user/create")
   Call<UserCreateResponse> userCreate(
-    @retrofit2.http.Body UserCreateRequest userCreateRequest
+    @retrofit2.http.Body UserCreateRequest userCreateRequest, @retrofit2.http.Header("Plaid-New-User-API-Enabled") String plaidNewUserAPIEnabled
   );
 
   /**
@@ -4851,6 +4852,7 @@ public interface PlaidApi {
    * Remove user
    * &#x60;/user/remove&#x60; deletes a user token and and associated information, including any Items associated with the token. Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist. If a user is created for a given &#x60;client_user_id&#x60; using &#x60;/user/create&#x60; and that user is then deleted with &#x60;/user/remove&#x60;, the &#x60;client_user_id&#x60; cannot be reused for another &#x60;/user/create&#x60; request.
    * @param userRemoveRequest  (required)
+   * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional)
    * @return Call&lt;UserRemoveResponse&gt;
    * 
    * @see <a href="/api/users/#userremove">Remove user Documentation</a>
@@ -4860,7 +4862,7 @@ public interface PlaidApi {
   })
   @POST("user/remove")
   Call<UserRemoveResponse> userRemove(
-    @retrofit2.http.Body UserRemoveRequest userRemoveRequest
+    @retrofit2.http.Body UserRemoveRequest userRemoveRequest, @retrofit2.http.Header("Plaid-New-User-API-Enabled") String plaidNewUserAPIEnabled
   );
 
   /**
