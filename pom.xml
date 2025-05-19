@@ -3,7 +3,7 @@
 
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>33.0.0</version>
+  <version>33.0.1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -19,7 +19,7 @@
     <connection>scm:git:git://github.com/plaid/plaid-java.git</connection>
     <developerConnection>scm:git:git@github.com:plaid/plaid-java.git</developerConnection>
     <url>http://github.com/plaid/plaid-java</url>
-    <tag>plaid-java-33.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <organization>
