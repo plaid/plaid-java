@@ -1,12 +1,24 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 33.1.0
+- Updating to OAS 2020-09-14_1.628.1
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.628.1
+- Support for upcoming results in `link/token/get`.
+
+### 2020-09-14_1.628.0
+-  (pre-release) Preparation for upcoming products.
+
+### 2020-09-14_1.627.5
+- Deprecate `report.items.accounts.account_insights` for `/cra/check_report/base_report/get`
+
 # 33.0.0
 - Updating to OAS 2020-09-14_1.627.4
 
 ## Breaking changes in this version
 - [BREAKING] (beta) Updated `user_token` field in `UserCreateResponse` to be optional.
 - [BREAKING for Go] (beta) Updated `user_token` field in `UserRemoveRequest` to be optional.
-
 
 ## OpenAPI Schema Changes
 ### 2020-09-14_1.627.4
