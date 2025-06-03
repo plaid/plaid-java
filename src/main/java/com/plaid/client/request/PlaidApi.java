@@ -84,6 +84,8 @@ import com.plaid.client.model.CashflowReportGetRequest;
 import com.plaid.client.model.CashflowReportGetResponse;
 import com.plaid.client.model.CashflowReportRefreshRequest;
 import com.plaid.client.model.CashflowReportRefreshResponse;
+import com.plaid.client.model.CashflowReportTransactionsGetRequest;
+import com.plaid.client.model.CashflowReportTransactionsGetResponse;
 import com.plaid.client.model.CategoriesGetResponse;
 import com.plaid.client.model.ConsentEventsGetRequest;
 import com.plaid.client.model.ConsentEventsGetResponse;
@@ -376,6 +378,8 @@ import com.plaid.client.model.SandboxProcessorTokenCreateRequest;
 import com.plaid.client.model.SandboxProcessorTokenCreateResponse;
 import com.plaid.client.model.SandboxPublicTokenCreateRequest;
 import com.plaid.client.model.SandboxPublicTokenCreateResponse;
+import com.plaid.client.model.SandboxTransactionsCreateRequest;
+import com.plaid.client.model.SandboxTransactionsCreateResponse;
 import com.plaid.client.model.SandboxTransferFireWebhookRequest;
 import com.plaid.client.model.SandboxTransferFireWebhookResponse;
 import com.plaid.client.model.SandboxTransferLedgerDepositSimulateRequest;
@@ -1200,6 +1204,22 @@ public interface PlaidApi {
   @POST("cashflow_report/refresh")
   Call<CashflowReportRefreshResponse> cashflowReportRefresh(
     @retrofit2.http.Body CashflowReportRefreshRequest cashflowReportRefreshRequest
+  );
+
+  /**
+   * Gets transaction data in cashflow_report
+   * The &#x60;/cashflow_report/transactions/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with cashflow_report, or if it wasn&#39;t, upon the first call to /cashflow_report/refresh. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
+   * @param cashflowReportTransactionsGetRequest  (required)
+   * @return Call&lt;CashflowReportTransactionsGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transactions/#cashflowReportTransactionsGet">Gets transaction data in cashflow_report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cashflow_report/transactions/get")
+  Call<CashflowReportTransactionsGetResponse> cashflowReportTransactionsGet(
+    @retrofit2.http.Body CashflowReportTransactionsGetRequest cashflowReportTransactionsGetRequest
   );
 
   /**
@@ -3638,6 +3658,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Create sandbox transactions
+   * Use the &#x60;/sandbox/transactions/create&#x60; endpoint to create new transactions for an existing Item. This endpoint can be used to add up to 10 transactions to any Item at a time.  This endpoint is only available in the Sandbox environment, thus can only be used with Items that were created in the Sandbox. You can use this to add transactions to test the &#x60;/transactions/get&#x60; and &#x60;/transactions/sync&#x60; endpoints.  For Items created in the Production environment, real transactions will be available once the transactions product is enabled.
+   * @param sandboxTransactionsCreateRequest  (required)
+   * @return Call&lt;SandboxTransactionsCreateResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxtransactionscreate">Create sandbox transactions Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/transactions/create")
+  Call<SandboxTransactionsCreateResponse> sandboxTransactionsCreate(
+    @retrofit2.http.Body SandboxTransactionsCreateRequest sandboxTransactionsCreateRequest
+  );
+
+  /**
    * Manually fire a Transfer webhook
    * Use the &#x60;/sandbox/transfer/fire_webhook&#x60; endpoint to manually trigger a &#x60;TRANSFER_EVENTS_UPDATE&#x60; webhook in the Sandbox environment.
    * @param sandboxTransferFireWebhookRequest  (required)
@@ -4819,7 +4855,7 @@ public interface PlaidApi {
    * Create user
    * This endpoint should be called for each of your end users before they begin a Plaid Check or Income flow, or a Multi-Item Link flow. This provides you a single token to access all data associated with the user. You should only create one per end user.  The &#x60;consumer_report_user_identity&#x60; object must be present in order to create a Plaid Check Consumer Report for a user. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;. Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.  Ensure that you store the &#x60;user_token&#x60; along with your user&#39;s identifier in your database, as it is not possible to retrieve a previously created &#x60;user_token&#x60;.
    * @param userCreateRequest  (required)
-   * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional)
+   * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserCreateResponse&gt;
    * 
    * @see <a href="/api/users/#usercreate">Create user Documentation</a>
@@ -4829,7 +4865,7 @@ public interface PlaidApi {
   })
   @POST("user/create")
   Call<UserCreateResponse> userCreate(
-    @retrofit2.http.Body UserCreateRequest userCreateRequest, @retrofit2.http.Header("Plaid-New-User-API-Enabled") String plaidNewUserAPIEnabled
+    @retrofit2.http.Body UserCreateRequest userCreateRequest, @retrofit2.http.Header("Plaid-New-User-API-Enabled") Boolean plaidNewUserAPIEnabled
   );
 
   /**
@@ -4852,7 +4888,7 @@ public interface PlaidApi {
    * Remove user
    * &#x60;/user/remove&#x60; deletes a user token and and associated information, including any Items associated with the token. Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist. If a user is created for a given &#x60;client_user_id&#x60; using &#x60;/user/create&#x60; and that user is then deleted with &#x60;/user/remove&#x60;, the &#x60;client_user_id&#x60; cannot be reused for another &#x60;/user/create&#x60; request.
    * @param userRemoveRequest  (required)
-   * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional)
+   * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserRemoveResponse&gt;
    * 
    * @see <a href="/api/users/#userremove">Remove user Documentation</a>
@@ -4862,7 +4898,7 @@ public interface PlaidApi {
   })
   @POST("user/remove")
   Call<UserRemoveResponse> userRemove(
-    @retrofit2.http.Body UserRemoveRequest userRemoveRequest, @retrofit2.http.Header("Plaid-New-User-API-Enabled") String plaidNewUserAPIEnabled
+    @retrofit2.http.Body UserRemoveRequest userRemoveRequest, @retrofit2.http.Header("Plaid-New-User-API-Enabled") Boolean plaidNewUserAPIEnabled
   );
 
   /**
