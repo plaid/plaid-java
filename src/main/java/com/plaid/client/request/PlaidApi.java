@@ -82,6 +82,8 @@ import com.plaid.client.model.BeaconUserUpdateResponse;
 import com.plaid.client.model.CRALoansRegisterRequest;
 import com.plaid.client.model.CashflowReportGetRequest;
 import com.plaid.client.model.CashflowReportGetResponse;
+import com.plaid.client.model.CashflowReportInsightsGetRequest;
+import com.plaid.client.model.CashflowReportInsightsGetResponse;
 import com.plaid.client.model.CashflowReportRefreshRequest;
 import com.plaid.client.model.CashflowReportRefreshResponse;
 import com.plaid.client.model.CashflowReportTransactionsGetRequest;
@@ -353,6 +355,12 @@ import com.plaid.client.model.ProcessorTransactionsSyncRequest;
 import com.plaid.client.model.ProcessorTransactionsSyncResponse;
 import com.plaid.client.model.ProfileNetworkStatusGetRequest;
 import com.plaid.client.model.ProfileNetworkStatusGetResponse;
+import com.plaid.client.model.ProtectEventGetRequest;
+import com.plaid.client.model.ProtectEventGetResponse;
+import com.plaid.client.model.ProtectEventSendRequest;
+import com.plaid.client.model.ProtectEventSendResponse;
+import com.plaid.client.model.ProtectUserInsightsGetRequest;
+import com.plaid.client.model.ProtectUserInsightsGetResponse;
 import com.plaid.client.model.SandboxBankIncomeFireWebhookRequest;
 import com.plaid.client.model.SandboxBankIncomeFireWebhookResponse;
 import com.plaid.client.model.SandboxBankTransferFireWebhookRequest;
@@ -423,6 +431,8 @@ import com.plaid.client.model.StatementsListRequest;
 import com.plaid.client.model.StatementsListResponse;
 import com.plaid.client.model.StatementsRefreshRequest;
 import com.plaid.client.model.StatementsRefreshResponse;
+import com.plaid.client.model.TCHNotification;
+import com.plaid.client.model.TCHNotificationResponse;
 import com.plaid.client.model.TransactionsEnhanceGetRequest;
 import com.plaid.client.model.TransactionsEnhanceGetResponse;
 import com.plaid.client.model.TransactionsEnrichRequest;
@@ -1188,6 +1198,22 @@ public interface PlaidApi {
   @POST("cashflow_report/get")
   Call<CashflowReportGetResponse> cashflowReportGet(
     @retrofit2.http.Body CashflowReportGetRequest cashflowReportGetRequest
+  );
+
+  /**
+   * Gets insights data in Cashflow Report
+   * The &#x60;/cashflow_report/insights/get&#x60; endpoint retrieves insights data associated with an item. Insights are only calculated on credit and depository accounts.
+   * @param cashflowReportInsightsGetRequest  (required)
+   * @return Call&lt;CashflowReportInsightsGetResponse&gt;
+   * 
+   * @see <a href="/api/products/transactions/#cashflowReportInsightsGet">Gets insights data in Cashflow Report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cashflow_report/insights/get")
+  Call<CashflowReportInsightsGetResponse> cashflowReportInsightsGet(
+    @retrofit2.http.Body CashflowReportInsightsGetRequest cashflowReportInsightsGetRequest
   );
 
   /**
@@ -2549,7 +2575,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item.   In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
+   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item, unless the end user revoked permission (e.g. via [https://my.plaid.com/](https://my.plaid.com/). For more details, see [Subscription fee model](https://plaid.com/docs/account/billing/#subscription-fee).  In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -3450,6 +3476,54 @@ public interface PlaidApi {
   );
 
   /**
+   * Get information about a user event
+   * Get information about a user event including Trust Index score and fraud attributes.
+   * @param protectEventGetRequest  (required)
+   * @return Call&lt;ProtectEventGetResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protecteventget">Get information about a user event Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/event/get")
+  Call<ProtectEventGetResponse> protectEventGet(
+    @retrofit2.http.Body ProtectEventGetRequest protectEventGetRequest
+  );
+
+  /**
+   * Send a new event to enrich user data
+   * Send a new event to enrich user data and optionally get a Trust Index score for the event.
+   * @param protectEventSendRequest  (required)
+   * @return Call&lt;ProtectEventSendResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protecteventsend">Send a new event to enrich user data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/event/send")
+  Call<ProtectEventSendResponse> protectEventSend(
+    @retrofit2.http.Body ProtectEventSendRequest protectEventSendRequest
+  );
+
+  /**
+   * Get Protect user insights
+   * Use this endpoint to get basic information about a user as it relates to their fraud profile with Protect.
+   * @param protectUserInsightsGetRequest  (required)
+   * @return Call&lt;ProtectUserInsightsGetResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protectuserinsightsget">Get Protect user insights Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/user/insights/get")
+  Call<ProtectUserInsightsGetResponse> protectUserInsightsGet(
+    @retrofit2.http.Body ProtectUserInsightsGetRequest protectUserInsightsGetRequest
+  );
+
+  /**
    * Manually fire a bank income webhook in sandbox
    * Use the &#x60;/sandbox/bank_income/fire_webhook&#x60; endpoint to manually trigger a Bank Income webhook in the Sandbox environment.
    * @param sandboxBankIncomeFireWebhookRequest  (required)
@@ -4023,6 +4097,22 @@ public interface PlaidApi {
   @POST("statements/refresh")
   Call<StatementsRefreshResponse> statementsRefresh(
     @retrofit2.http.Body StatementsRefreshRequest statementsRefreshRequest
+  );
+
+  /**
+   * Receive token notifications from The Clearing House (TCH).
+   * This endpoint allows us to receive token notifications from The Clearing House (TCH). The schema is defined by TCH.
+   * @param tcHNotification  (required)
+   * @return Call&lt;TCHNotificationResponse&gt;
+   * 
+   * @see <a href="none">Receive token notifications from The Clearing House (TCH). Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("tch/notifications")
+  Call<TCHNotificationResponse> tchNotifications(
+    @retrofit2.http.Body TCHNotification tcHNotification
   );
 
   /**
