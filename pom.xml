@@ -4,7 +4,7 @@
 
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>35.0.0-SNAPSHOT</version>
+  <version>36.0.0-SNAPSHOT</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -27,6 +27,16 @@
     <name>Plaid Inc.</name>
     <url>https://plaid.com</url>
   </organization>
+
+  <developers>
+    <developer>
+      <id>plaid-engineering</id>
+      <name>Plaid Engineering</name>
+      <email>support@plaid.com</email>
+      <organization>Plaid Inc.</organization>
+      <organizationUrl>https://plaid.com</organizationUrl>
+    </developer>
+  </developers>
 
   <inceptionYear>2017</inceptionYear>
   <licenses>
@@ -177,7 +187,7 @@
         <extensions>true</extensions>
         <configuration>
           <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <nexusUrl>https://ossrh-staging-api.central.sonatype.com/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
@@ -259,12 +269,12 @@
     <snapshotRepository>
       <id>ossrh</id>
       <name>Sonatype Nexus snapshot repository</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <url>https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
       <id>ossrh</id>
       <name>Sonatype Nexus release repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
 
