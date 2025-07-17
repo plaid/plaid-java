@@ -4,7 +4,7 @@
 
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <version>35.0.0-SNAPSHOT</version>
+  <version>35.0.0-test-SNAPSHOT</version>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -177,8 +177,8 @@
         <extensions>true</extensions>
         <configuration>
           <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          <nexusUrl>https://ossrh-staging-api.central.sonatype.com/</nexusUrl>
+          <autoReleaseAfterClose>false</autoReleaseAfterClose>
         </configuration>
       </plugin>
     </plugins>
@@ -259,12 +259,12 @@
     <snapshotRepository>
       <id>ossrh</id>
       <name>Sonatype Nexus snapshot repository</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <url>https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
       <id>ossrh</id>
       <name>Sonatype Nexus release repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
 
