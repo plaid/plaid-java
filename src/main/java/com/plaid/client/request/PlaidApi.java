@@ -539,6 +539,8 @@ import com.plaid.client.model.UserAccountSessionGetRequest;
 import com.plaid.client.model.UserAccountSessionGetResponse;
 import com.plaid.client.model.UserCreateRequest;
 import com.plaid.client.model.UserCreateResponse;
+import com.plaid.client.model.UserFinancialDataRefreshRequest;
+import com.plaid.client.model.UserFinancialDataRefreshResponse;
 import com.plaid.client.model.UserItemsGetRequest;
 import com.plaid.client.model.UserItemsGetResponse;
 import com.plaid.client.model.UserRemoveRequest;
@@ -547,6 +549,8 @@ import com.plaid.client.model.UserThirdPartyTokenCreateRequest;
 import com.plaid.client.model.UserThirdPartyTokenCreateResponse;
 import com.plaid.client.model.UserThirdPartyTokenRemoveRequest;
 import com.plaid.client.model.UserThirdPartyTokenRemoveResponse;
+import com.plaid.client.model.UserTransactionsRefreshRequest;
+import com.plaid.client.model.UserTransactionsRefreshResponse;
 import com.plaid.client.model.UserUpdateRequest;
 import com.plaid.client.model.UserUpdateResponse;
 import com.plaid.client.model.WalletCreateRequest;
@@ -1410,7 +1414,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve various verification reports for a user.
-   * This endpoint allows you to retrieve verification reports for a user. To obtain a VoA or VoE report, you need to make sure that &#x60;cra_base_report&#x60; is included in the &#x60;products&#x60; parameter when calling &#x60;/link/token/create&#x60; or &#x60;/cra/check_report/create&#x60;.   You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;.  If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.\&quot;
+   * This endpoint allows you to retrieve verification reports for a user. To obtain a VoA or Employment Refresh report, you need to make sure that &#x60;cra_base_report&#x60; is included in the &#x60;products&#x60; parameter when calling &#x60;/link/token/create&#x60; or &#x60;/cra/check_report/create&#x60;.   You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;.  If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.\&quot;
    * @param craCheckReportVerificationGetRequest  (required)
    * @return Call&lt;CraCheckReportVerificationGetResponse&gt;
    * 
@@ -1506,7 +1510,7 @@ public interface PlaidApi {
 
   /**
    * Subscribe to Monitoring Insights
-   * This endpoint allows you to subscribe to insights for a user&#39;s linked CRA items, which are updated every day (best-effort).
+   * This endpoint allows you to subscribe to insights for a user&#39;s linked CRA items, which are updated between one and four times per day (best-effort).
    * @param craMonitoringInsightsSubscribeRequest  (required)
    * @return Call&lt;CraMonitoringInsightsSubscribeResponse&gt;
    * 
@@ -2943,7 +2947,7 @@ public interface PlaidApi {
 
   /**
    * Get payment details
-   * The &#x60;/payment_initiation/payment/get&#x60; endpoint can be used to check the status of a payment, as well as to receive basic information such as recipient and payment amount. In the case of standing orders, the &#x60;/payment_initiation/payment/get&#x60; endpoint will provide information about the status of the overall standing order itself; the API cannot be used to retrieve payment status for individual payments within a standing order.
+   * The &#x60;/payment_initiation/payment/get&#x60; endpoint can be used to check the status of a payment, as well as to receive basic information such as recipient and payment amount. In the case of standing orders, the &#x60;/payment_initiation/payment/get&#x60; endpoint will provide information about the status of the overall standing order itself; the API cannot be used to retrieve payment status for individual payments within a standing order.  Polling for status updates in Production is highly discouraged. Repeatedly calling &#x60;/payment_initiation/payment/get&#x60; to check a payment&#39;s status is unreliable and may trigger API rate limits. Only the &#x60;payment_status_update&#x60; webhook should be used to receive real-time status updates in Production.  In the case of standing orders, the &#x60;/payment_initiation/payment/get&#x60; endpoint will provide information about the status of the overall standing order itself; the API cannot be used to retrieve payment status for individual payments within a standing order.
    * @param paymentInitiationPaymentGetRequest  (required)
    * @return Call&lt;PaymentInitiationPaymentGetResponse&gt;
    * 
@@ -3572,12 +3576,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Trigger an update for Cashflow Updates
-   * Use the &#x60;/sandbox/cra/cashflow_updates/update&#x60; endpoint to manually trigger an update for cashflow updates (Monitoring) in the Sandbox environment.
+   * Trigger an update for Cash Flow Updates
+   * Use the &#x60;/sandbox/cra/cashflow_updates/update&#x60; endpoint to manually trigger an update for Cash Flow Updates (Monitoring) in the Sandbox environment.
    * @param sandboxCraCashflowUpdatesUpdateRequest  (required)
    * @return Call&lt;SandboxCraCashflowUpdatesUpdateResponse&gt;
    * 
-   * @see <a href="/api/sandbox/#sandboxcracashflow_updatesupdate">Trigger an update for Cashflow Updates Documentation</a>
+   * @see <a href="/api/sandbox/#sandboxcracashflow_updatesupdate">Trigger an update for Cash Flow Updates Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4335,7 +4339,7 @@ public interface PlaidApi {
 
   /**
    * Get RTP eligibility information of a transfer
-   * Use the &#x60;/transfer/capabilities/get&#x60; endpoint to determine the RTP eligibility information of an account to be used with Transfer. This endpoint works on all Transfer-capable Items, including those created by &#x60;/transfer/migrate_account&#x60;. To simulate RTP eligibility in Sandbox, log in using the username &#x60;user_good&#x60; and password &#x60;pass_good&#x60; and use the first two checking and savings accounts in the \&quot;First Platypus Bank\&quot; institution (ending in 0000 or 1111), which will return &#x60;true&#x60;. Any other account will return &#x60;false&#x60;.
+   * Use the &#x60;/transfer/capabilities/get&#x60; endpoint to determine the RTP eligibility information of an account to be used with Transfer. This endpoint works on all Transfer-capable Items, including those created by &#x60;/transfer/migrate_account&#x60;.
    * @param transferCapabilitiesGetRequest  (required)
    * @return Call&lt;TransferCapabilitiesGetResponse&gt;
    * 
@@ -4510,12 +4514,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Move available balance between the ledgers of the platform and one of its originators
-   * Use the &#x60;/transfer/ledger/distribute&#x60; endpoint to move available balance between the ledgers of the platform and one of its originators.
+   * Move available balance between ledgers
+   * Use the &#x60;/transfer/ledger/distribute&#x60; endpoint to move available balance between ledgers, if you have multiple. If you’re a platform, you can move funds between one of your ledgers and one of your customer’s ledger.
    * @param transferLedgerDistributeRequest  (required)
    * @return Call&lt;TransferLedgerDistributeResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/ledger/#transferledgerdistribute">Move available balance between the ledgers of the platform and one of its originators Documentation</a>
+   * @see <a href="/api/products/transfer/ledger/#transferledgerdistribute">Move available balance between ledgers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4959,6 +4963,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Refresh user items for Financial-Insights bundle
+   * &#x60;/user/financial_data/refresh&#x60; is an optional endpoint that initiates an on-demand extraction to fetch the newest transactions for a User using the Financial Insights bundle. This bundle refreshes the Transactions, Investments, and Liabilities product data. This endpoint is for clients who use the Transactions Insights bundle and want to proactively update all linked Items under a user. The refresh may succeed or fail on a per-Item basis. Use the &#x60;results&#x60; array in the response to understand the outcome for each Item.  This endpoint is distinct from &#x60;/transactions/refresh&#x60;, which triggers a refresh for a single Item. Use &#x60;/user/financial_data/refresh&#x60; to target all Items for a user instead.
+   * @param userFinancialDataRefreshRequest  (required)
+   * @return Call&lt;UserFinancialDataRefreshResponse&gt;
+   * 
+   * @see <a href="/api/products/transactions/#userfinancialdatarefresh">Refresh user items for Financial-Insights bundle Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/financial_data/refresh")
+  Call<UserFinancialDataRefreshResponse> userFinancialDataRefresh(
+    @retrofit2.http.Body UserFinancialDataRefreshRequest userFinancialDataRefreshRequest
+  );
+
+  /**
    * Get Items associated with a User
    * Returns Items associated with a User along with their corresponding statuses.
    * @param userItemsGetRequest  (required)
@@ -5021,6 +5041,22 @@ public interface PlaidApi {
   @POST("user/third_party_token/remove")
   Call<UserThirdPartyTokenRemoveResponse> userThirdPartyTokenRemove(
     @retrofit2.http.Body UserThirdPartyTokenRemoveRequest userThirdPartyTokenRemoveRequest
+  );
+
+  /**
+   * Refresh user items for Transactions bundle
+   * &#x60;/user/transactions/refresh&#x60; is an optional endpoint that initiates an on-demand extraction to fetch the newest transactions for a User using the Transactions bundle. This bundle refreshes only the Transactions product data. This endpoint is for clients who use the Transactions Insights bundle and want to proactively update all linked Items under a user. The refresh may succeed or fail on a per-Item basis. Use the &#x60;results&#x60; array in the response to understand the outcome for each Item.  This endpoint is distinct from &#x60;/transactions/refresh&#x60;, which triggers a refresh for a single Item. Use &#x60;/user/transactions/refresh&#x60; to target all Items for a user instead.
+   * @param userTransactionsRefreshRequest  (required)
+   * @return Call&lt;UserTransactionsRefreshResponse&gt;
+   * 
+   * @see <a href="/api/products/transactions/#usertransactionsrefresh">Refresh user items for Transactions bundle Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/transactions/refresh")
+  Call<UserTransactionsRefreshResponse> userTransactionsRefresh(
+    @retrofit2.http.Body UserTransactionsRefreshRequest userTransactionsRefreshRequest
   );
 
   /**
