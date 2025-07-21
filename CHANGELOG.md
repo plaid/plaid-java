@@ -1,5 +1,12 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 36.1.0
+- Updating to OAS 2020-09-14_1.652.0
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.652.0
+- Add optional `cursor` and `count` fields to the `/payment_initiation/recipient/list` request and `next_cursor` to its response
+
 # 36.0.0
 - Updating to OAS 2020-09-14_1.651.2
 
