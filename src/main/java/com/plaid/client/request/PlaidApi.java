@@ -34,6 +34,8 @@ import com.plaid.client.model.AssetReportRemoveRequest;
 import com.plaid.client.model.AssetReportRemoveResponse;
 import com.plaid.client.model.AuthGetRequest;
 import com.plaid.client.model.AuthGetResponse;
+import com.plaid.client.model.AuthVerifyRequest;
+import com.plaid.client.model.AuthVerifyResponse;
 import com.plaid.client.model.BankTransferBalanceGetRequest;
 import com.plaid.client.model.BankTransferBalanceGetResponse;
 import com.plaid.client.model.BankTransferCancelRequest;
@@ -431,8 +433,6 @@ import com.plaid.client.model.StatementsListRequest;
 import com.plaid.client.model.StatementsListResponse;
 import com.plaid.client.model.StatementsRefreshRequest;
 import com.plaid.client.model.StatementsRefreshResponse;
-import com.plaid.client.model.TCHNotification;
-import com.plaid.client.model.TCHNotificationResponse;
 import com.plaid.client.model.TransactionsEnhanceGetRequest;
 import com.plaid.client.model.TransactionsEnhanceGetResponse;
 import com.plaid.client.model.TransactionsEnrichRequest;
@@ -485,6 +485,8 @@ import com.plaid.client.model.TransferLedgerDepositRequest;
 import com.plaid.client.model.TransferLedgerDepositResponse;
 import com.plaid.client.model.TransferLedgerDistributeRequest;
 import com.plaid.client.model.TransferLedgerDistributeResponse;
+import com.plaid.client.model.TransferLedgerEventListRequest;
+import com.plaid.client.model.TransferLedgerEventListResponse;
 import com.plaid.client.model.TransferLedgerGetRequest;
 import com.plaid.client.model.TransferLedgerGetResponse;
 import com.plaid.client.model.TransferLedgerWithdrawRequest;
@@ -543,6 +545,8 @@ import com.plaid.client.model.UserFinancialDataRefreshRequest;
 import com.plaid.client.model.UserFinancialDataRefreshResponse;
 import com.plaid.client.model.UserItemsGetRequest;
 import com.plaid.client.model.UserItemsGetResponse;
+import com.plaid.client.model.UserItemsListRequest;
+import com.plaid.client.model.UserItemsListResponse;
 import com.plaid.client.model.UserRemoveRequest;
 import com.plaid.client.model.UserRemoveResponse;
 import com.plaid.client.model.UserThirdPartyTokenCreateRequest;
@@ -818,6 +822,22 @@ public interface PlaidApi {
   @POST("auth/get")
   Call<AuthGetResponse> authGet(
     @retrofit2.http.Body AuthGetRequest authGetRequest
+  );
+
+  /**
+   * Verify auth data
+   * The &#x60;/auth/verify&#x60; endpoint verifies bank account numbers against Plaid&#39;s database via Database Auth.
+   * @param authVerifyRequest  (required)
+   * @return Call&lt;AuthVerifyResponse&gt;
+   * 
+   * @see <a href="/auth/coverage/database-auth/">Verify auth data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("auth/verify")
+  Call<AuthVerifyResponse> authVerify(
+    @retrofit2.http.Body AuthVerifyRequest authVerifyRequest
   );
 
   /**
@@ -2129,7 +2149,7 @@ public interface PlaidApi {
 
   /**
    * Create a new Identity Verification
-   * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; field. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If you don&#39;t know whether the associated user already has an active Identity Verification, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with an &#x60;200 OK&#x60; HTTP status code.  You can also use this endpoint to supply information you already have collected about the user; if any of these fields are specified, the screens prompting the user to enter them will be skipped during the Link flow. 
+   * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60; field. At least one of these two fields must be provided. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If &#x60;user_id&#x60; is provided, there must be an associated user otherwise an error will be returned. If you don&#39;t know whether an active Identity Verification exists for a given &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60;, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60;, and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with a &#x60;200 OK&#x60; HTTP status code. If &#x60;user_id&#x60; is not provided, you can also use this endpoint to supply information you already have collected about the user; if any of these fields are specified, the screens prompting the user to enter them will be skipped during the Link flow. If &#x60;user_id&#x60; is provided, user information can not be included in the request body. Please use the &#x60;/user/update&#x60; endpoint to update user data instead. 
    * @param identityVerificationCreateRequest  (required)
    * @return Call&lt;IdentityVerificationCreateResponse&gt;
    * 
@@ -2579,7 +2599,7 @@ public interface PlaidApi {
 
   /**
    * Remove an Item
-   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item, unless the end user revoked permission (e.g. via [https://my.plaid.com/](https://my.plaid.com/). For more details, see [Subscription fee model](https://plaid.com/docs/account/billing/#subscription-fee).  In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
+   * The &#x60;/item/remove&#x60; endpoint allows you to remove an Item. Once removed, the &#x60;access_token&#x60;, as well as any processor tokens or bank account tokens associated with the Item, is no longer valid and cannot be used to access any data that was associated with the Item.  Calling &#x60;/item/remove&#x60; is a recommended best practice when offboarding users or if a user chooses to disconnect an account linked via Plaid. For subscription products, such as Transactions, Liabilities, and Investments, calling &#x60;/item/remove&#x60; is required to end subscription billing for the Item, unless the end user revoked permission (e.g. via [https://my.plaid.com/](https://my.plaid.com/)). For more details, see [Subscription fee model](https://plaid.com/docs/account/billing/#subscription-fee).  In Limited Production, calling &#x60;/item/remove&#x60; does not impact the number of remaining Limited Production Items you have available.  Removing an Item does not affect any Asset Reports or Audit Copies you have already created, which will remain accessible until you remove access to them specifically using the &#x60;/asset_report/remove&#x60; endpoint.  Also note that for certain OAuth-based institutions, an Item removed via &#x60;/item/remove&#x60; may still show as an active connection in the institution&#39;s OAuth permission manager.  API versions 2019-05-29 and earlier return a &#x60;removed&#x60; boolean as part of the response.
    * @param itemRemoveRequest  (required)
    * @return Call&lt;ItemRemoveResponse&gt;
    * 
@@ -2691,7 +2711,7 @@ public interface PlaidApi {
 
   /**
    * Get Link Token
-   * The &#x60;/link/token/get&#x60; endpoint gets information about a Link session, including all callbacks fired during the session along with their metadata, including the public token. This endpoint is used with Link flows that don&#39;t provide a public token via frontend callbacks, such as the [Hosted Link flow](https://plaid.com/docs/link/hosted-link/) and the [Multi-Item Link flow](https://plaid.com/docs/link/multi-item-link/). It also can be useful for debugging purposes.
+   * The &#x60;/link/token/get&#x60; endpoint gets information about a Link session, including all callbacks fired during the session along with their metadata, including the public token. This endpoint is used with Link flows that don&#39;t provide a public token via frontend callbacks, such as the [Hosted Link flow](https://plaid.com/docs/link/hosted-link/) and the [Multi-Item Link flow](https://plaid.com/docs/link/multi-item-link/). It also can be useful for debugging purposes.  By default, this endpoint will only return complete event data for Hosted Link sessions. To use &#x60;/link/token/get&#x60; to retrieve event data for non-Hosted-Link sessions, contact your account manager to request that your account be enabled for Link events. If you do not have an account manager, you can submit this request via a support ticket. Enablement for Link events will also cause you to receive additional webhooks related to Link events, such as the &#x60;SESSION_FINISHED&#x60; and &#x60;EVENTS&#x60; webhook. 
    * @param linkTokenGetRequest  (required)
    * @return Call&lt;LinkTokenGetResponse&gt;
    * 
@@ -3737,7 +3757,7 @@ public interface PlaidApi {
 
   /**
    * Create sandbox transactions
-   * Use the &#x60;/sandbox/transactions/create&#x60; endpoint to create new transactions for an existing Item. This endpoint can be used to add up to 10 transactions to any Item at a time.  This endpoint is only available in the Sandbox environment, thus can only be used with Items that were created in the Sandbox. You can use this to add transactions to test the &#x60;/transactions/get&#x60; and &#x60;/transactions/sync&#x60; endpoints.  For Items created in the Production environment, real transactions will be available once the transactions product is enabled.
+   * Use the &#x60;/sandbox/transactions/create&#x60; endpoint to create new transactions for an existing Item. This endpoint can be used to add up to 10 transactions to any Item at a time.  This endpoint can only be used with Items that were created in the Sandbox environment using the &#x60;user_transactions_dynamic&#x60; test user. You can use this to add transactions to test the &#x60;/transactions/get&#x60; and &#x60;/transactions/sync&#x60; endpoints.
    * @param sandboxTransactionsCreateRequest  (required)
    * @return Call&lt;SandboxTransactionsCreateResponse&gt;
    * 
@@ -4101,22 +4121,6 @@ public interface PlaidApi {
   @POST("statements/refresh")
   Call<StatementsRefreshResponse> statementsRefresh(
     @retrofit2.http.Body StatementsRefreshRequest statementsRefreshRequest
-  );
-
-  /**
-   * Receive token notifications from The Clearing House (TCH).
-   * This endpoint allows us to receive token notifications from The Clearing House (TCH). The schema is defined by TCH.
-   * @param tcHNotification  (required)
-   * @return Call&lt;TCHNotificationResponse&gt;
-   * 
-   * @see <a href="none">Receive token notifications from The Clearing House (TCH). Documentation</a>
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("tch/notifications")
-  Call<TCHNotificationResponse> tchNotifications(
-    @retrofit2.http.Body TCHNotification tcHNotification
   );
 
   /**
@@ -4527,6 +4531,22 @@ public interface PlaidApi {
   @POST("transfer/ledger/distribute")
   Call<TransferLedgerDistributeResponse> transferLedgerDistribute(
     @retrofit2.http.Body TransferLedgerDistributeRequest transferLedgerDistributeRequest
+  );
+
+  /**
+   * List transfer ledger events
+   * Use the &#x60;/transfer/ledger/event/list&#x60; endpoint to get a list of ledger events for a specific ledger based on specified filter criteria.
+   * @param transferLedgerEventListRequest  (required)
+   * @return Call&lt;TransferLedgerEventListResponse&gt;
+   * 
+   * @see <a href="/api/products/transfer/ledger/#transferledgereventlist">List transfer ledger events Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("transfer/ledger/event/list")
+  Call<TransferLedgerEventListResponse> transferLedgerEventList(
+    @retrofit2.http.Body TransferLedgerEventListRequest transferLedgerEventListRequest
   );
 
   /**
@@ -4992,6 +5012,22 @@ public interface PlaidApi {
   @POST("user/items/get")
   Call<UserItemsGetResponse> userItemsGet(
     @retrofit2.http.Body UserItemsGetRequest userItemsGetRequest
+  );
+
+  /**
+   * List Items associated with a User
+   * Returns Items associated with a User along with their corresponding statuses.
+   * @param userItemsListRequest  (required)
+   * @return Call&lt;UserItemsListResponse&gt;
+   * 
+   * @see <a href="/api/users/#useritemslist">List Items associated with a User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/items/list")
+  Call<UserItemsListResponse> userItemsList(
+    @retrofit2.http.Body UserItemsListRequest userItemsListRequest
   );
 
   /**
