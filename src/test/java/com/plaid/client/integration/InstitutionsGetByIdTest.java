@@ -144,7 +144,8 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
         Products.LIABILITIES,
         Products.PAY_BY_BANK,
         Products.PROCESSOR_PAYMENTS,
-        Products.TRANSFER
+        Products.TRANSFER,
+        Products.CRA_PLAID_CREDIT_SCORE
       )),
       new HashSet<>(institution.getProducts())
     );
