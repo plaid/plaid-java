@@ -107,6 +107,8 @@ import com.plaid.client.model.CraCheckReportNetworkInsightsGetResponse;
 import com.plaid.client.model.CraCheckReportPDFGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetResponse;
+import com.plaid.client.model.CraCheckReportPlaidCreditScoreGetRequest;
+import com.plaid.client.model.CraCheckReportPlaidCreditScoreGetResponse;
 import com.plaid.client.model.CraCheckReportVerificationGetRequest;
 import com.plaid.client.model.CraCheckReportVerificationGetResponse;
 import com.plaid.client.model.CraLoanUnregisterResponse;
@@ -543,6 +545,8 @@ import com.plaid.client.model.UserCreateRequest;
 import com.plaid.client.model.UserCreateResponse;
 import com.plaid.client.model.UserFinancialDataRefreshRequest;
 import com.plaid.client.model.UserFinancialDataRefreshResponse;
+import com.plaid.client.model.UserItemsAssociateRequest;
+import com.plaid.client.model.UserItemsAssociateResponse;
 import com.plaid.client.model.UserItemsGetRequest;
 import com.plaid.client.model.UserItemsGetResponse;
 import com.plaid.client.model.UserItemsListRequest;
@@ -1178,7 +1182,7 @@ public interface PlaidApi {
 
   /**
    * Review a Beacon User
-   * Update the status of a Beacon User.  When updating a Beacon User&#39;s status via this endpoint, Plaid validates that the status change is consistent with the related state for this Beacon User. Specifically, we will check:  1. Whether there are any associated Beacon Reports connected to the Beacon User, and 2. Whether there are any confirmed Beacon Report Syndications connected to the Beacon User.  When updating a Beacon User&#39;s status to \&quot;rejected\&quot;, we enforce that either a Beacon Report has been created for the Beacon User or a Beacon Report Syndication has been confirmed. When updating a Beacon User&#39;s status to \&quot;cleared\&quot;, we enforce that there are no active Beacon Reports or confirmed Beacon Report Syndications associated with the user. If you previously created a Beacon Report for this user, you must delete it before updating the Beacon User&#39;s status to \&quot;cleared\&quot;. There are no restrictions on updating a Beacon User&#39;s status to \&quot;pending_review\&quot;.  If these conditions are not met, the request will be rejected with an error explaining the issue.
+   * Update the status of a Beacon User.  When updating a Beacon User&#39;s status via this endpoint, Plaid validates that the status change is consistent with the related state for this Beacon User. Specifically, we will check:  1. Whether there are any associated Beacon Reports connected to the Beacon User, and 2. Whether there are any confirmed Beacon Report Syndications connected to the Beacon User.  When updating a Beacon User&#39;s status to &#x60;rejected&#x60;, we enforce that either a Beacon Report has been created for the Beacon User or a Beacon Report Syndication has been confirmed. When updating a Beacon User&#39;s status to &#x60;cleared&#x60;, we enforce that there are no active Beacon Reports or confirmed Beacon Report Syndications associated with the user. If you previously created a Beacon Report for this user, you must delete it before updating the Beacon User&#39;s status to &#x60;cleared&#x60;. There are no restrictions on updating a Beacon User&#39;s status to &#x60;pending_review&#x60;.  If these conditions are not met, the request will be rejected with an error explaining the issue.
    * @param beaconUserReviewRequest  (required)
    * @return Call&lt;BeaconUserGetResponse&gt;
    * 
@@ -1209,12 +1213,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Gets transaction data in cashflow_report
-   * The &#x60;/cashflow_report/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with cashflow_report, or if it wasn&#39;t, upon the first call to /cashflow_report/refresh. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
+   * Gets transaction data in &#x60;cashflow_report&#x60;
+   * The &#x60;/cashflow_report/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;cashflow_report&#x60;, or if it wasn&#39;t, upon the first call to &#x60;/cashflow_report/refresh&#x60;. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
    * @param cashflowReportGetRequest  (required)
    * @return Call&lt;CashflowReportGetResponse&gt;
    * 
-   * @see <a href="/api/products/transactions/#cashflowReportGet">Gets transaction data in cashflow_report Documentation</a>
+   * @see <a href="/api/products/transactions/#cashflowReportGet">Gets transaction data in &#x60;cashflow_report&#x60; Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1241,12 +1245,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Refresh transaction data in cashflow_report
+   * Refresh transaction data in &#x60;cashflow_report&#x60;
    * &#x60;/cashflow_report/refresh&#x60; is an endpoint that initiates an on-demand extraction to fetch the newest transactions for an item (given an &#x60;item_id&#x60;). The item must already have Cashflow Report added as a product in order to call &#x60;/cashflow_report/refresh&#x60;.  After calling &#x60;/cashflow_report/refresh&#x60;, Plaid will fire a webhook &#x60;CASHFLOW_REPORT_READY&#x60; alerting clients that new transactions data can then be ingested via &#x60;/cashflow_report/get&#x60; or the webhook will contain an error code informing there was an error in refreshing transactions data.  Note that the &#x60;/cashflow_report/refresh&#x60; endpoint is not supported for Capital One (&#x60;ins_128026&#x60;) non-depository accounts and will result in a &#x60;PRODUCTS_NOT_SUPPORTED&#x60; error if called on an Item that contains only non-depository accounts from that institution.  As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but up to 30 seconds or more). If you encounter errors, you may find it necessary to adjust your timeout period for requests.
    * @param cashflowReportRefreshRequest  (required)
    * @return Call&lt;CashflowReportRefreshResponse&gt;
    * 
-   * @see <a href="/api/products/transactions/#cashflowReportRefresh">Refresh transaction data in cashflow_report Documentation</a>
+   * @see <a href="/api/products/transactions/#cashflowReportRefresh">Refresh transaction data in &#x60;cashflow_report&#x60; Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1258,7 +1262,7 @@ public interface PlaidApi {
 
   /**
    * Gets transaction data in cashflow_report
-   * The &#x60;/cashflow_report/transactions/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with cashflow_report, or if it wasn&#39;t, upon the first call to /cashflow_report/refresh. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
+   * The &#x60;/cashflow_report/transactions/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;cashflow_report&#x60;, or if it wasn&#39;t, upon the first call to &#x60;/cashflow_report/refresh&#x60;. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
    * @param cashflowReportTransactionsGetRequest  (required)
    * @return Call&lt;CashflowReportTransactionsGetResponse&gt;
    * 
@@ -1430,6 +1434,22 @@ public interface PlaidApi {
   @POST("cra/check_report/pdf/get")
   Call<ResponseBody> craCheckReportPdfGet(
     @retrofit2.http.Body CraCheckReportPDFGetRequest craCheckReportPDFGetRequest
+  );
+
+  /**
+   * Retrieve the plaid credit score from your user&#39;s banking data
+   * This endpoint allows you to retrieve the Plaid Credit Score report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_plaid_credit_score&#x60; product or call &#x60;/cra/check_report/create&#x60; with the &#x60;cra_plaid_credit_score&#x60; product, we will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
+   * @param craCheckReportPlaidCreditScoreGetRequest  (required)
+   * @return Call&lt;CraCheckReportPlaidCreditScoreGetResponse&gt;
+   * 
+   * @see <a href="/api/products/check/#cracheck_reportplaid_credit_scoreget">Retrieve the plaid credit score from your user&#39;s banking data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/check_report/plaid_credit_score/get")
+  Call<CraCheckReportPlaidCreditScoreGetResponse> craCheckReportPlaidCreditScoreGet(
+    @retrofit2.http.Body CraCheckReportPlaidCreditScoreGetRequest craCheckReportPlaidCreditScoreGetRequest
   );
 
   /**
@@ -1612,7 +1632,7 @@ public interface PlaidApi {
 
   /**
    * Create Asset or Income Report Audit Copy Token
-   * Plaid can create an Audit Copy token of an Asset Report and/or Income Report to share with participating Government Sponsored Entity (GSE). If you participate in the Day 1 Certainty™ program, Plaid can supply an Audit Copy token directly to Fannie Mae on your behalf. An Audit Copy token contains the same underlying data as the Asset Report and/or Income Report (result of /credit/payroll_income/get).  Use the &#x60;/credit/audit_copy_token/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the GSE who needs access.
+   * Plaid can create an Audit Copy token of an Asset Report and/or Income Report to share with participating Government Sponsored Entity (GSE). If you participate in the Day 1 Certainty™ program, Plaid can supply an Audit Copy token directly to Fannie Mae on your behalf. An Audit Copy token contains the same underlying data as the Asset Report and/or Income Report (result of &#x60;/credit/payroll_income/get&#x60;).  Use the &#x60;/credit/audit_copy_token/create&#x60; endpoint to create an &#x60;audit_copy_token&#x60; and then pass that token to the GSE who needs access.
    * @param creditAuditCopyTokenCreateRequest  (required)
    * @return Call&lt;CreditAuditCopyTokenCreateResponse&gt;
    * 
@@ -2679,7 +2699,7 @@ public interface PlaidApi {
 
   /**
    * Exchange the Link Correlation Id for a Link Token
-   * Exchange an OAuth &#x60;link_correlation_id&#x60; for the corresponding &#x60;link_token&#x60;. The &#x60;link_correlation_id&#x60; is only available for &#39;payment_initiation&#39; products and is provided to the client via the OAuth &#x60;redirect_uri&#x60; as a query parameter. The &#x60;link_correlation_id&#x60; is ephemeral and expires in a brief period, after which it can no longer be exchanged for the &#39;link_token&#39;.
+   * Exchange an OAuth &#x60;link_correlation_id&#x60; for the corresponding &#x60;link_token&#x60;. The &#x60;link_correlation_id&#x60; is only available for &#x60;payment_initiation&#x60; products and is provided to the client via the OAuth &#x60;redirect_uri&#x60; as a query parameter. The &#x60;link_correlation_id&#x60; is ephemeral and expires in a brief period, after which it can no longer be exchanged for the &#x60;link_token&#x60;.
    * @param linkOAuthCorrelationIdExchangeRequest  (required)
    * @return Call&lt;LinkOAuthCorrelationIdExchangeResponse&gt;
    * 
@@ -4996,6 +5016,22 @@ public interface PlaidApi {
   @POST("user/financial_data/refresh")
   Call<UserFinancialDataRefreshResponse> userFinancialDataRefresh(
     @retrofit2.http.Body UserFinancialDataRefreshRequest userFinancialDataRefreshRequest
+  );
+
+  /**
+   * Associate Items to a User
+   * Associates Items to the target user. If an Item is already associated to another user, the Item will be disassociated with the existing user and associated to the target user. This operation supports a max of 100 Items.
+   * @param userItemsAssociateRequest  (required)
+   * @return Call&lt;UserItemsAssociateResponse&gt;
+   * 
+   * @see <a href="/api/users/#useritemsassociate">Associate Items to a User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/items/associate")
+  Call<UserItemsAssociateResponse> userItemsAssociate(
+    @retrofit2.http.Body UserItemsAssociateRequest userItemsAssociateRequest
   );
 
   /**
