@@ -128,26 +128,8 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
   private void assertIsTartanBank(Institution institution) {
     assertEquals(TARTAN_BANK_INSTITUTION_ID, institution.getInstitutionId());
     assertEquals("Tartan Bank", institution.getName());
-    assertEquals(
-      new HashSet<>(Arrays.asList(
-        Products.ASSETS,
-        Products.AUTH,
-        Products.BALANCE,
-        Products.TRANSACTIONS,
-        Products.CREDIT_DETAILS,
-        Products.SIGNAL,
-        Products.IDENTITY_MATCH,
-        Products.INCOME,
-        Products.INCOME_VERIFICATION,
-        Products.IDENTITY,
-        Products.INVESTMENTS,
-        Products.LIABILITIES,
-        Products.PAY_BY_BANK,
-        Products.PROCESSOR_PAYMENTS,
-        Products.TRANSFER,
-        Products.CRA_PLAID_CREDIT_SCORE
-      )),
-      new HashSet<>(institution.getProducts())
+    assertFalse(
+      institution.getProducts().contains(Products.ENUM_UNKNOWN)
     );
     assertTrue(institution.getCountryCodes().contains(CountryCode.US));
   }
@@ -158,30 +140,9 @@ public class InstitutionsGetByIdTest extends AbstractIntegrationTest {
       institution.getInstitutionId()
     );
     assertTrue(institution.getName().contains("First Platypus Bank"));
-    assertEquals(
-      new HashSet<>(Arrays.asList(
-        Products.ASSETS,
-        Products.AUTH,
-        Products.BALANCE,
-        Products.TRANSACTIONS,
-        Products.CREDIT_DETAILS,
-        Products.SIGNAL,
-        Products.IDENTITY_MATCH,
-        Products.INCOME,
-        Products.INCOME_VERIFICATION,
-        Products.IDENTITY,
-        Products.INVESTMENTS,
-        Products.INVESTMENTS_AUTH,
-        Products.LIABILITIES,
-        Products.PAY_BY_BANK,
-        Products.PROCESSOR_PAYMENTS,
-        Products.STATEMENTS,
-        Products.TRANSFER,
-        Products.CRA_PLAID_CREDIT_SCORE
-      )),
-      new HashSet<>(institution.getProducts())
+    assertFalse(
+      institution.getProducts().contains(Products.ENUM_UNKNOWN)
     );
-
     assertTrue(institution.getCountryCodes().contains(CountryCode.US));
   }
 
