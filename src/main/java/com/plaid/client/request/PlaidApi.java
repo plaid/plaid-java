@@ -17,6 +17,7 @@ import com.plaid.client.model.ApplicationGetResponse;
 import com.plaid.client.model.AssetReportAuditCopyCreateRequest;
 import com.plaid.client.model.AssetReportAuditCopyCreateResponse;
 import com.plaid.client.model.AssetReportAuditCopyGetRequest;
+import com.plaid.client.model.AssetReportAuditCopyPdfGetRequest;
 import com.plaid.client.model.AssetReportAuditCopyRemoveRequest;
 import com.plaid.client.model.AssetReportAuditCopyRemoveResponse;
 import com.plaid.client.model.AssetReportCreateRequest;
@@ -81,6 +82,14 @@ import com.plaid.client.model.BeaconUserHistoryListResponse;
 import com.plaid.client.model.BeaconUserReviewRequest;
 import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
+import com.plaid.client.model.BetaPartnerCustomerV1CreateRequest;
+import com.plaid.client.model.BetaPartnerCustomerV1CreateResponse;
+import com.plaid.client.model.BetaPartnerCustomerV1EnableRequest;
+import com.plaid.client.model.BetaPartnerCustomerV1EnableResponse;
+import com.plaid.client.model.BetaPartnerCustomerV1GetRequest;
+import com.plaid.client.model.BetaPartnerCustomerV1GetResponse;
+import com.plaid.client.model.BetaPartnerCustomerV1UpdateRequest;
+import com.plaid.client.model.BetaPartnerCustomerV1UpdateResponse;
 import com.plaid.client.model.CRALoansRegisterRequest;
 import com.plaid.client.model.CashflowReportGetRequest;
 import com.plaid.client.model.CashflowReportGetResponse;
@@ -111,6 +120,7 @@ import com.plaid.client.model.CraCheckReportPartnerInsightsGetRequest;
 import com.plaid.client.model.CraCheckReportPartnerInsightsGetResponse;
 import com.plaid.client.model.CraCheckReportVerificationGetRequest;
 import com.plaid.client.model.CraCheckReportVerificationGetResponse;
+import com.plaid.client.model.CraCheckReportVerificationPdfGetRequest;
 import com.plaid.client.model.CraLoanUnregisterResponse;
 import com.plaid.client.model.CraLoansApplicationsRegisterRequest;
 import com.plaid.client.model.CraLoansApplicationsRegisterResponse;
@@ -363,6 +373,8 @@ import com.plaid.client.model.ProtectEventGetRequest;
 import com.plaid.client.model.ProtectEventGetResponse;
 import com.plaid.client.model.ProtectEventSendRequest;
 import com.plaid.client.model.ProtectEventSendResponse;
+import com.plaid.client.model.ProtectReportCreateRequest;
+import com.plaid.client.model.ProtectReportCreateResponse;
 import com.plaid.client.model.ProtectUserInsightsGetRequest;
 import com.plaid.client.model.ProtectUserInsightsGetResponse;
 import com.plaid.client.model.SandboxBankIncomeFireWebhookRequest;
@@ -626,11 +638,11 @@ import java.util.Map;
 public interface PlaidApi {
   /**
    * Retrieve real-time balance data
-   * The &#x60;/accounts/balance/get&#x60; endpoint returns the real-time balance for each of an Item&#39;s accounts. While other endpoints, such as &#x60;/accounts/get&#x60;, return a balance object, only &#x60;/accounts/balance/get&#x60; forces the available and current balance fields to be refreshed rather than cached. This endpoint can be used for existing Items that were added via any of Plaid’s other products. This endpoint can be used as long as Link has been initialized with any other product, &#x60;balance&#x60; itself is not a product that can be used to initialize Link. As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.
+   * The &#x60;/accounts/balance/get&#x60; endpoint returns the real-time balance for each of an Item&#39;s accounts. While other endpoints, such as &#x60;/accounts/get&#x60;, return a balance object,  &#x60;/accounts/balance/get&#x60; forces the available and current balance fields to be refreshed rather than cached. This endpoint can be used for existing Items that were added via any of Plaid’s other products. This endpoint can be used as long as Link has been initialized with any other product, &#x60;balance&#x60; itself is not a product that can be used to initialize Link. As this endpoint triggers a synchronous request for fresh data, latency may be higher than for other Plaid endpoints (typically less than 10 seconds, but occasionally up to 30 seconds or more); if you encounter errors, you may find it necessary to adjust your timeout period when making requests.  Note: If you are getting real-time balance for the purpose of assessing the return risk of a proposed ACH transaction, it is recommended to use &#x60;/signal/evaluate&#x60; instead of &#x60;/accounts/balance/get&#x60;. &#x60;/signal/evaluate&#x60; returns the same real-time balance information and also provides access to Signal Rules, which provides no-code transaction business logic configuration, backtesting and recommendations for tuning your transaction acceptance logic, and the ability to easily switch between Balance and Signal Transaction Scores as needed for ultra-low-latency, ML-powered risk assessments. For more details, see the [Balance documentation](/docs/balance/#balance-integration-options).
    * @param accountsBalanceGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
-   * @see <a href="/api/products/balance/#accountsbalanceget">Retrieve real-time balance data Documentation</a>
+   * @see <a href="/api/products/signal/#accountsbalanceget">Retrieve real-time balance data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -642,7 +654,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve accounts
-   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance. To return new accounts that were created after the user linked their Item, you can listen for the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/items/#new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  &#x60;/accounts/get&#x60; is free to use and retrieves cached information, rather than extracting fresh information from the institution. The balance returned will reflect the balance at the time of the last successful Item update. If the Item is enabled for a regularly updating product, such as Transactions, Investments, or Liabilities, the balance will typically update about once a day, as long as the Item is healthy. If the Item is enabled only for products that do not frequently update, such as Auth or Identity, balance data may be much older.  For realtime balance information, use the paid endpoint &#x60;/accounts/balance/get&#x60; instead.
+   * The &#x60;/accounts/get&#x60; endpoint can be used to retrieve a list of accounts associated with any linked Item. Plaid will only return active bank accounts — that is, accounts that are not closed and are capable of carrying a balance. To return new accounts that were created after the user linked their Item, you can listen for the [&#x60;NEW_ACCOUNTS_AVAILABLE&#x60;](https://plaid.com/docs/api/items/#new_accounts_available) webhook and then use Link&#39;s [update mode](https://plaid.com/docs/link/update-mode/) to request that the user share this new account with you.  &#x60;/accounts/get&#x60; is free to use and retrieves cached information, rather than extracting fresh information from the institution. The balance returned will reflect the balance at the time of the last successful Item update. If the Item is enabled for a regularly updating product, such as Transactions, Investments, or Liabilities, the balance will typically update about once a day, as long as the Item is healthy. If the Item is enabled only for products that do not frequently update, such as Auth or Identity, balance data may be much older.  For realtime balance information, use the paid endpoints &#x60;/accounts/balance/get&#x60; or &#x60;/signal/evaluate&#x60; instead.
    * @param accountsGetRequest  (required)
    * @return Call&lt;AccountsGetResponse&gt;
    * 
@@ -700,6 +712,22 @@ public interface PlaidApi {
   @POST("asset_report/audit_copy/get")
   Call<AssetReportGetResponse> assetReportAuditCopyGet(
     @retrofit2.http.Body AssetReportAuditCopyGetRequest assetReportAuditCopyGetRequest
+  );
+
+  /**
+   * Retrieve a PDF Asset Report Audit Copy
+   * The &#x60;/asset_report/audit_copy/pdf/get&#x60; endpoint retrieves an Asset Report Audit Copy in PDF format. The caller must provide the &#x60;audit_copy_token&#x60; that was shared via the &#x60;/asset_report/audit_copy/create&#x60; endpoint.  The response to &#x60;/asset_report/audit_copy/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60; is returned in the &#x60;Plaid-Request-ID&#x60; header.  [View a sample PDF Asset Report](https://plaid.com/documents/sample-asset-report.pdf).
+   * @param assetReportAuditCopyPdfGetRequest  (required)
+   * @return Call&lt;ResponseBody&gt;
+   * 
+   * @see <a href="/none/">Retrieve a PDF Asset Report Audit Copy Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("asset_report/audit_copy/pdf/get")
+  Call<ResponseBody> assetReportAuditCopyPdfGet(
+    @retrofit2.http.Body AssetReportAuditCopyPdfGetRequest assetReportAuditCopyPdfGetRequest
   );
 
   /**
@@ -1215,6 +1243,70 @@ public interface PlaidApi {
   );
 
   /**
+   * Creates a new end customer for a Plaid reseller.
+   * The &#x60;/beta/partner/customer/v1/create&#x60; endpoint creates a new end customer record. You can provide as much information as you have available. If any required information is missing for the products you intend to use, it will be listed in the &#x60;requirements_due&#x60; field of the response.
+   * @param betaPartnerCustomerV1CreateRequest  (required)
+   * @return Call&lt;BetaPartnerCustomerV1CreateResponse&gt;
+   * 
+   * @see <a href="/api/partner/#partnercustomercreate">Creates a new end customer for a Plaid reseller. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/partner/customer/v1/create")
+  Call<BetaPartnerCustomerV1CreateResponse> betaPartnerCustomerV1Create(
+    @retrofit2.http.Body BetaPartnerCustomerV1CreateRequest betaPartnerCustomerV1CreateRequest
+  );
+
+  /**
+   * Enables a Plaid reseller&#39;s end customer in the Production environment.
+   * The &#x60;/beta/partner/customer/v1/enable&#x60; endpoint is used by reseller partners to enable an end customer in the full Production environment.
+   * @param betaPartnerCustomerV1EnableRequest  (required)
+   * @return Call&lt;BetaPartnerCustomerV1EnableResponse&gt;
+   * 
+   * @see <a href="/api/partner/#partnercustomerenable">Enables a Plaid reseller&#39;s end customer in the Production environment. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/partner/customer/v1/enable")
+  Call<BetaPartnerCustomerV1EnableResponse> betaPartnerCustomerV1Enable(
+    @retrofit2.http.Body BetaPartnerCustomerV1EnableRequest betaPartnerCustomerV1EnableRequest
+  );
+
+  /**
+   * Retrieves the details of a Plaid reseller&#39;s end customer.
+   * The &#x60;/beta/partner/customer/v1/get&#x60; endpoint is used by reseller partners to retrieve data about a single end customer.
+   * @param betaPartnerCustomerV1GetRequest  (required)
+   * @return Call&lt;BetaPartnerCustomerV1GetResponse&gt;
+   * 
+   * @see <a href="/api/partner/#partnercustomerget">Retrieves the details of a Plaid reseller&#39;s end customer. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/partner/customer/v1/get")
+  Call<BetaPartnerCustomerV1GetResponse> betaPartnerCustomerV1Get(
+    @retrofit2.http.Body BetaPartnerCustomerV1GetRequest betaPartnerCustomerV1GetRequest
+  );
+
+  /**
+   * Updates an existing end customer.
+   * The &#x60;/beta/partner/customer/v1/update&#x60; endpoint updates an existing end customer record.
+   * @param betaPartnerCustomerV1UpdateRequest  (required)
+   * @return Call&lt;BetaPartnerCustomerV1UpdateResponse&gt;
+   * 
+   * @see <a href="/api/partner/#partnercustomercreate">Updates an existing end customer. Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/partner/customer/v1/update")
+  Call<BetaPartnerCustomerV1UpdateResponse> betaPartnerCustomerV1Update(
+    @retrofit2.http.Body BetaPartnerCustomerV1UpdateRequest betaPartnerCustomerV1UpdateRequest
+  );
+
+  /**
    * Gets transaction data in &#x60;cashflow_report&#x60;
    * The &#x60;/cashflow_report/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;cashflow_report&#x60;, or if it wasn&#39;t, upon the first call to &#x60;/cashflow_report/refresh&#x60;. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
    * @param cashflowReportGetRequest  (required)
@@ -1393,12 +1485,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve the lend score from your user&#39;s banking data
-   * This endpoint allows you to retrieve the Lend Score report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_lend_score&#x60; product or call &#x60;/cra/check_report/create&#x60; with the &#x60;cra_lend_score&#x60; product, we will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
+   * Retrieve the LendScore from your user&#39;s banking data
+   * This endpoint allows you to retrieve the LendScore report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_lend_score&#x60; product or call &#x60;/cra/check_report/create&#x60; with the &#x60;cra_lend_score&#x60; product, Plaid will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
    * @param craCheckReportLendScoreGetRequest  (required)
    * @return Call&lt;CraCheckReportLendScoreGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportlend_scoreget">Retrieve the lend score from your user&#39;s banking data Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportlend_scoreget">Retrieve the LendScore from your user&#39;s banking data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1410,7 +1502,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve network attributes for the user
-   * This endpoint allows you to retrieve the Network Insights product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_network_attributes&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will generate the attributes when you call this endpoint.
+   * This endpoint allows you to retrieve the Network Insights product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_network_attributes&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, Plaid will generate the attributes when you call this endpoint.
    * @param craCheckReportNetworkInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportNetworkInsightsGetResponse&gt;
    * 
@@ -1470,6 +1562,22 @@ public interface PlaidApi {
   @POST("cra/check_report/verification/get")
   Call<CraCheckReportVerificationGetResponse> craCheckReportVerificationGet(
     @retrofit2.http.Body CraCheckReportVerificationGetRequest craCheckReportVerificationGetRequest
+  );
+
+  /**
+   * Retrieve Consumer Reports as a Verification PDF
+   * &#x60;/cra/check_report/verification/pdf/get&#x60; retrieves the most recent Consumer Report in PDF format, formatted specifically for verification use cases. The &#x60;report_type&#x60; field specifies which verification format to use.
+   * @param craCheckReportVerificationPdfGetRequest  (required)
+   * @return Call&lt;ResponseBody&gt;
+   * 
+   * @see <a href="/api/products/check/#cracheck_reportverificationpdfget">Retrieve Consumer Reports as a Verification PDF Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/check_report/verification/pdf/get")
+  Call<ResponseBody> craCheckReportVerificationPdfGet(
+    @retrofit2.http.Body CraCheckReportVerificationPdfGetRequest craCheckReportVerificationPdfGetRequest
   );
 
   /**
@@ -2125,7 +2233,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve identity match score
-   * The &#x60;/identity/match&#x60; endpoint generates a match score, which indicates how well the provided identity data matches the identity information on file with the account holder&#39;s financial institution.  Fields within the &#x60;balances&#x60; object will always be null when retrieved by &#x60;/identity/match&#x60;. Instead, use the free &#x60;/accounts/get&#x60; endpoint to request balance cached data, or &#x60;/accounts/balance/get&#x60; for real-time data.
+   * The &#x60;/identity/match&#x60; endpoint generates a match score, which indicates how well the provided identity data matches the identity information on file with the account holder&#39;s financial institution.  Fields within the &#x60;balances&#x60; object will always be null when retrieved by &#x60;/identity/match&#x60;. Instead, use the free &#x60;/accounts/get&#x60; endpoint to request balance cached data, or &#x60;/accounts/balance/get&#x60; or &#x60;/signal/evaluate&#x60; for real-time data.
    * @param identityMatchRequest  (required)
    * @return Call&lt;IdentityMatchResponse&gt;
    * 
@@ -2735,7 +2843,7 @@ public interface PlaidApi {
 
   /**
    * Get Link Token
-   * The &#x60;/link/token/get&#x60; endpoint gets information about a Link session, including all callbacks fired during the session along with their metadata, including the public token. This endpoint is used with Link flows that don&#39;t provide a public token via frontend callbacks, such as the [Hosted Link flow](https://plaid.com/docs/link/hosted-link/) and the [Multi-Item Link flow](https://plaid.com/docs/link/multi-item-link/). It also can be useful for debugging purposes.  By default, this endpoint will only return complete event data for Hosted Link sessions. To use &#x60;/link/token/get&#x60; to retrieve event data for non-Hosted-Link sessions, contact your account manager to request that your account be enabled for Link events. If you do not have an account manager, you can submit this request via a support ticket. Enablement for Link events will also cause you to receive additional webhooks related to Link events, such as the &#x60;SESSION_FINISHED&#x60; and &#x60;EVENTS&#x60; webhook. 
+   * The &#x60;/link/token/get&#x60; endpoint gets information about a Link session, including all callbacks fired during the session along with their metadata, including the public token. This endpoint is used with Link flows that don&#39;t provide a public token via frontend callbacks, such as the [Hosted Link flow](https://plaid.com/docs/link/hosted-link/) and the [Multi-Item Link flow](https://plaid.com/docs/link/multi-item-link/). It also can be useful for debugging purposes.  By default, this endpoint will only return complete event data for Hosted Link sessions. To use &#x60;/link/token/get&#x60; to retrieve event data for non-Hosted-Link sessions, contact your account manager to request that your account be enabled for Link events. If you do not have an account manager, you can submit this request via a support ticket. Enablement for Link events will also cause you to receive additional webhooks related to Link events, such as the &#x60;SESSION_FINISHED&#x60; and &#x60;EVENTS&#x60; webhook.
    * @param linkTokenGetRequest  (required)
    * @return Call&lt;LinkTokenGetResponse&gt;
    * 
@@ -3301,7 +3409,7 @@ public interface PlaidApi {
 
   /**
    * Report whether you initiated an ACH transaction
-   * After calling &#x60;/processor/signal/evaluate&#x60;, call &#x60;/processor/signal/decision/report&#x60; to report whether the transaction was initiated.  If you are using the [Plaid Transfer product](https://plaid.com/docs/transfer) to create transfers, it is not necessary to use this endpoint, as Plaid already knows whether the transfer was initiated.
+   * After you call &#x60;/processor/signal/evaluate&#x60;, Plaid will normally infer the outcome from your Signal Rules. However, if you are not using Signal Rules, if the Signal Rules outcome was &#x60;REVIEW&#x60;, or if you take a different action than the one determined by the Signal Rules, you will need to call &#x60;/processor/signal/decision/report&#x60;. This helps improve Signal Transaction Score accuracy for your account and is necessary for proper functioning of the rule performance and rule tuning capabilities in the Dashboard. If your effective decision changes after calling &#x60;/processor/signal/decision/report&#x60; (for example, you indicated that you accepted a transaction, but later on, your payment processor rejected it, so it was never initiated), call &#x60;/processor/signal/decision/report&#x60; again for the transaction to correct Plaid&#39;s records.    If you are using Plaid Transfer as your payment processor, you also do not need to call &#x60;/processor/signal/decision/report&#x60;, as Plaid can infer outcomes from your Transfer activity.  If using a Balance-only ruleset, this endpoint will not impact scores (Balance does not use scores), but is necessary to view accurate transaction outcomes and tune rule logic in the Dashboard.      
    * @param processorSignalDecisionReportRequest  (required)
    * @return Call&lt;ProcessorSignalDecisionReportResponse&gt;
    * 
@@ -3317,7 +3425,7 @@ public interface PlaidApi {
 
   /**
    * Evaluate a planned ACH transaction
-   * Use &#x60;/processor/signal/evaluate&#x60; to evaluate a planned ACH transaction as a processor to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If &#x60;/processor/signal/evaluate&#x60; is called on the same transaction multiple times within a 24-hour period, cached results may be returned. For more information please refer to our error documentation on [item errors](https://plaid.com/docs/errors/item/) and [Link in Update Mode](https://plaid.com/docs/link/update-mode/).  Note: This request may take some time to complete if Signal is being added to an existing Item. This is because Plaid must communicate directly with the institution when retrieving the data for the first time. To reduce this latency, you can call &#x60;/signal/prepare&#x60; on the Item before you need to request Signal data.
+   * Use &#x60;/signal/evaluate&#x60; to evaluate a planned ACH transaction to get a return risk assessment and additional risk signals.  &#x60;/signal/evaluate&#x60; is used with Rulesets that are configured on the end customer Dashboard can can be used with either the Signal Transaction Scores product or the Balance product. Which product is used will be determined by the &#x60;ruleset_key&#x60; that you provide. For more details, see [Signal Rules](https://plaid.com/docs/signal/signal-rules/).  Note: This request may have higher latency if Signal Transaction Scores is being added to an existing Item for the first time, or when using a Balance-only ruleset. This is because Plaid must communicate directly with the institution to request data. 
    * @param processorSignalEvaluateRequest  (required)
    * @return Call&lt;ProcessorSignalEvaluateResponse&gt;
    * 
@@ -3333,7 +3441,7 @@ public interface PlaidApi {
 
   /**
    * Opt-in a processor token to Signal
-   * When a processor token is not initialized with Signal, call &#x60;/processor/signal/prepare&#x60; to opt-in that processor token to the Signal data collection process, which will improve the accuracy of the Signal score.  If this endpoint is called with a processor token that is already initialized with Signal, it will return a 200 response and will not modify the processor token.
+   * When a processor token is not initialized with &#x60;signal&#x60;, call &#x60;/processor/signal/prepare&#x60; to opt-in that processor token to the data collection process, which will improve the accuracy of the Signal Transaction Score.  If this endpoint is called with a processor token that is already initialized with &#x60;signal&#x60;, it will return a 200 response and will not modify the processor token.
    * @param processorSignalPrepareRequest  (required)
    * @return Call&lt;ProcessorSignalPrepareResponse&gt;
    * 
@@ -3553,6 +3661,22 @@ public interface PlaidApi {
   @POST("protect/event/send")
   Call<ProtectEventSendResponse> protectEventSend(
     @retrofit2.http.Body ProtectEventSendRequest protectEventSendRequest
+  );
+
+  /**
+   * Create a Protect report
+   * Use this endpoint to create a Protect report to document fraud incidents, investigation outcomes, or other risk events. This endpoint allows you to report various types of incidents including account takeovers, identity fraud, unauthorized transactions, and other security events.  The reported data helps improve fraud detection models and provides valuable feedback to enhance the overall security of the Plaid network. Reports can be created for confirmed incidents that have been fully investigated, or for suspected incidents that require further review.  You can associate reports with specific users, sessions, or transactions to provide comprehensive context about the incident.
+   * @param protectReportCreateRequest  (required)
+   * @return Call&lt;ProtectReportCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protectreportcreate">Create a Protect report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/report/create")
+  Call<ProtectReportCreateResponse> protectReportCreate(
+    @retrofit2.http.Body ProtectReportCreateRequest protectReportCreateRequest
   );
 
   /**
@@ -4021,7 +4145,7 @@ public interface PlaidApi {
 
   /**
    * Report whether you initiated an ACH transaction
-   * After calling &#x60;/signal/evaluate&#x60;, call &#x60;/signal/decision/report&#x60; to report whether the transaction was initiated.
+   * After you call &#x60;/signal/evaluate&#x60;, Plaid will normally infer the outcome from your Signal Rules. However, if you are not using Signal Rules, if the Signal Rules outcome was &#x60;REVIEW&#x60;, or if you take a different action than the one determined by the Signal Rules, you will need to call &#x60;/signal/decision/report&#x60;. This helps improve Signal Transaction Score accuracy for your account and is necessary for proper functioning of the rule performance and rule tuning capabilities in the Dashboard. If your effective decision changes after calling &#x60;/signal/decision/report&#x60; (for example, you indicated that you accepted a transaction, but later on, your payment processor rejected it, so it was never initiated), call &#x60;/signal/decision/report&#x60; again for the transaction to correct Plaid&#39;s records.    If you are using Plaid Transfer as your payment processor, you also do not need to call &#x60;/signal/decision/report&#x60;, as Plaid can infer outcomes from your Transfer activity.  If using a Balance-only ruleset, this endpoint will not impact scores (Balance does not use scores), but is necessary to view accurate transaction outcomes and tune rule logic in the Dashboard.
    * @param signalDecisionReportRequest  (required)
    * @return Call&lt;SignalDecisionReportResponse&gt;
    * 
@@ -4037,7 +4161,7 @@ public interface PlaidApi {
 
   /**
    * Evaluate a planned ACH transaction
-   * Use &#x60;/signal/evaluate&#x60; to evaluate a planned ACH transaction to get a return risk assessment (such as a risk score and risk tier) and additional risk signals.  In order to obtain a valid score for an ACH transaction, Plaid must have an access token for the account, and the Item must be healthy (receiving product updates) or have recently been in a healthy state. If the transaction does not meet eligibility requirements, an error will be returned corresponding to the underlying cause. If &#x60;/signal/evaluate&#x60; is called on the same transaction multiple times within a 24-hour period, cached results may be returned. For more information please refer to the error documentation on [Item errors](https://plaid.com/docs/errors/item/) and [Link in Update Mode](https://plaid.com/docs/link/update-mode/).  Note: This request may take some time to complete if Signal is being added to an existing Item. This is because Plaid must communicate directly with the institution when retrieving the data for the first time.
+   * Use &#x60;/signal/evaluate&#x60; to evaluate a planned ACH transaction to get a return risk assessment and additional risk signals.  Before using &#x60;/signal/evaluate&#x60;, you must first [create a ruleset](https://plaid.com/docs/signal/signal-rules/) in the Dashboard under [**Signal-&gt;Rules**](https://dashboard.plaid.com/signal/risk-profiles).   &#x60;/signal/evaluate&#x60; can be used with either Signal Transaction Scores or the Balance product. Which product is used will be determined by the &#x60;ruleset_key&#x60; that you provide. For more details, see [Signal Rules](https://plaid.com/docs/signal/signal-rules/).  Note: This request may have higher latency when using a Balance-only ruleset. This is because Plaid must communicate directly with the institution to request data. Balance-only rulesets may have latency of up to 30 seconds or more; if you encounter errors, you may find it necessary to adjust your timeout period when making requests.
    * @param signalEvaluateRequest  (required)
    * @return Call&lt;SignalEvaluateResponse&gt;
    * 
@@ -4052,12 +4176,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Opt-in an Item to Signal
-   * When an Item is not initialized with Signal, call &#x60;/signal/prepare&#x60; to opt-in that Item to the Signal data collection process, developing a Signal score. This should be done on Items where Signal was added in the &#x60;additional_consented_products&#x60; array but not in the &#x60;products&#x60;, &#x60;optional_products&#x60;, or &#x60;required_if_supported_products&#x60; array. If &#x60;/signal/prepare&#x60; is skipped on an Item that is not initialized with Signal, the initial call to &#x60;/signal/evaluate&#x60; on that Item will be less accurate, because Signal will have access to less data for computing the Signal score.  If run on an Item that is already initialized with Signal, this endpoint will return a 200 response and will not modify the Item.
+   * Opt-in an Item to Signal Transaction Scores
+   * When an Item is not initialized with &#x60;signal&#x60;, call &#x60;/signal/prepare&#x60; to opt-in that Item to the data collection process used to develop a Signal Transaction Score. This should be done on Items where &#x60;signal&#x60; was added in the &#x60;additional_consented_products&#x60; array but not in the &#x60;products&#x60;, &#x60;optional_products&#x60;, or &#x60;required_if_supported_products&#x60; array. If &#x60;/signal/prepare&#x60; is skipped on an Item that is not initialized with &#x60;signal&#x60;, the initial call to &#x60;/signal/evaluate&#x60; on that Item will be less accurate, because Plaid will have access to less data for computing the Signal Transaction Score.  If your integration is purely Balance-only, this endpoint will have no effect, as Balance-only rulesets do not calculate a Signal Transaction Score.   If run on an Item that is already initialized with &#x60;signal&#x60;, this endpoint will return a 200 response and will not modify the Item.
    * @param signalPrepareRequest  (required)
    * @return Call&lt;SignalPrepareResponse&gt;
    * 
-   * @see <a href="/api/products/signal#signalprepare">Opt-in an Item to Signal Documentation</a>
+   * @see <a href="/api/products/signal#signalprepare">Opt-in an Item to Signal Transaction Scores Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4069,7 +4193,7 @@ public interface PlaidApi {
 
   /**
    * Report a return for an ACH transaction
-   * Call the &#x60;/signal/return/report&#x60; endpoint to report a returned transaction that was previously sent to the &#x60;/signal/evaluate&#x60; endpoint. Your feedback will be used by the model to incorporate the latest risk trend in your portfolio.
+   * Call the &#x60;/signal/return/report&#x60; endpoint to report a returned transaction that was previously sent to the &#x60;/signal/evaluate&#x60; endpoint. Your feedback will be used by the model to incorporate the latest risk trends into your scores and tune rule logic. If using a Balance-only ruleset, this endpoint will not impact scores (as Balance does not use scores), but is necessary to view accurate transaction outcomes and tune rule logic in the Dashboard.
    * @param signalReturnReportRequest  (required)
    * @return Call&lt;SignalReturnReportResponse&gt;
    * 
@@ -4734,12 +4858,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create an originator for scaled platform customers
-   * The &#x60;/transfer/platform/originator/create&#x60; endpoint allows gathering information about the originator specific to the Scaled Platform Transfer offering, including the originator&#39;s agreement to legal terms required before accepting any further information related to the originator.
+   * Create an originator for Transfer for Platforms customers
+   * Use the &#x60;/transfer/platform/originator/create&#x60; endpoint to submit information about the originator you are onboarding, including the originator&#39;s agreement to the required legal terms.
    * @param transferPlatformOriginatorCreateRequest  (required)
    * @return Call&lt;TransferPlatformOriginatorCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/platform/originator/#transferplatformoriginatorcreate">Create an originator for scaled platform customers Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferplatformoriginatorcreate">Create an originator for Transfer for Platforms customers Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4751,11 +4875,11 @@ public interface PlaidApi {
 
   /**
    * Create a person associated with an originator
-   * Use the &#x60;/transfer/platform/person/create&#x60; endpoint to create a person record associated with an originator and optionally submit person-specific requirements.
+   * Use the &#x60;/transfer/platform/person/create&#x60; endpoint to create a person associated with an originator (e.g. beneficial owner or control person) and optionally submit personal identification information for them.
    * @param transferPlatformPersonCreateRequest  (required)
    * @return Call&lt;TransferPlatformPersonCreateResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/platform/#transferplatformpersoncreate">Create a person associated with an originator Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferplatformpersoncreate">Create a person associated with an originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4766,12 +4890,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Submit onboarding requirements for Scaled Platform originators
-   * The &#x60;/transfer/platform/requirement/submit&#x60; endpoint allows platforms to submit onboarding requirements for an originator as part of the Scaled Platform Transfer offering.
+   * Submit additional onboarding information on behalf of an originator
+   * Use the &#x60;/transfer/platform/requirement/submit&#x60; endpoint to submit additional onboarding information that is needed by Plaid to approve or decline the originator.
    * @param transferPlatformRequirementSubmitRequest  (required)
    * @return Call&lt;TransferPlatformRequirementSubmitResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/platform-payments/#transferplatformrequirementsubmit">Submit onboarding requirements for Scaled Platform originators Documentation</a>
+   * @see <a href="/api/products/transfer/platform-payments/#transferplatformrequirementsubmit">Submit additional onboarding information on behalf of an originator Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4815,7 +4939,7 @@ public interface PlaidApi {
 
   /**
    * Create a recurring transfer
-   * Use the &#x60;/transfer/recurring/create&#x60; endpoint to initiate a new recurring transfer. This capability is not currently supported for Transfer UI or Platform Payments (beta) customers.
+   * Use the &#x60;/transfer/recurring/create&#x60; endpoint to initiate a new recurring transfer. This capability is not currently supported for Transfer UI or Transfer for Platforms (beta) customers.
    * @param transferRecurringCreateRequest  (required)
    * @return Call&lt;TransferRecurringCreateResponse&gt;
    * 
@@ -4879,7 +5003,7 @@ public interface PlaidApi {
 
   /**
    * Create a refund
-   * Use the &#x60;/transfer/refund/create&#x60; endpoint to create a refund for a transfer. A transfer can be refunded if the transfer was initiated in the past 180 days.  Refunds come out of the available balance of the ledger used for the original debit transfer. If there are not enough funds in the available balance to cover the refund amount, the refund will be rejected. You can create a refund at any time. Plaid does not impose any hold time on refunds.  A refund can still be issued even if the Item&#39;s &#x60;access_token&#x60; is no longer valid (e.g. if the user revoked OAuth consent or the Item was deleted via &#x60;/item/remove&#x60;), as long as the account and routing number pair used to make the original transaction is still valid. A refund cannot be issued if the Item has an [invalidated TAN](https://plaid.com/docs/auth/#tokenized-account-numbers), which can occur at Chase or PNC. 
+   * Use the &#x60;/transfer/refund/create&#x60; endpoint to create a refund for a transfer. A transfer can be refunded if the transfer was initiated in the past 180 days.  Refunds come out of the available balance of the ledger used for the original debit transfer. If there are not enough funds in the available balance to cover the refund amount, the refund will be rejected. You can create a refund at any time. Plaid does not impose any hold time on refunds.  A refund can still be issued even if the Item&#39;s &#x60;access_token&#x60; is no longer valid (e.g. if the user revoked OAuth consent or the Item was deleted via &#x60;/item/remove&#x60;), as long as the account and routing number pair used to make the original transaction is still valid. A refund cannot be issued if the Item has an [invalidated TAN](https://plaid.com/docs/auth/#tokenized-account-numbers), which can occur at Chase or PNC.
    * @param transferRefundCreateRequest  (required)
    * @return Call&lt;TransferRefundCreateResponse&gt;
    * 
