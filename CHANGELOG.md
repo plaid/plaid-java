@@ -1,5 +1,36 @@
 See full changelog for the OpenAPI schema (OAS) [here](https://github.com/plaid/plaid-openapi/blob/master/CHANGELOG.md).
 
+# 38.2.0
+- Updating to OAS 2020-09-14_1.672.0
+
+## OpenAPI Schema Changes
+### 2020-09-14_1.672.0
+- Add sub-fields to new Account Insights (Europe only) object: `minimum_balance`, `transfers_in`, `total_income`, and `income_excluding_transfers`.
+- Fix `category_details` missing a `type` definition (`type: array`) within the `LoanDisbursementsIndicators` object.
+- Add document `issue_date` to Identity Verification endpoints
+
+### 2020-09-14_1.671.6
+- Add CFU V2 webhook object
+
+### 2020-09-14_1.671.5
+
+### 2020-09-14_1.671.4
+
+### 2020-09-14_1.671.4
+- (beta) Rename `require_upgraded_user` boolean field in `/user/create` to `with_upgraded_user`
+
+### 2020-09-14_1.671.3
+- Add `IncomeProvider` to `/cra/check_report/income_insights/get`
+
+### 2020-09-14_1.671.2
+- (beta) Add `require_upgraded_user` boolean field to the `/user/create` request
+
+### 2020-09-14_1.671.1
+- Remove PlaidError schema from irrelevant endpoints
+
+### 2020-09-14_1.671.0
+- Add missing PlaidError schema to all endpoints
+
 # 38.1.0
 - Updating to OAS 2020-09-14_1.670.0
 

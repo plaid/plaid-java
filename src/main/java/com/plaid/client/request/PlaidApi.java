@@ -82,6 +82,8 @@ import com.plaid.client.model.BeaconUserHistoryListResponse;
 import com.plaid.client.model.BeaconUserReviewRequest;
 import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
+import com.plaid.client.model.BetaEwaReportV1GetRequest;
+import com.plaid.client.model.BetaEwaReportV1GetResponse;
 import com.plaid.client.model.BetaPartnerCustomerV1CreateRequest;
 import com.plaid.client.model.BetaPartnerCustomerV1CreateResponse;
 import com.plaid.client.model.BetaPartnerCustomerV1EnableRequest;
@@ -1243,6 +1245,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Get EWA Score Report
+   * The &#x60;/beta/ewa_report/v1/get&#x60; endpoint provides an Earned Wage Access (EWA) score that quantifies the delinquency risk associated with a given item. The score is derived from a combination of cashflow patterns and network-based behavioral features.  The response returns a list of EWA scores, where each score corresponds to a potential advance amount range. These scores estimate the likelihood of repayment for advances within that range.  Score range: 1–99  Interpretation: Higher scores indicate a greater likelihood of repayment.  This endpoint enables clients to assess repayment risk and make data-driven decisions when determining eligibility or limits for earned wage advances.
+   * @param betaEwaReportV1GetRequest  (required)
+   * @return Call&lt;BetaEwaReportV1GetResponse&gt;
+   * 
+   * @see <a href="/api/products/beta/#betaewareportv1get">Get EWA Score Report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/ewa_report/v1/get")
+  Call<BetaEwaReportV1GetResponse> betaEwaReportV1Get(
+    @retrofit2.http.Body BetaEwaReportV1GetRequest betaEwaReportV1GetRequest
+  );
+
+  /**
    * Creates a new end customer for a Plaid reseller.
    * The &#x60;/beta/partner/customer/v1/create&#x60; endpoint creates a new end customer record. You can provide as much information as you have available. If any required information is missing for the products you intend to use, it will be listed in the &#x60;requirements_due&#x60; field of the response.
    * @param betaPartnerCustomerV1CreateRequest  (required)
@@ -1453,12 +1471,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a Consumer Report
-   * &#x60;/cra/check_report/create&#x60; creates a Consumer Report powered by Plaid Check. You can call this endpoint to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. If you did provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report.   &#x60;/cra/check_report/create&#x60; can also be used to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it. Note that refreshing or regenerating a report is a billable event.
+   * Refresh or create a Consumer Report
+   * The primary purpose of &#x60;/cra/check_report/create&#x60; is to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it and refresh the data in the report.  &#x60;/cra/check_report/create&#x60; can also be used to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. However, using the endpoint in this way is not recommended. Instead, &#x60;consumer_report_permissible_purpose&#x60; should always be specified when calling &#x60;/link/token/create&#x60; for Plaid CRA products; this will reduce latency and simplify the integration process. If you provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report. 
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportcreate">Create a Consumer Report Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportcreate">Refresh or create a Consumer Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -4891,7 +4909,7 @@ public interface PlaidApi {
 
   /**
    * Submit additional onboarding information on behalf of an originator
-   * Use the &#x60;/transfer/platform/requirement/submit&#x60; endpoint to submit additional onboarding information that is needed by Plaid to approve or decline the originator.
+   * Use the &#x60;/transfer/platform/requirement/submit&#x60; endpoint to submit additional onboarding information that is needed by Plaid to approve or decline the originator. See [Requirement type schema documentation](https://docs.google.com/document/d/1NEQkTD0sVK50iAQi6xHigrexDUxZ4QxXqSEfV_FFTiU/) for a list of requirement types and possible values.
    * @param transferPlatformRequirementSubmitRequest  (required)
    * @return Call&lt;TransferPlatformRequirementSubmitResponse&gt;
    * 
