@@ -92,6 +92,10 @@ import com.plaid.client.model.BetaPartnerCustomerV1GetRequest;
 import com.plaid.client.model.BetaPartnerCustomerV1GetResponse;
 import com.plaid.client.model.BetaPartnerCustomerV1UpdateRequest;
 import com.plaid.client.model.BetaPartnerCustomerV1UpdateResponse;
+import com.plaid.client.model.BusinessVerificationCreateRequest;
+import com.plaid.client.model.BusinessVerificationCreateResponse;
+import com.plaid.client.model.BusinessVerificationGetRequest;
+import com.plaid.client.model.BusinessVerificationGetResponse;
 import com.plaid.client.model.CRALoansRegisterRequest;
 import com.plaid.client.model.CashflowReportGetRequest;
 import com.plaid.client.model.CashflowReportGetResponse;
@@ -565,8 +569,8 @@ import com.plaid.client.model.UserItemsAssociateRequest;
 import com.plaid.client.model.UserItemsAssociateResponse;
 import com.plaid.client.model.UserItemsGetRequest;
 import com.plaid.client.model.UserItemsGetResponse;
-import com.plaid.client.model.UserItemsListRequest;
-import com.plaid.client.model.UserItemsListResponse;
+import com.plaid.client.model.UserProductsTerminateRequest;
+import com.plaid.client.model.UserProductsTerminateResponse;
 import com.plaid.client.model.UserRemoveRequest;
 import com.plaid.client.model.UserRemoveResponse;
 import com.plaid.client.model.UserThirdPartyTokenCreateRequest;
@@ -1325,6 +1329,38 @@ public interface PlaidApi {
   );
 
   /**
+   * Create a business verification
+   * Create a new business verification to check a business&#39;s identity and risk profile.
+   * @param businessVerificationCreateRequest  (required)
+   * @return Call&lt;BusinessVerificationCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/business-verification/#businessverificationcreate">Create a business verification Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("business_verification/create")
+  Call<BusinessVerificationCreateResponse> businessVerificationCreate(
+    @retrofit2.http.Body BusinessVerificationCreateRequest businessVerificationCreateRequest
+  );
+
+  /**
+   * Get a business verification
+   * Retrieve the current state of a specific business verification.
+   * @param businessVerificationGetRequest  (required)
+   * @return Call&lt;BusinessVerificationGetResponse&gt;
+   * 
+   * @see <a href="/api/products/business-verification/#businessverificationget">Get a business verification Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("business_verification/get")
+  Call<BusinessVerificationGetResponse> businessVerificationGet(
+    @retrofit2.http.Body BusinessVerificationGetRequest businessVerificationGetRequest
+  );
+
+  /**
    * Gets transaction data in &#x60;cashflow_report&#x60;
    * The &#x60;/cashflow_report/get&#x60; endpoint retrieves transactions data associated with an item. Transactions data is standardized across financial institutions. Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift. Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions). Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;cursor&#x60; parameters in conjunction with the &#x60;has_more&#x60; response body field to fetch all available transactions. Note that data isn&#39;t likely to be immediately available to &#x60;/cashflow_report/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;cashflow_report&#x60;, or if it wasn&#39;t, upon the first call to &#x60;/cashflow_report/refresh&#x60;. To be alerted when transaction data is ready to be fetched, listen for the &#x60;CASHFLOW_REPORT_READY&#x60; webhook.
    * @param cashflowReportGetRequest  (required)
@@ -1390,7 +1426,7 @@ public interface PlaidApi {
 
   /**
    * (Deprecated) Get legacy categories
-   * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on legacy categories returned by Plaid. This endpoint does not require authentication.  All implementations are recommended to [use the newer &#x60;personal_finance_category&#x60; taxonomy](https://plaid.com/docs/transactions/pfc-migration/) instead of the legacy &#x60;category&#x60; taxonomy supported by this endpoint. The [&#x60;personal_finance_category taxonomy&#x60; CSV file](https://plaid.com/documents/transactions-personal-finance-category-taxonomy.csv) is available for download and is not accessible via API.
+   * Send a request to the &#x60;/categories/get&#x60; endpoint to get detailed information on legacy categories returned by Plaid. This endpoint does not require authentication.  All implementations are recommended to [use the newer &#x60;personal_finance_category&#x60; taxonomy](https://plaid.com/docs/transactions/pfc-migration/) instead of the legacy &#x60;category&#x60; taxonomy supported by this endpoint.
    * @param body  (required)
    * @return Call&lt;CategoriesGetResponse&gt;
    * @deprecated
@@ -1440,7 +1476,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve a Base Report
-   * This endpoint allows you to retrieve the Base Report for your user, allowing you to receive comprehensive bank account and cash flow data. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn&#39;t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.
+   * This endpoint allows you to retrieve the Base Report for your user, allowing you to receive comprehensive bank account and cash flow data. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn&#39;t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.
    * @param craCheckReportBaseReportGetRequest  (required)
    * @return Call&lt;CraCheckReportBaseReportGetResponse&gt;
    * 
@@ -1456,7 +1492,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve cash flow insights from your user&#39;s banking data
-   * This endpoint allows you to retrieve the Cashflow Insights report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_cashflow_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
+   * This endpoint allows you to retrieve the Cashflow Insights report for your user. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_cashflow_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
    * @param craCheckReportCashflowInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportCashflowInsightsGetResponse&gt;
    * 
@@ -1472,7 +1508,7 @@ public interface PlaidApi {
 
   /**
    * Refresh or create a Consumer Report
-   * The primary purpose of &#x60;/cra/check_report/create&#x60; is to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it and refresh the data in the report.  &#x60;/cra/check_report/create&#x60; can also be used to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. However, using the endpoint in this way is not recommended. Instead, &#x60;consumer_report_permissible_purpose&#x60; should always be specified when calling &#x60;/link/token/create&#x60; for Plaid CRA products; this will reduce latency and simplify the integration process. If you provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report. 
+   * The primary purpose of &#x60;/cra/check_report/create&#x60; is to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it and refresh the data in the report.  &#x60;/cra/check_report/create&#x60; can also be used to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. However, using the endpoint in this way is not recommended. Instead, &#x60;consumer_report_permissible_purpose&#x60; should always be specified when calling &#x60;/link/token/create&#x60; for Plaid CRA products; this will reduce latency and simplify the integration process. If you provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report.
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
@@ -1488,7 +1524,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve cash flow information from your user&#39;s banks
-   * This endpoint allows you to retrieve the Income Insights report for your user.  You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.
+   * This endpoint allows you to retrieve the Income Insights report for your user. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.
    * @param craCheckReportIncomeInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportIncomeInsightsGetResponse&gt;
    * 
@@ -1504,7 +1540,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve the LendScore from your user&#39;s banking data
-   * This endpoint allows you to retrieve the LendScore report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_lend_score&#x60; product or call &#x60;/cra/check_report/create&#x60; with the &#x60;cra_lend_score&#x60; product, Plaid will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
+   * This endpoint allows you to retrieve the LendScore report for your user. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the insights, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_lend_score&#x60; product or call &#x60;/cra/check_report/create&#x60; with the &#x60;cra_lend_score&#x60; product, Plaid will generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
    * @param craCheckReportLendScoreGetRequest  (required)
    * @return Call&lt;CraCheckReportLendScoreGetResponse&gt;
    * 
@@ -1520,7 +1556,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve network attributes for the user
-   * This endpoint allows you to retrieve the Network Insights product for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_network_attributes&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, Plaid will generate the attributes when you call this endpoint.
+   * This endpoint allows you to retrieve the Network Insights product for your user. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;cra_network_attributes&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, Plaid will generate the attributes when you call this endpoint.
    * @param craCheckReportNetworkInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportNetworkInsightsGetResponse&gt;
    * 
@@ -1536,7 +1572,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve cash flow insights from partners
-   * This endpoint allows you to retrieve the Partner Insights report for your user. You should call this endpoint after you&#39;ve received the &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;credit_partner_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will call our partners to generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
+   * This endpoint allows you to retrieve the Partner Insights report for your user. You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;. If the most recent consumer report for the user doesn’t have sufficient data to generate the base report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.  If you did not initialize Link with the &#x60;credit_partner_insights&#x60; product or have generated a report using &#x60;/cra/check_report/create&#x60;, we will call our partners to generate the insights when you call this endpoint. In this case, you may optionally provide parameters under &#x60;options&#x60; to configure which insights you want to receive.
    * @param craCheckReportPartnerInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportPartnerInsightsGetResponse&gt;
    * 
@@ -1552,7 +1588,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Consumer Reports as a PDF
-   * &#x60;/cra/check_report/pdf/get&#x60; retrieves the most recent Consumer Report in PDF format. By default, the most recent Base Report (if it exists) for the user will be returned. To request that the most recent Income Insights report be included in the PDF as well, use the &#x60;add-ons&#x60; field.
+   * &#x60;/cra/check_report/pdf/get&#x60; retrieves the most recent Consumer Report in PDF format. By default, the most recent Base Report (if it exists) for the user will be returned. To request that the most recent Partner Insights or Income Insights report be included in the PDF as well, use the &#x60;add-ons&#x60; field.
    * @param craCheckReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -1568,7 +1604,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve various verification reports for a user.
-   * This endpoint allows you to retrieve verification reports for a user. To obtain a VoA or Employment Refresh report, you need to make sure that &#x60;cra_base_report&#x60; is included in the &#x60;products&#x60; parameter when calling &#x60;/link/token/create&#x60; or &#x60;/cra/check_report/create&#x60;.   You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;.  If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.\&quot;
+   * This endpoint allows you to retrieve verification reports for a user. To obtain a VoA or Employment Refresh report, you need to make sure that &#x60;cra_base_report&#x60; is included in the &#x60;products&#x60; parameter when calling &#x60;/link/token/create&#x60; or &#x60;/cra/check_report/create&#x60;.   You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;.  If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.\&quot;
    * @param craCheckReportVerificationGetRequest  (required)
    * @return Call&lt;CraCheckReportVerificationGetResponse&gt;
    * 
@@ -1584,7 +1620,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Consumer Reports as a Verification PDF
-   * &#x60;/cra/check_report/verification/pdf/get&#x60; retrieves the most recent Consumer Report in PDF format, formatted specifically for verification use cases. The &#x60;report_type&#x60; field specifies which verification format to use.
+   * The &#x60;/cra/check_report/verification/pdf/get&#x60; endpoint retrieves the most recent Consumer Report in PDF format, specifically formatted for Home Lending verification use cases. Before calling this endpoint, ensure that you&#39;ve created a VOA report through Link or the &#x60;/cra/check_report/create&#x60; endpoint, and have received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook.  The response to &#x60;/cra/check_report/verification/pdf/get&#x60; is the PDF binary data. The &#x60;request_id&#x60;  is returned in the &#x60;Plaid-Request-ID&#x60; header.
    * @param craCheckReportVerificationPdfGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
@@ -1664,7 +1700,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve a Monitoring Insights Report
-   * This endpoint allows you to retrieve a Cash Flow Updates report by passing in the &#x60;user_token&#x60; referred to in the webhook you received.
+   * This endpoint allows you to retrieve a Cash Flow Updates report by passing in the &#x60;user_id&#x60; referred to in the webhook you received.
    * @param craMonitoringInsightsGetRequest  (required)
    * @return Call&lt;CraMonitoringInsightsGetResponse&gt;
    * 
@@ -5133,7 +5169,7 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * This endpoint should be called for each of your end users before they begin a Plaid Check or Income flow, or a Multi-Item Link flow. This provides you a single token to access all data associated with the user. You should only create one per end user.  The &#x60;consumer_report_user_identity&#x60; object must be present in order to create a Plaid Check Consumer Report for a user. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;. Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;.  If you call the endpoint multiple times with the same &#x60;client_user_id&#x60;, the first creation call will succeed and the rest will fail with an error message indicating that the user has been created for the given &#x60;client_user_id&#x60;.  Ensure that you store the &#x60;user_token&#x60; along with your user&#39;s identifier in your database, as it is not possible to retrieve a previously created &#x60;user_token&#x60;.
+   * For Plaid products and flows that use the user object, &#x60;/user/create&#x60; provides you a single token to access all data associated with the user. You must call this endpoint before calling &#x60;/link/token/create&#x60; if you are using any of the following: Plaid Check, Income Verification, Multi-Item Link, or Plaid Protect.  For customers who began using this endpoint on or after December 10, 2025, this endpoint takes a &#x60;client_user_id&#x60; and an &#x60;identity&#x60; object and will return a &#x60;user_id&#x60;. For customers who began using it before that date, the endpoint takes a &#x60;client_user_id&#x60; and a &#x60;consumer_report_user_identity&#x60; object and will return a &#x60;user_token&#x60; and &#x60;user_id&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).  In order to create a Plaid Check Consumer Report for a user, the &#x60;identity&#x60; (new) or &#x60;consumer_report_user_identity&#x60; (legacy) object must be present. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;.   In order to generate a Plaid Check Consumer Report, the following &#x60;identity&#x60; fields, at minimum, are required and must be non-empty: &#x60;name&#x60;, &#x60;date_of_birth&#x60;, &#x60;emails&#x60;, &#x60;phone_numbers&#x60;, and &#x60;addresses&#x60;, (with at least one email, phone number, and address designated as &#x60;primary&#x60;). Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;. If creating a report for sharing with a GSE such as Fannie or Freddie, the user&#39;s full SSN must be provided via the &#x60;id_numbers&#x60; field. Providing at least a partial SSN is also strongly recommended for all use cases, since it improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests.  When using Plaid Protect, it is highly recommended that you provide an &#x60;identity&#x60; object to better identify and block fraud across your Link sessions.   Plaid will normalize identity fields before storing them and utilize the same identity across different user-based products.
    * @param userCreateRequest  (required)
    * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserCreateResponse&gt;
@@ -5165,13 +5201,13 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve user identity and information.
-   * Retrieve user identity and information using a Plaid generated user ID. This endpoint returns user details including the most recent Identity object that was added to the given User.
+   * Retrieve user identity and information
+   * Get user details using a &#x60;user_id&#x60;. This endpoint only supports users that were created on the new user API flow, without a &#x60;user_token&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).
    * @param userGetRequest  (required)
    * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserGetResponse&gt;
    * 
-   * @see <a href="/api/users/#userget">Retrieve user identity and information. Documentation</a>
+   * @see <a href="/api/users/#userget">Retrieve user identity and information Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -5199,7 +5235,7 @@ public interface PlaidApi {
 
   /**
    * Get Items associated with a User
-   * Returns Items associated with a User along with their corresponding statuses.
+   * Returns Items associated with a &#x60;user_id&#x60;, along with their corresponding statuses. Plaid associates an Item with a User when it has been successfully connected within a Link session initialized with that &#x60;user_id&#x60;.
    * @param userItemsGetRequest  (required)
    * @return Call&lt;UserItemsGetResponse&gt;
    * 
@@ -5214,24 +5250,24 @@ public interface PlaidApi {
   );
 
   /**
-   * List Items associated with a User
-   * Returns Items associated with a User along with their corresponding statuses.
-   * @param userItemsListRequest  (required)
-   * @return Call&lt;UserItemsListResponse&gt;
+   * Terminate user-based products
+   * &#x60;/user/products/terminate&#x60; terminates user-based recurring subscriptions for a given client user. This will remove user-based products (Financial Management, Protect, and CRA products) from all items associated with the user.
+   * @param userProductsTerminateRequest  (required)
+   * @return Call&lt;UserProductsTerminateResponse&gt;
    * 
-   * @see <a href="/api/users/#useritemslist">List Items associated with a User Documentation</a>
+   * @see <a href="/api/users/#userproductsterminate">Terminate user-based products Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
   })
-  @POST("user/items/list")
-  Call<UserItemsListResponse> userItemsList(
-    @retrofit2.http.Body UserItemsListRequest userItemsListRequest
+  @POST("user/products/terminate")
+  Call<UserProductsTerminateResponse> userProductsTerminate(
+    @retrofit2.http.Body UserProductsTerminateRequest userProductsTerminateRequest
   );
 
   /**
    * Remove user
-   * &#x60;/user/remove&#x60; deletes a user token and and associated information, including any Items associated with the token. Any subsequent calls to retrieve information using the same user token will result in an error stating the user does not exist. If a user is created for a given &#x60;client_user_id&#x60; using &#x60;/user/create&#x60; and that user is then deleted with &#x60;/user/remove&#x60;, the &#x60;client_user_id&#x60; cannot be reused for another &#x60;/user/create&#x60; request.
+   * &#x60;/user/remove&#x60; deletes a &#x60;user_id&#x60; or &#x60;user_token&#x60; and and associated information, including any Items associated with the user.
    * @param userRemoveRequest  (required)
    * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserRemoveResponse&gt;
@@ -5296,7 +5332,7 @@ public interface PlaidApi {
 
   /**
    * Update user information
-   * This endpoint is used to update user information associated with an existing &#x60;user_token&#x60;. It can also be used to enable an existing &#x60;user_token&#x60; for use with Consumer Reports by Plaid Check, by adding a &#x60;consumer_report_user_identity&#x60; object to the user. Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;.
+   * This endpoint updates user information for an existing &#x60;user_id&#x60; or &#x60;user_token&#x60;. If an existing &#x60;user_id&#x60; or &#x60;user_token&#x60; is missing fields required for a given use case (e.g. creating a Consumer Report) use &#x60;/user/update&#x60; to add values for those fields.   Identity updates use merge semantics: provided fields overwrite existing ones; omitted fields remain unchanged.
    * @param userUpdateRequest  (required)
    * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserUpdateResponse&gt;
