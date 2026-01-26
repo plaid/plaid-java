@@ -557,6 +557,8 @@ import com.plaid.client.model.TransferSweepGetRequest;
 import com.plaid.client.model.TransferSweepGetResponse;
 import com.plaid.client.model.TransferSweepListRequest;
 import com.plaid.client.model.TransferSweepListResponse;
+import com.plaid.client.model.UserAccountSessionEventSendRequest;
+import com.plaid.client.model.UserAccountSessionEventSendResponse;
 import com.plaid.client.model.UserAccountSessionGetRequest;
 import com.plaid.client.model.UserAccountSessionGetResponse;
 import com.plaid.client.model.UserCreateRequest;
@@ -565,10 +567,14 @@ import com.plaid.client.model.UserFinancialDataRefreshRequest;
 import com.plaid.client.model.UserFinancialDataRefreshResponse;
 import com.plaid.client.model.UserGetRequest;
 import com.plaid.client.model.UserGetResponse;
+import com.plaid.client.model.UserIdentityRemoveRequest;
+import com.plaid.client.model.UserIdentityRemoveResponse;
 import com.plaid.client.model.UserItemsAssociateRequest;
 import com.plaid.client.model.UserItemsAssociateResponse;
 import com.plaid.client.model.UserItemsGetRequest;
 import com.plaid.client.model.UserItemsGetResponse;
+import com.plaid.client.model.UserItemsRemoveRequest;
+import com.plaid.client.model.UserItemsRemoveResponse;
 import com.plaid.client.model.UserProductsTerminateRequest;
 import com.plaid.client.model.UserProductsTerminateResponse;
 import com.plaid.client.model.UserRemoveRequest;
@@ -706,7 +712,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve an Asset Report Audit Copy
-   * &#x60;/asset_report/audit_copy/get&#x60; allows auditors to get a copy of an Asset Report that was previously shared via the &#x60;/asset_report/audit_copy/create&#x60; endpoint.  The caller of &#x60;/asset_report/audit_copy/create&#x60; must provide the &#x60;audit_copy_token&#x60; to the auditor.  This token can then be used to call &#x60;/asset_report/audit_copy/create&#x60;.
+   * &#x60;/asset_report/audit_copy/get&#x60; allows auditors to get a copy of an Asset Report that was previously shared via the &#x60;/asset_report/audit_copy/create&#x60; endpoint.  The caller of &#x60;/asset_report/audit_copy/create&#x60; must provide the &#x60;audit_copy_token&#x60; to the auditor.  This token can then be used to call &#x60;/asset_report/audit_copy/get&#x60;.
    * @param assetReportAuditCopyGetRequest  (required)
    * @return Call&lt;AssetReportGetResponse&gt;
    * 
@@ -2335,7 +2341,7 @@ public interface PlaidApi {
 
   /**
    * Create a new Identity Verification
-   * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60; field. At least one of these two fields must be provided. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If &#x60;user_id&#x60; is provided, there must be an associated user otherwise an error will be returned. If you don&#39;t know whether an active Identity Verification exists for a given &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60;, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60;, and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with a &#x60;200 OK&#x60; HTTP status code. If &#x60;user_id&#x60; is not provided, you can also use this endpoint to supply information you already have collected about the user; if any of these fields are specified, the screens prompting the user to enter them will be skipped during the Link flow. If &#x60;user_id&#x60; is provided, user information can not be included in the request body. Please use the &#x60;/user/update&#x60; endpoint to update user data instead. 
+   * Create a new Identity Verification for the user specified by the &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60; field. At least one of these two fields must be provided. The requirements and behavior of the verification are determined by the &#x60;template_id&#x60; provided. If &#x60;user_id&#x60; is provided, there must be an associated user otherwise an error will be returned.   If you don&#39;t know whether an active Identity Verification exists for a given &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60;, you can specify &#x60;\&quot;is_idempotent\&quot;: true&#x60; in the request body. With idempotency enabled, a new Identity Verification will only be created if one does not already exist for the associated &#x60;client_user_id&#x60; and/or &#x60;user_id&#x60;, and &#x60;template_id&#x60;. If an Identity Verification is found, it will be returned unmodified with a &#x60;200 OK&#x60; HTTP status code.   If &#x60;user_id&#x60; is not provided, you can also use this endpoint to supply information you already have collected about the user; if any of these fields are specified, the screens prompting the user to enter them will be skipped during the Link flow. If &#x60;user_id&#x60; is provided, user information can not be included in the request body. Please use the &#x60;/user/update&#x60; endpoint to update user data instead. 
    * @param identityVerificationCreateRequest  (required)
    * @return Call&lt;IdentityVerificationCreateResponse&gt;
    * 
@@ -4199,7 +4205,7 @@ public interface PlaidApi {
 
   /**
    * Report whether you initiated an ACH transaction
-   * After you call &#x60;/signal/evaluate&#x60;, Plaid will normally infer the outcome from your Signal Rules. However, if you are not using Signal Rules, if the Signal Rules outcome was &#x60;REVIEW&#x60;, or if you take a different action than the one determined by the Signal Rules, you will need to call &#x60;/signal/decision/report&#x60;. This helps improve Signal Transaction Score accuracy for your account and is necessary for proper functioning of the rule performance and rule tuning capabilities in the Dashboard. If your effective decision changes after calling &#x60;/signal/decision/report&#x60; (for example, you indicated that you accepted a transaction, but later on, your payment processor rejected it, so it was never initiated), call &#x60;/signal/decision/report&#x60; again for the transaction to correct Plaid&#39;s records.    If you are using Plaid Transfer as your payment processor, you also do not need to call &#x60;/signal/decision/report&#x60;, as Plaid can infer outcomes from your Transfer activity.  If using a Balance-only ruleset, this endpoint will not impact scores (Balance does not use scores), but is necessary to view accurate transaction outcomes and tune rule logic in the Dashboard.
+   * After you call &#x60;/signal/evaluate&#x60;, Plaid will normally infer the outcome from your Signal Rules. However, if you are not using Signal Rules, if the Signal Rules outcome was &#x60;REVIEW&#x60;, or if you take a different action than the one determined by the Signal Rules, you will need to call &#x60;/signal/decision/report&#x60;. This helps improve Signal Transaction Score accuracy for your account and is necessary for proper functioning of the rule performance and rule tuning capabilities in the Dashboard. If your effective decision changes after calling &#x60;/signal/decision/report&#x60; (for example, you indicated that you accepted a transaction, but later on, your payment processor rejected it, so it was never initiated), call &#x60;/signal/decision/report&#x60; again for the transaction to correct Plaid&#39;s records.  If you are using Plaid Transfer as your payment processor, you also do not need to call &#x60;/signal/decision/report&#x60;, as Plaid can infer outcomes from your Transfer activity.  If using a Balance-only ruleset, this endpoint will not impact scores (Balance does not use scores), but is necessary to view accurate transaction outcomes and tune rule logic in the Dashboard.
    * @param signalDecisionReportRequest  (required)
    * @return Call&lt;SignalDecisionReportResponse&gt;
    * 
@@ -4357,7 +4363,7 @@ public interface PlaidApi {
 
   /**
    * Get transaction data
-   * Note: All new implementations are encouraged to use &#x60;/transactions/sync&#x60; rather than &#x60;/transactions/get&#x60;. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and improves developer ease-of-use for handling transactions updates.  The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.  Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).  Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.  Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To find out when the Item was last updated, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.  Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
+   * Note: All new implementations are encouraged to use &#x60;/transactions/sync&#x60; rather than &#x60;/transactions/get&#x60;. &#x60;/transactions/sync&#x60; provides the same functionality as &#x60;/transactions/get&#x60; and improves developer ease-of-use for handling transactions updates.   The &#x60;/transactions/get&#x60; endpoint allows developers to receive user-authorized transaction data for credit, depository, and some loan-type accounts (only those with account subtype &#x60;student&#x60;; coverage may be limited). For transaction history from investments accounts, use the [Investments endpoint](https://plaid.com/docs/api/products/investments/) instead. Transaction data is standardized across financial institutions, and in many cases transactions are linked to a clean name, entity type, location, and category. Similarly, account data is standardized and returned with a clean name, number, balance, and other meta information where available.   Transactions are returned in reverse-chronological order, and the sequence of transaction ordering is stable and will not shift.  Transactions are not immutable and can also be removed altogether by the institution; a removed transaction will no longer appear in &#x60;/transactions/get&#x60;.  For more details, see [Pending and posted transactions](https://plaid.com/docs/transactions/transactions-data/#pending-and-posted-transactions).   Due to the potentially large number of transactions associated with an Item, results are paginated. Manipulate the &#x60;count&#x60; and &#x60;offset&#x60; parameters in conjunction with the &#x60;total_transactions&#x60; response body field to fetch all available transactions.   Data returned by &#x60;/transactions/get&#x60; will be the data available for the Item as of the most recent successful check for new transactions. Plaid typically checks for new data multiple times a day, but these checks may occur less frequently, such as once a day, depending on the institution. To find out when the Item was last updated, use the [Item Debugger](https://plaid.com/docs/account/activity/#troubleshooting-with-item-debugger) or call &#x60;/item/get&#x60;; the &#x60;item.status.transactions.last_successful_update&#x60; field will show the timestamp of the most recent successful update. To force Plaid to check for new transactions, you can use the &#x60;/transactions/refresh&#x60; endpoint.   Note that data may not be immediately available to &#x60;/transactions/get&#x60;. Plaid will begin to prepare transactions data upon Item link, if Link was initialized with &#x60;transactions&#x60;, or upon the first call to &#x60;/transactions/get&#x60;, if it wasn&#39;t. To be alerted when transaction data is ready to be fetched, listen for the [&#x60;INITIAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#initial_update) and [&#x60;HISTORICAL_UPDATE&#x60;](https://plaid.com/docs/api/products/transactions/#historical_update) webhooks. If no transaction history is ready when &#x60;/transactions/get&#x60; is called, it will return a &#x60;PRODUCT_NOT_READY&#x60; error.
    * @param transactionsGetRequest  (required)
    * @return Call&lt;TransactionsGetResponse&gt;
    * 
@@ -5152,6 +5158,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Send User Account Session Event
+   * This endpoint allows sending client-specific events related to Layer sessions for analytics and tracking purposes.
+   * @param userAccountSessionEventSendRequest  (required)
+   * @return Call&lt;UserAccountSessionEventSendResponse&gt;
+   * 
+   * @see <a href="/api/products/layer/#user_accountsessioneventsend">Send User Account Session Event Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user_account/session/event/send")
+  Call<UserAccountSessionEventSendResponse> userAccountSessionEventSend(
+    @retrofit2.http.Body UserAccountSessionEventSendRequest userAccountSessionEventSendRequest
+  );
+
+  /**
    * Retrieve User Account
    * This endpoint returns user permissioned account data, including identity and Item access tokens, for use with [Plaid Layer](https://plaid.com/docs/layer). Note that end users are permitted to edit the prefilled identity data in the Link flow before sharing it with you; you should treat any identity data returned by this endpoint as user-submitted, unverified data. For a verification layer, you can add [Identity Verification](https://plaid.com/docs/identity-verification/) to your flow, or check the submitted identity data against bank account data from linked accounts using [Identity Match](https://plaid.com/docs/identity/#identity-match).
    * @param userAccountSessionGetRequest  (required)
@@ -5169,7 +5191,7 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * For Plaid products and flows that use the user object, &#x60;/user/create&#x60; provides you a single token to access all data associated with the user. You must call this endpoint before calling &#x60;/link/token/create&#x60; if you are using any of the following: Plaid Check, Income Verification, Multi-Item Link, or Plaid Protect.  For customers who began using this endpoint on or after December 10, 2025, this endpoint takes a &#x60;client_user_id&#x60; and an &#x60;identity&#x60; object and will return a &#x60;user_id&#x60;. For customers who began using it before that date, the endpoint takes a &#x60;client_user_id&#x60; and a &#x60;consumer_report_user_identity&#x60; object and will return a &#x60;user_token&#x60; and &#x60;user_id&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).  In order to create a Plaid Check Consumer Report for a user, the &#x60;identity&#x60; (new) or &#x60;consumer_report_user_identity&#x60; (legacy) object must be present. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;.   In order to generate a Plaid Check Consumer Report, the following &#x60;identity&#x60; fields, at minimum, are required and must be non-empty: &#x60;name&#x60;, &#x60;date_of_birth&#x60;, &#x60;emails&#x60;, &#x60;phone_numbers&#x60;, and &#x60;addresses&#x60;, (with at least one email, phone number, and address designated as &#x60;primary&#x60;). Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;. If creating a report for sharing with a GSE such as Fannie or Freddie, the user&#39;s full SSN must be provided via the &#x60;id_numbers&#x60; field. Providing at least a partial SSN is also strongly recommended for all use cases, since it improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests.  When using Plaid Protect, it is highly recommended that you provide an &#x60;identity&#x60; object to better identify and block fraud across your Link sessions.   Plaid will normalize identity fields before storing them and utilize the same identity across different user-based products.
+   * For Plaid products and flows that use the user object, &#x60;/user/create&#x60; provides you a single token to access all data associated with the user. You must call this endpoint before calling &#x60;/link/token/create&#x60; if you are using any of the following: Plaid Check, Income Verification, Multi-Item Link, or Plaid Protect.   For customers who began using this endpoint on or after December 10, 2025, this endpoint takes a &#x60;client_user_id&#x60; and an &#x60;identity&#x60; object and will return a &#x60;user_id&#x60;. For customers who began using it before that date, the endpoint takes a &#x60;client_user_id&#x60; and a &#x60;consumer_report_user_identity&#x60; object and will return a &#x60;user_token&#x60; and &#x60;user_id&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis).   In order to create a Plaid Check Consumer Report for a user, the &#x60;identity&#x60; (new) or &#x60;consumer_report_user_identity&#x60; (legacy) object must be present. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;.    In order to generate a Plaid Check Consumer Report, the following &#x60;identity&#x60; fields, at minimum, are required and must be non-empty: &#x60;name&#x60;, &#x60;date_of_birth&#x60;, &#x60;emails&#x60;, &#x60;phone_numbers&#x60;, and &#x60;addresses&#x60;, (with at least one email, phone number, and address designated as &#x60;primary&#x60;). Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;. If creating a report for sharing with a GSE such as Fannie or Freddie, the user&#39;s full SSN must be provided via the &#x60;id_numbers&#x60; field. Providing at least a partial SSN is also strongly recommended for all use cases, since it improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests.   When using Plaid Protect, it is highly recommended that you provide an &#x60;identity&#x60; object to better identify and block fraud across your Link sessions.    Plaid will normalize identity fields before storing them and utilize the same identity across different user-based products.
    * @param userCreateRequest  (required)
    * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserCreateResponse&gt;
@@ -5218,6 +5240,23 @@ public interface PlaidApi {
   );
 
   /**
+   * Remove user identity data
+   * This endpoint allows customers to explicitly purge identity/PII data provided to Plaid for a given user. This is not exposed to customers by default, as it is meant for special scenarios or requests, but Plaid is obligated to enable customers to delete PII provided to us.
+   * @param userIdentityRemoveRequest  (required)
+   * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
+   * @return Call&lt;UserIdentityRemoveResponse&gt;
+   * 
+   * @see <a href="/api/users/#useridentityremove">Remove user identity data Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/identity/remove")
+  Call<UserIdentityRemoveResponse> userIdentityRemove(
+    @retrofit2.http.Body UserIdentityRemoveRequest userIdentityRemoveRequest, @retrofit2.http.Header("Plaid-New-User-API-Enabled") Boolean plaidNewUserAPIEnabled
+  );
+
+  /**
    * Associate Items to a User
    * Associates Items to the target user. If an Item is already associated to another user, the Item will be disassociated with the existing user and associated to the target user. This operation supports a max of 100 Items.
    * @param userItemsAssociateRequest  (required)
@@ -5247,6 +5286,22 @@ public interface PlaidApi {
   @POST("user/items/get")
   Call<UserItemsGetResponse> userItemsGet(
     @retrofit2.http.Body UserItemsGetRequest userItemsGetRequest
+  );
+
+  /**
+   * Remove Items from a User
+   * This endpoint is used to delete Items for a given User. Either a &#x60;user_id&#x60; or &#x60;user_token&#x60; must be provided. If any of the Items are not associated with the provided User, an error will be returned, and no Items will be deleted. This is equivalent to calling &#x60;/item/remove&#x60; on each Item, but this endpoint supports User-based use cases (CRA) where &#x60;/item/remove&#x60; is not supported. To obtain a list of Items associated with a User, call &#x60;/user/items/get&#x60;. After an Item is deleted, it will no longer appear in &#x60;/user/items/get&#x60;. Item deletion via &#x60;/user/items/remove&#x60; will permanently and irreversibly delete the Item; to re-create the Item, send the User back through the Link flow. This endpoint is not intended to remove all data for a User, as it will only remove items and no other data for the User. In the case of a user deleting their account with your product, call &#x60;/user/products/terminate&#x60; to stop billing for unneeded services. For a user initiated data deletion request, see the [Consumer Service Center](https://plaid.com/check/consumer-service-center/) to revoke access to data.
+   * @param userItemsRemoveRequest  (required)
+   * @return Call&lt;UserItemsRemoveResponse&gt;
+   * 
+   * @see <a href="/api/users/#useritemsremove">Remove Items from a User Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("user/items/remove")
+  Call<UserItemsRemoveResponse> userItemsRemove(
+    @retrofit2.http.Body UserItemsRemoveRequest userItemsRemoveRequest
   );
 
   /**
