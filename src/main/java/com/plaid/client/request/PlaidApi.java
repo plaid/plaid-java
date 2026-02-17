@@ -375,6 +375,8 @@ import com.plaid.client.model.ProcessorTransactionsSyncRequest;
 import com.plaid.client.model.ProcessorTransactionsSyncResponse;
 import com.plaid.client.model.ProfileNetworkStatusGetRequest;
 import com.plaid.client.model.ProfileNetworkStatusGetResponse;
+import com.plaid.client.model.ProtectComputeRequest;
+import com.plaid.client.model.ProtectComputeResponse;
 import com.plaid.client.model.ProtectEventGetRequest;
 import com.plaid.client.model.ProtectEventGetResponse;
 import com.plaid.client.model.ProtectEventSendRequest;
@@ -1609,12 +1611,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve various verification reports for a user.
-   * This endpoint allows you to retrieve verification reports for a user. To obtain a VoA or Employment Refresh report, you need to make sure that &#x60;cra_base_report&#x60; is included in the &#x60;products&#x60; parameter when calling &#x60;/link/token/create&#x60; or &#x60;/cra/check_report/create&#x60;.   You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;.  If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.\&quot;
+   * Retrieve various home lending reports for a user.
+   * This endpoint allows you to retrieve home lending reports for a user. To obtain a VoA or Employment Refresh report, you need to make sure that &#x60;cra_base_report&#x60; is included in the &#x60;products&#x60; parameter when calling &#x60;/link/token/create&#x60; or &#x60;/cra/check_report/create&#x60;.   You should call this endpoint after you&#39;ve received a &#x60;CHECK_REPORT_READY&#x60; or a &#x60;USER_CHECK_REPORT_READY&#x60; webhook, either after the Link session for the user or after calling &#x60;/cra/check_report/create&#x60;.  If the most recent consumer report for the user doesn’t have sufficient data to generate the report, or the consumer report has expired, you will receive an error indicating that you should create a new consumer report by calling &#x60;/cra/check_report/create&#x60;.\&quot;
    * @param craCheckReportVerificationGetRequest  (required)
    * @return Call&lt;CraCheckReportVerificationGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportverificationget">Retrieve various verification reports for a user. Documentation</a>
+   * @see <a href="/api/products/check/#cracheck_reportverificationget">Retrieve various home lending reports for a user. Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3692,6 +3694,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Compute Protect Trust Index Score
+   * Use this endpoint to compute a Protect Trust Index score and retrieve fraud attributes
+   * @param protectComputeRequest  (required)
+   * @return Call&lt;ProtectComputeResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protectcompute">Compute Protect Trust Index Score Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/compute")
+  Call<ProtectComputeResponse> protectCompute(
+    @retrofit2.http.Body ProtectComputeRequest protectComputeRequest
+  );
+
+  /**
    * Get information about a user event
    * Get information about a user event including Trust Index score and fraud attributes.
    * @param protectEventGetRequest  (required)
@@ -4188,12 +4206,12 @@ public interface PlaidApi {
   );
 
   /**
-   * Create a Session Token
+   * Create a Link token for Layer
    * &#x60;/session/token/create&#x60; is used to create a Link token for Layer. The returned Link token is used as an parameter when initializing the Link SDK. For more details, see the [Link flow overview](https://plaid.com/docs/link/#link-flow-overview).
    * @param sessionTokenCreateRequest  (required)
    * @return Call&lt;SessionTokenCreateResponse&gt;
    * 
-   * @see <a href="/api/products/layer/#sessiontokencreate">Create a Session Token Documentation</a>
+   * @see <a href="/api/products/layer/#sessiontokencreate">Create a Link token for Layer Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
