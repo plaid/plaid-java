@@ -49,7 +49,7 @@ public class ApiClient {
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 Request requestWithUserAgent = originalRequest.newBuilder()
-                        .header("User-Agent", "Plaid Java v39.2.0")
+                        .header("User-Agent", "Plaid Java v39.3.0")
                         .header("Plaid-Version", "2020-09-14")
                         .build();
                 return chain.proceed(requestWithUserAgent);
