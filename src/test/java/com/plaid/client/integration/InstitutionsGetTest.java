@@ -24,8 +24,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .count(3)
       .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US));
-    Response<InstitutionsGetResponse> response = executeWithRetry(
-      client().institutionsGet(request));
+    Response<InstitutionsGetResponse> response = client()
+      .institutionsGet(request)
+      .execute();
 
     assertSuccessResponse(response);
 
@@ -44,8 +45,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = executeWithRetry(
-      client().institutionsGet(request));
+    Response<InstitutionsGetResponse> response = client()
+      .institutionsGet(request)
+      .execute();
 
     assertSuccessResponse(response);
 
@@ -64,8 +66,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = executeWithRetry(
-      client().institutionsGet(request));
+    Response<InstitutionsGetResponse> response = client()
+      .institutionsGet(request)
+      .execute();
 
     assertSuccessResponse(response);
 
@@ -84,8 +87,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = executeWithRetry(
-      client().institutionsGet(request));
+    Response<InstitutionsGetResponse> response = client()
+      .institutionsGet(request)
+      .execute();
     assertSuccessResponse(response);
 
     // check number returned
@@ -99,8 +103,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US));
 
-    Response<InstitutionsGetResponse> response = executeWithRetry(
-      client().institutionsGet(request));
+    Response<InstitutionsGetResponse> response = client()
+      .institutionsGet(request)
+      .execute();
     assertSuccessResponse(response);
 
     // check number returned
@@ -118,8 +123,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.GB))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = executeWithRetry(
-      client().institutionsGet(request));
+    Response<InstitutionsGetResponse> response = client()
+      .institutionsGet(request)
+      .execute();
 
     assertSuccessResponse(response);
     List<Institution> institutions = response.body().getInstitutions();
@@ -141,8 +147,9 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.GB))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = executeWithRetry(
-      client().institutionsGet(request));
+    Response<InstitutionsGetResponse> response = client()
+      .institutionsGet(request)
+      .execute();
 
     assertSuccessResponse(response);
     // TODO: reenable this after institution fix for oauth filtering

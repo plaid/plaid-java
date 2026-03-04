@@ -76,22 +76,6 @@ public abstract class AbstractIntegrationTest {
     return apiClient;
   }
 
-  protected <T> Response<T> executeWithRetry(retrofit2.Call<T> call) throws Exception {
-    Response<T> response = call.execute();
-    int maxRetries = 5;
-    long delayMs = 2000;
-    int retries = 0;
-
-    while (response.code() == 429 && retries < maxRetries) {
-      retries++;
-      Thread.sleep(delayMs);
-      delayMs *= 2;
-      response = call.clone().execute();
-    }
-
-    return response;
-  }
-
   protected static void assertSuccessResponse(Response response) {
     if (!response.isSuccessful()) {
       String errorBody = "";
