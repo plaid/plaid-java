@@ -874,11 +874,11 @@ public interface PlaidApi {
 
   /**
    * Verify auth data
-   * The &#x60;/auth/verify&#x60; endpoint verifies bank account numbers against Plaid&#39;s database via Database Auth.
+   * The &#x60;/auth/verify&#x60; endpoint verifies bank account and routing numbers and (optionally) account owner names against Plaid&#39;s database via [Database Auth](https://plaid.com/docs/auth/coverage/database-auth/). It can be used to verify account numbers that were not collected via the Plaid Link flow.   This endpoint is currently in Early Availability; contact Sales or your Plaid account manager to request access.
    * @param authVerifyRequest  (required)
    * @return Call&lt;AuthVerifyResponse&gt;
    * 
-   * @see <a href="/auth/coverage/database-auth/">Verify auth data Documentation</a>
+   * @see <a href="/api/products/auth/#authverify">Verify auth data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1516,7 +1516,7 @@ public interface PlaidApi {
 
   /**
    * Refresh or create a Consumer Report
-   * The primary purpose of &#x60;/cra/check_report/create&#x60; is to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it and refresh the data in the report.  &#x60;/cra/check_report/create&#x60; can also be used to create a new report if &#x60;consumer_report_permissible_purpose&#x60; was omitted during Link token creation. However, using the endpoint in this way is not recommended. Instead, &#x60;consumer_report_permissible_purpose&#x60; should always be specified when calling &#x60;/link/token/create&#x60; for Plaid CRA products; this will reduce latency and simplify the integration process. If you provide a &#x60;consumer_report_permissible_purpose&#x60; during Link token creation, then Plaid Check will automatically begin creating a Consumer Report once the user completes the Link process, and it is not necessary to call &#x60;/cra/check_report/create&#x60; before retrieving the report.
+   * Use &#x60;/cra/check_report/create&#x60; to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it and refresh the data in the report.
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
@@ -3695,7 +3695,7 @@ public interface PlaidApi {
 
   /**
    * Compute Protect Trust Index Score
-   * Use this endpoint to compute a Protect Trust Index score and retrieve fraud attributes
+   * Use this endpoint to compute a Protect Trust Index score and retrieve fraud attributes.  For link-session models, if the Link session is not yet complete, the endpoint returns HTTP 400 with &#x60;error_type&#x60; &#x3D; &#x60;INVALID_REQUEST&#x60; and &#x60;error_code&#x60; &#x3D; &#x60;FAILED_PRECONDITION&#x60;.
    * @param protectComputeRequest  (required)
    * @return Call&lt;ProtectComputeResponse&gt;
    * 
