@@ -77,23 +77,7 @@ public abstract class AbstractIntegrationTest {
   }
 
   protected static void assertSuccessResponse(Response response) {
-    if (!response.isSuccessful()) {
-      String errorBody = "";
-      try {
-        if (response.errorBody() != null) {
-          errorBody = response.errorBody().string();
-        }
-      } catch (IOException e) {
-        errorBody = "(failed to read error body)";
-      }
-      fail(
-        String.format(
-          "Expected successful response but got HTTP %d: %s",
-          response.code(),
-          errorBody
-        )
-      );
-    }
+    assertTrue(response.isSuccessful());
   }
 
   void assertErrorResponse(
