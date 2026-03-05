@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import net.jcip.annotations.NotThreadSafe;
 import com.plaid.client.model.CountryCode;
 import com.plaid.client.model.Institution;
 import com.plaid.client.model.InstitutionsGetRequest;
@@ -16,6 +17,8 @@ import java.util.List;
 import org.junit.Test;
 import retrofit2.Response;
 
+// disables test parallelism to mitigate rate limit errors
+@NotThreadSafe
 public class InstitutionsGetTest extends AbstractIntegrationTest {
 
   @Test
@@ -24,9 +27,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .count(3)
       .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US));
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = retryRateLimitErrors(client()
+      .institutionsGet(request));
 
     assertSuccessResponse(response);
 
@@ -45,9 +47,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = retryRateLimitErrors(client()
+      .institutionsGet(request));
 
     assertSuccessResponse(response);
 
@@ -66,9 +67,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = retryRateLimitErrors(client()
+      .institutionsGet(request));
 
     assertSuccessResponse(response);
 
@@ -87,9 +87,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.US))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = retryRateLimitErrors(client()
+      .institutionsGet(request));
     assertSuccessResponse(response);
 
     // check number returned
@@ -103,9 +102,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .offset(4)
       .countryCodes(Arrays.asList(CountryCode.US));
 
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = retryRateLimitErrors(client()
+      .institutionsGet(request));
     assertSuccessResponse(response);
 
     // check number returned
@@ -123,9 +121,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.GB))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = retryRateLimitErrors(client()
+      .institutionsGet(request));
 
     assertSuccessResponse(response);
     List<Institution> institutions = response.body().getInstitutions();
@@ -147,9 +144,8 @@ public class InstitutionsGetTest extends AbstractIntegrationTest {
       .countryCodes(Arrays.asList(CountryCode.GB))
       .options(options);
 
-    Response<InstitutionsGetResponse> response = client()
-      .institutionsGet(request)
-      .execute();
+    Response<InstitutionsGetResponse> response = retryRateLimitErrors(client()
+      .institutionsGet(request));
 
     assertSuccessResponse(response);
     // TODO: reenable this after institution fix for oauth filtering
