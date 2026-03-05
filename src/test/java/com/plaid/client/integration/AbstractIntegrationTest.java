@@ -76,6 +76,15 @@ public abstract class AbstractIntegrationTest {
     return apiClient;
   }
 
+  protected static <T> Response<T> retryRateLimitErrors(retrofit2.Call<T> call) throws Exception {
+    Response<T> response = call.execute();
+    if (response.code() == 429) {
+      Thread.sleep(10000);
+      response = call.clone().execute();
+    }
+    return response;
+  }
+
   protected static void assertSuccessResponse(Response response) {
     assertTrue(response.isSuccessful());
   }
