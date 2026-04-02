@@ -2,7 +2,7 @@ package com.plaid.client.integration;
 
 import static org.junit.Assert.*;
 
-import com.plaid.client.model.AccountBase;
+import com.plaid.client.model.InvestmentAccount;
 import com.plaid.client.model.AccountType;
 import com.plaid.client.model.PlaidError;
 import com.plaid.client.model.PlaidErrorType;
@@ -77,7 +77,7 @@ public class InvestmentsHoldingsGetTest extends AbstractItemIntegrationTest {
     assertSuccessResponse(response);
 
     String accountId = null;
-    for (AccountBase account : response.body().getAccounts()) {
+    for (InvestmentAccount account : response.body().getAccounts()) {
       if (AccountType.INVESTMENT.equals(account.getType())) {
         accountId = account.getAccountId();
         break;
@@ -103,7 +103,7 @@ public class InvestmentsHoldingsGetTest extends AbstractItemIntegrationTest {
     );
 
     // sandbox should return expected accounts
-    List<AccountBase> accounts = investmentsHoldingsGetResponse
+    List<InvestmentAccount> accounts = investmentsHoldingsGetResponse
       .body()
       .getAccounts();
     assertEquals(1, accounts.size());
