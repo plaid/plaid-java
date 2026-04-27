@@ -127,6 +127,8 @@ import com.plaid.client.model.CraCheckReportPartnerInsightsGetResponse;
 import com.plaid.client.model.CraCheckReportVerificationGetRequest;
 import com.plaid.client.model.CraCheckReportVerificationGetResponse;
 import com.plaid.client.model.CraCheckReportVerificationPdfGetRequest;
+import com.plaid.client.model.CraCreditProfileReportGetRequest;
+import com.plaid.client.model.CraCreditProfileReportGetResponse;
 import com.plaid.client.model.CraLoanUnregisterResponse;
 import com.plaid.client.model.CraLoansApplicationsRegisterRequest;
 import com.plaid.client.model.CraLoansApplicationsRegisterResponse;
@@ -401,6 +403,8 @@ import com.plaid.client.model.SandboxCraCashflowUpdatesUpdateRequest;
 import com.plaid.client.model.SandboxCraCashflowUpdatesUpdateResponse;
 import com.plaid.client.model.SandboxIncomeFireWebhookRequest;
 import com.plaid.client.model.SandboxIncomeFireWebhookResponse;
+import com.plaid.client.model.SandboxItemApplicationSeedRequest;
+import com.plaid.client.model.SandboxItemApplicationSeedResponse;
 import com.plaid.client.model.SandboxItemFireWebhookRequest;
 import com.plaid.client.model.SandboxItemFireWebhookResponse;
 import com.plaid.client.model.SandboxItemResetLoginRequest;
@@ -1649,6 +1653,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Retrieve the credit profile report for a user
+   * &#x60;/cra/credit_profile/report/get&#x60; retrieves a credit profile report for a user.
+   * @param craCreditProfileReportGetRequest  (required)
+   * @return Call&lt;CraCreditProfileReportGetResponse&gt;
+   * 
+   * @see <a href="/none/">Retrieve the credit profile report for a user Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/credit_profile/report/get")
+  Call<CraCreditProfileReportGetResponse> craCreditProfileReportGet(
+    @retrofit2.http.Body CraCreditProfileReportGetRequest craCreditProfileReportGetRequest
+  );
+
+  /**
    * Register loan applications and decisions.
    * &#x60;/cra/loans/applications/register&#x60; registers loan applications and decisions.
    * @param craLoansApplicationsRegisterRequest  (required)
@@ -1892,12 +1912,14 @@ public interface PlaidApi {
 
   /**
    * Refresh a user&#39;s bank income information
-   * &#x60;/credit/bank_income/refresh&#x60; refreshes the most recent bank income report data for a specific user. If the most recent bank income report is no longer valid (i.e. deleted), the endpoint will refresh the most recent valid report instead.
+   * &#x60;/credit/bank_income/refresh&#x60; is deprecated. The backend implementation was removed (returns an &#x60;Unimplemented&#x60; error at runtime), and the endpoint is no longer part of the documented API surface. To refresh Bank Income data for an existing user, send the user through Link Update Mode so they can confirm their income sources. For a fully backend refresh, migrate to CRA Income Insights and call &#x60;/cra/check_report/create&#x60;.
    * @param creditBankIncomeRefreshRequest  (required)
    * @return Call&lt;CreditBankIncomeRefreshResponse&gt;
+   * @deprecated
    * 
    * @see <a href="/api/products/income/#creditbank_incomerefresh">Refresh a user&#39;s bank income information Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -3768,9 +3790,11 @@ public interface PlaidApi {
    * Get information about a user event including Trust Index score and fraud attributes.
    * @param protectEventGetRequest  (required)
    * @return Call&lt;ProtectEventGetResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/protect/#protecteventget">Get information about a user event Documentation</a>
+   * @see <a href="none">Get information about a user event Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -3784,9 +3808,11 @@ public interface PlaidApi {
    * Send a new event to enrich user data and optionally get a Trust Index score for the event.
    * @param protectEventSendRequest  (required)
    * @return Call&lt;ProtectEventSendResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/protect/#protecteventsend">Send a new event to enrich user data Documentation</a>
+   * @see <a href="none">Send a new event to enrich user data Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -3905,6 +3931,20 @@ public interface PlaidApi {
   @POST("sandbox/income/fire_webhook")
   Call<SandboxIncomeFireWebhookResponse> sandboxIncomeFireWebhook(
     @retrofit2.http.Body SandboxIncomeFireWebhookRequest sandboxIncomeFireWebhookRequest
+  );
+
+  /**
+   * Seed a connected application for a Permissions Manager sandbox item
+   * &#x60;/sandbox/item/application/seed&#x60; creates a test connected application on an existing Permissions Manager Item&#39;s login. The seeded application will appear in subsequent calls to &#x60;/item/application/list&#x60;.  The &#x60;access_token&#x60; must belong to a Permissions Manager Item created via &#x60;/item/import&#x60; in Sandbox. The &#x60;application_id&#x60; identifies the application to seed as a connected app. To disconnect a seeded application, use &#x60;/item/application/unlink&#x60;.
+   * @param sandboxItemApplicationSeedRequest  (required)
+   * @return Call&lt;SandboxItemApplicationSeedResponse&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/item/application/seed")
+  Call<SandboxItemApplicationSeedResponse> sandboxItemApplicationSeed(
+    @retrofit2.http.Body SandboxItemApplicationSeedRequest sandboxItemApplicationSeedRequest
   );
 
   /**
@@ -4879,7 +4919,7 @@ public interface PlaidApi {
 
   /**
    * Get transfer product usage metrics
-   * Use the &#x60;/transfer/metrics/get&#x60; endpoint to view your transfer product usage metrics.
+   * Use the &#x60;/transfer/metrics/get&#x60; endpoint to view your transfer product usage metrics.  In the Sandbox environment, this endpoint returns static placeholder values rather than metrics computed from your Sandbox transfer activity.
    * @param transferMetricsGetRequest  (required)
    * @return Call&lt;TransferMetricsGetResponse&gt;
    * 
