@@ -26,8 +26,8 @@ Plaid-java is available at [Maven Central](https://central.sonatype.com/artifact
 <dependency>
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
-  <!--Replace this version number with the latest verison, which can be found at https://github.com/plaid/plaid-java/tags-->
-  <version>9.0.0</version>
+  <!--Replace this version number with the latest version, which can be found at https://github.com/plaid/plaid-java/tags-->
+  <version>41.0.0</version>
 </dependency>
 ```
 
@@ -40,7 +40,7 @@ Each major version of `plaid-java` targets a specific version of the Plaid API:
 | API version             | plaid-java release |
 | ----------------------- | ------------------ |
 | 2020-09-14 (**latest**) | 8.x.x and higher   |
-| 2019-05-29`             | 7.x.x              |
+| 2019-05-29              | 7.x.x              |
 | 2018-05-22              | 4.x.x (and 3.x.x)  |
 | 2017-03-08              | 2.x.x              |
 
@@ -50,7 +50,7 @@ All users are strongly recommended to use a recent version of the library, as ol
 
 ### Basic Usage Examples
 
-For more examples of basic usage, see the [test suites](https://github.plaid.com/plaid/go/tree/master/lib/apischemas/openapi/clib-wrappers/plaid-java/src/test/java/com/plaid/client/integration), [Quickstart](https://github.com/plaid/quickstart/tree/master/java/src/main/java/com/plaid/quickstart), or [API Reference documentation](https://plaid.com/docs/api/).
+For more examples of basic usage, see the [test suites](https://github.com/plaid/plaid-java/tree/master/src/test/java/com/plaid/client/integration), [Quickstart](https://github.com/plaid/quickstart/tree/master/java/src/main/java/com/plaid/quickstart), or [API Reference documentation](https://plaid.com/docs/api/).
 
 #### Initialization, API call, and error handling
 
@@ -68,7 +68,7 @@ plaidClient = apiClient.createService(PlaidApi.class);
 // Synchronously exchange a Link public_token for an API access_token
 // Required request parameters are always Request object constructor arguments
 ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken("the_link_public_token");
-Response<ItemPublicTokenExchangeResponse> response = plaidClient()
+Response<ItemPublicTokenExchangeResponse> response = plaidClient
     .itemPublicTokenExchange(request).execute();
 
 if (response.isSuccessful()) {
@@ -78,13 +78,13 @@ if (response.isSuccessful()) {
 
 // Asynchronously do the same thing. Useful for potentially long-lived calls.
 ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(publicToken);
-plaidClient()
+plaidClient
     .itemPublicTokenExchange(request)
     .enqueue(new Callback<ItemPublicTokenExchangeResponse>() {
         @Override
         public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {
           if (response.isSuccessful()) {
-            accessToken = response.body.getAccessToken();
+            accessToken = response.body().getAccessToken();
           }
         }
 
@@ -101,7 +101,7 @@ try {
 } catch (Exception e) {
   throw new Exception(
     String.format(
-      "Failed converting from API Response Error Body to Error %f",
+      "Failed converting from API Response Error Body to Error %s",
       response.errorBody().string()
     )
   );
@@ -144,8 +144,8 @@ Version 9.0.0 of the client library was released in August 2021 and contains mul
 
 **Change CountryCodes to enum:**
 
-- from: `Arrays.list("US")`
-- to: `Arrays.list(CountryCode.US`)
+- from: `Arrays.asList("US")`
+- to: `Arrays.asList(CountryCode.US)`
 
 **Rename model imports:**
 
@@ -217,7 +217,7 @@ LinkTokenCreateRequest request = new LinkTokenCreateRequest()
 
 #### Initialization and error handling
 
-See [basic usage](#basic-usage) for examples of new-style initialization and error handling.
+See [basic usage](#basic-usage-examples) for examples of new-style initialization and error handling.
 
 #### Method calling examples
 
@@ -247,70 +247,42 @@ List<Account> accounts = response.body().getAccounts();
 
 #### Optional parameters
 
+Using `/link/token/create` as an example, required parameters move from constructor arguments to builder setters, and optional parameters (such as `webhook`, `linkCustomizationName`, and `redirectUri`) switch from `with*` setters to plain builder setters.
+
 Old:
 
-```
-SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-startDate = simpleDateFormat.parse("2018-01-01");
-endDate = simpleDateFormat.parse("2018-02-01");
-// Pull transactions for a date range
-Response<TransactionsGetResponse> response = client().service().transactionsGet(
-  new TransactionsGetRequest(
-    accessToken,
-    startDate,
-    endDate))
+```java
+// Required parameters are constructor arguments; optional parameters use with* setters
+LinkTokenCreateRequest request = new LinkTokenCreateRequest(
+    new LinkTokenCreateRequest.User("user-id-from-your-db"),
+    "Plaid Test",
+    Arrays.asList("auth"),
+    Arrays.asList("US"),
+    "en")
+  .withWebhook("https://webhook-uri.com")
+  .withLinkCustomizationName("default")
+  .withRedirectUri("https://domainname.com/oauth-page.html");
+Response<LinkTokenCreateResponse> response = client().service()
+  .linkTokenCreate(request)
   .execute();
-
-// Manipulate the count and offset parameters to paginate
-// transactions and retrieve all available data
-Response<TransactionsGetResponse> response = client().service().transactionsGet(
-  new TransactionsGetRequest(
-    accessToken,
-    startDate,
-    endDate)
-    .withAccountIds(Arrays.asList(someAccountId))
-    .withCount(numTxns)
-    .withOffset(1)).execute();
-
-for (TransactionsGetResponse.Transaction txn : response.body().getTransactions()) { ... }
 ```
 
 New:
 
-```
-LocalDate startDate = LocalDate.now().minusDays(30);
-LocalDate endDate = LocalDate.now();
-TransactionsGetRequestOptions options = new TransactionsGetRequestOptions()
-  .includePersonalFinanceCategory(true)
-// Pull transactions for a date range
-
-TransactionsGetRequest request = new TransactionsGetRequest()
-  .accessToken(accessToken)
-  .startDate(startDate)
-  .endDate(endDate)
-  .options(options)
-Response<TransactionsGetResponse>
-  response = plaidClient.transactionsGet(request).execute();
-
-List<Transaction> transactions = new ArrayList <Transaction>();
-transactions.addAll(response.body().getTransactions());
-
-// Manipulate the offset parameter to paginate
-// transactions and retrieve all available data
-while (transactions.size() < response.body().getTotalTransactions()) {
-  options = new TransactionsGetRequestOptions()
-    .offset(transactions.size())
-    .includePersonalFinanceCategory(true)
-  TransactionsGetRequest request = new TransactionsGetRequest()
-    .accessToken(accessToken)
-    .startDate(startDate)
-    .endDate(endDate)
-    .options(options);
-
-  Response<TransactionsGetResponse>
-    response = plaidClient.transactionsGet(request).execute();
-  transactions.addAll(response.body().getTransactions());
-}
+```java
+// Required and optional parameters are all builder setters
+LinkTokenCreateRequest request = new LinkTokenCreateRequest()
+  .user(new LinkTokenCreateRequestUser().clientUserId("user-id-from-your-db"))
+  .clientName("Plaid Test")
+  .products(Arrays.asList(Products.AUTH))
+  .countryCodes(Arrays.asList(CountryCode.US))
+  .language("en")
+  .webhook("https://webhook-uri.com")
+  .linkCustomizationName("default")
+  .redirectUri("https://domainname.com/oauth-page.html");
+Response<LinkTokenCreateResponse> response = plaidClient
+  .linkTokenCreate(request)
+  .execute();
 ```
 
 ## Contributing

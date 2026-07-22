@@ -9,6 +9,8 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,6 +18,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import com.plaid.client.auth.HttpBasicAuth;
 import com.plaid.client.auth.HttpBearerAuth;
 import com.plaid.client.auth.ApiKeyAuth;
+import com.plaid.client.auth.OAuth;
+import com.plaid.client.auth.OAuth.AccessTokenListener;
+import com.plaid.client.auth.OAuthFlow;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -49,7 +54,7 @@ public class ApiClient {
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 Request requestWithUserAgent = originalRequest.newBuilder()
-                        .header("User-Agent", "Plaid Java v41.0.0")
+                        .header("User-Agent", "Plaid Java v42.0.0")
                         .header("Plaid-Version", "2020-09-14")
                         .build();
                 return chain.proceed(requestWithUserAgent);
@@ -70,6 +75,9 @@ public class ApiClient {
       if ("clientId".equals(authName)) {
         
         auth = new ApiKeyAuth("header", "PLAID-CLIENT-ID");
+      } else if ("oauth2".equals(authName)) {
+        
+        auth = new OAuth(OAuthFlow.application, "", "https://api.plaid.com/oauth2/apiv2/token", "cra:report:read, user:write");
       } else if ("plaidVersion".equals(authName)) {
         
         auth = new ApiKeyAuth("header", "Plaid-Version");
@@ -96,6 +104,9 @@ public class ApiClient {
         ApiKeyAuth apiKeyAuth = new ApiKeyAuth("header", "PLAID-CLIENT-ID");
 		apiKeyAuth.setApiKey(apiKeys.get(authName));
 		auth = (Interceptor) apiKeyAuth;
+      } else if ("oauth2".equals(authName)) {
+        
+        auth = new OAuth(OAuthFlow.application, "", "https://api.plaid.com/oauth2/apiv2/token", "cra:report:read, user:write");
       } else if ("plaidVersion".equals(authName)) {
         
         ApiKeyAuth apiKeyAuth = new ApiKeyAuth("header", "Plaid-Version");
@@ -141,6 +152,23 @@ public class ApiClient {
   public ApiClient(String authName, String username, String password) {
     this(authName);
     this.setCredentials(username,  password);
+  }
+
+  /**
+   * Helper constructor for single password oauth2
+   * @param authName Authentication name
+   * @param clientId Client ID
+   * @param secret Client Secret
+   * @param username Username
+   * @param password Password
+   */
+  public ApiClient(String authName, String clientId, String secret, String username, String password) {
+    this(authName);
+    this.getTokenEndPoint()
+      .setClientId(clientId)
+      .setClientSecret(secret)
+      .setUsername(username)
+      .setPassword(password);
   }
 
   public void createDefaultAdapter() {
@@ -256,10 +284,98 @@ public class ApiClient {
         basicAuth.setCredentials(username, password);
         return this;
       }
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.getTokenRequestBuilder().setUsername(username).setPassword(password);
+        return this;
+      }
     }
     return this;
   }
 
+  /**
+   * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+   * @return Token request builder
+   */
+  public TokenRequestBuilder getTokenEndPoint() {
+    for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        return oauth.getTokenRequestBuilder();
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+   * @return Authentication request builder
+   */
+  public AuthenticationRequestBuilder getAuthorizationEndPoint() {
+    for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        return oauth.getAuthenticationRequestBuilder();
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+   * @param accessToken Access token
+   * @return ApiClient
+   */
+  public ApiClient setAccessToken(String accessToken) {
+    for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.setAccessToken(accessToken);
+        return this;
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Helper method to configure the oauth accessCode/implicit flow parameters
+   * @param clientId Client ID
+   * @param clientSecret Client secret
+   * @param redirectURI Redirect URI
+   * @return ApiClient
+   */
+  public ApiClient configureAuthorizationFlow(String clientId, String clientSecret, String redirectURI) {
+    for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.getTokenRequestBuilder()
+          .setClientId(clientId)
+          .setClientSecret(clientSecret)
+          .setRedirectURI(redirectURI);
+        oauth.getAuthenticationRequestBuilder()
+          .setClientId(clientId)
+          .setRedirectURI(redirectURI);
+        return this;
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Configures a listener which is notified when a new access token is received.
+   * @param accessTokenListener Access token listener
+   * @return ApiClient
+   */
+  public ApiClient registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+    for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.registerAccessTokenListener(accessTokenListener);
+        return this;
+      }
+    }
+    return this;
+  }
 
   /**
    * Adds an authorization to be used by the client
