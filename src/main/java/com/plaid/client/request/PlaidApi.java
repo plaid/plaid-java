@@ -84,6 +84,16 @@ import com.plaid.client.model.BeaconUserUpdateRequest;
 import com.plaid.client.model.BeaconUserUpdateResponse;
 import com.plaid.client.model.BetaEwaReportV1GetRequest;
 import com.plaid.client.model.BetaEwaReportV1GetResponse;
+import com.plaid.client.model.BetaIssuesV1GetRequest;
+import com.plaid.client.model.BetaIssuesV1GetResponse;
+import com.plaid.client.model.BetaIssuesV1ListRequest;
+import com.plaid.client.model.BetaIssuesV1ListResponse;
+import com.plaid.client.model.BetaIssuesV1MatchRequest;
+import com.plaid.client.model.BetaIssuesV1MatchResponse;
+import com.plaid.client.model.BetaIssuesV1SubscribeRequest;
+import com.plaid.client.model.BetaIssuesV1SubscribeResponse;
+import com.plaid.client.model.BetaIssuesV1UnsubscribeRequest;
+import com.plaid.client.model.BetaIssuesV1UnsubscribeResponse;
 import com.plaid.client.model.BetaPartnerCustomerV1CreateRequest;
 import com.plaid.client.model.BetaPartnerCustomerV1CreateResponse;
 import com.plaid.client.model.BetaPartnerCustomerV1EnableRequest;
@@ -92,6 +102,8 @@ import com.plaid.client.model.BetaPartnerCustomerV1GetRequest;
 import com.plaid.client.model.BetaPartnerCustomerV1GetResponse;
 import com.plaid.client.model.BetaPartnerCustomerV1UpdateRequest;
 import com.plaid.client.model.BetaPartnerCustomerV1UpdateResponse;
+import com.plaid.client.model.BetaWebhookEventsListRequest;
+import com.plaid.client.model.BetaWebhookEventsListResponse;
 import com.plaid.client.model.BusinessVerificationCreateRequest;
 import com.plaid.client.model.BusinessVerificationCreateResponse;
 import com.plaid.client.model.BusinessVerificationGetRequest;
@@ -146,6 +158,16 @@ import com.plaid.client.model.CraPartnerInsightsGetRequest;
 import com.plaid.client.model.CraPartnerInsightsGetResponse;
 import com.plaid.client.model.CraReportGetRequest;
 import com.plaid.client.model.CraReportGetResponse;
+import com.plaid.client.model.CraServicingSubscriptionCreateRequest;
+import com.plaid.client.model.CraServicingSubscriptionCreateResponse;
+import com.plaid.client.model.CraServicingSubscriptionDeleteRequest;
+import com.plaid.client.model.CraServicingSubscriptionDeleteResponse;
+import com.plaid.client.model.CraServicingSubscriptionGetRequest;
+import com.plaid.client.model.CraServicingSubscriptionGetResponse;
+import com.plaid.client.model.CraServicingSubscriptionListRequest;
+import com.plaid.client.model.CraServicingSubscriptionListResponse;
+import com.plaid.client.model.CraServicingSubscriptionUpdateRequest;
+import com.plaid.client.model.CraServicingSubscriptionUpdateResponse;
 import com.plaid.client.model.CreditAuditCopyTokenCreateRequest;
 import com.plaid.client.model.CreditAuditCopyTokenCreateResponse;
 import com.plaid.client.model.CreditAuditCopyTokenRemoveRequest;
@@ -199,6 +221,7 @@ import com.plaid.client.model.FDXConsentGrant;
 import com.plaid.client.model.FDXConsentGrantStatus;
 import com.plaid.client.model.FDXConsentRevocation;
 import com.plaid.client.model.FDXConsentRevocations;
+import com.plaid.client.model.FDXError;
 import com.plaid.client.model.FDXNotification;
 import java.io.File;
 import com.plaid.client.model.GetConsentsResponse;
@@ -208,6 +231,8 @@ import com.plaid.client.model.IdentityDocumentsUploadsGetRequest;
 import com.plaid.client.model.IdentityDocumentsUploadsGetResponse;
 import com.plaid.client.model.IdentityGetRequest;
 import com.plaid.client.model.IdentityGetResponse;
+import com.plaid.client.model.IdentityMatchListRequest;
+import com.plaid.client.model.IdentityMatchListResponse;
 import com.plaid.client.model.IdentityMatchRequest;
 import com.plaid.client.model.IdentityMatchResponse;
 import com.plaid.client.model.IdentityRefreshRequest;
@@ -386,6 +411,10 @@ import com.plaid.client.model.ProcessorTransactionsSyncRequest;
 import com.plaid.client.model.ProcessorTransactionsSyncResponse;
 import com.plaid.client.model.ProfileNetworkStatusGetRequest;
 import com.plaid.client.model.ProfileNetworkStatusGetResponse;
+import com.plaid.client.model.ProtectCashAdvanceDecisionCreateRequest;
+import com.plaid.client.model.ProtectCashAdvanceDecisionCreateResponse;
+import com.plaid.client.model.ProtectCashAdvanceRepaymentCreateRequest;
+import com.plaid.client.model.ProtectCashAdvanceRepaymentCreateResponse;
 import com.plaid.client.model.ProtectComputeRequest;
 import com.plaid.client.model.ProtectComputeResponse;
 import com.plaid.client.model.ProtectEventGetRequest;
@@ -404,6 +433,8 @@ import com.plaid.client.model.SandboxBankTransferSimulateRequest;
 import com.plaid.client.model.SandboxBankTransferSimulateResponse;
 import com.plaid.client.model.SandboxCraCashflowUpdatesUpdateRequest;
 import com.plaid.client.model.SandboxCraCashflowUpdatesUpdateResponse;
+import com.plaid.client.model.SandboxCraServicingSimulateRequest;
+import com.plaid.client.model.SandboxCraServicingSimulateResponse;
 import com.plaid.client.model.SandboxFdxConsentSeedRequest;
 import com.plaid.client.model.SandboxFdxConsentSeedResponse;
 import com.plaid.client.model.SandboxIncomeFireWebhookRequest;
@@ -451,6 +482,8 @@ import com.plaid.client.model.SandboxTransferTestClockGetRequest;
 import com.plaid.client.model.SandboxTransferTestClockGetResponse;
 import com.plaid.client.model.SandboxTransferTestClockListRequest;
 import com.plaid.client.model.SandboxTransferTestClockListResponse;
+import com.plaid.client.model.SandboxUserFireWebhookRequest;
+import com.plaid.client.model.SandboxUserFireWebhookResponse;
 import com.plaid.client.model.SandboxUserResetLoginRequest;
 import com.plaid.client.model.SandboxUserResetLoginResponse;
 import com.plaid.client.model.SessionTokenCreateRequest;
@@ -843,7 +876,7 @@ public interface PlaidApi {
 
   /**
    * Refresh an Asset Report
-   * An Asset Report is an immutable snapshot of a user&#39;s assets. In order to \&quot;refresh\&quot; an Asset Report you created previously, you can use the &#x60;/asset_report/refresh&#x60; endpoint to create a new Asset Report based on the old one, but with the most recent data available.  The new Asset Report will contain the same Items as the original Report, as well as the same filters applied by any call to &#x60;/asset_report/filter&#x60;. By default, the new Asset Report will also use the same parameters you submitted with your original &#x60;/asset_report/create&#x60; request, but the original &#x60;days_requested&#x60; value and the values of any parameters in the &#x60;options&#x60; object can be overridden with new values. To change these arguments, simply supply new values for them in your request to &#x60;/asset_report/refresh&#x60;. Submit an empty string (\&quot;\&quot;) for any previously-populated fields you would like set as empty.
+   * An Asset Report is an immutable snapshot of a user&#39;s assets. In order to \&quot;refresh\&quot; an Asset Report you created previously, you can use the &#x60;/asset_report/refresh&#x60; endpoint to create a new Asset Report based on the old one, but with the most recent data available.  The new Asset Report will contain the same Items as the original Report, as well as the same filters applied by any call to &#x60;/asset_report/filter&#x60;. By default, the new Asset Report will also use the same parameters you submitted with your original &#x60;/asset_report/create&#x60; request, but the original &#x60;days_requested&#x60; value and the values of any parameters in the &#x60;options&#x60; object can be overridden with new values. To change these arguments, simply supply new values for them in your request to &#x60;/asset_report/refresh&#x60;. Submit an empty string (\&quot;\&quot;) for any previously-populated fields you would like set as empty.  Note: Asset Report refresh is not supported in Canada.
    * @param assetReportRefreshRequest  (required)
    * @return Call&lt;AssetReportRefreshResponse&gt;
    * 
@@ -1332,6 +1365,86 @@ public interface PlaidApi {
   );
 
   /**
+   * Get an issue
+   * Retrieve the latest public details for a specific institution issue.
+   * @param betaIssuesV1GetRequest  (required)
+   * @return Call&lt;BetaIssuesV1GetResponse&gt;
+   * 
+   * @see <a href="/api/products/beta/#betaissuesv1get">Get an issue Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/issues/v1/get")
+  Call<BetaIssuesV1GetResponse> betaIssuesV1Get(
+    @retrofit2.http.Body BetaIssuesV1GetRequest betaIssuesV1GetRequest
+  );
+
+  /**
+   * List institution issues
+   * Retrieve high-severity issues for an institution.
+   * @param betaIssuesV1ListRequest  (required)
+   * @return Call&lt;BetaIssuesV1ListResponse&gt;
+   * 
+   * @see <a href="/api/products/beta/#betaissuesv1list">List institution issues Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/issues/v1/list")
+  Call<BetaIssuesV1ListResponse> betaIssuesV1List(
+    @retrofit2.http.Body BetaIssuesV1ListRequest betaIssuesV1ListRequest
+  );
+
+  /**
+   * Match an Item to issues
+   * Match a Plaid identifier to institution issues that affect it.
+   * @param betaIssuesV1MatchRequest  (required)
+   * @return Call&lt;BetaIssuesV1MatchResponse&gt;
+   * 
+   * @see <a href="/api/products/beta/#betaissuesv1match">Match an Item to issues Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/issues/v1/match")
+  Call<BetaIssuesV1MatchResponse> betaIssuesV1Match(
+    @retrofit2.http.Body BetaIssuesV1MatchRequest betaIssuesV1MatchRequest
+  );
+
+  /**
+   * Subscribe to an issue
+   * Subscribe a webhook URL to resolution notifications for an institution issue.
+   * @param betaIssuesV1SubscribeRequest  (required)
+   * @return Call&lt;BetaIssuesV1SubscribeResponse&gt;
+   * 
+   * @see <a href="/api/products/beta/#betaissuesv1subscribe">Subscribe to an issue Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/issues/v1/subscribe")
+  Call<BetaIssuesV1SubscribeResponse> betaIssuesV1Subscribe(
+    @retrofit2.http.Body BetaIssuesV1SubscribeRequest betaIssuesV1SubscribeRequest
+  );
+
+  /**
+   * Unsubscribe from an issue
+   * Remove the client&#39;s subscription to resolution notifications for an institution issue.
+   * @param betaIssuesV1UnsubscribeRequest  (required)
+   * @return Call&lt;BetaIssuesV1UnsubscribeResponse&gt;
+   * 
+   * @see <a href="/api/products/beta/#betaissuesv1unsubscribe">Unsubscribe from an issue Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/issues/v1/unsubscribe")
+  Call<BetaIssuesV1UnsubscribeResponse> betaIssuesV1Unsubscribe(
+    @retrofit2.http.Body BetaIssuesV1UnsubscribeRequest betaIssuesV1UnsubscribeRequest
+  );
+
+  /**
    * Creates a new end customer for a Plaid reseller.
    * The &#x60;/beta/partner/customer/v1/create&#x60; endpoint creates a new end customer record. You can provide as much information as you have available. If any required information is missing for the products you intend to use, it will be listed in the &#x60;requirements_due&#x60; field of the response.
    * @param betaPartnerCustomerV1CreateRequest  (required)
@@ -1393,6 +1506,22 @@ public interface PlaidApi {
   @POST("beta/partner/customer/v1/update")
   Call<BetaPartnerCustomerV1UpdateResponse> betaPartnerCustomerV1Update(
     @retrofit2.http.Body BetaPartnerCustomerV1UpdateRequest betaPartnerCustomerV1UpdateRequest
+  );
+
+  /**
+   * List webhook events
+   * The &#x60;/beta/webhook_events/list&#x60; endpoint returns webhook events Plaid sent to the calling client within the last 7 days. Results are ordered by &#x60;sent_time&#x60; ascending and cursor paginated so clients can recover missed webhook deliveries and deduplicate on &#x60;webhook_message_id&#x60;.  Filtering is optional. When multiple filter fields are set (&#x60;webhook_types&#x60;, &#x60;webhook_codes&#x60;, &#x60;item_ids&#x60;, &#x60;delivery_statuses&#x60;), they are combined with AND across fields and OR within each array (for example, &#x60;webhook_types: [\&quot;TRANSACTIONS\&quot;, \&quot;ITEM\&quot;]&#x60; matches either type).  Recommended pagination workflow:  1. First call: omit &#x60;cursor&#x60;, and optionally set &#x60;start_time&#x60; within the last 7 days (or    omit &#x60;start_time&#x60; to begin at the oldest retained event). 2. Subsequent calls: pass &#x60;next_cursor&#x60; as &#x60;cursor&#x60;. Do not send &#x60;start_time&#x60; with    &#x60;cursor&#x60; — the two fields are mutually exclusive. 3. Persist &#x60;next_cursor&#x60; even when &#x60;has_more&#x60; is &#x60;false&#x60;, then reuse it on the next poll so    you only receive events newer than what you have already seen. 4. If a stored cursor is older than the 7-day retention window, the API returns    &#x60;WEBHOOK_EVENTS_CURSOR_EXPIRED&#x60;; restart with a &#x60;start_time&#x60; within the last 7 days.    Events older than the retention window are no longer available.
+   * @param betaWebhookEventsListRequest  (required)
+   * @return Call&lt;BetaWebhookEventsListResponse&gt;
+   * 
+   * @see <a href="none">List webhook events Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("beta/webhook_events/list")
+  Call<BetaWebhookEventsListResponse> betaWebhookEventsList(
+    @retrofit2.http.Body BetaWebhookEventsListRequest betaWebhookEventsListRequest
   );
 
   /**
@@ -1575,7 +1704,7 @@ public interface PlaidApi {
 
   /**
    * Refresh or create a Consumer Report
-   * Use &#x60;/cra/check_report/create&#x60; to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it and refresh the data in the report.
+   * Use &#x60;/cra/check_report/create&#x60; to refresh data in an existing report. A Consumer Report will last for 24 hours before expiring; you should call any &#x60;/get&#x60; endpoints on the report before it expires. If a report expires, you can call &#x60;/cra/check_report/create&#x60; again to re-generate it and refresh the data in the report. The report is generated from all Items associated with the user, excluding [duplicate Items](https://plaid.com/docs/check/add-to-app/#duplicate-items) and Items that cannot supply data.  Each call to &#x60;/cra/check_report/create&#x60; creates a new, independent report. &#x60;/get&#x60; endpoints will retrieve the most recently created report for the requested user.
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
@@ -1859,6 +1988,86 @@ public interface PlaidApi {
   @POST("cra/report/get")
   Call<CraReportGetResponse> craReportGet(
     @retrofit2.http.Body CraReportGetRequest craReportGetRequest
+  );
+
+  /**
+   * Create a CRA servicing subscription
+   * &#x60;/cra/servicing/subscription/create&#x60; subscribes a user to CRA report-update webhooks for a given scope.
+   * @param craServicingSubscriptionCreateRequest  (required)
+   * @return Call&lt;CraServicingSubscriptionCreateResponse&gt;
+   * 
+   * @see <a href="/none/">Create a CRA servicing subscription Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/servicing/subscription/create")
+  Call<CraServicingSubscriptionCreateResponse> craServicingSubscriptionCreate(
+    @retrofit2.http.Body CraServicingSubscriptionCreateRequest craServicingSubscriptionCreateRequest
+  );
+
+  /**
+   * Delete a CRA servicing subscription
+   * &#x60;/cra/servicing/subscription/delete&#x60; removes the CRA servicing subscription identified by &#x60;subscription_id&#x60;.
+   * @param craServicingSubscriptionDeleteRequest  (required)
+   * @return Call&lt;CraServicingSubscriptionDeleteResponse&gt;
+   * 
+   * @see <a href="/none/">Delete a CRA servicing subscription Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/servicing/subscription/delete")
+  Call<CraServicingSubscriptionDeleteResponse> craServicingSubscriptionDelete(
+    @retrofit2.http.Body CraServicingSubscriptionDeleteRequest craServicingSubscriptionDeleteRequest
+  );
+
+  /**
+   * Get a CRA servicing subscription
+   * &#x60;/cra/servicing/subscription/get&#x60; returns the CRA servicing subscription identified by &#x60;subscription_id&#x60;.
+   * @param craServicingSubscriptionGetRequest  (required)
+   * @return Call&lt;CraServicingSubscriptionGetResponse&gt;
+   * 
+   * @see <a href="/none/">Get a CRA servicing subscription Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/servicing/subscription/get")
+  Call<CraServicingSubscriptionGetResponse> craServicingSubscriptionGet(
+    @retrofit2.http.Body CraServicingSubscriptionGetRequest craServicingSubscriptionGetRequest
+  );
+
+  /**
+   * List a user&#39;s CRA servicing subscriptions
+   * &#x60;/cra/servicing/subscription/list&#x60; returns all CRA servicing subscriptions for a user, across scopes.
+   * @param craServicingSubscriptionListRequest  (required)
+   * @return Call&lt;CraServicingSubscriptionListResponse&gt;
+   * 
+   * @see <a href="/none/">List a user&#39;s CRA servicing subscriptions Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/servicing/subscription/list")
+  Call<CraServicingSubscriptionListResponse> craServicingSubscriptionList(
+    @retrofit2.http.Body CraServicingSubscriptionListRequest craServicingSubscriptionListRequest
+  );
+
+  /**
+   * Update a CRA servicing subscription
+   * &#x60;/cra/servicing/subscription/update&#x60; modifies an existing CRA servicing subscription. Fields left blank are unchanged; provided fields overwrite the current value. Use &#x60;reset_fields&#x60; to clear fields.
+   * @param craServicingSubscriptionUpdateRequest  (required)
+   * @return Call&lt;CraServicingSubscriptionUpdateResponse&gt;
+   * 
+   * @see <a href="/none/">Update a CRA servicing subscription Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/servicing/subscription/update")
+  Call<CraServicingSubscriptionUpdateResponse> craServicingSubscriptionUpdate(
+    @retrofit2.http.Body CraServicingSubscriptionUpdateRequest craServicingSubscriptionUpdateRequest
   );
 
   /**
@@ -2320,9 +2529,9 @@ public interface PlaidApi {
   );
 
   /**
-   * Get FDX Consent Grant
-   * Returns a consent grant by its identifier
-   * @param consentId Consent Grant Identifier. Uniquely identifies the consent grant (required)
+   * Get FDX consent grant
+   * Returns a consent grant by its identifier.
+   * @param consentId Unique identifier of the consent grant. (required)
    * @return Call&lt;FDXConsentGrant&gt;
    */
   @GET("fdx/consents/{consentId}")
@@ -2331,7 +2540,7 @@ public interface PlaidApi {
   );
 
   /**
-   * List FDX Consent Grants for a customer
+   * List FDX consent grants for a customer
    * Returns zero or more consent grants associated with the given data provider customer, optionally filtered by status.
    * @param customerId Data provider customer identifier whose consent grants to return. (required)
    * @param status Optional filter restricting results to a single consent grant status. One of &#x60;ACTIVE&#x60;, &#x60;REVOKED&#x60;, &#x60;EXPIRED&#x60;. (optional)
@@ -2343,9 +2552,9 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve FDX Consent Grant revocation records
-   * Returns the revocation history of a consent grant
-   * @param consentId Consent Grant Identifier. Uniquely identifies the consent grant (required)
+   * Retrieve FDX consent grant revocation records
+   * Returns the revocation history of a consent grant.
+   * @param consentId Unique identifier of the consent grant. (required)
    * @return Call&lt;FDXConsentRevocations&gt;
    */
   @GET("fdx/consents/{consentId}/revocation")
@@ -2354,9 +2563,9 @@ public interface PlaidApi {
   );
 
   /**
-   * Revoke FDX Consent Grant
-   * Appends a REVOKED status record to the named consent grant
-   * @param consentId Consent Grant Identifier. Uniquely identifies the consent grant (required)
+   * Revoke FDX consent grant
+   * Revokes a consent grant, ending the data recipient&#39;s ongoing access to the customer&#39;s data.
+   * @param consentId Unique identifier of the consent grant. (required)
    * @param fdXConsentRevocation  (required)
    * @return Call&lt;Void&gt;
    */
@@ -2386,9 +2595,9 @@ public interface PlaidApi {
 
   /**
    * Get Recipient
-   * Get a specific recipient
-   * @param recipientId Recipient Identifier. Uniquely identifies the recipient (required)
-   * @param OAUTH_STATE_ID The value that is passed into the OAuth URI &#39;state&#39; query parameter. (optional)
+   * Returns metadata for a single recipient (application), identified by &#x60;recipientId&#x60;.
+   * @param recipientId The recipient&#39;s (application&#39;s) identifier (a UUID), as returned by &#x60;/fdx/recipients&#x60;. (required)
+   * @param OAUTH_STATE_ID Optional. If this lookup happens during an active OAuth flow, pass the value of the OAuth &#x60;state&#x60; parameter to help Plaid correlate this request in logs. (optional)
    * @return Call&lt;GetRecipientResponse&gt;
    */
   @GET("fdx/recipient/{recipientId}")
@@ -2398,7 +2607,7 @@ public interface PlaidApi {
 
   /**
    * Get Recipients
-   * Returns a list of Recipients
+   * Returns metadata for every recipient (application) your customers have connected to via Plaid&#39;s App Directory.
    * @return Call&lt;GetRecipientsResponse&gt;
    */
   @GET("fdx/recipients")
@@ -2451,6 +2660,22 @@ public interface PlaidApi {
   @POST("identity/match")
   Call<IdentityMatchResponse> identityMatch(
     @retrofit2.http.Body IdentityMatchRequest identityMatchRequest
+  );
+
+  /**
+   * List Link Identity Match attempts
+   * Returns a chronological history of Link-originated Identity Match attempts for a client, ordered by creation time with the oldest attempt first.  Results are retained for up to one year. Attempts for deleted Items are omitted.
+   * @param identityMatchListRequest  (required)
+   * @return Call&lt;IdentityMatchListResponse&gt;
+   * 
+   * @see <a href="/api/products/identity/#identitymatchlist">List Link Identity Match attempts Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("identity/match/list")
+  Call<IdentityMatchListResponse> identityMatchList(
+    @retrofit2.http.Body IdentityMatchListRequest identityMatchListRequest
   );
 
   /**
@@ -2909,7 +3134,7 @@ public interface PlaidApi {
 
   /**
    * Import Item
-   * &#x60;/item/import&#x60; creates an Item via your Plaid Exchange Integration and returns an &#x60;access_token&#x60;. As part of an &#x60;/item/import&#x60; request, you will include a User ID (&#x60;user_auth.user_id&#x60;) and Authentication Token (&#x60;user_auth.auth_token&#x60;) that enable data aggregation through your Plaid Exchange API endpoints. These authentication principals are to be chosen by you.  Upon creating an Item via &#x60;/item/import&#x60;, Plaid will automatically begin an extraction of that Item through the Plaid Exchange infrastructure you have already integrated.
+   * &#x60;/item/import&#x60; creates an Item for one of your customers and returns an &#x60;access_token&#x60;, which the other Permissions Manager endpoints take in place of a customer identifier. You supply your own identifier for the customer as &#x60;user_auth.user_id&#x60;.  The endpoint is idempotent and the &#x60;access_token&#x60; it returns is long-lived: repeated calls for the same &#x60;user_auth.user_id&#x60; return the same token.  Upon creating an Item via &#x60;/item/import&#x60;, Plaid will automatically begin an extraction of that Item through the data provider API endpoints you have already integrated.
    * @param itemImportRequest  (required)
    * @return Call&lt;ItemImportResponse&gt;
    */
@@ -2987,7 +3212,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Liabilities data
-   * The &#x60;/liabilities/get&#x60; endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Currently supported account types are account type &#x60;credit&#x60; with account subtype &#x60;credit card&#x60; or &#x60;paypal&#x60;, and account type &#x60;loan&#x60; with account subtype &#x60;student&#x60; or &#x60;mortgage&#x60;. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the &#x60;account_filters&#x60; parameter when [creating a Link token](https://plaid.com/docs/api/link/#linktokencreate).  The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling &#x60;/liabilities/get&#x60;.
+   * The &#x60;/liabilities/get&#x60; endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Supported account types are account type &#x60;credit&#x60; with account subtype &#x60;charge card&#x60;, &#x60;credit card&#x60;, or &#x60;paypal&#x60;; and account type &#x60;loan&#x60; with account subtype &#x60;auto&#x60;, &#x60;commercial&#x60;, &#x60;commercial line of credit&#x60;, &#x60;consumer&#x60;, &#x60;home equity&#x60;, &#x60;home equity loan&#x60;, &#x60;installment&#x60;, &#x60;line of credit&#x60;, &#x60;loan&#x60;, &#x60;mortgage&#x60;, or &#x60;student&#x60;. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the &#x60;account_filters&#x60; parameter when [creating a Link token](https://plaid.com/docs/api/link/#linktokencreate).  The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling &#x60;/liabilities/get&#x60;.
    * @param liabilitiesGetRequest  (required)
    * @return Call&lt;LiabilitiesGetResponse&gt;
    * 
@@ -3862,6 +4087,38 @@ public interface PlaidApi {
   );
 
   /**
+   * Record a cash advance decision
+   * Use this endpoint to record a cash-advance decision as feedback. A decision is a determination of whether to approve a user&#39;s requested advance and on what terms.
+   * @param protectCashAdvanceDecisionCreateRequest  (required)
+   * @return Call&lt;ProtectCashAdvanceDecisionCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protectcashadvancedecisioncreate">Record a cash advance decision Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/cash_advance/decision/create")
+  Call<ProtectCashAdvanceDecisionCreateResponse> protectCashAdvanceDecisionCreate(
+    @retrofit2.http.Body ProtectCashAdvanceDecisionCreateRequest protectCashAdvanceDecisionCreateRequest
+  );
+
+  /**
+   * Record a cash advance repayment
+   * Use this endpoint to record a cash-advance repayment as feedback. A repayment is a record paying back all or some of a previously-taken cash-advance.
+   * @param protectCashAdvanceRepaymentCreateRequest  (required)
+   * @return Call&lt;ProtectCashAdvanceRepaymentCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protectcashadvancerepaymentcreate">Record a cash advance repayment Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/cash_advance/repayment/create")
+  Call<ProtectCashAdvanceRepaymentCreateResponse> protectCashAdvanceRepaymentCreate(
+    @retrofit2.http.Body ProtectCashAdvanceRepaymentCreateRequest protectCashAdvanceRepaymentCreateRequest
+  );
+
+  /**
    * Compute Protect Trust Index scores and subscores
    * Compute a Protect Trust Index score for a user. The model selected determines what is scored and what additional fields the response contains. For example, &#x60;ti-link-session-2.0&#x60; scores a completed Link session for fraud risk; &#x60;cash-advance-onboarding-1.0&#x60; scores repayment risk for a first-time cash advance and additionally populates per-amount-bucket subscores. Cash-advance models require that the user have a Plaid Item with Transactions enabled, or an Assets Report, before scoring.  The endpoint returns HTTP 400 with &#x60;error_type&#x60; &#x3D; &#x60;INVALID_REQUEST&#x60; and &#x60;error_code&#x60; &#x3D; &#x60;FAILED_PRECONDITION&#x60; when a required precondition is not met: for link-session models, when the Link session has not completed; for cash-advance models, when the user has not successfully linked any Item.
    * @param protectComputeRequest  (required)
@@ -4016,6 +4273,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Simulate a CRA Servicing report
+   * Use the &#x60;/sandbox/cra/servicing/simulate&#x60; endpoint to synchronously seed a CRA Servicing report in the Sandbox environment and return a &#x60;report_id&#x60; that can be fetched via &#x60;/cra/check_report/base_report/get&#x60; or &#x60;/cra/check_report/income_insights/get&#x60;. This endpoint also fires a &#x60;CRA_REPORT_UPDATED&#x60; webhook, mirroring the notification a live subscription would emit.
+   * @param sandboxCraServicingSimulateRequest  (required)
+   * @return Call&lt;SandboxCraServicingSimulateResponse&gt;
+   * 
+   * @see <a href="/none/">Simulate a CRA Servicing report Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/cra/servicing/simulate")
+  Call<SandboxCraServicingSimulateResponse> sandboxCraServicingSimulate(
+    @retrofit2.http.Body SandboxCraServicingSimulateRequest sandboxCraServicingSimulateRequest
+  );
+
+  /**
    * Seed an FDX consent grant for a sandbox data partner
    * &#x60;/sandbox/fdx/consent/seed&#x60; creates a test FDX consent grant (and a backing Item) for a data provider&#39;s customer in Sandbox, so the FDX Consent API endpoints can be exercised end-to-end without a live data provider connection.  &#x60;customer_id&#x60; is the data provider&#39;s identifier for the end user and &#x60;application_id&#x60; identifies the data recipient application the consent is granted to; both are required. Optionally provide &#x60;consent_id&#x60; (a UUIDv4) to control the seeded grant&#39;s identifier; one is generated when omitted. The seeded grant is returned by &#x60;/fdx/consents&#x60; and &#x60;/fdx/consents/{consentId}&#x60;, and can be revoked via &#x60;/fdx/consents/{consentId}/revocation&#x60;.
    * @param sandboxFdxConsentSeedRequest  (required)
@@ -4061,7 +4334,7 @@ public interface PlaidApi {
 
   /**
    * Fire a test webhook
-   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid Sandbox &#x60;DEFAULT_UPDATE&#x60; webhook types include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Fired to indicate that a new account is available on the Item and you can launch update mode to request access to it.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given Same-Day Micro-deposit Item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;PENDING_DISCONNECT&#x60;: Fired when an Item will stop working in the near future (e.g. due to a planned bank migration) and must be sent through update mode to continue working.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;USER_PERMISSION_REVOKED&#x60;: Indicates an end user has revoked the permission that they previously granted to access an Item. May not always fire upon revocation, as some institutions&#39; consent portals do not trigger this webhook. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  &#x60;USER_ACCOUNT_REVOKED&#x60;: Fired when an end user has revoked access to their account on the Data Provider&#39;s portal. This webhook is currently sent only for PNC Items, but may be sent in the future for other financial institutions. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
+   * The &#x60;/sandbox/item/fire_webhook&#x60; endpoint is used to test that code correctly handles webhooks. This endpoint can trigger the following webhooks:  &#x60;DEFAULT_UPDATE&#x60;: Webhook to be fired for a given Sandbox Item simulating a default update event for the respective product as specified with the &#x60;webhook_type&#x60; in the request body. Valid Sandbox &#x60;DEFAULT_UPDATE&#x60; webhook types include: &#x60;AUTH&#x60;, &#x60;IDENTITY&#x60;, &#x60;TRANSACTIONS&#x60;, &#x60;INVESTMENTS_TRANSACTIONS&#x60;, &#x60;LIABILITIES&#x60;, &#x60;HOLDINGS&#x60;. If the Item does not support the product, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;NEW_ACCOUNTS_AVAILABLE&#x60;: Fired to indicate that a new account is available on the Item and you can launch update mode to request access to it.  &#x60;SMS_MICRODEPOSITS_VERIFICATION&#x60;: Fired when a given Same-Day Micro-deposit Item is verified via SMS verification.  &#x60;LOGIN_REPAIRED&#x60;: Fired when an Item recovers from the &#x60;ITEM_LOGIN_REQUIRED&#x60; without the user going through update mode in your app.  &#x60;PENDING_DISCONNECT&#x60;: Fired when an Item will stop working in the near future (e.g. due to a planned bank migration) and must be sent through update mode to continue working.  &#x60;RECURRING_TRANSACTIONS_UPDATE&#x60;: Recurring Transactions webhook to be fired for a given Sandbox Item. If the Item does not support Recurring Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;SYNC_UPDATES_AVAILABLE&#x60;: Transactions webhook to be fired for a given Sandbox Item.  If the Item does not support Transactions, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;PRODUCT_READY&#x60;: Assets webhook to be fired when a given asset report has been successfully generated. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;ERROR&#x60;: Assets webhook to be fired when asset report generation has failed. If the Item does not support Assets, a &#x60;SANDBOX_PRODUCT_NOT_ENABLED&#x60; error will result.  &#x60;USER_PERMISSION_REVOKED&#x60;: Indicates an end user has revoked the permission that they previously granted to access an Item. May not always fire upon revocation, as some institutions&#39; consent portals do not trigger this webhook. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  &#x60;USER_ACCOUNT_REVOKED&#x60;: Fired when an end user has revoked access to their account on the Data Provider&#39;s portal. This webhook is currently sent only for Chase, PNC, and Truist Items, but may be sent in the future for other financial institutions. Upon receiving this webhook, it is recommended to delete any stored data from Plaid associated with the account or Item.  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production (except for webhooks of type &#x60;TRANSFER&#x60;).
    * @param sandboxItemFireWebhookRequest  (required)
    * @return Call&lt;SandboxItemFireWebhookResponse&gt;
    * 
@@ -4393,6 +4666,22 @@ public interface PlaidApi {
   @POST("sandbox/transfer/test_clock/list")
   Call<SandboxTransferTestClockListResponse> sandboxTransferTestClockList(
     @retrofit2.http.Body SandboxTransferTestClockListRequest sandboxTransferTestClockListRequest
+  );
+
+  /**
+   * Fire a test user webhook
+   * &#x60;/sandbox/user/fire_webhook&#x60; functions the same as &#x60;/sandbox/item/fire_webhook&#x60;, but fires webhooks associated with a user rather than an Item. This endpoint can trigger the following webhooks:  &#x60;USER_CHECK_REPORT_READY&#x60;: Fired when a Check Report is ready to be retrieved.  &#x60;USER_CHECK_REPORT_FAILED&#x60;: Fired when a Check Report has failed to generate.  &#x60;CHECK_REPORT_READY&#x60; / &#x60;CHECK_REPORT_FAILED&#x60;: The equivalents of the above for integrations that predate the [New User APIs](https://plaid.com/docs/api/users/user-apis).  Note that this endpoint is provided for developer ease-of-use and is not required for testing webhooks; webhooks will also fire in Sandbox under the same conditions that they would in Production.
+   * @param sandboxUserFireWebhookRequest  (required)
+   * @return Call&lt;SandboxUserFireWebhookResponse&gt;
+   * 
+   * @see <a href="/api/sandbox/#sandboxuserfire_webhook">Fire a test user webhook Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("sandbox/user/fire_webhook")
+  Call<SandboxUserFireWebhookResponse> sandboxUserFireWebhook(
+    @retrofit2.http.Body SandboxUserFireWebhookRequest sandboxUserFireWebhookRequest
   );
 
   /**
@@ -5355,7 +5644,7 @@ public interface PlaidApi {
    * @param transferReturnRecoverRequest  (required)
    * @return Call&lt;TransferReturnRecoverResponse&gt;
    * 
-   * @see <a href="/api/products/transfer/#transferreturnrecover">Report a return recovery Documentation</a>
+   * @see <a href="/api/products/transfer/guaranteed-ach/#transferreturnrecover">Report a return recovery Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -5431,7 +5720,7 @@ public interface PlaidApi {
 
   /**
    * Create user
-   * For Plaid products and flows that use the user object, &#x60;/user/create&#x60; provides you a single token to access all data associated with the user. You must call this endpoint before calling &#x60;/link/token/create&#x60; if you are using any of the following: Plaid Check, Income Verification, Multi-Item Link, or Plaid Protect (Identity). If you are using Plaid Protect Link session scoring, you do not need to call &#x60;/user/create&#x60; first; Plaid will resolve or create the user when &#x60;user.client_user_id&#x60; is provided in &#x60;/link/token/create&#x60;. For customers who began using this endpoint on or after December 10, 2025, this endpoint takes a &#x60;client_user_id&#x60; and an &#x60;identity&#x60; object and will return a &#x60;user_id&#x60;. For customers who began using it before that date, the endpoint takes a &#x60;client_user_id&#x60; and a &#x60;consumer_report_user_identity&#x60; object and will return a &#x60;user_token&#x60; and &#x60;user_id&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis). In order to create a Plaid Check Consumer Report for a user, the &#x60;identity&#x60; (new) or &#x60;consumer_report_user_identity&#x60; (legacy) object must be present. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;.   In order to generate a Plaid Check Consumer Report, the following &#x60;identity&#x60; fields, at minimum, are required and must be non-empty: &#x60;name&#x60;, &#x60;date_of_birth&#x60;, &#x60;emails&#x60;, &#x60;phone_numbers&#x60;, and &#x60;addresses&#x60; (with at least one email, phone number, and address designated as &#x60;primary&#x60;). Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;. If creating a report for sharing with a GSE such as Fannie or Freddie, the user&#39;s full SSN must be provided via the &#x60;id_numbers&#x60; field. Providing at least a partial SSN is also strongly recommended for all use cases, since it improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests.   When using Plaid Protect, it is highly recommended that you provide an &#x60;identity&#x60; object to better identify and block fraud across your Link sessions.   Plaid will normalize identity fields before storing them and utilize the same identity across different user-based products.
+   * For Plaid products and flows that use the user object, &#x60;/user/create&#x60; provides you a single token to access all data associated with the user. You must call this endpoint before calling &#x60;/link/token/create&#x60; if you are using any of the following: Plaid Check, Income Verification, Multi-Item Link, or Plaid Protect (Identity). If you are using Plaid Protect Link session scoring, you do not need to call &#x60;/user/create&#x60; first; Plaid will resolve or create the user when &#x60;user.client_user_id&#x60; is provided in &#x60;/link/token/create&#x60;. For customers who began using this endpoint on or after December 10, 2025, this endpoint takes a &#x60;client_user_id&#x60; and an &#x60;identity&#x60; object and will return a &#x60;user_id&#x60;. For customers who began using it before that date, the endpoint takes a &#x60;client_user_id&#x60; and a &#x60;consumer_report_user_identity&#x60; object and will return a &#x60;user_token&#x60; and &#x60;user_id&#x60;. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis). In order to create a Plaid Check Consumer Report for a user, or to use Payment Initiation, Variable Recurring Payments, or Virtual Accounts, the &#x60;identity&#x60; (new) or &#x60;consumer_report_user_identity&#x60; (legacy) object must be present. If it is not provided during the &#x60;/user/create&#x60; call, it can be added later by calling &#x60;/user/update&#x60;.   When using Payment Initiation, Variable Recurring Payments, or Virtual Accounts, the &#x60;identity&#x60; object must contain a &#x60;name&#x60; and either an email address or a phone number.   In order to generate a Plaid Check Consumer Report, the following &#x60;identity&#x60; fields, at minimum, are required and must be non-empty: &#x60;name&#x60;, &#x60;date_of_birth&#x60;, &#x60;emails&#x60;, &#x60;phone_numbers&#x60;, and &#x60;addresses&#x60; (with at least one email, phone number, and address designated as &#x60;primary&#x60;). Plaid Check Consumer Reports can only be created for US-based users; the user&#39;s address country must be &#x60;US&#x60;. If creating a report for sharing with a GSE such as Fannie or Freddie, the user&#39;s full SSN must be provided via the &#x60;id_numbers&#x60; field. Providing at least a partial SSN is also strongly recommended for all use cases, since it improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests.   When using Plaid Protect, it is highly recommended that you provide an &#x60;identity&#x60; object to better identify and block fraud across your Link sessions.   Plaid will normalize identity fields before storing them and utilize the same identity across different user-based products.
    * @param userCreateRequest  (required)
    * @param plaidNewUserAPIEnabled The HTTP header used in API requests to determine which set of User APIs to invoke: the legacy CRA version or the new User API version. (optional, default to false)
    * @return Call&lt;UserCreateResponse&gt;
@@ -5498,7 +5787,7 @@ public interface PlaidApi {
 
   /**
    * Associate Items to a User
-   * Associates Items to the target user. If an Item is already associated to another user, the Item will be disassociated with the existing user and associated to the target user. This operation supports a max of 100 Items.
+   * Associates Items with a &#x60;user_id&#x60;. If an Item is already associated with a different &#x60;user_id&#x60;, calling this endpoint will disassociate it from that User and reassociate it with the target User instead. A single request can associate up to 100 Items.
    * @param userItemsAssociateRequest  (required)
    * @return Call&lt;UserItemsAssociateResponse&gt;
    * 
