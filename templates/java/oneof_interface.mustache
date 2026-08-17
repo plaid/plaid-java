@@ -1,0 +1,9 @@
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>typeInfoAnnotation}}{{>xmlAnnotation}}
+public interface {{classname}} {{#vendorExtensions.x-implements}}{{#-first}}extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+    {{! ExactOneOfTypeAdapterFactory handles exact unions, so they need no discriminator getter. }}
+    {{^vendorExtensions.x-plaid-sdk-one-of-interface}}
+    {{#discriminator}}
+    public {{propertyType}} {{propertyGetter}}();
+    {{/discriminator}}
+    {{/vendorExtensions.x-plaid-sdk-one-of-interface}}
+}

@@ -54,7 +54,7 @@ public class ApiClient {
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
                 Request requestWithUserAgent = originalRequest.newBuilder()
-                        .header("User-Agent", "Plaid Java v43.0.0")
+                        .header("User-Agent", "Plaid Java v44.0.0")
                         .header("Plaid-Version", "2020-09-14")
                         .build();
                 return chain.proceed(requestWithUserAgent);
@@ -77,7 +77,7 @@ public class ApiClient {
         auth = new ApiKeyAuth("header", "PLAID-CLIENT-ID");
       } else if ("oauth2".equals(authName)) {
         
-        auth = new OAuth(OAuthFlow.application, "", "https://api.plaid.com/oauth2/apiv2/token", "cra:report:read, user:write");
+        auth = new OAuth(OAuthFlow.application, "", "https://api.plaid.com/oauth2/apiv2/token", "cra:read, user:write");
       } else if ("plaidVersion".equals(authName)) {
         
         auth = new ApiKeyAuth("header", "Plaid-Version");
@@ -106,7 +106,7 @@ public class ApiClient {
 		auth = (Interceptor) apiKeyAuth;
       } else if ("oauth2".equals(authName)) {
         
-        auth = new OAuth(OAuthFlow.application, "", "https://api.plaid.com/oauth2/apiv2/token", "cra:report:read, user:write");
+        auth = new OAuth(OAuthFlow.application, "", "https://api.plaid.com/oauth2/apiv2/token", "cra:read, user:write");
       } else if ("plaidVersion".equals(authName)) {
         
         ApiKeyAuth apiKeyAuth = new ApiKeyAuth("header", "Plaid-Version");
