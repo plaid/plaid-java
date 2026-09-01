@@ -1510,7 +1510,7 @@ public interface PlaidApi {
 
   /**
    * List webhook events
-   * The &#x60;/beta/webhook_events/list&#x60; endpoint returns webhook events Plaid sent to the calling client within the last 7 days. Results are ordered by &#x60;sent_time&#x60; ascending and cursor paginated so clients can recover missed webhook deliveries and deduplicate on &#x60;webhook_message_id&#x60;.  Filtering is optional. When multiple filter fields are set (&#x60;webhook_types&#x60;, &#x60;webhook_codes&#x60;, &#x60;item_ids&#x60;, &#x60;delivery_statuses&#x60;), they are combined with AND across fields and OR within each array (for example, &#x60;webhook_types: [\&quot;TRANSACTIONS\&quot;, \&quot;ITEM\&quot;]&#x60; matches either type).  Recommended pagination workflow:  1. First call: omit &#x60;cursor&#x60;, and optionally set &#x60;start_time&#x60; within the last 7 days (or    omit &#x60;start_time&#x60; to begin at the oldest retained event). 2. Subsequent calls: pass &#x60;next_cursor&#x60; as &#x60;cursor&#x60;. Do not send &#x60;start_time&#x60; with    &#x60;cursor&#x60; — the two fields are mutually exclusive. 3. Persist &#x60;next_cursor&#x60; even when &#x60;has_more&#x60; is &#x60;false&#x60;, then reuse it on the next poll so    you only receive events newer than what you have already seen. 4. If a stored cursor is older than the 7-day retention window, the API returns    &#x60;WEBHOOK_EVENTS_CURSOR_EXPIRED&#x60;; restart with a &#x60;start_time&#x60; within the last 7 days.    Events older than the retention window are no longer available.
+   * The &#x60;/beta/webhook_events/list&#x60; endpoint returns webhook events Plaid sent to the calling client within the last 7 days. Results are ordered by &#x60;sent_time&#x60; ascending and cursor paginated so clients can recover missed webhook deliveries and deduplicate on &#x60;webhook_message_id&#x60;.  Filtering is optional. When multiple filter fields are set (&#x60;webhook_types&#x60;, &#x60;webhook_codes&#x60;, &#x60;item_ids&#x60;, &#x60;delivery_statuses&#x60;), they are combined with AND across fields and OR within each array (for example, &#x60;webhook_types: [\&quot;ITEM\&quot;, \&quot;AUTH\&quot;]&#x60; matches either type).  Recommended pagination workflow:  1. First call: omit &#x60;cursor&#x60;, and optionally set &#x60;start_time&#x60; within the last 7 days (or    omit &#x60;start_time&#x60; to begin at the oldest retained event). 2. Subsequent calls: pass &#x60;next_cursor&#x60; as &#x60;cursor&#x60;. Do not send &#x60;start_time&#x60; with    &#x60;cursor&#x60; — the two fields are mutually exclusive. Sending both returns &#x60;INVALID_FIELD&#x60;. 3. Persist &#x60;next_cursor&#x60; even when &#x60;has_more&#x60; is &#x60;false&#x60;, then reuse it on the next poll so    you only receive events newer than what you have already seen. 4. If a stored cursor is older than the 7-day retention window, the API returns    &#x60;WEBHOOK_EVENTS_CURSOR_EXPIRED&#x60;; restart with a &#x60;start_time&#x60; within the last 7 days.    Events older than the retention window are no longer available.  Errors:  &#x60;WEBHOOK_EVENTS_START_TIME_OUT_OF_RANGE&#x60; (400) is returned when &#x60;start_time&#x60; is earlier than the 7-day retention window. Retry with a &#x60;start_time&#x60; within the last 7 days, or omit it.  &#x60;WEBHOOK_EVENTS_CURSOR_EXPIRED&#x60; (400) is returned when the cursor&#39;s position is older than the 7-day retention window and can no longer be resolved. Restart pagination with a &#x60;start_time&#x60; within the last 7 days.  &#x60;INVALID_FIELD&#x60; (400) is returned when &#x60;cursor&#x60; is not a properly formatted string, when both &#x60;cursor&#x60; and &#x60;start_time&#x60; are provided, or when the request is otherwise invalid.
    * @param betaWebhookEventsListRequest  (required)
    * @return Call&lt;BetaWebhookEventsListResponse&gt;
    * 
@@ -1911,13 +1911,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Retrieve a Monitoring Insights Report
-   * This endpoint allows you to retrieve a Cash Flow Updates report by passing in the &#x60;user_id&#x60; referred to in the webhook you received.
+   * (Legacy) Retrieve a Cash Flow Updates report
+   * This endpoint allows you to retrieve a Cash Flow Updates report by passing in the &#x60;user_id&#x60; referred to in the webhook you received. This endpoint is part of the legacy Cash Flow Updates product and is available only to integrations already using it. CRA Servicing has no direct equivalent; other integrations should handle the &#x60;CRA_REPORT_UPDATED&#x60; webhook and pass its &#x60;report_id&#x60; to the relevant product &#x60;/get&#x60; endpoint, such as &#x60;/cra/check_report/base_report/get&#x60;.
    * @param craMonitoringInsightsGetRequest  (required)
    * @return Call&lt;CraMonitoringInsightsGetResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/check/#cramonitoring_insightsget">Retrieve a Monitoring Insights Report Documentation</a>
+   * @see <a href="/api/products/check/#cramonitoring_insightsget">(Legacy) Retrieve a Cash Flow Updates report Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -1927,13 +1929,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Subscribe to Monitoring Insights
-   * This endpoint allows you to subscribe to insights for a user&#39;s linked CRA Item, which are updated between one and four times per day (best-effort). In the current Cash Flow Updates beta experience, only one Item per user may be subscribed for monitoring updates.
+   * (Legacy) Subscribe to Cash Flow Updates
+   * This endpoint allows you to subscribe to insights for a user&#39;s linked CRA Item, which are updated between one and four times per day (best-effort). Only one Item per user may be subscribed. This endpoint is part of the legacy Cash Flow Updates product and is available only to integrations already using it; other integrations should use &#x60;/cra/servicing/subscription/create&#x60; instead.
    * @param craMonitoringInsightsSubscribeRequest  (required)
    * @return Call&lt;CraMonitoringInsightsSubscribeResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/check/#cramonitoring_insightssubscribe">Subscribe to Monitoring Insights Documentation</a>
+   * @see <a href="/api/products/check/#cramonitoring_insightssubscribe">(Legacy) Subscribe to Cash Flow Updates Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -1943,13 +1947,15 @@ public interface PlaidApi {
   );
 
   /**
-   * Unsubscribe from Monitoring Insights
-   * This endpoint allows you to unsubscribe from previously subscribed Monitoring Insights.
+   * (Legacy) Unsubscribe from Cash Flow Updates
+   * This endpoint allows you to remove a subscription created by &#x60;/cra/monitoring_insights/subscribe&#x60;. This endpoint is part of the legacy Cash Flow Updates product and is available only to integrations already using it; other integrations should use &#x60;/cra/servicing/subscription/delete&#x60; instead.
    * @param craMonitoringInsightsUnsubscribeRequest  (required)
    * @return Call&lt;CraMonitoringInsightsUnsubscribeResponse&gt;
+   * @deprecated
    * 
-   * @see <a href="/api/products/check/#cramonitoring_insightsunsubscribe">Unsubscribe from Monitoring Insights Documentation</a>
+   * @see <a href="/api/products/check/#cramonitoring_insightsunsubscribe">(Legacy) Unsubscribe from Cash Flow Updates Documentation</a>
    */
+  @Deprecated
   @Headers({
     "Content-Type:application/json"
   })
@@ -1996,7 +2002,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionCreateRequest  (required)
    * @return Call&lt;CraServicingSubscriptionCreateResponse&gt;
    * 
-   * @see <a href="/none/">Create a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check/#craservicingsubscriptioncreate">Create a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2012,7 +2018,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionDeleteRequest  (required)
    * @return Call&lt;CraServicingSubscriptionDeleteResponse&gt;
    * 
-   * @see <a href="/none/">Delete a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check/#craservicingsubscriptiondelete">Delete a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2028,7 +2034,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionGetRequest  (required)
    * @return Call&lt;CraServicingSubscriptionGetResponse&gt;
    * 
-   * @see <a href="/none/">Get a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check/#craservicingsubscriptionget">Get a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2044,7 +2050,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionListRequest  (required)
    * @return Call&lt;CraServicingSubscriptionListResponse&gt;
    * 
-   * @see <a href="/none/">List a user&#39;s CRA servicing subscriptions Documentation</a>
+   * @see <a href="/api/products/check/#craservicingsubscriptionlist">List a user&#39;s CRA servicing subscriptions Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2060,7 +2066,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionUpdateRequest  (required)
    * @return Call&lt;CraServicingSubscriptionUpdateResponse&gt;
    * 
-   * @see <a href="/none/">Update a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check/#craservicingsubscriptionupdate">Update a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -3212,7 +3218,7 @@ public interface PlaidApi {
 
   /**
    * Retrieve Liabilities data
-   * The &#x60;/liabilities/get&#x60; endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Supported account types are account type &#x60;credit&#x60; with account subtype &#x60;charge card&#x60;, &#x60;credit card&#x60;, or &#x60;paypal&#x60;; and account type &#x60;loan&#x60; with account subtype &#x60;auto&#x60;, &#x60;commercial&#x60;, &#x60;commercial line of credit&#x60;, &#x60;consumer&#x60;, &#x60;home equity&#x60;, &#x60;home equity loan&#x60;, &#x60;installment&#x60;, &#x60;line of credit&#x60;, &#x60;loan&#x60;, &#x60;mortgage&#x60;, or &#x60;student&#x60;. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the &#x60;account_filters&#x60; parameter when [creating a Link token](https://plaid.com/docs/api/link/#linktokencreate).  The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling &#x60;/liabilities/get&#x60;.
+   * The &#x60;/liabilities/get&#x60; endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Currently supported account types are account type &#x60;credit&#x60; with account subtype &#x60;credit card&#x60; or &#x60;paypal&#x60;, and account type &#x60;loan&#x60; with account subtype &#x60;student&#x60; or &#x60;mortgage&#x60;. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the &#x60;account_filters&#x60; parameter when [creating a Link token](https://plaid.com/docs/api/link/#linktokencreate).  The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling &#x60;/liabilities/get&#x60;.
    * @param liabilitiesGetRequest  (required)
    * @return Call&lt;LiabilitiesGetResponse&gt;
    * 
@@ -4120,7 +4126,7 @@ public interface PlaidApi {
 
   /**
    * Compute Protect Trust Index scores and subscores
-   * Compute a Protect Trust Index score for a user. The model selected determines what is scored and what additional fields the response contains. For example, &#x60;ti-link-session-2.0&#x60; scores a completed Link session for fraud risk; &#x60;cash-advance-onboarding-1.0&#x60; scores repayment risk for a first-time cash advance and additionally populates per-amount-bucket subscores. Cash-advance models require that the user have a Plaid Item with Transactions enabled, or an Assets Report, before scoring.  The endpoint returns HTTP 400 with &#x60;error_type&#x60; &#x3D; &#x60;INVALID_REQUEST&#x60; and &#x60;error_code&#x60; &#x3D; &#x60;FAILED_PRECONDITION&#x60; when a required precondition is not met: for link-session models, when the Link session has not completed; for cash-advance models, when the user has not successfully linked any Item.
+   * Compute a Protect Trust Index score for a user. The model selected determines what is scored and what additional fields the response contains. For example, &#x60;ti-link-session-3-&lt;client&gt;&#x60; scores a completed Link session for fraud risk; &#x60;cash-advance-onboarding-&lt;client&gt;-1.0&#x60; scores repayment risk for a first-time cash advance and &#x60;cash-advance-ongoing-&lt;client&gt;-1.0&#x60; scores subsequent advances, both additionally populating per-amount-bucket subscores. Cash-advance models require that the user have a Plaid Item with Transactions enabled, or an Assets Report, before scoring.  The endpoint returns HTTP 400 with &#x60;error_type&#x60; &#x3D; &#x60;INVALID_REQUEST&#x60; and &#x60;error_code&#x60; &#x3D; &#x60;FAILED_PRECONDITION&#x60; when a required precondition is not met: for link-session models, when the Link session has not completed; for cash-advance models, when the user has not successfully linked any Item.
    * @param protectComputeRequest  (required)
    * @return Call&lt;ProtectComputeResponse&gt;
    * 
@@ -4172,7 +4178,7 @@ public interface PlaidApi {
 
   /**
    * Create a Protect report
-   * Use this endpoint to create a Protect report to document fraud incidents, investigation outcomes, or other risk events. This endpoint allows you to report various types of incidents including account takeovers, identity fraud, unauthorized transactions, and other security events. The reported data helps improve fraud detection models and provides valuable feedback to enhance the overall security of the Plaid network. Reports can be created for confirmed incidents that have been fully investigated, or for suspected incidents that require further review. You can associate reports with specific users, sessions, or transactions to provide comprehensive context about the incident. Each report must include &#x60;user_id&#x60;, or an &#x60;incident_event&#x60; with at least one supported identifier: &#x60;link_session_id&#x60;, &#x60;idv_session_id&#x60;, &#x60;protect_event_id&#x60;, &#x60;signal_client_transaction_id&#x60;, or &#x60;access_token&#x60;. Context fields such as &#x60;internal_reference&#x60;, &#x60;time&#x60;, &#x60;amount&#x60;, and &#x60;bank_account&#x60; do not satisfy this identifier requirement.
+   * Use this endpoint to create a Protect report to document fraud incidents, investigation outcomes, or other risk events. This endpoint allows you to report various types of incidents including account takeovers, identity fraud, unauthorized transactions, and other security events. The reported data helps improve fraud detection models and provides valuable feedback to enhance the overall security of the Plaid network.  Reports can be created for confirmed incidents that have been fully investigated, or for suspected incidents that require further review. You can associate reports with specific users, sessions, or transactions to provide comprehensive context about the incident. Each report must include &#x60;user_id&#x60;, or an &#x60;incident_event&#x60; with at least one supported identifier: &#x60;link_session_id&#x60;, &#x60;idv_session_id&#x60;, &#x60;protect_event_id&#x60;, &#x60;signal_client_transaction_id&#x60;, or &#x60;access_token&#x60;. Context fields such as &#x60;internal_reference&#x60;, &#x60;time&#x60;, &#x60;amount&#x60;, and &#x60;bank_account&#x60; do not satisfy this identifier requirement.
    * @param protectReportCreateRequest  (required)
    * @return Call&lt;ProtectReportCreateResponse&gt;
    * 
@@ -4258,7 +4264,7 @@ public interface PlaidApi {
 
   /**
    * Trigger an update for Cash Flow Updates
-   * Use the &#x60;/sandbox/cra/cashflow_updates/update&#x60; endpoint to manually trigger an update for Cash Flow Updates (Monitoring) in the Sandbox environment.
+   * Use the &#x60;/sandbox/cra/cashflow_updates/update&#x60; endpoint to manually trigger an update for the legacy Cash Flow Updates product in the Sandbox environment. To simulate a report generation for a CRA Servicing subscription, use &#x60;/sandbox/cra/servicing/simulate&#x60;.
    * @param sandboxCraCashflowUpdatesUpdateRequest  (required)
    * @return Call&lt;SandboxCraCashflowUpdatesUpdateResponse&gt;
    * 
@@ -4278,7 +4284,7 @@ public interface PlaidApi {
    * @param sandboxCraServicingSimulateRequest  (required)
    * @return Call&lt;SandboxCraServicingSimulateResponse&gt;
    * 
-   * @see <a href="/none/">Simulate a CRA Servicing report Documentation</a>
+   * @see <a href="/api/sandbox/#sandboxcraservicingsimulate">Simulate a CRA Servicing report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -5576,7 +5582,7 @@ public interface PlaidApi {
 
   /**
    * Create a refund
-   * Use the &#x60;/transfer/refund/create&#x60; endpoint to create a refund for a transfer. A transfer can be refunded if the transfer was initiated in the past 180 days.  Refunds come out of the available balance of the ledger used for the original debit transfer. If there are not enough funds in the available balance to cover the refund amount, the refund will be rejected. You can create a refund at any time. Plaid does not impose any hold time on refunds.  A refund can still be issued even if the Item&#39;s &#x60;access_token&#x60; is no longer valid (e.g. if the user revoked OAuth consent or the Item was deleted via &#x60;/item/remove&#x60;), as long as the account and routing number pair used to make the original transaction is still valid. A refund cannot be issued if the Item has an [invalidated TAN](https://plaid.com/docs/auth/#tokenized-account-numbers), which can occur at Chase or PNC.
+   * Use the &#x60;/transfer/refund/create&#x60; endpoint to create a refund for a transfer. A transfer can be refunded if the transfer was initiated in the past 180 days.  Refunds come out of the available balance of the ledger used for the original debit transfer. If there are not enough funds in the available balance to cover the refund amount, the refund will be rejected. Plaid does not impose a hold time before a refund can be created; you do not need to wait for the original transfer to settle.  A refund can still be issued even if the Item&#39;s &#x60;access_token&#x60; is no longer valid (e.g. if the user revoked OAuth consent or the Item was deleted via &#x60;/item/remove&#x60;), as long as the account and routing number pair used to make the original transaction is still valid. A refund cannot be issued if the Item has an [invalidated TAN](https://plaid.com/docs/auth/#tokenized-account-numbers), which can occur at Chase or PNC.
    * @param transferRefundCreateRequest  (required)
    * @return Call&lt;TransferRefundCreateResponse&gt;
    * 
@@ -5819,7 +5825,7 @@ public interface PlaidApi {
 
   /**
    * Remove Items from a User
-   * Removes specific Items associated with a user. It is equivalent to calling &#x60;/item/remove&#x60; on each Item individually, but supports use cases (such as Plaid Check) where access tokens are not available. All specified Items must belong to the user or the entire operation fails. Similar to &#x60;/item/remove&#x60;, this deletes Item product data and terminates billing on the Item&#39;s products. Once removed, Items cannot be reconnected without going through Link again. This endpoint is not intended to remove all data for a user, as it will only remove Items and no other data for the user. If the user has any user-based recurring subscription products (Financial Management, Plaid Protect, or CRA Cash Flow Updates) and is deleting their account with your product, also call &#x60;/user/products/terminate&#x60; to end those subscriptions; per-Item billing is already terminated by this endpoint. For a user initiated data deletion request, see the [Consumer Service Center](https://plaid.com/check/consumer-service-center/) to revoke access to data.
+   * Removes specific Items associated with a user. It is equivalent to calling &#x60;/item/remove&#x60; on each Item individually, but supports use cases (such as Plaid Check) where access tokens are not available. All specified Items must belong to the user or the entire operation fails. Similar to &#x60;/item/remove&#x60;, this deletes Item product data and terminates billing on the Item&#39;s products. Once removed, Items cannot be reconnected without going through Link again. This endpoint is not intended to remove all data for a user, as it will only remove Items and no other data for the user. If the user has any user-based recurring subscription products (Financial Management, Plaid Protect, or CRA Servicing) and is deleting their account with your product, also call &#x60;/user/products/terminate&#x60; to end those subscriptions; per-Item billing is already terminated by this endpoint. For a user initiated data deletion request, see the [Consumer Service Center](https://plaid.com/check/consumer-service-center/) to revoke access to data.
    * @param userItemsRemoveRequest  (required)
    * @return Call&lt;UserItemsRemoveResponse&gt;
    * 
@@ -5835,7 +5841,7 @@ public interface PlaidApi {
 
   /**
    * Terminate user-based products
-   * Terminates user-based recurring subscription bundles or products (Financial Management, Plaid Protect, and CRA Cash Flow Updates) associated with a &#x60;user_id&#x60;. After you call this endpoint, the user will no longer be billed for these products. For CRA Monitoring, the subscription is canceled but historical data remains available for future report requests.
+   * Terminates user-based recurring subscription bundles or products (Financial Management, Plaid Protect, and CRA Servicing) associated with a &#x60;user_id&#x60;. After you call this endpoint, the user will no longer be billed for these products. For CRA Servicing, the subscription is canceled but historical data remains available for future report requests.
    * @param userProductsTerminateRequest  (required)
    * @return Call&lt;UserProductsTerminateResponse&gt;
    * 
