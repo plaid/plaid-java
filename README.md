@@ -1,5 +1,9 @@
 # plaid-java [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
 
+> **Help shape Plaid’s next-generation SDKs**
+>
+> We’re modernizing Plaid’s SDKs and looking for developers to try early releases and share feedback. [Register your interest](https://docs.google.com/forms/d/e/1FAIpQLScuhIBKCGcxrDQXLZA0nyTdJEW83J-VEr8E08KMKkT0EjmxBQ/viewform) and we’ll follow up when an early release is available for your language. No migration is required today.
+
 Java Bindings for the Plaid API (https://www.plaid.com/docs). This library is generated from the [Plaid OpenAPI spec](https://github.com/plaid/plaid-openapi).
 
 Plaid API is defined in the `PlaidApi` interface.

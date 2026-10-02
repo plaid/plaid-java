@@ -156,6 +156,8 @@ import com.plaid.client.model.CraMonitoringInsightsUnsubscribeRequest;
 import com.plaid.client.model.CraMonitoringInsightsUnsubscribeResponse;
 import com.plaid.client.model.CraPartnerInsightsGetRequest;
 import com.plaid.client.model.CraPartnerInsightsGetResponse;
+import com.plaid.client.model.CraReportCreateRequest;
+import com.plaid.client.model.CraReportCreateResponse;
 import com.plaid.client.model.CraReportGetRequest;
 import com.plaid.client.model.CraReportGetResponse;
 import com.plaid.client.model.CraServicingSubscriptionCreateRequest;
@@ -302,10 +304,6 @@ import com.plaid.client.model.ItemWebhookUpdateRequest;
 import com.plaid.client.model.ItemWebhookUpdateResponse;
 import com.plaid.client.model.LiabilitiesGetRequest;
 import com.plaid.client.model.LiabilitiesGetResponse;
-import com.plaid.client.model.LinkDeliveryCreateRequest;
-import com.plaid.client.model.LinkDeliveryCreateResponse;
-import com.plaid.client.model.LinkDeliveryGetRequest;
-import com.plaid.client.model.LinkDeliveryGetResponse;
 import com.plaid.client.model.LinkOAuthCorrelationIdExchangeRequest;
 import com.plaid.client.model.LinkOAuthCorrelationIdExchangeResponse;
 import com.plaid.client.model.LinkTokenCreateRequest;
@@ -413,6 +411,8 @@ import com.plaid.client.model.ProfileNetworkStatusGetRequest;
 import com.plaid.client.model.ProfileNetworkStatusGetResponse;
 import com.plaid.client.model.ProtectCashAdvanceDecisionCreateRequest;
 import com.plaid.client.model.ProtectCashAdvanceDecisionCreateResponse;
+import com.plaid.client.model.ProtectCashAdvanceFeedbackUploadRequest;
+import com.plaid.client.model.ProtectCashAdvanceFeedbackUploadResponse;
 import com.plaid.client.model.ProtectCashAdvanceRepaymentCreateRequest;
 import com.plaid.client.model.ProtectCashAdvanceRepaymentCreateResponse;
 import com.plaid.client.model.ProtectComputeRequest;
@@ -1510,11 +1510,11 @@ public interface PlaidApi {
 
   /**
    * List webhook events
-   * The &#x60;/beta/webhook_events/list&#x60; endpoint returns webhook events Plaid sent to the calling client within the last 7 days. Results are ordered by &#x60;sent_time&#x60; ascending and cursor paginated so clients can recover missed webhook deliveries and deduplicate on &#x60;webhook_message_id&#x60;.  Filtering is optional. When multiple filter fields are set (&#x60;webhook_types&#x60;, &#x60;webhook_codes&#x60;, &#x60;item_ids&#x60;, &#x60;delivery_statuses&#x60;), they are combined with AND across fields and OR within each array (for example, &#x60;webhook_types: [\&quot;ITEM\&quot;, \&quot;AUTH\&quot;]&#x60; matches either type).  Recommended pagination workflow:  1. First call: omit &#x60;cursor&#x60;, and optionally set &#x60;start_time&#x60; within the last 7 days (or    omit &#x60;start_time&#x60; to begin at the oldest retained event). 2. Subsequent calls: pass &#x60;next_cursor&#x60; as &#x60;cursor&#x60;. Do not send &#x60;start_time&#x60; with    &#x60;cursor&#x60; — the two fields are mutually exclusive. Sending both returns &#x60;INVALID_FIELD&#x60;. 3. Persist &#x60;next_cursor&#x60; even when &#x60;has_more&#x60; is &#x60;false&#x60;, then reuse it on the next poll so    you only receive events newer than what you have already seen. 4. If a stored cursor is older than the 7-day retention window, the API returns    &#x60;WEBHOOK_EVENTS_CURSOR_EXPIRED&#x60;; restart with a &#x60;start_time&#x60; within the last 7 days.    Events older than the retention window are no longer available.  Errors:  &#x60;WEBHOOK_EVENTS_START_TIME_OUT_OF_RANGE&#x60; (400) is returned when &#x60;start_time&#x60; is earlier than the 7-day retention window. Retry with a &#x60;start_time&#x60; within the last 7 days, or omit it.  &#x60;WEBHOOK_EVENTS_CURSOR_EXPIRED&#x60; (400) is returned when the cursor&#39;s position is older than the 7-day retention window and can no longer be resolved. Restart pagination with a &#x60;start_time&#x60; within the last 7 days.  &#x60;INVALID_FIELD&#x60; (400) is returned when &#x60;cursor&#x60; is not a properly formatted string, when both &#x60;cursor&#x60; and &#x60;start_time&#x60; are provided, or when the request is otherwise invalid.
+   * &#x60;/beta/webhook_events/list&#x60; returns webhook events for your account from the last 7 days, regardless of delivery outcome. Results are ordered by &#x60;sent_time&#x60;, oldest first, and paginated with a cursor so you can recover deliveries your endpoint missed. Each event includes a &#x60;webhook_message_id&#x60; that stays the same if that event shows up again on a later poll, so you can skip events you have already handled.  &#x60;TRANSACTIONS&#x60; webhooks are not returned. Use [&#x60;/transactions/sync&#x60;](https://plaid.com/docs/api/products/transactions/#transactionssync) to recover transaction updates.  Filtering is optional. For &#x60;webhook_types&#x60;, &#x60;webhook_codes&#x60;, &#x60;item_ids&#x60;, and &#x60;delivery_statuses&#x60;, values within a field match with OR; different fields combine with AND. For example, &#x60;webhook_types: [\&quot;ITEM\&quot;, \&quot;AUTH\&quot;]&#x60; matches events of either type.  To page through events:  - On the first request, omit &#x60;cursor&#x60;. You can set &#x60;start_time&#x60; to a time within the last 7 days, or omit &#x60;start_time&#x60; to start at the oldest retained event. - On later requests, send the previous response&#39;s &#x60;next_cursor&#x60; as &#x60;cursor&#x60;. If you also send &#x60;start_time&#x60;, it is ignored; &#x60;cursor&#x60; takes precedence, even when &#x60;start_time&#x60; has changed. - Save &#x60;next_cursor&#x60; even when &#x60;has_more&#x60; is &#x60;false&#x60;, and send that cursor on the next poll so you only receive events newer than the ones you have already seen.  A request fails with 400 in these cases:  - &#x60;WEBHOOK_EVENTS_START_TIME_OUT_OF_RANGE&#x60; (&#x60;INVALID_INPUT&#x60;) is returned when &#x60;cursor&#x60; is omitted and &#x60;start_time&#x60; is earlier than the 7-day retention window. Retry with a &#x60;start_time&#x60; within the last 7 days, or omit &#x60;start_time&#x60;. - &#x60;WEBHOOK_EVENTS_CURSOR_EXPIRED&#x60; (&#x60;INVALID_INPUT&#x60;) is returned when the cursor is older than the 7-day retention window and can no longer be resolved. Start again with a &#x60;start_time&#x60; within the last 7 days. Events older than that window are no longer available. - &#x60;INVALID_FIELD&#x60; (&#x60;INVALID_REQUEST&#x60;) is returned when &#x60;cursor&#x60; is not a properly formatted string, or when the request is otherwise invalid.  This endpoint is in beta and may change in backwards-incompatible ways before it is generally available. Send feedback or bug reports to building@plaid.com.
    * @param betaWebhookEventsListRequest  (required)
    * @return Call&lt;BetaWebhookEventsListResponse&gt;
    * 
-   * @see <a href="none">List webhook events Documentation</a>
+   * @see <a href="/api/webhooks/webhook-events/#betawebhook_eventslist">List webhook events Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1676,7 +1676,7 @@ public interface PlaidApi {
    * @param craCheckReportBaseReportGetRequest  (required)
    * @return Call&lt;CraCheckReportBaseReportGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportbase_reportget">Retrieve a Base Report Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportbase_reportget">Retrieve a Base Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1692,7 +1692,7 @@ public interface PlaidApi {
    * @param craCheckReportCashflowInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportCashflowInsightsGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportcashflow_insightsget">Retrieve cash flow insights from your user&#39;s banking data Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportcashflow_insightsget">Retrieve cash flow insights from your user&#39;s banking data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1708,7 +1708,7 @@ public interface PlaidApi {
    * @param craCheckReportCreateRequest  (required)
    * @return Call&lt;CraCheckReportCreateResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportcreate">Refresh or create a Consumer Report Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportcreate">Refresh or create a Consumer Report Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1724,7 +1724,7 @@ public interface PlaidApi {
    * @param craCheckReportIncomeInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportIncomeInsightsGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportincome_insightsget">Retrieve income insights from your user&#39;s banks Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportincome_insightsget">Retrieve income insights from your user&#39;s banks Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1740,7 +1740,7 @@ public interface PlaidApi {
    * @param craCheckReportLendScoreGetRequest  (required)
    * @return Call&lt;CraCheckReportLendScoreGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportlend_scoreget">Retrieve the LendScore from your user&#39;s banking data Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportlend_scoreget">Retrieve the LendScore from your user&#39;s banking data Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1756,7 +1756,7 @@ public interface PlaidApi {
    * @param craCheckReportNetworkInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportNetworkInsightsGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportnetwork_insightsget">Retrieve network attributes for the user Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportnetwork_insightsget">Retrieve network attributes for the user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1772,7 +1772,7 @@ public interface PlaidApi {
    * @param craCheckReportPartnerInsightsGetRequest  (required)
    * @return Call&lt;CraCheckReportPartnerInsightsGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportpartner_insightsget">Retrieve cash flow insights from partners Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportpartner_insightsget">Retrieve cash flow insights from partners Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1784,11 +1784,11 @@ public interface PlaidApi {
 
   /**
    * Retrieve a Consumer Report as a PDF
-   * &#x60;/cra/check_report/pdf/get&#x60; retrieves the most recent Consumer Report in PDF format. By default, the most recent Base Report (if it exists) for the user will be returned. To request that the most recent Partner Insights or Income Insights report be included in the PDF as well, use the &#x60;add-ons&#x60; field.
+   * &#x60;/cra/check_report/pdf/get&#x60; retrieves the most recent Consumer Report in PDF format. The most recent Base Report for the user is always included. Use the &#x60;add_ons&#x60; field to also include the most recent Income Insights, Partner Insights or LendScore report in the PDF.
    * @param craCheckReportPDFGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportpdfget">Retrieve a Consumer Report as a PDF Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportpdfget">Retrieve a Consumer Report as a PDF Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1804,7 +1804,7 @@ public interface PlaidApi {
    * @param craCheckReportVerificationGetRequest  (required)
    * @return Call&lt;CraCheckReportVerificationGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportverificationget">Retrieve various home lending reports for a user Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportverificationget">Retrieve various home lending reports for a user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1820,7 +1820,7 @@ public interface PlaidApi {
    * @param craCheckReportVerificationPdfGetRequest  (required)
    * @return Call&lt;ResponseBody&gt;
    * 
-   * @see <a href="/api/products/check/#cracheck_reportverificationpdfget">Retrieve a Consumer Report as a Verification PDF Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cracheck_reportverificationpdfget">Retrieve a Consumer Report as a Verification PDF Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -1917,7 +1917,7 @@ public interface PlaidApi {
    * @return Call&lt;CraMonitoringInsightsGetResponse&gt;
    * @deprecated
    * 
-   * @see <a href="/api/products/check/#cramonitoring_insightsget">(Legacy) Retrieve a Cash Flow Updates report Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cramonitoring_insightsget">(Legacy) Retrieve a Cash Flow Updates report Documentation</a>
    */
   @Deprecated
   @Headers({
@@ -1935,7 +1935,7 @@ public interface PlaidApi {
    * @return Call&lt;CraMonitoringInsightsSubscribeResponse&gt;
    * @deprecated
    * 
-   * @see <a href="/api/products/check/#cramonitoring_insightssubscribe">(Legacy) Subscribe to Cash Flow Updates Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cramonitoring_insightssubscribe">(Legacy) Subscribe to Cash Flow Updates Documentation</a>
    */
   @Deprecated
   @Headers({
@@ -1953,7 +1953,7 @@ public interface PlaidApi {
    * @return Call&lt;CraMonitoringInsightsUnsubscribeResponse&gt;
    * @deprecated
    * 
-   * @see <a href="/api/products/check/#cramonitoring_insightsunsubscribe">(Legacy) Unsubscribe from Cash Flow Updates Documentation</a>
+   * @see <a href="/api/products/check-legacy/#cramonitoring_insightsunsubscribe">(Legacy) Unsubscribe from Cash Flow Updates Documentation</a>
    */
   @Deprecated
   @Headers({
@@ -1981,12 +1981,28 @@ public interface PlaidApi {
   );
 
   /**
+   * Create a CRA Report for provided user
+   * &#x60;/cra/report/create&#x60; generates a CRA Report for a user from the Items associated with that user.  Each requested product is generated asynchronously. Use the returned &#x60;report_id&#x60; to retrieve the report once its products are ready.
+   * @param craReportCreateRequest  (required)
+   * @return Call&lt;CraReportCreateResponse&gt;
+   * 
+   * @see <a href="/api/products/check/#crareportcreate">Create a CRA Report for provided user Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("cra/report/create")
+  Call<CraReportCreateResponse> craReportCreate(
+    @retrofit2.http.Body CraReportCreateRequest craReportCreateRequest
+  );
+
+  /**
    * Retrieve a CRA Report for provided user
    * &#x60;/cra/report/get&#x60; retrieves a CRA Report for a user.
    * @param craReportGetRequest  (required)
    * @return Call&lt;CraReportGetResponse&gt;
    * 
-   * @see <a href="/none/">Retrieve a CRA Report for provided user Documentation</a>
+   * @see <a href="/api/products/check/#crareportget">Retrieve a CRA Report for provided user Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2002,7 +2018,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionCreateRequest  (required)
    * @return Call&lt;CraServicingSubscriptionCreateResponse&gt;
    * 
-   * @see <a href="/api/products/check/#craservicingsubscriptioncreate">Create a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check-legacy/#craservicingsubscriptioncreate">Create a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2018,7 +2034,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionDeleteRequest  (required)
    * @return Call&lt;CraServicingSubscriptionDeleteResponse&gt;
    * 
-   * @see <a href="/api/products/check/#craservicingsubscriptiondelete">Delete a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check-legacy/#craservicingsubscriptiondelete">Delete a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2034,7 +2050,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionGetRequest  (required)
    * @return Call&lt;CraServicingSubscriptionGetResponse&gt;
    * 
-   * @see <a href="/api/products/check/#craservicingsubscriptionget">Get a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check-legacy/#craservicingsubscriptionget">Get a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2050,7 +2066,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionListRequest  (required)
    * @return Call&lt;CraServicingSubscriptionListResponse&gt;
    * 
-   * @see <a href="/api/products/check/#craservicingsubscriptionlist">List a user&#39;s CRA servicing subscriptions Documentation</a>
+   * @see <a href="/api/products/check-legacy/#craservicingsubscriptionlist">List a user&#39;s CRA servicing subscriptions Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2066,7 +2082,7 @@ public interface PlaidApi {
    * @param craServicingSubscriptionUpdateRequest  (required)
    * @return Call&lt;CraServicingSubscriptionUpdateResponse&gt;
    * 
-   * @see <a href="/api/products/check/#craservicingsubscriptionupdate">Update a CRA servicing subscription Documentation</a>
+   * @see <a href="/api/products/check-legacy/#craservicingsubscriptionupdate">Update a CRA servicing subscription Documentation</a>
    */
   @Headers({
     "Content-Type:application/json"
@@ -2888,7 +2904,7 @@ public interface PlaidApi {
 
   /**
    * Get details of an institution
-   * Returns a JSON response containing details on a specified financial institution currently supported by Plaid.  Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; to authenticate to this endpoint. The &#x60;public_key&#x60; has been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
+   * Returns a JSON response containing details on a specified financial institution.  Institutions that Plaid does not support for new connections are still returned by this endpoint, so that an &#x60;institution_id&#x60; stored on an existing Item can still be looked up. These institutions are not returned by &#x60;/institutions/get&#x60; or &#x60;/institutions/search&#x60;, and attempting to create a new Item for one of them returns an &#x60;INSTITUTION_NO_LONGER_SUPPORTED&#x60; error. Use &#x60;connection_availability&#x60; to tell the two cases apart.  Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; to authenticate to this endpoint. The &#x60;public_key&#x60; has been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
    * @param institutionsGetByIdRequest  (required)
    * @return Call&lt;InstitutionsGetByIdResponse&gt;
    * 
@@ -2904,7 +2920,7 @@ public interface PlaidApi {
 
   /**
    * Search institutions
-   * Returns a JSON response containing details for institutions that match the query parameters, up to a maximum of ten institutions per query.  Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; parameters to authenticate to this endpoint. The &#x60;public_key&#x60; parameter has since been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
+   * Returns a JSON response containing details for institutions that match the query parameters, up to a maximum of ten institutions per query. Institutions that Plaid does not support for new connections are not included in search results, but can still be retrieved by ID with &#x60;/institutions/get_by_id&#x60;.  Versioning note: API versions 2019-05-29 and earlier allow use of the &#x60;public_key&#x60; parameter instead of the &#x60;client_id&#x60; and &#x60;secret&#x60; parameters to authenticate to this endpoint. The &#x60;public_key&#x60; parameter has since been deprecated; all customers are encouraged to use &#x60;client_id&#x60; and &#x60;secret&#x60; instead. 
    * @param institutionsSearchRequest  (required)
    * @return Call&lt;InstitutionsSearchResponse&gt;
    * 
@@ -3230,42 +3246,6 @@ public interface PlaidApi {
   @POST("liabilities/get")
   Call<LiabilitiesGetResponse> liabilitiesGet(
     @retrofit2.http.Body LiabilitiesGetRequest liabilitiesGetRequest
-  );
-
-  /**
-   * Create Hosted Link session
-   * Use the &#x60;/link_delivery/create&#x60; endpoint to create a Hosted Link session.
-   * @param linkDeliveryCreateRequest  (required)
-   * @return Call&lt;LinkDeliveryCreateResponse&gt;
-   * @deprecated
-   * 
-   * @see <a href="/none/">Create Hosted Link session Documentation</a>
-   */
-  @Deprecated
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("link_delivery/create")
-  Call<LinkDeliveryCreateResponse> linkDeliveryCreate(
-    @retrofit2.http.Body LinkDeliveryCreateRequest linkDeliveryCreateRequest
-  );
-
-  /**
-   * Get Hosted Link session
-   * Use the &#x60;/link_delivery/get&#x60; endpoint to get the status of a Hosted Link session.
-   * @param linkDeliveryGetRequest  (required)
-   * @return Call&lt;LinkDeliveryGetResponse&gt;
-   * @deprecated
-   * 
-   * @see <a href="/none/">Get Hosted Link session Documentation</a>
-   */
-  @Deprecated
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @POST("link_delivery/get")
-  Call<LinkDeliveryGetResponse> linkDeliveryGet(
-    @retrofit2.http.Body LinkDeliveryGetRequest linkDeliveryGetRequest
   );
 
   /**
@@ -4109,6 +4089,22 @@ public interface PlaidApi {
   );
 
   /**
+   * Upload a file of cash advance feedback
+   * Upload a CSV file of cash advance decision or repayment feedback. Each row is equivalent to one call to &#x60;/protect/cash_advance/decision/create&#x60; or &#x60;/protect/cash_advance/repayment/create&#x60;. Send the request as &#x60;multipart/form-data&#x60; with &#x60;client_id&#x60; and &#x60;secret&#x60; in the &#x60;PLAID-CLIENT-ID&#x60; and &#x60;PLAID-SECRET&#x60; headers. The file is accepted for asynchronous processing; the response contains a &#x60;request_id&#x60; and an &#x60;upload_id&#x60; that identifies the upload.
+   * @param protectCashAdvanceFeedbackUploadRequest  (required)
+   * @return Call&lt;ProtectCashAdvanceFeedbackUploadResponse&gt;
+   * 
+   * @see <a href="/api/products/protect/#protectcashadvancefeedbackupload">Upload a file of cash advance feedback Documentation</a>
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @POST("protect/cash_advance/feedback/upload")
+  Call<ProtectCashAdvanceFeedbackUploadResponse> protectCashAdvanceFeedbackUpload(
+    @retrofit2.http.Body ProtectCashAdvanceFeedbackUploadRequest protectCashAdvanceFeedbackUploadRequest
+  );
+
+  /**
    * Record a cash advance repayment
    * Use this endpoint to record a cash-advance repayment as feedback. A repayment is a record paying back all or some of a previously-taken cash-advance.
    * @param protectCashAdvanceRepaymentCreateRequest  (required)
@@ -4468,7 +4464,7 @@ public interface PlaidApi {
 
   /**
    * Create sandbox transactions
-   * Use the &#x60;/sandbox/transactions/create&#x60; endpoint to create new transactions for an existing Item. This endpoint can be used to add up to 10 transactions to any Item at a time.  This endpoint can only be used with Items that were created in the Sandbox environment using the &#x60;user_transactions_dynamic&#x60; test user. You can use this to add transactions to test the &#x60;/transactions/get&#x60; and &#x60;/transactions/sync&#x60; endpoints.  Custom transactions are only applied to the depository account. Support for per-account targeting may be added in the future.
+   * Use the &#x60;/sandbox/transactions/create&#x60; endpoint to create new transactions for an existing Item. This endpoint can be used to add up to 10 transactions to any Item at a time.  This endpoint can be used with any Item created in the Sandbox environment. Added transactions persist across subsequent calls to &#x60;/transactions/get&#x60; and &#x60;/transactions/sync&#x60;.  Each transaction is added to the account named by its &#x60;account_id&#x60;. When &#x60;account_id&#x60; is omitted, the transaction is added to the Item&#39;s checking account, or, for a custom Sandbox user, to the first depository account listed in its &#x60;override_accounts&#x60;, or its first account if it has no depository account.
    * @param sandboxTransactionsCreateRequest  (required)
    * @return Call&lt;SandboxTransactionsCreateResponse&gt;
    * 
