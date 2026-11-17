@@ -1,4 +1,4 @@
-# plaid-java [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.plaid/plaid-java)
+# plaid-java [![Maven Central](https://img.shields.io/maven-central/v/com.plaid/plaid-java)](https://central.sonatype.com/artifact/com.plaid/plaid-java)
 
 > **Help shape Plaid’s next-generation SDKs**
 >
@@ -31,7 +31,7 @@ Plaid-java is available at [Maven Central](https://central.sonatype.com/artifact
   <groupId>com.plaid</groupId>
   <artifactId>plaid-java</artifactId>
   <!--Replace this version number with the latest version, which can be found at https://github.com/plaid/plaid-java/tags-->
-  <version>41.0.0</version>
+  <version>48.0.0</version>
 </dependency>
 ```
 
@@ -70,7 +70,6 @@ apiClient.setPlaidAdapter(ApiClient.Sandbox); // or equivalent, depending on whi
 plaidClient = apiClient.createService(PlaidApi.class);
 
 // Synchronously exchange a Link public_token for an API access_token
-// Required request parameters are always Request object constructor arguments
 ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken("the_link_public_token");
 Response<ItemPublicTokenExchangeResponse> response = plaidClient
     .itemPublicTokenExchange(request).execute();
@@ -154,19 +153,19 @@ Version 9.0.0 of the client library was released in August 2021 and contains mul
 **Rename model imports:**
 
 - from: `com.plaid.request.ModelName` and `com.plaid.response.ModelName`
-- to: `com.plaid.model.ModelName`
+- to: `com.plaid.client.model.ModelName`
 
 **Rename products:**
 
 - from: `com.plaid.client.request.common.Product`
-- to: `com.plaid.model.Products`
+- to: `com.plaid.client.model.Products`
 
 **Rename Error model:**
 
 - from: `com.plaid.client.model.ErrorResponse`
-- to: `com.plaid.client.model.Error`
+- to: `com.plaid.client.model.PlaidError`
 - from: `ErrorResponse.ErrorType`
-- to: `Error.ErrorTypeEnum`
+- to: `PlaidErrorType`
 
 **Rename Account model:**
 
@@ -246,7 +245,7 @@ AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
 Response<AccountsGetResponse> response = client()
   .accountsBalanceGet(request)
   .execute();
-List<Account> accounts = response.body().getAccounts();
+List<AccountBase> accounts = response.body().getAccounts();
 ```
 
 #### Optional parameters
