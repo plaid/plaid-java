@@ -211,7 +211,7 @@ jobs:
                 for (Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements(); ) {
                   String name = entries.nextElement().getName();
                   if (name.endsWith(".class") && !name.equals("module-info.class")) {
-                    Class.forName(name.substring(0, name.length() - 6).replace('/', '.'), false, LoadBoth.class.getClassLoader());
+                    Class.forName(name.substring(0, name.length() - 6).replace('/', '.'), true, LoadBoth.class.getClassLoader());
                     loaded++;
                   }
                 }
@@ -223,6 +223,8 @@ jobs:
           cd "$consumer"
           mvn -B -q -Dmaven.repo.local="$repo" dependency:build-classpath -Dmdep.outputFile=classpath.txt
           classpath="$(cat classpath.txt)"
+          # Java 8's javac does not create the output directory.
+          mkdir -p classes
           "$JAVA8/bin/javac" -cp "$classpath" -d classes src/LoadBoth.java
           "$JAVA8/bin/java" -cp "classes:$classpath" LoadBoth "$repo/com/plaid/plaid-java/$VERSION/plaid-java-$VERSION.jar"
 
