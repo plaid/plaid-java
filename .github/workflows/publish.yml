@@ -1,0 +1,333 @@
+name: Publish to Maven Central
+
+# Maven Central has no trusted publishing, so this workflow uses a Central Portal user token and
+# a GPG signing key. Both are secrets of the maven-central-publish environment, never repository
+# secrets, so only the publish job can read them, after approval.
+#
+# The build job has read-only access and no secrets. It tests and builds the jars and POM,
+# checks them, and loads both clients on Java 8 from outside the checkout. The publish job
+# never checks out code or installs dependencies: it signs exactly the files the build job
+# checked and uploads them as a USER_MANAGED deployment. Central validates the deployment, which
+# then waits for someone to publish it in the Central Portal, so nothing is released until a
+# second person acts. A deployment can be dropped instead, and releases can't be removed once
+# published.
+on:
+  push:
+    tags:
+      - "plaid-java-*.*.*"
+
+permissions: {}
+
+# One group per tag: a shared group keeps only one pending run and cancels the rest, which would
+# drop a release tagged while another waits for approval.
+concurrency:
+  group: maven-central-publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      bundle: ${{ steps.bundle.outputs.bundle }}
+      sha256: ${{ steps.bundle.outputs.sha256 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Releases before 49.0.0 were built with Maven and published by another process. This
+      # workflow publishes only the Gradle build.
+      - name: Check this is the Gradle build
+        run: |
+          if [[ ! -f build.gradle ]]; then
+            echo "No build.gradle; this workflow only publishes the Gradle build" >&2
+            exit 1
+          fi
+
+      - name: Check the tag matches the project version
+        id: version
+        run: |
+          version="$(sed -n "s/^version = '\(.*\)'$/\1/p" build.gradle)"
+          if [[ -z "$version" || "$GITHUB_REF_NAME" != "plaid-java-$version" ]]; then
+            echo "Tag $GITHUB_REF_NAME does not match build.gradle version '$version'" >&2
+            exit 1
+          fi
+          if [[ "$version" == *-SNAPSHOT ]]; then
+            echo "$version is a snapshot" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # A stable release must come from reviewed code on master. A version with a qualifier, such
+      # as 49.0.0-rc1, may be tagged on a branch to test this workflow; drop its deployment in the
+      # Central Portal instead of publishing it.
+      - name: Check a stable release is on master
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "$VERSION has a qualifier; skipping the master check"
+            exit 0
+          fi
+          status="$(gh api "repos/$GITHUB_REPOSITORY/compare/master...$GITHUB_SHA" --jq .status)"
+          if [[ "$status" != "identical" && "$status" != "behind" ]]; then
+            echo "$GITHUB_SHA is not on master (compare status: $status)" >&2
+            exit 1
+          fi
+
+      # Java 8 runs the consumer check below; Java 11, installed last, is the default for Gradle.
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        id: java8
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: "11"
+
+      # The previous SDK's tests call the Sandbox API with credentials, which this job doesn't
+      # have; they're JUnit 4 tests, which this build's JUnit Platform runner doesn't run. The new
+      # SDK's unit and wire tests run against a local mock server. `build` and `check` aren't used
+      # because they include a formatting check that doesn't apply to the previous SDK's sources.
+      - name: Compile and test
+        run: ./gradlew --no-daemon compileJava compileTestJava test
+
+      - name: Build the jars and POM
+        run: >-
+          ./gradlew --no-daemon jar sourcesJar javadocJar
+          generatePomFileForMavenPublication generateMetadataFileForMavenPublication
+
+      - name: Check the jars and POM
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python3 - <<'EOF'
+          import os, sys, zipfile
+          import xml.etree.ElementTree as ET
+
+          version = os.environ["VERSION"]
+          problems = []
+          jar = zipfile.ZipFile(f"build/libs/plaid-java-{version}.jar")
+          names = set(jar.namelist())
+          for required in ["com/plaid/client/PlaidClient.class", "com/plaid/client/legacy/request/PlaidApi.class"]:
+              if required not in names:
+                  problems.append(f"jar is missing {required}")
+          if any("Test" in n.rsplit("/", 1)[-1] and n.endswith("Test.class") for n in names):
+              problems.append("jar contains test classes")
+          sources = set(zipfile.ZipFile(f"build/libs/plaid-java-{version}-sources.jar").namelist())
+          for required in ["com/plaid/client/PlaidClient.java", "com/plaid/client/legacy/request/PlaidApi.java"]:
+              if required not in sources:
+                  problems.append(f"sources jar is missing {required}")
+          zipfile.ZipFile(f"build/libs/plaid-java-{version}-javadoc.jar").testzip()
+
+          ns = {"m": "http://maven.apache.org/POM/4.0.0"}
+          pom = ET.parse("build/publications/maven/pom-default.xml").getroot()
+          def text(path):
+              element = pom.find(path, ns)
+              return element.text.strip() if element is not None and element.text else ""
+          expected = {
+              "m:groupId": "com.plaid",
+              "m:artifactId": "plaid-java",
+              "m:version": version,
+              "m:url": "https://github.com/plaid/plaid-java",
+              "m:scm/m:url": "https://github.com/plaid/plaid-java",
+              "m:licenses/m:license/m:name": "MIT",
+          }
+          for path, value in expected.items():
+              if text(path) != value:
+                  problems.append(f"POM {path} is {text(path)!r}, expected {value!r}")
+          for path in ["m:name", "m:description", "m:licenses/m:license/m:url", "m:developers/m:developer/m:name",
+                       "m:scm/m:connection", "m:scm/m:developerConnection"]:
+              if not text(path):
+                  problems.append(f"POM has no {path}")
+          for path in ["m:scm/m:connection", "m:scm/m:developerConnection"]:
+              if "github.com/plaid/plaid-java" not in text(path):
+                  problems.append(f"POM {path} is {text(path)!r}")
+          dependencies = {(d.find("m:groupId", ns).text, d.find("m:artifactId", ns).text)
+                          for d in pom.findall("m:dependencies/m:dependency", ns)}
+          for dependency in [("com.squareup.okhttp3", "okhttp"), ("com.squareup.retrofit2", "retrofit")]:
+              if dependency not in dependencies:
+                  problems.append(f"POM doesn't declare {':'.join(dependency)}")
+          if problems:
+              sys.exit("\n".join(problems))
+          print(f"plaid-java {version}: {len(names)} jar entries, {len(sources)} source entries, POM checked")
+          EOF
+
+      # Resolve the artifact's declared dependencies from Maven Central as a consumer would, then,
+      # on Java 8 and outside the checkout, create both clients and load every class in the jar,
+      # so a class compiled for a newer Java or against an undeclared dependency fails here.
+      - name: Load both clients on Java 8
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          JAVA8: ${{ steps.java8.outputs.path }}
+        run: |
+          repo="$RUNNER_TEMP/m2"
+          consumer="$RUNNER_TEMP/consumer"
+          mkdir -p "$consumer/src"
+          mvn -B -q -Dmaven.repo.local="$repo" install:install-file \
+            -Dfile="build/libs/plaid-java-$VERSION.jar" -DpomFile=build/publications/maven/pom-default.xml
+          cat > "$consumer/pom.xml" <<EOF
+          <project xmlns="http://maven.apache.org/POM/4.0.0">
+            <modelVersion>4.0.0</modelVersion>
+            <groupId>example</groupId>
+            <artifactId>consumer</artifactId>
+            <version>1</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.plaid</groupId>
+                <artifactId>plaid-java</artifactId>
+                <version>$VERSION</version>
+              </dependency>
+            </dependencies>
+          </project>
+          EOF
+          cat > "$consumer/src/LoadBoth.java" <<'EOF'
+          import java.util.Enumeration;
+          import java.util.HashMap;
+          import java.util.jar.JarEntry;
+          import java.util.jar.JarFile;
+
+          public class LoadBoth {
+            public static void main(String[] args) throws Exception {
+              com.plaid.client.PlaidClient client = com.plaid.client.PlaidClient.builder()
+                  .environment(com.plaid.client.core.Environment.SANDBOX)
+                  .clientId("id")
+                  .secret("secret")
+                  .build();
+              HashMap<String, String> keys = new HashMap<>();
+              keys.put("clientId", "id");
+              keys.put("secret", "secret");
+              com.plaid.client.legacy.ApiClient apiClient = new com.plaid.client.legacy.ApiClient(keys);
+              apiClient.setPlaidAdapter(com.plaid.client.legacy.ApiClient.Sandbox);
+              apiClient.createService(com.plaid.client.legacy.request.PlaidApi.class);
+              int loaded = 0;
+              try (JarFile jar = new JarFile(args[0])) {
+                for (Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements(); ) {
+                  String name = entries.nextElement().getName();
+                  if (name.endsWith(".class") && !name.equals("module-info.class")) {
+                    Class.forName(name.substring(0, name.length() - 6).replace('/', '.'), true, LoadBoth.class.getClassLoader());
+                    loaded++;
+                  }
+                }
+              }
+              System.out.println("Loaded " + loaded + " classes on Java " + System.getProperty("java.version"));
+            }
+          }
+          EOF
+          cd "$consumer"
+          mvn -B -q -Dmaven.repo.local="$repo" dependency:build-classpath -Dmdep.outputFile=classpath.txt
+          classpath="$(cat classpath.txt)"
+          # Java 8's javac does not create the output directory.
+          mkdir -p classes
+          "$JAVA8/bin/javac" -cp "$classpath" -d classes src/LoadBoth.java
+          "$JAVA8/bin/java" -cp "classes:$classpath" LoadBoth "$repo/com/plaid/plaid-java/$VERSION/plaid-java-$VERSION.jar"
+
+      # The bundle holds the unsigned files in Maven repository layout; the publish job adds
+      # signatures and checksums.
+      - name: Assemble the bundle
+        id: bundle
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          dir="$RUNNER_TEMP/bundle/com/plaid/plaid-java/$VERSION"
+          mkdir -p "$dir"
+          for classifier in "" -sources -javadoc; do
+            cp "build/libs/plaid-java-$VERSION$classifier.jar" "$dir/"
+          done
+          cp build/publications/maven/pom-default.xml "$dir/plaid-java-$VERSION.pom"
+          cp build/publications/maven/module.json "$dir/plaid-java-$VERSION.module"
+          bundle="plaid-java-$VERSION-unsigned.tar"
+          tar -C "$RUNNER_TEMP/bundle" -cf "$RUNNER_TEMP/$bundle" com
+          tar -tvf "$RUNNER_TEMP/$bundle"
+          {
+            echo "bundle=$bundle"
+            echo "sha256=$(sha256sum "$RUNNER_TEMP/$bundle" | cut -d' ' -f1)"
+          } >> "$GITHUB_OUTPUT"
+
+      # Kept as long as the publish job can wait for environment approval (30 days).
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: bundle
+          path: ${{ runner.temp }}/${{ steps.bundle.outputs.bundle }}
+          if-no-files-found: error
+          retention-days: 30
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: maven-central-publish
+    permissions: {}
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: bundle
+          path: ${{ runner.temp }}/artifact
+
+      - name: Verify the bundle is the one the build job checked
+        env:
+          BUNDLE: ${{ needs.build.outputs.bundle }}
+          SHA256: ${{ needs.build.outputs.sha256 }}
+        run: echo "$SHA256  $RUNNER_TEMP/artifact/$BUNDLE" | sha256sum --check
+
+      - name: Sign and checksum each file
+        env:
+          BUNDLE: ${{ needs.build.outputs.bundle }}
+          VERSION: ${{ needs.build.outputs.version }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          export GNUPGHOME="$RUNNER_TEMP/gnupg"
+          mkdir -m 700 "$GNUPGHOME"
+          printf '%s' "$GPG_PRIVATE_KEY" | gpg --batch --quiet --import
+          mkdir "$RUNNER_TEMP/bundle"
+          tar -C "$RUNNER_TEMP/bundle" -xf "$RUNNER_TEMP/artifact/$BUNDLE"
+          cd "$RUNNER_TEMP/bundle/com/plaid/plaid-java/$VERSION"
+          for file in *; do
+            printf '%s' "$GPG_PASSPHRASE" | gpg --batch --quiet --pinentry-mode loopback --passphrase-fd 0 \
+              --armor --detach-sign --output "$file.asc" "$file"
+            gpg --batch --quiet --verify "$file.asc" "$file"
+            md5sum "$file" | cut -d' ' -f1 > "$file.md5"
+            sha1sum "$file" | cut -d' ' -f1 > "$file.sha1"
+          done
+          rm -rf "$GNUPGHOME"
+          cd "$RUNNER_TEMP/bundle"
+          zip -q -r "$RUNNER_TEMP/central-bundle.zip" com
+          unzip -l "$RUNNER_TEMP/central-bundle.zip"
+
+      - name: Upload to the Central Portal
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+          CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+        run: |
+          auth="Authorization: Bearer $(printf '%s:%s' "$CENTRAL_TOKEN_USERNAME" "$CENTRAL_TOKEN_PASSWORD" | base64 -w0)"
+          id="$(curl --fail-with-body -sS -X POST -H @- \
+            --form "bundle=@$RUNNER_TEMP/central-bundle.zip;type=application/octet-stream" \
+            "https://central.sonatype.com/api/v1/publisher/upload?publishingType=USER_MANAGED&name=plaid-java-$VERSION" \
+            <<< "$auth")"
+          echo "Deployment $id uploaded"
+          for attempt in $(seq 1 60); do
+            state="$(curl --fail-with-body -sS -X POST -H @- \
+              "https://central.sonatype.com/api/v1/publisher/status?id=$id" <<< "$auth" \
+              | python3 -c 'import json, sys; print(json.load(sys.stdin)["deploymentState"])')"
+            echo "Deployment $id is $state"
+            case "$state" in
+              VALIDATED)
+                echo "::notice::plaid-java $VERSION validated as deployment $id. Publish or drop it at https://central.sonatype.com/publishing/deployments"
+                exit 0
+                ;;
+              FAILED)
+                curl -sS -X POST -H @- "https://central.sonatype.com/api/v1/publisher/status?id=$id" <<< "$auth"
+                exit 1
+                ;;
+            esac
+            sleep 10
+          done
+          echo "Deployment $id did not finish validating; check https://central.sonatype.com/publishing/deployments" >&2
+          exit 1
